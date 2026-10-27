@@ -1,0 +1,239 @@
+{
+  "logos": [
+    {
+      "file": "fsm-logo-horizontal",
+      "width": 1600,
+      "height": 466
+    },
+    {
+      "file": "fsm-logo-stacked",
+      "width": 1200,
+      "height": 1404
+    },
+    {
+      "file": "fsm-logo-horizontal-white",
+      "width": 1600,
+      "height": 466
+    },
+    {
+      "file": "fsm-logo-stacked-white",
+      "width": 1200,
+      "height": 1404
+    },
+    {
+      "file": "fsm-logo-horizontal-black",
+      "width": 1600,
+      "height": 466
+    }
+  ],
+  "campaigns": [
+    {
+      "caseId": "aspire",
+      "name": "classroom-photo",
+      "width": 870,
+      "height": 766,
+      "half": 435,
+      "source": "aspire-cha-22.jpg"
+    },
+    {
+      "caseId": "aspire",
+      "name": "student-portrait",
+      "width": 870,
+      "height": 766,
+      "half": 435,
+      "source": "aspire-cha-44.jpg"
+    },
+    {
+      "caseId": "aspire",
+      "name": "math-field-day",
+      "width": 870,
+      "height": 766,
+      "half": 435,
+      "source": "aspire-mathfieldday.jpg"
+    },
+    {
+      "caseId": "aspire",
+      "name": "playground-wide",
+      "width": 1400,
+      "height": 556,
+      "half": 700,
+      "source": "hero-group279.jpg"
+    },
+    {
+      "caseId": "aspire",
+      "name": "social-ads-mockup",
+      "width": 441,
+      "height": 394,
+      "half": 221,
+      "source": "frame100.png"
+    },
+    {
+      "caseId": "aspire",
+      "name": "mailer-and-bus-ads",
+      "width": 989,
+      "height": 404,
+      "half": 495,
+      "source": "frame101.png"
+    },
+    {
+      "caseId": "aspire",
+      "name": "uniform-portrait",
+      "width": 335,
+      "height": 383,
+      "half": 168,
+      "source": "mask1.jpg"
+    },
+    {
+      "caseId": "aspire",
+      "name": "sports-day",
+      "width": 432,
+      "height": 383,
+      "half": 216,
+      "source": "mask2.jpg"
+    },
+    {
+      "caseId": "aspire",
+      "name": "graduation",
+      "width": 340,
+      "height": 383,
+      "half": 170,
+      "source": "mask3.jpg"
+    },
+    {
+      "caseId": "friendship",
+      "name": "classroom-group",
+      "width": 1400,
+      "height": 506,
+      "half": 700,
+      "source": "hero-frame117.jpg"
+    },
+    {
+      "caseId": "friendship",
+      "name": "ad-learn-and-make-memories",
+      "width": 686,
+      "height": 686,
+      "half": 343,
+      "source": "woodridge-ad-1.jpg"
+    },
+    {
+      "caseId": "friendship",
+      "name": "ad-innovation-in-education",
+      "width": 686,
+      "height": 686,
+      "half": 343,
+      "source": "woodridge-ad-2.jpg"
+    },
+    {
+      "caseId": "friendship",
+      "name": "ad-education-starts-at-woodridge",
+      "width": 686,
+      "height": 686,
+      "half": 343,
+      "source": "woodridge-ad-3.jpg"
+    },
+    {
+      "caseId": "friendship",
+      "name": "transit-shelter-and-rail-poster",
+      "width": 1192,
+      "height": 666,
+      "half": 596,
+      "source": "group298.png"
+    },
+    {
+      "caseId": "friendship",
+      "name": "direct-mail",
+      "width": 1024,
+      "height": 613,
+      "half": 512,
+      "source": "frame1000004615.png"
+    },
+    {
+      "caseId": "envision",
+      "name": "students-trio",
+      "width": 870,
+      "height": 766,
+      "half": 435,
+      "source": "academy-mg-136.jpg"
+    },
+    {
+      "caseId": "envision",
+      "name": "hug",
+      "width": 870,
+      "height": 766,
+      "half": 435,
+      "source": "academy-mg-24.jpg"
+    },
+    {
+      "caseId": "envision",
+      "name": "campus-atrium",
+      "width": 1400,
+      "height": 935,
+      "half": 700,
+      "source": "academy2025-14.jpg"
+    },
+    {
+      "caseId": "envision",
+      "name": "graduation-speaker",
+      "width": 870,
+      "height": 766,
+      "half": 435,
+      "source": "calgrad-346.jpg"
+    },
+    {
+      "caseId": "envision",
+      "name": "college-pennants",
+      "width": 1120,
+      "height": 772,
+      "half": 560,
+      "source": "ea-ia-148.jpg"
+    },
+    {
+      "caseId": "envision",
+      "name": "bus-and-billboard-ads",
+      "width": 439,
+      "height": 646,
+      "half": 220,
+      "source": "frame109.png"
+    },
+    {
+      "caseId": "envision",
+      "name": "door-hanger-and-mailer",
+      "width": 1151,
+      "height": 607,
+      "half": 576,
+      "source": "frame110.png"
+    },
+    {
+      "caseId": "envision",
+      "name": "students-outdoor",
+      "width": 680,
+      "height": 762,
+      "half": 340,
+      "source": "invision-0086.jpg"
+    },
+    {
+      "caseId": "envision",
+      "name": "graduate",
+      "width": 670,
+      "height": 766,
+      "half": 335,
+      "source": "sfgrad-teasers-9.jpg"
+    },
+    {
+      "caseId": "envision",
+      "name": "classroom-laptop",
+      "width": 864,
+      "height": 766,
+      "half": 432,
+      "source": "teasers-9.jpg"
+    },
+    {
+      "caseId": "envision",
+      "name": "teacher-and-students",
+      "width": 1148,
+      "height": 766,
+      "half": 574,
+      "source": "teasers-10.jpg"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+/* FSM brand tokens. Source: FSM Brand Guide (Google Slides 1FqhTtlEjrCSvDJ_r7Mbo6O0ZdV2OkIWkfTKSA_iKubE), "Our Color Palette". */
+:root {
+  --fsm-blue: #3d6ea3;        /* HSL 211 63% 44% */
+  --fsm-green: #32b67a;       /* HSL 153 73% 45% */
+  --fsm-green-bright: #22cf50;/* HSL 136 84% 47% */
+  --fsm-teal: #3da39b;        /* HSL 175 63% 44% */
+  --fsm-ink: #212121;
+  --fsm-paper: #eeeeee;
+
+  /* Derived tints/shades (not from the guide; used for UI states and contrast-safe text) */
+  --fsm-blue-deep: #2b527c;
+  --fsm-blue-ink: #1f3d5c;
+  --fsm-green-deep: #1f8a5b;
+  --fsm-green-ink: #156b45;
+  --fsm-teal-deep: #2e7f79;
+  --fsm-blue-tint: #e8eff7;
+  --fsm-green-tint: #e4f6ec;
+  --fsm-teal-tint: #e2f2f0;
+  --fsm-white: #ffffff;
+
+  --fsm-font-brand: 'Josefin Sans Variable', 'Josefin Sans', 'Proxima Nova', system-ui, sans-serif;
+
+  --review-accent: #6b3fd4; /* reviewer chrome only; deliberately off-brand so it is obviously removable */
+}

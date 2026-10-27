@@ -1,0 +1,265 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { concepts, type ConceptMeta } from '../../content/concepts';
+import { siteConfig } from '../../content/config';
+import { brand } from '../../content/media';
+import { SkipLink } from '../../components/SkipLink';
+import { copyText, downloadFile, drawQr } from '../../lib/share';
+import { clearState, emptyConcept, hasAnyInput, loadState, ratingFields, saveState, toJson, toMarkdown, type Decision, type FeedbackState } from './feedback';
+
+const REVIEW_DATE = 'October 2026';
+
+function parseConceptFromHash(): ConceptMeta['id'] | null {
+  const h = window.location.hash; // "#feedback?concept=clean"
+  const m = h.match(/concept=(clean|creative|story|original)/);
+  return m ? (m[1] as ConceptMeta['id']) : null;
+}
+
+function ConceptCard({ c }: { c: ConceptMeta }) {
+  const [status, setStatus] = useState('');
+  const [qr, setQr] = useState(false);
+  const canvas = useRef<HTMLCanvasElement>(null);
+  const absolute = window.location.origin + c.path;
+  useEffect(() => { if (qr && canvas.current) drawQr(canvas.current, absolute).catch(() => setStatus('QR could not be generated.')); }, [qr, absolute]);
+  return (
+    <article className="card" aria-labelledby={`card-${c.id}`}>
+      <div className="card__media">
+        <img src={c.screenshotDesktop} width={1440} height={900} alt={`Desktop screenshot of Concept ${c.number}, ${c.name}`} loading="lazy" />
+        <img className="card__mobile" src={c.screenshotMobile} width={390} height={844} alt="" loading="lazy" />
+        <span className="card__num" aria-hidden="true">{c.number}</span>
+      </div>
+      <div className="card__body">
+        <span className="card__label">Concept {c.number}: {c.label}</span>
+        <h3 id={`card-${c.id}`}>{c.name}</h3>
+        <p>{c.proposition}</p>
+        <ul className="card__tags" aria-label="Tone">{c.toneTags.map((t) => <li key={t}>{t}</li>)}</ul>
+        <p className="card__feature"><strong>Distinguishing feature.</strong> {c.distinguishing}</p>
+        <div className="card__actions">
+          <a className="btn btn--primary" href={c.path} data-testid="open-concept" data-concept={c.id}>Open concept</a>
+          <a className="btn btn--accent" href={`#feedback?concept=${c.id}`} onClick={() => window.dispatchEvent(new CustomEvent('fsm:select-concept', { detail: c.id }))}>Review concept</a>
+        </div>
+        <div className="card__util">
+          <a className="btn btn--ghost btn--small" href={c.path} target="_blank" rel="noopener noreferrer">Open in new tab</a>
+          <button type="button" className="btn btn--ghost btn--small" onClick={async () => setStatus((await copyText(absolute)) ? 'Link copied.' : 'Copy failed; use the address bar.')}>Copy link</button>
+          <button type="button" className="btn btn--ghost btn--small" aria-expanded={qr} onClick={() => setQr((v) => !v)}>{qr ? 'Hide QR' : 'QR code'}</button>
+        </div>
+        <div className="card__status" role="status" aria-live="polite">{status}</div>
+        {qr && <div className="card__qr"><canvas ref={canvas} width={180} height={180} role="img" aria-label={`QR code linking to ${absolute}`} /><span>Scan to open on a phone</span></div>}
+      </div>
+    </article>
+  );
+}
+
+function Rating({ conceptId, field, label, value, onChange }: { conceptId: string; field: string; label: string; value: number; onChange: (v: number) => void }) {
+  const name = `${conceptId}-${field}`;
+  return (
+    <fieldset className="rating">
+      <legend className="form__legend">{label}</legend>
+      <div className="rating__scale">
+        {[1, 2, 3, 4, 5].map((n) => (
+          <span key={n} style={{ flex: 1, position: 'relative', display: 'flex' }}>
+            <input type="radio" id={`${name}-${n}`} name={name} value={n} checked={value === n} onChange={() => onChange(n)} data-testid={`rating-${field}`} />
+            <label htmlFor={`${name}-${n}`} style={{ flex: 1 }}>{n}</label>
+          </span>
+        ))}
+      </div>
+      <div className="rating__hint" aria-hidden="true"><span>1 = weak</span><span>5 = strong</span></div>
+    </fieldset>
+  );
+}
+
+function FeedbackForm() {
+  const [state, setState] = useState<FeedbackState>(() => loadState());
+  const [selected, setSelected] = useState<ConceptMeta['id']>(() => parseConceptFromHash() ?? 'clean');
+  const [status, setStatus] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const firstTouch = useRef(true);
+
+  useEffect(() => {
+    const onHash = () => { const id = parseConceptFromHash(); if (id) setSelected(id); };
+    const onSelect = (e: Event) => setSelected((e as CustomEvent).detail);
+    window.addEventListener('hashchange', onHash);
+    window.addEventListener('fsm:select-concept', onSelect);
+    return () => { window.removeEventListener('hashchange', onHash); window.removeEventListener('fsm:select-concept', onSelect); };
+  }, []);
+
+  // Autosave on every change (after initial load).
+  useEffect(() => {
+    if (firstTouch.current) { firstTouch.current = false; return; }
+    const next = { ...state, updatedAt: new Date().toISOString() };
+    const ok = saveState(next);
+    setStatus(ok ? `Saved on this device at ${new Date(next.updatedAt).toLocaleTimeString()}.` : 'Could not save on this device (private mode?). Copy or download before leaving.');
+  }, [state]);
+
+  const c = concepts.find((x) => x.id === selected)!;
+  const f = state.concepts[selected] ?? emptyConcept();
+  const update = (patch: Partial<typeof f>) => setState((s) => ({ ...s, concepts: { ...s.concepts, [selected]: { ...f, ...patch } } }));
+  const filled = useMemo(() => concepts.filter((x) => hasAnyInput(state.concepts[x.id] ?? emptyConcept())), [state]);
+
+  const copyAll = async () => setStatus((await copyText(toMarkdown(state))) ? 'Feedback for all four concepts copied to the clipboard.' : 'Copy failed. Use Download instead.');
+  const dlMd = () => { downloadFile('fsm-website-feedback.md', toMarkdown(state), 'text/markdown'); setStatus('Downloaded fsm-website-feedback.md.'); };
+  const dlJson = () => { downloadFile('fsm-website-feedback.json', toJson(state), 'application/json'); setStatus('Downloaded fsm-website-feedback.json.'); };
+  const submit = async () => {
+    if (!siteConfig.feedbackEndpoint) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch(siteConfig.feedbackEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: toJson(state) });
+      setStatus(res.ok ? 'Feedback submitted.' : `Submission failed (${res.status}). Copy or download instead.`);
+    } catch { setStatus('Submission failed (network). Copy or download instead.'); }
+    finally { setSubmitting(false); }
+  };
+
+  return (
+    <div className="form" id="feedback-form">
+      <div className="form__row">
+        <span className="form__legend" id="concept-picker-label">Concept</span>
+        <div className="concept-tabs" role="group" aria-labelledby="concept-picker-label">
+          {concepts.map((x) => (
+            <button key={x.id} type="button" aria-pressed={x.id === selected} onClick={() => setSelected(x.id)} data-testid="feedback-concept" data-concept={x.id}>
+              {x.number} {x.name}{hasAnyInput(state.concepts[x.id] ?? emptyConcept()) && <span className="dot" aria-label="has feedback" />}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="form__grid">
+        {ratingFields.map((r) => (
+          <Rating key={r.key} conceptId={c.id} field={r.key} label={r.label} value={f[r.key]} onChange={(v) => update({ [r.key]: v })} />
+        ))}
+      </div>
+
+      <div className="form__grid">
+        <div className="form__row">
+          <label htmlFor={`fav-${c.id}`}>Favorite element</label>
+          <textarea id={`fav-${c.id}`} value={f.favorite} onChange={(e) => update({ favorite: e.target.value })} data-testid="favorite" placeholder={`What works best in ${c.name}?`} />
+        </div>
+        <div className="form__row">
+          <label htmlFor={`chg-${c.id}`}>Change request</label>
+          <textarea id={`chg-${c.id}`} value={f.change} onChange={(e) => update({ change: e.target.value })} data-testid="change" placeholder="What should change?" />
+        </div>
+      </div>
+
+      <fieldset className="rating">
+        <legend className="form__legend">Decision</legend>
+        <div className="decision">
+          {([['prefer', 'Prefer'], ['combine', 'Combine with another'], ['reject', 'Reject'], ['undecided', 'Undecided']] as [Decision, string][]).map(([v, l]) => (
+            <label key={v}><input type="radio" name={`${c.id}-decision`} value={v} checked={f.decision === v} onChange={() => update({ decision: v })} data-testid="decision" /><span>{l}</span></label>
+          ))}
+        </div>
+      </fieldset>
+
+      <div className="form__row">
+        <label htmlFor="reviewer">Reviewer name (optional)</label>
+        <input id="reviewer" type="text" value={state.reviewer} onChange={(e) => setState((s) => ({ ...s, reviewer: e.target.value }))} data-testid="reviewer" autoComplete="name" />
+      </div>
+
+      <div className="form__actions">
+        <button type="button" className="btn btn--primary" onClick={copyAll} data-testid="copy-feedback">Copy feedback</button>
+        <button type="button" className="btn btn--ghost" onClick={dlMd} data-testid="download-md">Download .md</button>
+        <button type="button" className="btn btn--ghost" onClick={dlJson} data-testid="download-json">Download .json</button>
+        {siteConfig.feedbackEndpoint && <button type="button" className="btn btn--accent" onClick={submit} disabled={submitting} data-testid="submit-feedback">{submitting ? 'Submitting' : 'Submit feedback'}</button>}
+        <button type="button" className="btn btn--ghost btn--small" onClick={() => { if (confirm('Clear all saved feedback on this device?')) { clearState(); setState(loadState()); setStatus('Cleared.'); } }}>Clear</button>
+      </div>
+      <div className="form__status" role="status" aria-live="polite" data-testid="feedback-status">{status}</div>
+
+      <p className="form__note">
+        {siteConfig.feedbackEndpoint
+          ? 'Submit sends your answers to the configured feedback endpoint. Copy and Download always work as a backup.'
+          : 'This review site is static: nothing is transmitted automatically. Your answers are saved in this browser only. When you are done, use Copy feedback or Download and send the result to the project owner by email or chat.'}
+      </p>
+
+      {filled.length > 0 && (
+        <div>
+          <span className="form__legend">Recorded so far</span>
+          <div className="summary" style={{ marginTop: '.5rem' }}>
+            {filled.map((x) => { const v = state.concepts[x.id]; return (
+              <div key={x.id}><strong>{x.number} {x.name}</strong>
+                {ratingFields.map((r) => `${r.label.split(' ')[0]} ${v[r.key] || '-'}`).join(' / ')}<br />Decision: {v.decision || 'not set'}</div>
+            ); })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function App() {
+  useEffect(() => {
+    if (window.location.hash.startsWith('#feedback')) document.getElementById('feedback')?.scrollIntoView();
+  }, []);
+  return (
+    <div className="hub">
+      <SkipLink />
+      <header className="hub__top">
+        <div className="hub__wrap">
+          <a className="hub__logo" href={siteConfig.filmtwist.url} target="_blank" rel="noopener noreferrer" aria-label="Full School Marketing (FilmTwist site opens in a new tab)">
+            <picture><source type="image/webp" srcSet={brand.logoHorizontal.webp} /><img src={brand.logoHorizontal.src} width={brand.logoHorizontal.width} height={brand.logoHorizontal.height} alt="Full School Marketing" /></picture>
+          </a>
+          <span className="hub__badge">Design concepts for review</span>
+          <span style={{ fontSize: '.85rem', color: '#555', marginLeft: 'auto' }}>{REVIEW_DATE}</span>
+        </div>
+      </header>
+
+      <main id="main">
+        <section className="hub__wrap hub__title">
+          <h1>Full School Marketing: <span>Website Direction Review</span></h1>
+          <p>Four working website directions for Full School Marketing. Open each one on your phone and on a desktop, scroll the whole page, then record what you think below. Pick a direction, or tell us what to combine.</p>
+          <p className="hub__notice"><span aria-hidden="true">!</span><span>These are design concepts, not a live business site. Copy, links and campaign images are drafts for review. Campaign creative shown is from FilmTwist's published case studies; client approval for reuse is pending.</span></p>
+        </section>
+
+        <section className="hub__wrap hub__section" aria-labelledby="concepts-h">
+          <h2 id="concepts-h">The four concepts</h2>
+          <div className="cards">{concepts.map((c) => <ConceptCard key={c.id} c={c} />)}</div>
+        </section>
+
+        <section className="hub__wrap hub__section" aria-labelledby="matrix-h">
+          <h2 id="matrix-h">Side by side</h2>
+          <div className="matrix-wrap">
+            <table className="matrix">
+              <thead><tr><th scope="col">Concept</th><th scope="col">Brand feel</th><th scope="col">Motion level</th><th scope="col">Primary strength</th><th scope="col">Potential tradeoff</th><th scope="col">Conference / mobile fit</th></tr></thead>
+              <tbody>{concepts.map((c) => (
+                <tr key={c.id}><th scope="row">{c.number} {c.name}</th><td>{c.matrix.brandFeel}</td><td>{c.matrix.motion}</td><td>{c.matrix.strength}</td><td>{c.matrix.tradeoff}</td><td>{c.matrix.conferenceFit}</td></tr>
+              ))}</tbody>
+            </table>
+          </div>
+        </section>
+
+        <section className="hub__wrap hub__section" aria-labelledby="questions-h">
+          <h2 id="questions-h">Questions to answer while you look</h2>
+          <ol className="questions">
+            <li>Which concept best represents Full School Marketing?</li>
+            <li>Which helps you understand the services most quickly?</li>
+            <li>Which best displays the FilmTwist work?</li>
+            <li>Which would persuade a school leader to reach out?</li>
+            <li>What should change, in the direction you prefer?</li>
+          </ol>
+        </section>
+
+        <section className="hub__wrap hub__section" id="feedback" aria-labelledby="feedback-h">
+          <h2 id="feedback-h">Record your feedback</h2>
+          <p style={{ maxWidth: '62ch', color: '#444', lineHeight: 1.5 }}>Rate each concept from 1 to 5, note your favorite element and what you would change, then choose a decision. Answers save on this device as you type.</p>
+          <FeedbackForm />
+        </section>
+
+        <section className="hub__wrap hub__section" aria-labelledby="guide-h">
+          <h2 id="guide-h">Decision guide</h2>
+          <p style={{ maxWidth: '62ch', color: '#444', lineHeight: 1.5 }}>A neutral rubric. It does not steer toward any concept; it names what to weigh. Score each concept 1 to 5 per row if it helps.</p>
+          <table className="rubric">
+            <thead><tr><th scope="col">Criterion</th><th scope="col">Weight</th><th scope="col">What to evaluate</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Brand fit</th><td>25%</td><td>Feels like FSM and FilmTwist, not a random template.</td></tr>
+              <tr><th scope="row">Service clarity</th><td>20%</td><td>A school leader immediately understands what is offered.</td></tr>
+              <tr><th scope="row">Creative distinction</th><td>20%</td><td>Demonstrates standout work and a unique point of view.</td></tr>
+              <tr><th scope="row">Credibility and proof</th><td>15%</td><td>Trustworthy, legible case studies with attributable outcomes.</td></tr>
+              <tr><th scope="row">Conference and mobile impact</th><td>10%</td><td>Compelling for a QR-driven first visit on a phone.</td></tr>
+              <tr><th scope="row">Feasibility and maintenance</th><td>10%</td><td>Performance, accessibility, realistic production cost.</td></tr>
+            </tbody>
+          </table>
+        </section>
+      </main>
+
+      <footer className="hub__wrap hub__footer">
+        <p>Prepared for Full School Marketing and <a href={siteConfig.filmtwist.url} target="_blank" rel="noopener noreferrer">FilmTwist Creative Agency</a>. Case-study figures are FilmTwist-reported for the named school and period; sources are linked on every concept. This review page is publicly reachable by anyone with the link; do not add confidential notes here.</p>
+      </footer>
+    </div>
+  );
+}

@@ -57,7 +57,7 @@ function Header() {
             {nav.map((n) => (
               <li key={n.href}><a href={n.href} onClick={() => setOpen(false)}>{n.label}</a></li>
             ))}
-            <li className="cl-nav__cta"><a href={ctaHref} onClick={() => setOpen(false)}>Let's Talk</a></li>
+            <li className="cl-nav__cta"><a href={ctaHref} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}>Let's Talk</a></li>
           </ul>
         </nav>
       </div>
@@ -77,7 +77,7 @@ function Hero() {
             We combine standout creative, targeted campaigns, and enrollment strategy to help more families discover and choose your school.
           </p>
           <div className="cl-hero__actions">
-            <a className="cl-btn cl-btn--primary" href={ctaHref} data-testid="cta-primary">{siteConfig.primaryCta}</a>
+            <a className="cl-btn cl-btn--primary" href={ctaHref} target="_blank" rel="noopener noreferrer" data-testid="cta-primary">{siteConfig.primaryCta}</a>
             <a className="cl-btn cl-btn--ghost" href="#work">{siteConfig.secondaryCta}</a>
           </div>
         </div>
@@ -254,7 +254,7 @@ function Contact() {
             A new campus, open seats in a specific grade band, or a story families have not heard yet. A short conversation is the easiest place to start.
           </p>
         </div>
-        <a className="cl-btn cl-btn--primary cl-btn--large" href={ctaHref}>{siteConfig.primaryCtaAlt}</a>
+        <a className="cl-btn cl-btn--primary cl-btn--large" href={ctaHref} target="_blank" rel="noopener noreferrer">{siteConfig.primaryCtaAlt}</a>
       </div>
     </section>
   );
@@ -277,7 +277,7 @@ function Footer() {
         <nav aria-label="Footer">
           <ul className="cl-footer__nav">
             {nav.map((n) => <li key={n.href}><a href={n.href}>{n.label}</a></li>)}
-            <li><a href={ctaHref}>Let's Talk</a></li>
+            <li><a href={ctaHref} target="_blank" rel="noopener noreferrer">Let's Talk</a></li>
             <li><a href={siteConfig.filmtwist.workUrl} target="_blank" rel="noopener noreferrer">FilmTwist work</a></li>
           </ul>
         </nav>
@@ -296,7 +296,7 @@ function Footer() {
 function MobileCta() {
   return (
     <div className="cl-mobile-cta" aria-hidden="false">
-      <a className="cl-btn cl-btn--primary" href={ctaHref}>{siteConfig.primaryCta}</a>
+      <a className="cl-btn cl-btn--primary" href={ctaHref} target="_blank" rel="noopener noreferrer">{siteConfig.primaryCta}</a>
     </div>
   );
 }

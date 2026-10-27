@@ -13,9 +13,9 @@ export default defineConfig({
   reporter: [['list'], ['html', { open: 'never' }]],
   use: { baseURL: 'http://localhost:4173/fsm-concepts/', trace: 'retain-on-failure' },
   webServer: {
-    command: 'BASE_PATH=/fsm-concepts/ npm run build && npx vite preview --port 4173 --strictPort',
+    command: 'rm -rf dist && BASE_PATH=/fsm-concepts/ npm run build && BASE_PATH=/fsm-concepts/ npx vite preview --port 4173 --strictPort',
     url: 'http://localhost:4173/fsm-concepts/',
-    reuseExistingServer: true,
+    reuseExistingServer: false,
     timeout: 180_000,
   },
   projects: [

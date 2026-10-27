@@ -49,6 +49,8 @@ test.describe('Hub', () => {
     const imgs = page.locator('.card__media img');
     await expect(imgs).toHaveCount(8);
     for (let i = 0; i < 8; i++) {
+      await imgs.nth(i).scrollIntoViewIfNeeded();
+      await expect.poll(() => imgs.nth(i).evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0), { timeout: 10_000 }).toBe(true);
       const ok = await imgs.nth(i).evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0);
       expect(ok, `card image ${i}`).toBe(true);
     }
@@ -194,7 +196,10 @@ test('Concept 03: skip works, scrolling reaches proof, reduced motion renders th
   await expect(page.getByTestId('case-study')).toHaveCount(3);
   // scroll all the way down: case studies must be in the document and reachable
   await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 40)); } });
+  await page.getByTestId('case-study').nth(2).scrollIntoViewIfNeeded();
   await expect(page.getByTestId('case-study').nth(2)).toBeInViewport({ ratio: 0.1 });
+  // the pinned stage must not trap the scroll: the document is scrollable well past it
+  expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(await page.getByTestId('story-stage').evaluate((el) => el.getBoundingClientRect().height));
 
   const ctx = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } });
   const p2 = await ctx.newPage();

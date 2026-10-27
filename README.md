@@ -27,7 +27,7 @@ npm run preview    # serve dist/ at http://localhost:4173/
 To preview exactly what GitHub Pages serves (project subpath):
 
 ```bash
-BASE_PATH=/fsm-concepts/ npm run build && npm run preview
+BASE_PATH=/fsm-concepts/ npm run build && BASE_PATH=/fsm-concepts/ npm run preview
 # open http://localhost:4173/fsm-concepts/
 ```
 

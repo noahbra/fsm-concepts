@@ -145,8 +145,8 @@ export function App() {
         <div className="wrap site-footer__inner">
           <div className="site-footer__brand">
             <picture>
-              <source type="image/webp" srcSet={brand.logoHorizontal.webp} />
-              <img src={brand.logoHorizontal.src} width={brand.logoHorizontal.width} height={brand.logoHorizontal.height} alt="Full School Marketing" loading="lazy" />
+              <source type="image/webp" srcSet={brand.logoHorizontalWhite.webp} />
+              <img src={brand.logoHorizontalWhite.src} width={brand.logoHorizontalWhite.width} height={brand.logoHorizontalWhite.height} alt="Full School Marketing" loading="lazy" />
             </picture>
             <p>{siteConfig.missionLine}</p>
           </div>

@@ -9,6 +9,8 @@ import { mkdir } from 'node:fs/promises';
 
 const base = process.argv[2] || 'http://localhost:4173/fsm-concepts/';
 const pages = [['hub', ''], ['clean', 'clean/'], ['creative', 'creative/'], ['story', 'story/'], ['original', 'original/']];
+// Poster scroll offsets: the story page opens on a calm logo, so its poster is taken mid-narrative (full-color school beat).
+const posterScroll = { story: { desktop: 4000, mobile: 4300 } };
 await mkdir('public/assets/screenshots', { recursive: true });
 await mkdir('docs/screenshots', { recursive: true });
 const browser = await chromium.launch();
@@ -20,8 +22,9 @@ for (const [id, path] of pages) {
     await page.waitForTimeout(800);
     // poster: first viewport only, without the reviewer ribbon/pill so the card shows the concept itself
     await page.addStyleTag({ content: '.review-ribbon,.review-pill{display:none !important}' });
-    await page.evaluate(() => window.scrollTo(0, 0));
-    await page.waitForTimeout(300);
+    const y = posterScroll[id]?.[kind] ?? 0;
+    await page.evaluate((y) => window.scrollTo(0, y), y);
+    await page.waitForTimeout(y ? 900 : 300);
     const poster = await page.screenshot({ fullPage: false });
     await sharp(poster).webp({ quality: 80 }).toFile(`public/assets/screenshots/${id}-${kind}.webp`);
     // full page for docs (with chrome visible)

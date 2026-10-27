@@ -26,6 +26,7 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
   useLayoutEffect(() => {
     const stageEl = stage.current!;
     const pin = stageEl.querySelector<HTMLElement>('.story__pin')!;
+    const lockupWrap = pin.querySelector<HTMLElement>('.story__lockupWrap')!;
     const lockup = pin.querySelector<HTMLElement>('.story__lockup')!;
     const period = pin.querySelector<HTMLElement>('.story-period')!;
     const dot = pin.querySelector<HTMLElement>('.story-dot')!;
@@ -88,16 +89,18 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
         gsap.set(dot, { xPercent: -50, yPercent: -50, x: () => m().px, y: () => m().py, scale: dotScaleAtPeriod, opacity: 0, transformOrigin: '50% 100%' });
         gsap.set(world, { opacity: 0 });
         gsap.set([bg, mid, top, fg], { x: 0 });
-        gsap.set(mutes, { opacity: 0.92 });
+        gsap.set(mutes, { opacity: 0.85 });
         gsap.set(banner, { opacity: 0, scale: 0.5, transformOrigin: '50% 100%' });
         gsap.set(signals, { opacity: 0, scale: 0.6, transformOrigin: '50% 100%' });
         gsap.set(glows, { opacity: 0 });
         gsap.set(posterDots, { opacity: 0, scale: 0, transformOrigin: '50% 50%' });
-        gsap.set(leftDots, { opacity: 0, scale: 0.35, x: (i, el: SVGCircleElement) => 3135 + (i % 3) * 14 - +el.getAttribute('cx')!, y: (i) => 450 + (i % 4) * 22 - 745 });
-        gsap.set(rightDots, { opacity: 0, scale: 0.35, x: (i, el: SVGCircleElement) => 4135 + (i % 3) * 14 - +el.getAttribute('cx')!, y: (i) => 450 + (i % 4) * 22 - 745 });
+        gsap.set(leftDots, { opacity: 0, scale: 0.35, x: (i, el: SVGCircleElement) => 3135 + (i % 3) * 14 - +el.getAttribute('cx')!, y: (i) => 570 + (i % 4) * 22 - 745 });
+        gsap.set(rightDots, { opacity: 0, scale: 0.35, x: (i, el: SVGCircleElement) => 4135 + (i % 3) * 14 - +el.getAttribute('cx')!, y: (i) => 570 + (i % 4) * 22 - 745 });
         gsap.set(captions, { opacity: 0, y: 14 });
         gsap.set(finalBlock, { opacity: 0, y: 10, pointerEvents: 'none' });
         gsap.set(lockup, { scale: 1, opacity: 1 });
+        gsap.set(lockupWrap, { y: 0 });
+        const lift = () => pin.clientHeight * 0.1; // the logo rises a little at the end to make room for the CTA
         gsap.set(period, { opacity: 1 });
 
         const tl = gsap.timeline({
@@ -198,9 +201,10 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
         // Beat 6: the character returns to its place as the period, the logo reconstitutes, CTA appears
         tl.to(world, { opacity: 0, duration: 4, ease: 'power1.in' }, 86);
         tl.set(lockup, { scale: 1, opacity: 0 }, 86);
+        tl.set(lockupWrap, { y: () => -lift() }, 86);
         tl.to(dot, { x: () => m().px, duration: 6, ease: 'power1.inOut' }, 86);
-        tl.to(dot, { y: () => m().py - 160, duration: 3, ease: 'power2.out' }, 86);
-        tl.to(dot, { y: () => m().py, duration: 3, ease: 'power2.in' }, 89);
+        tl.to(dot, { y: () => m().py - lift() - 160, duration: 3, ease: 'power2.out' }, 86);
+        tl.to(dot, { y: () => m().py - lift(), duration: 3, ease: 'power2.in' }, 89);
         tl.to(dot, { scale: () => Math.max(0.3, period.offsetWidth * 0.6 / dot.offsetWidth), duration: 6, ease: 'power1.inOut' }, 86);
         tl.to(lockup, { opacity: 1, duration: 3, ease: 'power1.out' }, 89);
         tl.to(dot, { scaleX: 1.3, scaleY: 0.75, duration: 0.4, ease: 'power2.out' }, 92);

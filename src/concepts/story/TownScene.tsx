@@ -45,18 +45,23 @@ function Tree({ x, s = 1 }: { x: number; s?: number }) {
 }
 
 function SideStreet({ x }: { x: number }) {
-  return <polygon points={`${x + 20},440 ${x + 60},440 ${x + 110},740 ${x - 30},740`} fill="#9aa3b2" />;
+  return (
+    <g>
+      <polygon points={`${x + 28},560 ${x + 52},560 ${x + 110},742 ${x - 30},742`} fill="#b3bac6" />
+      <line x1={x + 40} y1={575} x2={x + 40} y2={740} stroke="#e8e8e8" strokeWidth={3} strokeDasharray="14 18" />
+    </g>
+  );
 }
 
 export function BgLayer() {
   return (
     <g className="w-bg-g">
       <rect x={0} y={0} width={7000} height={900} fill="url(#story-sky)" />
-      <circle cx={560} cy={170} r={70} fill="#ffe08a" />
+      <circle cx={760} cy={150} r={64} fill="#ffe08a" />
       {/* far hills */}
-      <path d="M0 640 C 400 520, 800 560, 1200 600 S 2000 520, 2600 600 S 3400 540, 4000 620 S 4800 560, 5600 620 S 6600 600, 7000 640 L7000 900 L0 900Z" fill="#bcd7c6" />
+      <path d="M0 520 C 400 400, 800 440, 1200 470 S 2000 400, 2600 480 S 3400 420, 4000 500 S 4800 440, 5600 500 S 6600 480, 7000 520 L7000 900 L0 900Z" fill="#bcd7c6" />
       {/* distant school on the hill: lovely, quiet, far away */}
-      <g transform="translate(1180 470)">
+      <g transform="translate(1000 330)">
         <rect x={0} y={60} width={200} height={70} fill="#f3e3c9" />
         <polygon points="-10,60 100,10 210,60" fill="#3d6ea3" />
         <rect x={86} y={30} width={28} height={30} fill="#f3e3c9" />

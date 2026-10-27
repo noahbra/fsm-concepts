@@ -61,7 +61,7 @@ Environment variables (see `.env.example`):
 | --- | --- | --- |
 | `BASE_PATH` | `/` | Vite base. The Pages workflow sets `/<repo-name>/`. Set `/` after moving to a custom domain. |
 | `VITE_REVIEW_MODE` | `true` | `false` hides the reviewer ribbon and floating review pill (production output). |
-| `VITE_FEEDBACK_ENDPOINT` | empty | If set, the hub shows a real Submit button that POSTs JSON to this URL (Formspree, Tally webhook, etc.). If empty, no submit button is shown. |
+| `VITE_FEEDBACK` | `on` | `off` hides the hub's Send feedback button, leaving Copy and Download only. The destination form is set in `src/content/config.ts` (`feedbackForm`). |
 
 ## Deployment (GitHub Pages)
 
@@ -70,15 +70,19 @@ Environment variables (see `.env.example`):
 3. The site is served at `https://<owner>.github.io/<repo-name>/`, with `/clean/`, `/creative/`, `/story/`, `/original/` as real directories, so hard refresh and deep links work without SPA rewrites.
 4. Open Graph image URLs in the five HTML files point at `https://noahbra.github.io/fsm-concepts/og/*.png`; update them if the owner, repo name or domain changes.
 
-Optional repository variables: `VITE_REVIEW_MODE`, `VITE_FEEDBACK_ENDPOINT`.
+Optional repository variables: `VITE_REVIEW_MODE`, `VITE_FEEDBACK`.
 
 Alternatives: Cloudflare Pages or Vercel work with the same `dist/` output (`npm run build`, output directory `dist`, set `BASE_PATH=/`). Use Cloudflare Access (or Vercel password protection) if the client needs genuinely private review; a client-side password on a static site is not access control and is deliberately not implemented.
 
 ## Feedback
 
-The hub form saves answers in the reviewer's browser (localStorage) as they type, for all four concepts. "Copy feedback"
-and "Download .md / .json" always work and include every rated concept. Nothing is transmitted unless
-`VITE_FEEDBACK_ENDPOINT` is configured. Reviewer feedback is never stored in this repository.
+The hub form saves answers in the reviewer's browser (localStorage) as they type, for all four concepts. "Send feedback"
+posts one entry (reviewer name, per-concept decision and overall rating, the full Markdown summary and the raw JSON) to
+a Google Form owned by the project owner; the form id and field ids live in `src/content/config.ts` (`feedbackForm`) and
+are not secrets. Several reviewers can send independently, and a reviewer can revise and send again (each send is a new
+entry). A name is required to send. "Copy feedback" and "Download .md / .json" remain as backups. The form endpoint
+returns an opaque response, so "sent" means the request left the browser; the path was verified end to end against the
+live form (see `docs/QA_REPORT.md`). Reviewer feedback is never stored in this repository.
 
 ## Docs
 

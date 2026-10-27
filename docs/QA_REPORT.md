@@ -132,6 +132,6 @@ The full Playwright suite was also run against the live site (`PW_BASE_URL=https
 - Campaign imagery is FilmTwist-published case-study creative with reuse approval pending; it is labeled as such on every concept.
 - No video assets (none approved). Concept 02's "reel" is a thumbnail marquee.
 - The tagline lockup in Concept 03 is live text under the official logo because no logo file with the tagline was supplied.
-- Feedback is stored per device in localStorage; there is no backend. Copy/Download is the delivery path unless `VITE_FEEDBACK_ENDPOINT` is configured.
+- Feedback is stored per device in localStorage and, on "Send feedback", posted as one entry to the project owner's Google Form (`feedbackForm` in `src/content/config.ts`). The form endpoint has no CORS headers, so the browser cannot read the result; a send is confirmed by the request leaving without a network error. Copy/Download remain as backups.
 - The repository and the Pages site are public; the review hub says so and asks reviewers not to add confidential notes.
 - Lighthouse performance scores were measured on a developer laptop with simulated throttling, not on a mid-range phone over real 4G.

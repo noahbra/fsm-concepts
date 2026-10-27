@@ -1,15 +1,16 @@
 import { concepts } from '../../content/concepts';
+import { siteConfig } from '../../content/config';
 
 export type Decision = 'prefer' | 'combine' | 'reject' | 'undecided' | '';
 export interface ConceptFeedback {
   overall: number; brandFit: number; serviceClarity: number; distinctiveness: number;
   favorite: string; change: string; decision: Decision;
 }
-export interface FeedbackState { reviewer: string; concepts: Record<string, ConceptFeedback>; updatedAt: string }
+export interface FeedbackState { reviewer: string; concepts: Record<string, ConceptFeedback>; updatedAt: string; sentAt: string }
 
 export const STORAGE_KEY = 'fsm-review-feedback-v1';
 export const emptyConcept = (): ConceptFeedback => ({ overall: 0, brandFit: 0, serviceClarity: 0, distinctiveness: 0, favorite: '', change: '', decision: '' });
-export const emptyState = (): FeedbackState => ({ reviewer: '', concepts: Object.fromEntries(concepts.map((c) => [c.id, emptyConcept()])), updatedAt: '' });
+export const emptyState = (): FeedbackState => ({ reviewer: '', concepts: Object.fromEntries(concepts.map((c) => [c.id, emptyConcept()])), updatedAt: '', sentAt: '' });
 
 export function loadState(): FeedbackState {
   try {
@@ -54,4 +55,35 @@ export function toMarkdown(s: FeedbackState): string {
 
 export function toJson(s: FeedbackState): string {
   return JSON.stringify({ ...s, concepts: Object.fromEntries(concepts.map((c) => [c.id, { number: c.number, name: c.name, ...s.concepts[c.id] }])) }, null, 2);
+}
+
+/** Form-encoded body for the Google Form in siteConfig.feedbackForm: one entry per send, all four concepts. */
+export function toFormBody(s: FeedbackState, submittedAt: string): URLSearchParams {
+  const f = siteConfig.feedbackForm.fields;
+  const body = new URLSearchParams();
+  body.set(f.reviewer, s.reviewer.trim());
+  body.set(f.submittedAt, submittedAt);
+  body.set(f.page, typeof location !== 'undefined' ? location.href.split('#')[0] : '');
+  for (const c of concepts) {
+    const ids = f.concepts[c.id];
+    const v = s.concepts[c.id];
+    if (!ids || !v || !hasAnyInput(v)) continue;
+    body.set(ids.decision, v.decision || 'not set');
+    body.set(ids.overall, v.overall ? String(v.overall) : 'not rated');
+  }
+  body.set(f.markdown, toMarkdown(s));
+  body.set(f.json, toJson(s));
+  return body;
+}
+
+/**
+ * POST the answers to the Google Form. The form endpoint has no CORS headers, so the request runs in no-cors mode and
+ * the response is opaque: "sent" means the request left the browser without a network error. No field on the form is
+ * required, so a well-formed post is accepted. Verified end to end against the live form; see docs/QA_REPORT.md.
+ */
+export async function sendFeedback(s: FeedbackState, submittedAt: string): Promise<boolean> {
+  try {
+    await fetch(siteConfig.feedbackForm.action, { method: 'POST', mode: 'no-cors', body: toFormBody(s, submittedAt) });
+    return true;
+  } catch { return false; }
 }

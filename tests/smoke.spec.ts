@@ -228,7 +228,7 @@ test('Concept 04: the worksheet recomputes from the seat input and the slider', 
   await expect(page.getByTestId('case-study')).toHaveCount(3);
 });
 
-test('Feedback persists across reload, copy/export include answers, and there is no fake submit', async ({ page, context, browserName }) => {
+test('Feedback persists across reload, sends to the form, and copy/export include answers', async ({ page, context, browserName }) => {
   await page.goto('#feedback?concept=creative');
   await settle(page);
   await expect(page.locator('[data-testid="feedback-concept"][data-concept="creative"]')).toHaveAttribute('aria-pressed', 'true');
@@ -245,7 +245,24 @@ test('Feedback persists across reload, copy/export include answers, and there is
   await expect(page.locator('[data-testid="rating-overall"][value="4"]')).toBeChecked();
   await expect(page.getByTestId('favorite')).toHaveValue('The campaign collage hero');
   await expect(page.getByTestId('reviewer')).toHaveValue('Test Reviewer');
-  expect(await page.getByTestId('submit-feedback').count()).toBe(0);
+  // Send: intercept the Google Form post and check what left the browser.
+  const posted: string[] = [];
+  await page.route('https://docs.google.com/forms/**/formResponse', (route) => { posted.push(route.request().postData() ?? ''); return route.fulfill({ status: 200, body: '' }); });
+  await page.getByTestId('submit-feedback').click();
+  await expect(page.getByTestId('feedback-status')).toHaveText(/Feedback sent/);
+  await expect(page.getByTestId('feedback-sent')).toHaveText(/Last sent/);
+  expect(posted).toHaveLength(1);
+  const body = new URLSearchParams(posted[0]);
+  expect(body.get('entry.94783242')).toBe('Test Reviewer');
+  expect(body.get('entry.1585371997')).toBe('prefer');
+  expect(body.get('entry.944882537')).toBe('4');
+  expect(body.get('entry.553541415')).toBeNull(); // untouched concept sends nothing
+  expect(body.get('entry.146796121')).toContain('Lighter first screen on mobile');
+  expect(JSON.parse(body.get('entry.958974456') ?? '{}').concepts.creative.brandFit).toBe(5);
+  // The sent marker survives a reload.
+  await page.reload();
+  await settle(page);
+  await expect(page.getByTestId('feedback-sent')).toHaveText(/Last sent/);
   const [download] = await Promise.all([page.waitForEvent('download'), page.getByTestId('download-md').click()]);
   const path = await download.path();
   const text = path ? (await import('node:fs')).readFileSync(path, 'utf8') : '';
@@ -260,4 +277,18 @@ test('Feedback persists across reload, copy/export include answers, and there is
     const clip = await page.evaluate(() => navigator.clipboard.readText());
     expect(clip).toContain('Lighter first screen on mobile');
   }
+});
+
+test('Feedback send is blocked without a name or any answers, and nothing is posted', async ({ page }) => {
+  await page.goto('#feedback?concept=clean');
+  await settle(page);
+  let posts = 0;
+  await page.route('https://docs.google.com/forms/**/formResponse', (route) => { posts += 1; return route.fulfill({ status: 200, body: '' }); });
+  await page.getByTestId('submit-feedback').click();
+  await expect(page.getByTestId('feedback-status')).toHaveText(/Add your name first/);
+  await expect(page.getByTestId('reviewer')).toBeFocused();
+  await page.getByTestId('reviewer').fill('Nameless Test');
+  await page.getByTestId('submit-feedback').click();
+  await expect(page.getByTestId('feedback-status')).toHaveText(/at least one concept/);
+  expect(posts).toBe(0);
 });

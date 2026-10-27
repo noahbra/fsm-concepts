@@ -44,8 +44,26 @@ export const siteConfig = {
 
   /** Review chrome (ribbon + floating review pill). Set VITE_REVIEW_MODE=false for production output. */
   reviewMode: import.meta.env.VITE_REVIEW_MODE !== 'false',
-  /** Optional real submission endpoint (Formspree, Tally webhook, etc.). Empty = copy/download only. */
-  feedbackEndpoint: (import.meta.env.VITE_FEEDBACK_ENDPOINT as string | undefined) || '',
+  /** Review feedback sink: a Google Form owned by the project owner (Drive: Client Work/FilmTwist/03 - Discovery &
+   *  Research, "FilmTwist - FSM Website Feedback - v1 - 2026-10-27"). The hub posts form-encoded answers to it; the ids
+   *  below are public form field ids, not secrets. Set VITE_FEEDBACK=off to disable sending. */
+  feedbackEnabled: import.meta.env.VITE_FEEDBACK !== 'off',
+  feedbackForm: {
+    action: 'https://docs.google.com/forms/d/e/1FAIpQLSfxLQn7be7vDlioYzPOruaodBO59_7rQhT5m-xlKPTJjT2hTg/formResponse',
+    fields: {
+      reviewer: 'entry.94783242',
+      submittedAt: 'entry.689904670',
+      page: 'entry.1299720284',
+      markdown: 'entry.146796121',
+      json: 'entry.958974456',
+      concepts: {
+        clean: { decision: 'entry.553541415', overall: 'entry.1171737971' },
+        creative: { decision: 'entry.1585371997', overall: 'entry.944882537' },
+        story: { decision: 'entry.1440135353', overall: 'entry.335769173' },
+        original: { decision: 'entry.738929427', overall: 'entry.721860725' },
+      },
+    },
+  },
 
   /** Legal placeholders. Do not fabricate policy text. */
   legal: {

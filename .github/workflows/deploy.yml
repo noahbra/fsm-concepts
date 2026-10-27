@@ -29,7 +29,7 @@ jobs:
           # Project Pages site lives at https://<owner>.github.io/<repo>/. After a custom-domain migration set BASE_PATH to "/".
           BASE_PATH: /${{ github.event.repository.name }}/
           VITE_REVIEW_MODE: ${{ vars.VITE_REVIEW_MODE || 'true' }}
-          VITE_FEEDBACK_ENDPOINT: ${{ vars.VITE_FEEDBACK_ENDPOINT || '' }}
+          VITE_FEEDBACK: ${{ vars.VITE_FEEDBACK || 'on' }}
         run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

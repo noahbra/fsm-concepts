@@ -4,7 +4,7 @@ import { siteConfig } from '../../content/config';
 import { brand } from '../../content/media';
 import { SkipLink } from '../../components/SkipLink';
 import { copyText, downloadFile, drawQr } from '../../lib/share';
-import { clearState, emptyConcept, hasAnyInput, loadState, ratingFields, saveState, toJson, toMarkdown, type Decision, type FeedbackState } from './feedback';
+import { clearState, emptyConcept, hasAnyInput, loadState, ratingFields, saveState, sendFeedback, toJson, toMarkdown, type Decision, type FeedbackState } from './feedback';
 
 const REVIEW_DATE = 'October 2026';
 
@@ -73,6 +73,7 @@ function FeedbackForm() {
   const [status, setStatus] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const firstTouch = useRef(true);
+  const justSent = useRef(false);
 
   useEffect(() => {
     const onHash = () => { const id = parseConceptFromHash(); if (id) setSelected(id); };
@@ -87,6 +88,7 @@ function FeedbackForm() {
     if (firstTouch.current) { firstTouch.current = false; return; }
     const next = { ...state, updatedAt: new Date().toISOString() };
     const ok = saveState(next);
+    if (justSent.current) { justSent.current = false; return; } // keep the "sent" message on screen
     setStatus(ok ? `Saved on this device at ${new Date(next.updatedAt).toLocaleTimeString()}.` : 'Could not save on this device (private mode?). Copy or download before leaving.');
   }, [state]);
 
@@ -99,13 +101,20 @@ function FeedbackForm() {
   const dlMd = () => { downloadFile('fsm-website-feedback.md', toMarkdown(state), 'text/markdown'); setStatus('Downloaded fsm-website-feedback.md.'); };
   const dlJson = () => { downloadFile('fsm-website-feedback.json', toJson(state), 'application/json'); setStatus('Downloaded fsm-website-feedback.json.'); };
   const submit = async () => {
-    if (!siteConfig.feedbackEndpoint) return;
+    if (!siteConfig.feedbackEnabled) return;
+    if (!state.reviewer.trim()) { setStatus('Add your name first, so we know whose feedback this is.'); document.getElementById('reviewer')?.focus(); return; }
+    if (filled.length === 0) { setStatus('Rate or comment on at least one concept before sending.'); return; }
     setSubmitting(true);
-    try {
-      const res = await fetch(siteConfig.feedbackEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: toJson(state) });
-      setStatus(res.ok ? 'Feedback submitted.' : `Submission failed (${res.status}). Copy or download instead.`);
-    } catch { setStatus('Submission failed (network). Copy or download instead.'); }
-    finally { setSubmitting(false); }
+    const submittedAt = new Date().toISOString();
+    const ok = await sendFeedback(state, submittedAt);
+    setSubmitting(false);
+    if (ok) {
+      justSent.current = true;
+      setState((s) => ({ ...s, sentAt: submittedAt }));
+      setStatus(`Feedback sent at ${new Date(submittedAt).toLocaleTimeString()}. You can keep editing and send again; each send is a new entry.`);
+    } else {
+      setStatus('Could not send (network). Copy or download instead and email it to the project owner.');
+    }
   };
 
   return (
@@ -148,23 +157,24 @@ function FeedbackForm() {
       </fieldset>
 
       <div className="form__row">
-        <label htmlFor="reviewer">Reviewer name (optional)</label>
-        <input id="reviewer" type="text" value={state.reviewer} onChange={(e) => setState((s) => ({ ...s, reviewer: e.target.value }))} data-testid="reviewer" autoComplete="name" />
+        <label htmlFor="reviewer">Reviewer name</label>
+        <input id="reviewer" type="text" required value={state.reviewer} onChange={(e) => setState((s) => ({ ...s, reviewer: e.target.value }))} data-testid="reviewer" autoComplete="name" placeholder="So we know whose feedback this is" />
       </div>
 
       <div className="form__actions">
-        <button type="button" className="btn btn--primary" onClick={copyAll} data-testid="copy-feedback">Copy feedback</button>
+        {siteConfig.feedbackEnabled && <button type="button" className="btn btn--primary" onClick={submit} disabled={submitting} data-testid="submit-feedback">{submitting ? 'Sending' : 'Send feedback'}</button>}
+        <button type="button" className="btn btn--ghost" onClick={copyAll} data-testid="copy-feedback">Copy feedback</button>
         <button type="button" className="btn btn--ghost" onClick={dlMd} data-testid="download-md">Download .md</button>
         <button type="button" className="btn btn--ghost" onClick={dlJson} data-testid="download-json">Download .json</button>
-        {siteConfig.feedbackEndpoint && <button type="button" className="btn btn--accent" onClick={submit} disabled={submitting} data-testid="submit-feedback">{submitting ? 'Submitting' : 'Submit feedback'}</button>}
         <button type="button" className="btn btn--ghost btn--small" onClick={() => { if (confirm('Clear all saved feedback on this device?')) { clearState(); setState(loadState()); setStatus('Cleared.'); } }}>Clear</button>
       </div>
       <div className="form__status" role="status" aria-live="polite" data-testid="feedback-status">{status}</div>
 
+      {state.sentAt && <p className="form__note" data-testid="feedback-sent">Last sent {new Date(state.sentAt).toLocaleString()}.</p>}
       <p className="form__note">
-        {siteConfig.feedbackEndpoint
-          ? 'Submit sends your answers to the configured feedback endpoint. Copy and Download always work as a backup.'
-          : 'This review site is static: nothing is transmitted automatically. Your answers are saved in this browser only. When you are done, use Copy feedback or Download and send the result to the project owner by email or chat.'}
+        {siteConfig.feedbackEnabled
+          ? 'Send delivers your answers for all four concepts to the project owner in one entry. Your answers also stay saved in this browser, so you can come back, revise and send again. Copy and Download are there as a backup.'
+          : 'Sending is turned off in this build. Your answers are saved in this browser only. Use Copy feedback or Download and send the result to the project owner.'}
       </p>
 
       {filled.length > 0 && (

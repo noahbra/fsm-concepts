@@ -16,7 +16,7 @@ not distort, rotate, or recolor.
 | fsm-logo-horizontal-white.png / .webp | Logo Files/White/...-05.png | Raster | Concept 02 (dark canvas), footers |
 | fsm-logo-stacked-white.png / .webp | Logo Files/White/...-06.png | Raster | Available |
 | fsm-logo-horizontal-black.png / .webp | Logo Files/Black/...-03.png | Raster | Available |
-| fsm-emblem-color.svg, -white.svg, -black.svg | Emblem Files/{Color,White,Black}/*.svg | Vector | Concept 04 season dial hub, Concept 03 details, favicon fallback |
+| fsm-emblem-color.svg, -white.svg, -black.svg | Emblem Files/{Color,White,Black}/*.svg | Vector | Concept 03 details, Concept 04 header, favicon fallback |
 | favicon/* (ico, 16, 32, 180, 192, 512, site.webmanifest) | Favicon/ | As supplied | All five HTML heads |
 | (not committed) All Full School Marketing Logos.ai, Emblem .eps/.ai | Logo Files, Emblem Files | Vector masters | Production: derive an SVG wordmark lockup from the .ai |
 
@@ -59,7 +59,7 @@ found" on the source pages, and anything from the Vimeo channel (no video is use
 | docs/screenshots/*-full.png | same script, full page | QA report |
 | public/og/*.png | `node scripts/og.mjs` (logo + headline + page screenshot) | `og:image` in each HTML head |
 | Concept 03 town, school, signs, dots | Inline SVG written in React (`src/concepts/story/`) | Concept 03 only; concept illustration, not client work |
-| Concept 04 season ring, seed/sprout states | Inline SVG (`src/concepts/original/`) | Concept 04 only |
+| Concept 04 worksheet range bars and funnel bars | HTML/CSS (`src/concepts/original/`) | Concept 04 only |
 | Service glyphs | Inline SVG per concept | Services sections |
 
 ## Supplied but intentionally unused in version 1

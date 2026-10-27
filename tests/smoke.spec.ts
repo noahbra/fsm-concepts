@@ -212,22 +212,20 @@ test('Concept 03: skip works, scrolling reaches proof, reduced motion renders th
   await ctx.close();
 });
 
-test('Concept 04: season dial changes the page by click and keyboard', async ({ page }) => {
+test('Concept 04: the worksheet recomputes from the seat input and the slider', async ({ page }) => {
   await page.goto('original/');
   await settle(page);
-  const headline = page.getByTestId('season-headline');
-  const before = await headline.textContent();
-  const winter = page.locator('[data-testid="season-control"][data-season="winter"]');
-  await winter.click();
-  await expect(winter).toHaveAttribute('aria-checked', 'true');
-  await expect(headline).not.toHaveText(before!);
-  await expect(page.getByTestId('case-study').first()).toContainText('Friendship');
-  // keyboard: arrow moves selection
-  await winter.focus();
+  const apps = page.getByTestId('seat-output-apps');
+  const before = await apps.textContent();
+  await page.getByTestId('seat-input').fill('120');
+  await expect.poll(async () => apps.textContent()).not.toBe(before);
+  await expect(apps).toHaveText('158'); // 120 seats at the 76% yield Friendship PCS reported
+  // keyboard: the slider moves the number too
+  const slider = page.getByTestId('seat-slider');
+  await slider.focus();
   await page.keyboard.press('ArrowRight');
-  const spring = page.locator('[data-testid="season-control"][data-season="spring"]');
-  await expect(spring).toHaveAttribute('aria-checked', 'true');
-  await expect(page.getByTestId('case-study').first()).toContainText('Envision');
+  await expect(page.getByTestId('seat-input')).toHaveValue('125');
+  await expect(page.getByTestId('case-study')).toHaveCount(3);
 });
 
 test('Feedback persists across reload, copy/export include answers, and there is no fake submit', async ({ page, context, browserName }) => {

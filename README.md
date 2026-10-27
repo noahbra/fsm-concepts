@@ -9,7 +9,7 @@ Vite + React + TypeScript multi-page site so every page is deep-linkable on GitH
 | `/clean/` | Concept 01: Clean & Modern ("A Clearer Path to Enrollment") |
 | `/creative/` | Concept 02: Bold & Creative ("Creative That Fills Classrooms") |
 | `/story/` | Concept 03: The Invisible School (scroll-driven story) |
-| `/original/` | Concept 04: The Enrollment Year (season dial; the invented direction) |
+| `/original/` | Concept 04: Start With Your Number (seat worksheet; the invented direction) |
 
 Status: design concepts for client review. Not a live business site. Deployment status and live URLs are recorded in `docs/QA_REPORT.md`.
 
@@ -42,7 +42,7 @@ node scripts/optimize-assets.mjs  # rebuild public/assets from the raw source fo
 
 The suite covers: hub links, direct load and refresh of all five paths under the subpath, base-aware asset URLs, verified
 case-study source links, services/case-study/CTA presence per concept, Concept 02 filters, Concept 03 skip and reduced
-motion, Concept 04 season dial (click and keyboard), feedback persistence and export, no horizontal overflow at 375/390,
+motion, Concept 04 worksheet (typed input and slider keyboard), feedback persistence and export, no horizontal overflow at 375/390,
 console and request errors, external link safety. Results: `docs/QA_REPORT.md`.
 
 ## Configuration

@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import '@fontsource-variable/fraunces';
-import '@fontsource-variable/josefin-sans';
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/jetbrains-mono';
 import '../../styles/global.css';
 import './original.css';
 import App from './App';

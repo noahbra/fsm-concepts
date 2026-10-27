@@ -20,7 +20,7 @@ Not shared: page layout, section templates, typography pairing, color treatment,
 | 01 Clean | Josefin Sans + Inter | White, editorial | Load-in, hover and focus states |
 | 02 Creative | Archivo (wide, black) + Josefin Sans | Ink black, electric green/teal | Kinetic type, marquee with pause, cursor tilt on desktop, inline expansion overlay |
 | 03 Story | Josefin Sans + Nunito | Soft paper, desaturated to color | GSAP pinned side-scroll, skip and reduced-motion static frames |
-| 04 Original | Fraunces + Josefin Sans | Warm paper, four season hues | Cross-fades on season change only |
+| 04 Original | Space Grotesk + JetBrains Mono | FSM blue ink, warm paper, green for computed figures | Figures ease to new values; range dots slide |
 
 ## Gates
 

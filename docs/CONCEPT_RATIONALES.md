@@ -74,22 +74,30 @@ were all replaced.
 
 ---
 
-## 04 The Enrollment Year (invented direction)
+## 04 Start With Your Number (invented direction, second version)
 
-**Role.** A genuinely different communication archetype: the page is a planning desk, and the visitor's own calendar
-drives it.
+**Role.** A different communication archetype: the page is a worksheet, and the visitor's own school is its subject.
+Replaces "The Enrollment Year" (season dial), which Noah rejected on October 27, 2026 as unprofessional with an unclear
+architecture. The replacement was designed from research first; see `CONCEPT_04_RESEARCH.md`.
 
-**Thesis.** School leaders think in seasons and deadlines, not in service lines. Ask one question ("where are you in the
-year?") and re-plan the whole page around the answer.
+**Thesis.** Every agency page in this category starts with the agency. The research on how school leaders are told to
+choose says the opposite: ask for the funnel numbers first, and judge on seats filled and what each cost. So this page
+opens with the one number a leader already knows, the seats to fill, and works everything out from it, using only the
+three campaigns FilmTwist can show.
 
-**How it shows up.** A season dial (an SVG year ring with the brand emblem growing from seed to leaves at its hub) that
-rewrites the headline, the "what to do now" checklist, the order and "why now" of the services, the lead case study and
-the CTA label. The three verified reporting windows are plotted on a real calendar. Fraunces (soft serif) with Josefin
-Sans on warm paper, four brand hues as the four seasons.
+**How it shows up.** A dark worksheet hero: one input (seats), one adjustable assumption (the application-to-enrollment
+yield, preset to the one campaign that reported confirmed enrollments), and four computed rows: seats, applications
+needed, inquiries needed as a range with the three campaigns plotted, and the media budget those campaigns' cost per lead
+implies, also as a range. Figures ease to new values. Then proof as data: the three campaigns drawn as funnels (leads,
+applications, confirmed enrollments or "not reported") with period, cost per lead and source. Then the funnel workflow,
+each step labeled with the worksheet row it moves. Then "what we ask on the first call": the list of numbers to bring.
+Services, invitation ("Bring your number. We'll bring ours."), footer. Space Grotesk for words, JetBrains Mono for
+figures, FSM blue ink with the brand green reserved for computed numbers and the CTA.
 
-**Why it is fundamentally different.** The others present; this one responds. Its hero contains a control rather than an
-image; its content changes with state; its mood is advisor rather than agency; its imagery is subordinate to the plan. No
-mascot, no horizontal scroll, no collage, no calculator. Full thesis: `CONCEPT_04_CREATIVE_THESIS.md`.
+**Why it is fundamentally different.** It is the only concept where the reader does something other than read; the only
+one that leads with the reader's school instead of the agency; the only one whose proof section is a comparison of
+funnels rather than cards; and the only one that tells the visitor what the discovery call will ask of them.
 
-**Strength.** Speaks to the pressure the visitor already feels; one tap personalizes the pitch on a phone.
-**Tradeoff.** Asks for a choice first; seasonal copy must match the client's own calendar language.
+**Strength.** Credibility through arithmetic on sourced figures; one slider at a conference booth leaves the visitor with
+a number. **Tradeoff.** The ranges are wide because three campaigns are three campaigns; the client must be comfortable
+with their published figures being used this way (listed in `CONTENT_AND_CLAIMS.md`).

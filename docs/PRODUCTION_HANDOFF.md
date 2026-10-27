@@ -28,7 +28,7 @@ What remains to turn the chosen concept into the final Full School Marketing sit
 - Concept-specific:
   - 02: confirm every gallery item is approved; add true video assets with pause controls if desired.
   - 03: test the pinned story on real iOS Safari and low-end Android; keep the static reduced-motion path in sync when scenes change.
-  - 04: confirm seasonal checklists against the client's own enrollment calendar language; consider a "set your dates" step.
+  - 04: confirm the client is comfortable with the worksheet arithmetic on their published campaign figures; consider adding a "send me my worksheet" email capture.
 
 ## Content work
 

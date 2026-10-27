@@ -9,7 +9,7 @@ const titles = {
   clean: ['Great schools deserve full classrooms.', 'Concept 01: Clean & Modern'],
   creative: ['Make your school the one families remember.', 'Concept 02: Bold & Creative'],
   story: ['The Invisible School', 'Concept 03: a scroll-driven story'],
-  original: ['The Enrollment Year', 'Concept 04: plan around your calendar'],
+  original: ['Start With Your Number', 'Concept 04: a worksheet, not a brochure'],
 };
 for (const [id, [t, s]] of Object.entries(titles)) {
   const shot = `public/assets/screenshots/${id}-desktop.webp`;

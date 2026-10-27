@@ -10,6 +10,15 @@ rerun after the rebuild: 116 passed, 0 failed (1.2 min). Frame-by-frame captures
 mobile scroll positions were reviewed; three defects found during that review were fixed before the rerun (palette variables
 not applied through GSAP, SVG group motion treated as absolute by GSAP, landing-page card framed off-screen on mobile).
 
+## Revision October 27, 2026 (second): Concept 04 replaced
+
+Noah rejected "The Enrollment Year" (season dial) as unprofessional with an unclear architecture and asked for research
+before a new direction. `CONCEPT_04_RESEARCH.md` records the research; `CONCEPT_04_CREATIVE_THESIS.md` the new concept,
+"Start With Your Number" (a seat worksheet computed from the three published campaigns, proof as funnels, the first-call
+checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suite after the rebuild: 116 passed, 0 failed
+(1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
+before the rerun. Lighthouse was not rerun for this revision.
+
 ## Summary
 
 | Area | Status |
@@ -43,7 +52,7 @@ node scripts/og.mjs
 | 4 | Each concept has a services section, three verified school names, and a CTA with the consultation URL | `Concept > has services, three verified case studies with source links, and the CTA` | PASS x4 concepts x4 projects |
 | 5 | Concept 02 filters change gallery state | `Concept 02: portfolio filters change visible gallery state` (each of 4 filters narrows from 26 items to a non-empty subset whose items all carry that category; All restores; Enter on a focused filter works) | PASS x4 |
 | 6 | Concept 03 skip works, reduced motion does not pin or animate, scrolling reaches proof | `Concept 03: skip works, scrolling reaches proof, reduced motion renders the static story` (Enter on Skip moves focus to `#site-content`; third case card reachable; document scrolls well past the stage; under `reducedMotion: 'reduce'` the static story renders, no stage, no `.pin-spacer`) | PASS x4 |
-| 7 | Concept 04 defining interaction works by click and keyboard | `Concept 04: season dial changes the page by click and keyboard` (Winter click changes the headline and leads with Friendship; ArrowRight selects Spring and leads with Envision) | PASS x4 |
+| 7 | Concept 04 defining interaction works by typing and keyboard | `Concept 04: the worksheet recomputes from the seat input and the slider` (typing 120 seats shows 158 applications; ArrowRight on the slider moves the input to 125; three case studies present) | PASS x4 |
 | 8 | Feedback persists across reload; copy/export include answers; no fake submit | `Feedback persists across reload...` (ratings, comments, decision and reviewer survive reload; downloaded .md contains the values; clipboard text contains the comment in Chromium; no Submit button when no endpoint is configured) | PASS x4 (clipboard assertion runs in Chromium only; WebKit headless has no clipboard-read permission) |
 | 9 | No horizontal overflow at 375 and 390 | `Page > no horizontal overflow at 375 and 390` (before and after scrolling the full page) | PASS x5 pages x4 projects |
 | 10 | No unhandled console errors, no missing image requests | folded into test 2 | PASS |
@@ -69,7 +78,7 @@ Screenshots in `docs/screenshots/` (full page, with reviewer chrome) and `public
 | 01 Clean | clean-desktop-full.png | clean-mobile-full.png | Sticky bottom CTA under 700px |
 | 02 Creative | creative-desktop-full.png | creative-mobile-full.png | Collage reflows to a stacked composition; marquee is clipped by its wrapper |
 | 03 Story | story-desktop-full.png | story-mobile-full.png | Mobile uses a reframed vertical composition; stage has `overflow: hidden` |
-| 04 Original | original-desktop-full.png | original-mobile-full.png | Ring scales down; segmented control beneath; sticky CTA appears after the hero |
+| 04 Original | original-desktop-full.png | original-mobile-full.png | Worksheet stacks under the headline; rows go single-column; range labels stay inside the card |
 
 Additional widths checked by the builders during development with the same script: 1920x1080 and 768x1024 (Concept 02), 375x667 (Concepts 02 and 04). The Playwright suite's overflow test runs at 375 and 390 on every page in all four browser projects.
 
@@ -79,7 +88,7 @@ Manual visual inspection: every screenshot above was opened and reviewed (headli
 
 Automated: Lighthouse accessibility category (below); Playwright checks for skip links, focus movement on Skip, `aria-pressed` filters operable by keyboard, radio-group arrow keys, dialog Escape and focus restore, external link labels.
 
-Manual: keyboard walk of each page's primary interactions in Chromium (nav toggle, filters, gallery dialog, season dial, story skip and rewatch, feedback form, review pill). A full screen-reader pass (VoiceOver, NVDA) has NOT been run; it is listed in `PRODUCTION_HANDOFF.md`.
+Manual: keyboard walk of each page's primary interactions in Chromium (nav toggle, filters, gallery dialog, worksheet input and sliders, story skip and rewatch, feedback form, review pill). A full screen-reader pass (VoiceOver, NVDA) has NOT been run; it is listed in `PRODUCTION_HANDOFF.md`.
 
 Reduced motion: every concept switches off nonessential motion under `prefers-reduced-motion: reduce` (CSS media query plus `useReducedMotion` in React); Concept 03 swaps to a static four-frame story; screenshots of the reduced-motion renders were reviewed by the builders.
 
@@ -113,7 +122,7 @@ Live URLs, verified with HTTP 200 after the first deploy (run 40452092797) and r
 | 01 Clean & Modern | https://noahbra.github.io/fsm-concepts/clean/ |
 | 02 Bold & Creative | https://noahbra.github.io/fsm-concepts/creative/ |
 | 03 The Invisible School | https://noahbra.github.io/fsm-concepts/story/ |
-| 04 The Enrollment Year | https://noahbra.github.io/fsm-concepts/original/ |
+| 04 Start With Your Number | https://noahbra.github.io/fsm-concepts/original/ |
 
 The full Playwright suite was also run against the live site (`PW_BASE_URL=https://noahbra.github.io/fsm-concepts/ npx playwright test`): 116 passed, 0 failed. Open Graph images (`/og/*.png`) and hub screenshots resolve on the live site. Deep links and hard refresh work because each concept is a real directory with its own `index.html`.
 

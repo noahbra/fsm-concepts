@@ -80,10 +80,21 @@ and are not shown as steps.
 - Provisional booking link found on that page: https://calendly.com/dpathak/30min. Stored in config as `provisionalBookingUrl`, not linked. REQUIRES_CLIENT_CONFIRMATION.
 - No free audit, conference discount, or guaranteed result is offered anywhere.
 
-## Concept 04 seasonal copy
+## Concept 04 worksheet arithmetic
 
-The "What to do now" checklists describe typical enrollment-season activities in general terms ("many schools", "typically")
-and state that dates vary by state, district and school type. No specific deadlines, lottery dates or funding figures are claimed.
+The worksheet in Concept 04 computes, from a seat count the visitor enters:
+
+- Applications needed = seats / yield, where yield defaults to 76%: Friendship PCS reported 78 confirmed enrollments
+  from 102 applications. It is the only campaign that reported enrollments, the page says so, and the visitor can change it.
+- Inquiries needed, per campaign = applications / that campaign's application rate (Aspire 895/3,034 = 29%,
+  Friendship 102/1,134 = 9%, Envision 101/723 = 14%). Shown as the range across the three, with each plotted.
+- Media budget, per campaign = inquiries x that campaign's average cost per lead ($38, $31.21, $64). Shown as a range,
+  labeled "media only; no fees".
+
+Every figure is a published FilmTwist number; no ROI percentages are used. The page labels the result "historical results
+from other schools, not a forecast for yours and not a guarantee". REQUIRES_CLIENT_CONFIRMATION: FilmTwist should confirm
+they are comfortable with their published campaign figures being used as scenario ratios in this way.
+
 
 ## Reference sites (client-cited)
 

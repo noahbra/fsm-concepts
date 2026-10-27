@@ -5,8 +5,9 @@ import { siteConfig } from '../content/config';
 /** Source link for a case. Always external, always labeled. */
 export function SourceLink({ c, className, children }: { c: CaseStudy; className?: string; children?: React.ReactNode }) {
   return (
-    <a className={className} href={c.sourceUrl} target="_blank" rel="noopener noreferrer" aria-label={`Explore the ${c.school} case study on filmtwist.com (opens in a new tab)`}>
+    <a className={className} href={c.sourceUrl} target="_blank" rel="noopener noreferrer">
       {children ?? 'Explore case study'}
+      <span className="sr-only">: {c.school} on filmtwist.com (opens in a new tab)</span>
     </a>
   );
 }

@@ -11,8 +11,9 @@ export default defineConfig({
   fullyParallel: true,
   retries: 0,
   reporter: [['list'], ['html', { open: 'never' }]],
-  use: { baseURL: 'http://localhost:4173/fsm-concepts/', trace: 'retain-on-failure' },
-  webServer: {
+  // PW_BASE_URL=https://<owner>.github.io/fsm-concepts/ runs the same suite against a deployed site (no local server).
+  use: { baseURL: process.env.PW_BASE_URL || 'http://localhost:4173/fsm-concepts/', trace: 'retain-on-failure' },
+  webServer: process.env.PW_BASE_URL ? undefined : {
     command: 'rm -rf dist && BASE_PATH=/fsm-concepts/ npm run build && BASE_PATH=/fsm-concepts/ npx vite preview --port 4173 --strictPort',
     url: 'http://localhost:4173/fsm-concepts/',
     reuseExistingServer: false,

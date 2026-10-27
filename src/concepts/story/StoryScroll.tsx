@@ -243,7 +243,7 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
               <source type="image/webp" srcSet={brand.logoStacked.webp} />
               <img src={brand.logoStacked.src} width={brand.logoStacked.width} height={brand.logoStacked.height} alt="Full School Marketing" fetchPriority="high" />
             </picture>
-            <p className="story__tagline" aria-label={siteConfig.tagline}>
+            <p className="story__tagline">
               <span aria-hidden="true">grow your own</span>
               <span className="story-period" aria-hidden="true">.</span>
             </p>

@@ -75,7 +75,6 @@ export function Gallery() {
                   type="button"
                   className="cr-tile-btn"
                   onClick={(e) => open(globalIndex, e.currentTarget)}
-                  aria-label={`${item.caption ?? 'Campaign creative'}, ${item.school}. Open details.`}
                 >
                   <ResponsiveMedia asset={item} sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw" className="cr-tile-media" />
                   <span className="cr-tile-meta">

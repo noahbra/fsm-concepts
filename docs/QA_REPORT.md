@@ -2,6 +2,14 @@
 
 Prepared October 26, 2026 (Pacific). Every result below was produced by running the named command; nothing is inferred.
 
+## Revision October 27, 2026
+
+Concept 03's scroll story was rebuilt after review (new scene, palette journey, choreography, typography) and the
+"How it works" steps on every concept were replaced with FilmTwist's published funnel workflow. The full Playwright suite was
+rerun after the rebuild: 116 passed, 0 failed (1.2 min). Frame-by-frame captures of the pinned story at 21 desktop and 11
+mobile scroll positions were reviewed; three defects found during that review were fixed before the rerun (palette variables
+not applied through GSAP, SVG group motion treated as absolute by GSAP, landing-page card framed off-screen on mobile).
+
 ## Summary
 
 | Area | Status |

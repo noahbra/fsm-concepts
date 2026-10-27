@@ -44,8 +44,9 @@ export function App() {
         <section id="top" className="story-section" aria-label="The Invisible School, a short story">
           <p className="sr-only">
             A short illustrated story: the period from the tagline grow your own becomes a small character who walks through a quiet town
-            where a wonderful school sits unnoticed. As signs, posters, search results and social posts come alive, more families appear,
-            find the route to the school, and fill it with life. The character returns to its place as the period, and we invite you to fill your school.
+            where a wonderful school sits unnoticed. A sign comes alive, then digital ads on phones, search and streaming reach families where
+            they already are, a landing page lets them share their details and start enrollment, an email nudges the family that hesitated, and the
+            school fills with families and light. The character returns to its place as the period, and we invite you to fill your school.
           </p>
           <div className="story-controls">
             <button type="button" className="story-controls__btn" aria-pressed={showStatic} onClick={() => setMotion(showStatic ? 'on' : 'off')}>

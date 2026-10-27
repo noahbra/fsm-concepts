@@ -3,39 +3,48 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { brand } from '../../content/media';
 import { ctaHref, siteConfig } from '../../content/config';
-import { BgLayer, FgLayer, MidLayer, SkyDefs, TopLayer } from './TownScene';
+import { BackLayer, BgLayer, FgLayer, GY, MidLayer, PALETTE, TopLayer, mixPalette } from './TownScene';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const BEATS = [
-  { id: 1, text: "What if families don't know you're here?" },
-  { id: 2, text: "Let's change that." },
-  { id: 3, text: 'Give families a reason to notice.' },
-  { id: 4, text: 'Turn discovery into connection.' },
-  { id: 5, text: 'Great schools deserve to be seen. And chosen.' },
+  { id: 1, text: "What if families don't know you're here?", sub: 'A wonderful school on a quiet street, and no reason for anyone to look twice.' },
+  { id: 2, text: "Let's change that.", sub: 'It starts with a clear identity and a sign that says who you are.' },
+  { id: 3, text: 'Ads where families already are.', sub: 'Google, Facebook, Instagram, TikTok and streaming carry your school to the parents who are looking.' },
+  { id: 4, text: 'A landing page that starts enrollment.', sub: 'Families share their details and begin the application. The ones who hesitate get a nudge by email.' },
+  { id: 5, text: 'Great schools deserve to be seen. And chosen.', sub: '' },
 ];
 
+const PARALLAX = { bg: 0.15, back: 0.45, mid: 1, fg: 1.5 };
+
 /**
- * The pinned, scroll-scrubbed narrative. One ScrollTrigger timeline, built inside gsap.matchMedia so
- * desktop and mobile get their own framing and everything reverts cleanly on unmount.
- * The character is the period of the tagline (a real DOM span), not any letter of the wordmark.
+ * The pinned, scroll-scrubbed narrative. One ScrollTrigger timeline (0 to 100), built inside gsap.matchMedia
+ * so desktop and mobile get their own framing and everything reverts cleanly on unmount.
+ * The character is the period of the tagline (a DOM element), never a letter of the wordmark.
  */
 export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) => void }) {
   const stage = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const stageEl = stage.current!;
-    const pin = stageEl.querySelector<HTMLElement>('.story__pin')!;
-    const lockupWrap = pin.querySelector<HTMLElement>('.story__lockupWrap')!;
-    const lockup = pin.querySelector<HTMLElement>('.story__lockup')!;
-    const period = pin.querySelector<HTMLElement>('.story-period')!;
-    const dot = pin.querySelector<HTMLElement>('.story-dot')!;
-    const world = pin.querySelector<HTMLElement>('.story__world')!;
-    const bg = world.querySelector<SVGSVGElement>('.w-bg')!;
-    const mid = world.querySelector<SVGSVGElement>('.w-mid')!;
-    const top = world.querySelector<SVGSVGElement>('.w-top')!;
-    const fg = world.querySelector<SVGSVGElement>('.w-fg')!;
-    const finalBlock = pin.querySelector<HTMLElement>('.story__final')!;
+    const q = <T extends Element>(sel: string, root: ParentNode = stageEl) => root.querySelector<T>(sel)!;
+    const pin = q<HTMLElement>('.story__pin');
+    const lockupWrap = q<HTMLElement>('.story__lockupWrap');
+    const lockup = q<HTMLElement>('.story__lockup');
+    const period = q<HTMLElement>('.story-period');
+    const char = q<HTMLElement>('.story-char');
+    const dot = q<HTMLElement>('.story-char__dot');
+    const shadow = q<HTMLElement>('.story-char__shadow');
+    const world = q<HTMLElement>('.story__world');
+    const layers = {
+      bg: q<SVGSVGElement>('.w-bg', world),
+      back: q<SVGSVGElement>('.w-back', world),
+      mid: q<SVGSVGElement>('.w-mid', world),
+      top: q<SVGSVGElement>('.w-top', world),
+      fg: q<SVGSVGElement>('.w-fg', world),
+    };
+    const finalBlock = q<HTMLElement>('.story__final');
+    const cue = q<HTMLElement>('.story__cue');
 
     onRewatchRef?.(() => {
       const st = ScrollTrigger.getAll().find((t) => t.trigger === stageEl);
@@ -51,57 +60,69 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
       },
       (ctx) => {
         const { isMobile } = ctx.conditions as { isMobile: boolean };
-        const DOT_FRAC = isMobile ? 0.3 : 0.35; // where the character stands on screen
-        const PUSH = isMobile ? 2.2 : 2.8; // camera push toward the period
+        const DOT_FRAC = isMobile ? 0.3 : 0.32; // where the character stands on screen while walking
 
-        /** Live measurements (re-read on every ScrollTrigger refresh via function-based values). */
+        /** Live measurements, re-read on every refresh through function-based values. */
         const m = () => {
           const W = pin.clientWidth;
-          const scale = mid.clientHeight / 900;
-          const svgTop = world.offsetTop;
-          const ground = svgTop + 752 * scale;
+          const scale = layers.mid.clientHeight / 900; // px per scene unit
+          const ground = world.clientHeight - (900 - GY) * scale;
+          const R = dot.offsetWidth / 2;
+          const s = gsap.utils.clamp(0.16, 1, (period.offsetWidth * 0.62) / dot.offsetWidth); // dot scale that matches the period glyph
           const px = lockup.offsetLeft + period.offsetLeft + period.offsetWidth / 2;
-          const py = lockup.offsetTop + period.offsetTop + period.offsetHeight * 0.8;
-          const originX = period.offsetLeft + period.offsetWidth / 2;
-          const originY = period.offsetTop + period.offsetHeight * 0.8;
-          return { W, scale, ground, px, py, originX, originY };
+          const py = lockup.offsetTop + period.offsetTop + period.offsetHeight * 0.76;
+          return { W, scale, ground, R, s, px, py, lift: pin.clientHeight * 0.1 };
         };
-        const dotScaleAtPeriod = () => Math.max(0.28, (period.offsetWidth * 0.6 * PUSH) / dot.offsetWidth);
-        /** Pixel translation of the 1x layers so that svg x lands at screen fraction `frac`. */
-        const worldX = (svgX: number, frac: number) => () => {
-          const { W, scale } = m();
-          return frac * W - svgX * scale;
-        };
+        /** Pixel translation of the 1x layers so that scene x lands at screen fraction `frac`. */
+        const worldX = (sceneX: number, frac: number) => () => frac * m().W - sceneX * m().scale;
 
-        const dots = gsap.utils.toArray<SVGCircleElement>('.w-fam', top);
-        const posterDots = dots.filter((d) => d.classList.contains('w-fam--poster'));
-        const leftDots = dots.filter((d) => d.classList.contains('w-fam--left'));
-        const rightDots = dots.filter((d) => d.classList.contains('w-fam--right'));
+        const top = layers.top;
         const signals = gsap.utils.toArray<SVGGElement>('.w-signal', top);
         const glows = gsap.utils.toArray<SVGRectElement>('.w-glow', top);
-        const banner = top.querySelector('.w-banner')!;
-        const sign = mid.querySelector('.w-sign')!;
-        const tumble = fg.querySelector('.w-tumble')!;
-        const mutes = gsap.utils.toArray<SVGRectElement>('.w-mute', world);
+        const bunting = gsap.utils.toArray<SVGElement>('.w-bunting', top);
+        const banner = q<SVGGElement>('.w-banner', top);
+        const landing = q<SVGGElement>('.w-landing', top);
+        const mail = q<SVGGElement>('.w-mail', top);
+        const enroll = q<SVGGElement>('.w-enroll', top);
+        const famAds = gsap.utils.toArray<SVGGElement>('.w-fam--ads', top);
+        const famLeft = gsap.utils.toArray<SVGGElement>('.w-fam--left', top);
+        const famRight = gsap.utils.toArray<SVGGElement>('.w-fam--right', top);
+        const famLate = q<SVGGElement>('.w-fam--late', top);
+        const mover = (g: SVGGElement) => g.querySelector<SVGGElement>('.w-fam__m')!;
+        const famLeftM = famLeft.map(mover);
+        const famRightM = famRight.map(mover);
+        const famLateM = mover(famLate);
+        const mailM = q<SVGGElement>('.w-mail__m', top);
+        const flag = q<SVGElement>('.w-flag', layers.mid);
         const captions = gsap.utils.toArray<HTMLElement>('.story__caption', pin);
 
-        // Initial states
-        gsap.set(dot, { xPercent: -50, yPercent: -50, x: () => m().px, y: () => m().py, scale: dotScaleAtPeriod, opacity: 0, transformOrigin: '50% 100%' });
-        gsap.set(world, { opacity: 0 });
-        gsap.set([bg, mid, top, fg], { x: 0 });
-        gsap.set(mutes, { opacity: 0.85 });
-        gsap.set(banner, { opacity: 0, scale: 0.5, transformOrigin: '50% 100%' });
-        gsap.set(signals, { opacity: 0, scale: 0.6, transformOrigin: '50% 100%' });
+        // ---- initial states
+        // Palette: one number drives every fill. GSAP's CSS-variable support proved unreliable for color strings,
+        // so the mix is computed in JS and written with setProperty.
+        const palette = { t: 0 };
+        const applyPalette = () => {
+          const p = mixPalette(palette.t);
+          (Object.keys(p) as (keyof typeof p)[]).forEach((k) => world.style.setProperty(k, p[k]));
+        };
+        applyPalette();
+        gsap.set(world, { opacity: 0, y: 40 });
+        gsap.set(Object.values(layers), { x: 0 });
+        gsap.set(char, { x: () => m().px, y: () => m().py + m().R * m().s });
+        gsap.set(dot, { scale: () => m().s, opacity: 0, transformOrigin: '50% 100%' });
+        gsap.set(shadow, { opacity: 0, scaleX: 1, transformOrigin: '50% 50%' });
+        gsap.set([banner, ...signals, landing, mail, enroll, ...famAds, famLate], { opacity: 0, scale: 0.6, transformOrigin: '50% 100%' });
         gsap.set(glows, { opacity: 0 });
-        gsap.set(posterDots, { opacity: 0, scale: 0, transformOrigin: '50% 50%' });
-        gsap.set(leftDots, { opacity: 0, scale: 0.35, x: (i, el: SVGCircleElement) => 3135 + (i % 3) * 14 - +el.getAttribute('cx')!, y: (i) => 570 + (i % 4) * 22 - 745 });
-        gsap.set(rightDots, { opacity: 0, scale: 0.35, x: (i, el: SVGCircleElement) => 4135 + (i % 3) * 14 - +el.getAttribute('cx')!, y: (i) => 570 + (i % 4) * 22 - 745 });
-        gsap.set(captions, { opacity: 0, y: 14 });
-        gsap.set(finalBlock, { opacity: 0, y: 10, pointerEvents: 'none' });
-        gsap.set(lockup, { scale: 1, opacity: 1 });
+        gsap.set(bunting, { scale: 0, transformOrigin: '50% 0%' });
+        gsap.set([...famLeft, ...famRight], { opacity: 0 });
+        gsap.set(famLeftM, { x: -420 });
+        gsap.set(famRightM, { x: 420 });
+        gsap.set(captions, { opacity: 0, y: 28 });
+        gsap.set(captions.map((c) => c.querySelector('.story__caption-rule')), { scaleX: 0, transformOrigin: '0 50%' });
+        gsap.set(finalBlock, { opacity: 0, y: 16, pointerEvents: 'none' });
+        gsap.set(lockup, { opacity: 1, y: 0 });
         gsap.set(lockupWrap, { y: 0 });
-        const lift = () => pin.clientHeight * 0.1; // the logo rises a little at the end to make room for the CTA
         gsap.set(period, { opacity: 1 });
+        gsap.set(cue, { opacity: 1 });
 
         const tl = gsap.timeline({
           defaults: { ease: 'none' },
@@ -109,114 +130,144 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
             trigger: stageEl,
             pin,
             start: 'top top',
-            end: '+=650%',
-            scrub: 0.6,
+            end: '+=600%',
+            scrub: 0.5,
             anticipatePin: 1,
             invalidateOnRefresh: true,
-            onUpdate: (self) => period.classList.toggle('is-pulsing', self.progress < 0.04),
+            onUpdate: (self) => period.classList.toggle('is-pulsing', self.progress < 0.05),
           },
         });
 
-        /** Move all parallax layers so svg x `svgX` arrives at screen fraction `frac`. */
-        const travel = (svgX: number, frac: number, dur: number, pos: string | number) => {
-          tl.to(mid, { x: worldX(svgX, frac), duration: dur }, pos);
-          tl.to(top, { x: worldX(svgX, frac), duration: dur }, pos);
-          tl.to(bg, { x: () => worldX(svgX, frac)() * 0.3, duration: dur }, pos);
-          tl.to(fg, { x: () => worldX(svgX, frac)() * 1.4, duration: dur }, pos);
+        // ---- helpers
+        /** Dolly the camera so scene x `sceneX` arrives at screen fraction `frac`. */
+        const travel = (sceneX: number, frac: number, dur: number, pos: number, ease = 'none') => {
+          (Object.keys(layers) as (keyof typeof layers)[]).forEach((k) => {
+            const ratio = k === 'top' ? PARALLAX.mid : PARALLAX[k as keyof typeof PARALLAX];
+            tl.to(layers[k], { x: () => worldX(sceneX, frac)() * ratio, duration: dur, ease }, pos);
+          });
         };
-        const hop = (n: number, dur: number, pos: number, height = 54) => {
+        /** The character walks: a run of small hops with squash on landing; the shadow tightens while it is in the air. */
+        const walk = (n: number, dur: number, pos: number, height = 30) => {
           const seg = dur / n;
           for (let i = 0; i < n; i++) {
-            tl.to(dot, { y: () => m().ground - height, duration: seg / 2, ease: 'power1.out' }, pos + i * seg);
-            tl.to(dot, { y: () => m().ground, duration: seg / 2, ease: 'power1.in' }, pos + i * seg + seg / 2);
+            const t0 = pos + i * seg;
+            tl.to(dot, { y: -height, scaleX: 0.96, scaleY: 1.06, duration: seg * 0.45, ease: 'power1.out' }, t0);
+            tl.to(shadow, { scaleX: 0.6, opacity: 0.5, duration: seg * 0.45, ease: 'power1.out' }, t0);
+            tl.to(dot, { y: 0, duration: seg * 0.4, ease: 'power1.in' }, t0 + seg * 0.45);
+            tl.to(shadow, { scaleX: 1, opacity: 1, duration: seg * 0.4, ease: 'power1.in' }, t0 + seg * 0.45);
+            tl.to(dot, { scaleX: 1.14, scaleY: 0.88, duration: seg * 0.15, ease: 'power2.out' }, t0 + seg * 0.85);
           }
+          tl.to(dot, { scaleX: 1, scaleY: 1, duration: 0.4, ease: 'power2.out' }, pos + dur);
         };
-        const caption = (i: number, show: number, hold: number) => {
-          tl.to(captions[i], { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out' }, show);
-          tl.to(captions[i], { opacity: 0, y: -8, duration: 0.8, ease: 'power2.in' }, show + hold);
+        const caption = (i: number, show: number, hide: number) => {
+          const el = captions[i];
+          const rule = el.querySelector('.story__caption-rule');
+          tl.to(el, { opacity: 1, y: 0, duration: 1.6, ease: 'power3.out' }, show);
+          tl.to(rule, { scaleX: 1, duration: 1.4, ease: 'power3.out' }, show + 0.3);
+          tl.to(el, { opacity: 0, y: -18, duration: 1.1, ease: 'power2.in' }, hide);
         };
+        const pop = (target: gsap.TweenTarget, pos: number, dur = 1.2, stagger = 0) =>
+          tl.to(target, { opacity: 1, scale: 1, transformOrigin: '50% 100%', duration: dur, stagger, ease: 'back.out(1.7)' }, pos);
 
-        // Beat 0: hold, then the camera pushes toward the period
-        tl.to({}, { duration: 4 }, 0);
-        tl.to(lockup, { scale: PUSH, transformOrigin: () => `${m().originX}px ${m().originY}px`, duration: 6, ease: 'power2.inOut' }, 4);
-        // The period pops free and becomes the character
-        tl.to(period, { opacity: 0, duration: 0.3 }, 10);
-        tl.to(dot, { opacity: 1, duration: 0.3 }, 10);
-        tl.to(dot, { scaleY: 1.25, scaleX: 0.85, duration: 0.8, ease: 'power2.out' }, 10.2);
-        tl.to(lockup, { opacity: 0, duration: 2.5, ease: 'power1.in' }, 11);
-        tl.to(world, { opacity: 1, duration: 3 }, 12);
-        // Fall, squash, rebound, settle at character size
-        tl.to(dot, { y: () => m().ground, scaleX: 1, scaleY: 1, duration: 3.2, ease: 'power2.in' }, 12);
-        tl.to(dot, { x: () => m().W * DOT_FRAC, duration: 4, ease: 'power1.inOut' }, 12);
-        tl.to(dot, { scaleX: 1.45, scaleY: 0.55, duration: 0.5, ease: 'power2.out' }, 15.2);
-        tl.to(dot, { scaleX: 0.9, scaleY: 1.15, duration: 0.6, ease: 'power2.out' }, 15.7);
-        tl.to(dot, { scaleX: 1, scaleY: 1, duration: 0.8, ease: 'elastic.out(1, 0.5)' }, 16.3);
+        // ---- 0 to 6: the lockup holds. The period breathes (CSS), the scroll cue shows.
+        tl.to({}, { duration: 6 }, 0);
+        tl.to(cue, { opacity: 0, duration: 1.2 }, 2.5);
 
-        // Beat 1: lonely road
-        caption(0, 18, 12);
-        tl.to(tumble, { x: -1500, rotation: -900, duration: 14, ease: 'none' }, 17);
-        tl.to(sign, { rotation: -2, transformOrigin: '50% 100%', duration: 3, ease: 'sine.inOut' }, 22)
-          .to(sign, { rotation: 2, duration: 3, ease: 'sine.inOut' }, 25)
-          .to(sign, { rotation: -1.5, duration: 3, ease: 'sine.inOut' }, 28)
-          .to(sign, { rotation: 0, duration: 2, ease: 'sine.inOut' }, 31);
-        travel(1520, DOT_FRAC + 0.02, 14, 20);
-        hop(5, 14, 20);
+        // ---- 6 to 13: the period becomes the character and drops into the world
+        tl.set(period, { opacity: 0 }, 6);
+        tl.set(dot, { opacity: 1 }, 6);
+        tl.to(dot, { scaleX: () => m().s * 1.25, scaleY: () => m().s * 0.75, duration: 0.6, ease: 'power2.out' }, 6);
+        tl.to(dot, { scaleX: () => m().s * 0.9, scaleY: () => m().s * 1.2, duration: 0.5, ease: 'power2.out' }, 6.6);
+        tl.to(char, { y: () => m().py - 110, duration: 1.6, ease: 'power2.out' }, 7);
+        tl.to(dot, { scale: 0.55, duration: 1.6, ease: 'power1.inOut' }, 7);
+        tl.to(lockup, { opacity: 0, y: -30, duration: 2.4, ease: 'power2.in' }, 7);
+        tl.to(world, { opacity: 1, y: 0, duration: 3.6, ease: 'power2.out' }, 7.2);
+        tl.to(char, { y: () => m().ground, duration: 3.2, ease: 'power2.in' }, 8.6);
+        tl.to(char, { x: () => m().W * DOT_FRAC, duration: 4.8, ease: 'power1.inOut' }, 7);
+        tl.to(dot, { scaleX: 1, scaleY: 1, duration: 3.2, ease: 'power1.in' }, 8.6);
+        tl.to(shadow, { opacity: 1, duration: 1, ease: 'power2.in' }, 10.8);
+        tl.to(dot, { scaleX: 1.4, scaleY: 0.66, duration: 0.4, ease: 'power2.out' }, 11.8);
+        tl.to(dot, { scaleX: 0.92, scaleY: 1.12, duration: 0.5, ease: 'power2.out' }, 12.2);
+        tl.to(dot, { scaleX: 1, scaleY: 1, duration: 0.9, ease: 'elastic.out(1, 0.5)' }, 12.7);
 
-        // Beat 2: the character taps the blank sign and it comes alive
-        tl.to(dot, { scaleY: 1.4, scaleX: 0.8, y: () => m().ground - 90, duration: 1, ease: 'power2.out' }, 34);
-        tl.to(dot, { scaleY: 1, scaleX: 1, y: () => m().ground, duration: 1, ease: 'bounce.out' }, 35);
-        tl.to(banner, { opacity: 1, scale: 1, duration: 1.2, ease: 'back.out(2)' }, 35);
-        caption(1, 34, 9);
+        // ---- Beat 1 (14 to 28): a lovely school nobody sees
+        caption(0, 14, 27);
+        travel(850, DOT_FRAC, 12, 15);
+        walk(6, 12, 15);
 
-        // Beat 3: signals spread, one becomes several
-        travel(2700, 0.55, 14, 42);
-        hop(4, 14, 42, 46);
-        tl.to(signals, { opacity: 1, scale: 1, duration: 1.2, stagger: 1.4, ease: 'back.out(1.8)' }, 46);
-        tl.to(mutes, { opacity: 0.45, duration: 12, ease: 'power1.inOut' }, 46);
-        tl.to(posterDots, { opacity: 1, scale: 1, duration: 1, stagger: 0.8, ease: 'back.out(2)' }, 50);
-        caption(2, 45, 11);
+        // ---- Beat 2 (28 to 40): the sign on the corner comes alive
+        caption(1, 29, 39.5);
+        travel(1180, DOT_FRAC, 7, 28);
+        walk(4, 7, 28);
+        tl.to(dot, { y: -70, scaleX: 0.9, scaleY: 1.15, duration: 0.9, ease: 'power2.out' }, 35.6);
+        tl.to(shadow, { scaleX: 0.5, opacity: 0.4, duration: 0.9, ease: 'power2.out' }, 35.6);
+        tl.to(dot, { y: 0, scaleX: 1, scaleY: 1, duration: 0.9, ease: 'bounce.out' }, 36.5);
+        tl.to(shadow, { scaleX: 1, opacity: 1, duration: 0.5, ease: 'power2.in' }, 36.5);
+        pop(banner, 36.3, 1.4);
+        // color begins to arrive, and keeps arriving until the school is full
+        tl.to(palette, { t: 1, duration: 40, ease: 'none', onUpdate: applyPalette }, 36);
 
-        // Beat 4: families arrive from the side streets
-        travel(3600, 0.5, 14, 58);
-        hop(3, 14, 58, 40);
-        tl.to(posterDots, { x: (i) => 1000 + i * 40, duration: 10, ease: 'power1.inOut' }, 58);
-        tl.to(leftDots, { opacity: 1, scale: 1, x: 0, y: 0, duration: 8, stagger: 0.5, ease: 'power1.inOut' }, 60);
-        tl.to(rightDots, { opacity: 1, scale: 1, x: 0, y: 0, duration: 8, stagger: 0.5, ease: 'power1.inOut' }, 62);
-        tl.to(mutes, { opacity: 0, duration: 12, ease: 'power1.inOut' }, 58);
-        caption(3, 59, 11);
+        // ---- Beat 3 (40 to 58): digital ads light up along main street
+        caption(2, 41, 57);
+        travel(2520, DOT_FRAC, 16, 40);
+        walk(7, 16, 40);
+        pop(signals[0], 44.5);
+        pop(signals[1], 47.5);
+        pop(signals[2], 50.5);
+        pop(signals[3], 53.5);
+        pop(famAds, 52, 1.2, 2.2);
 
-        // Beat 5: full school
-        tl.to(dot, { x: () => m().W * 0.5 - 70 * m().scale, duration: 6, ease: 'power1.inOut' }, 72);
-        tl.to(glows, { opacity: 1, duration: 2, stagger: 0.25, ease: 'power2.out' }, 73);
-        tl.to(dots, {
-          x: (_i, el: SVGCircleElement) => 3600 - +el.getAttribute('cx')!,
-          y: (_i, el: SVGCircleElement) => 690 - +el.getAttribute('cy')!,
-          scale: 0,
-          duration: 2.2,
-          stagger: { each: 0.35, from: 'random' },
-          ease: 'power2.in',
-        }, 75);
-        caption(4, 73, 11);
+        // ---- Beat 4 (58 to 78): the landing page, families arrive, the email nudge
+        caption(3, 59, 77);
+        travel(isMobile ? 3120 : 3330, DOT_FRAC, 14, 58);
+        walk(6, 14, 58);
+        pop(landing, 60.5, 1.5);
+        tl.to(famLeft, { opacity: 1, duration: 1.2, stagger: 0.8 }, 62);
+        tl.to(famLeftM, { x: 0, duration: 10, stagger: 0.8, ease: 'power1.inOut' }, 62);
+        tl.to(famRight, { opacity: 1, duration: 1.2, stagger: 0.8 }, 63.5);
+        tl.to(famRightM, { x: 0, duration: 10, stagger: 0.8, ease: 'power1.inOut' }, 63.5);
+        [...famLeftM, ...famRightM].forEach((f, i) => tl.to(f, { y: -6, duration: 0.5, repeat: 17, yoyo: true, ease: 'sine.inOut' }, 62 + i * 0.4));
+        pop(enroll, 64.5, 1.4);
+        tl.to(bunting, { scale: 1, transformOrigin: '50% 0%', duration: 0.8, stagger: 0.18, ease: 'back.out(2)' }, 66);
+        tl.to(glows, { opacity: 1, duration: 1.4, stagger: { each: 0.3, from: 'random' }, ease: 'power2.out' }, 68);
+        pop(famLate, 66.5, 1.2);
+        pop(mail, 71, 1.2);
+        tl.to(mailM, { y: -10, duration: 0.6, repeat: 3, yoyo: true, ease: 'sine.inOut' }, 72.2);
+        tl.to(mail, { opacity: 0, scale: 0.6, duration: 1, ease: 'power2.in' }, 74.8);
+        tl.to(famLateM, { x: -190, duration: 4, ease: 'power1.inOut' }, 74.5);
+        tl.to(famLateM, { y: -6, duration: 0.5, repeat: 7, yoyo: true, ease: 'sine.inOut' }, 74.5);
 
-        // Beat 6: the character returns to its place as the period, the logo reconstitutes, CTA appears
-        tl.to(world, { opacity: 0, duration: 4, ease: 'power1.in' }, 86);
-        tl.set(lockup, { scale: 1, opacity: 0 }, 86);
-        tl.set(lockupWrap, { y: () => -lift() }, 86);
-        tl.to(dot, { x: () => m().px, duration: 6, ease: 'power1.inOut' }, 86);
-        tl.to(dot, { y: () => m().py - lift() - 160, duration: 3, ease: 'power2.out' }, 86);
-        tl.to(dot, { y: () => m().py - lift(), duration: 3, ease: 'power2.in' }, 89);
-        tl.to(dot, { scale: () => Math.max(0.3, period.offsetWidth * 0.6 / dot.offsetWidth), duration: 6, ease: 'power1.inOut' }, 86);
-        tl.to(lockup, { opacity: 1, duration: 3, ease: 'power1.out' }, 89);
-        tl.to(dot, { scaleX: 1.3, scaleY: 0.75, duration: 0.4, ease: 'power2.out' }, 92);
-        tl.to(dot, { scaleX: 1, scaleY: 1, duration: 0.6, ease: 'elastic.out(1, 0.5)' }, 92.4);
-        tl.to(dot, { opacity: 0, duration: 0.3 }, 93.2);
-        tl.to(period, { opacity: 1, duration: 0.3 }, 93.2);
-        tl.to(finalBlock, { opacity: 1, y: 0, pointerEvents: 'auto', duration: 3, ease: 'power2.out' }, 93.5);
-        tl.to({}, { duration: 3 }, 97);
+        // ---- Beat 5 (78 to 90): the full school
+        caption(4, 79, 89.5);
+        travel(3500, 0.5, 7, 78, 'power1.inOut');
+        tl.to(char, { x: () => m().W * 0.5 - 60 * m().scale, duration: 7, ease: 'power1.inOut' }, 78);
+        walk(3, 7, 78);
+        for (let i = 0; i < 6; i++) tl.to(flag, { skewY: i % 2 ? -8 : 8, transformOrigin: '0% 50%', duration: 1, ease: 'sine.inOut' }, 80 + i);
+        tl.to(flag, { skewY: 0, transformOrigin: '0% 50%', duration: 1, ease: 'sine.inOut' }, 86);
+
+        // ---- 90 to 100: the character returns to its place as the period, the logo reconstitutes, the invitation
+        tl.to(world, { opacity: 0, y: 40, duration: 4, ease: 'power2.in' }, 90);
+        tl.to(shadow, { opacity: 0, duration: 1 }, 90);
+        tl.set(lockup, { opacity: 0, y: 0 }, 90);
+        tl.set(lockupWrap, { y: () => -m().lift }, 90);
+        tl.to(char, { x: () => m().px, duration: 6, ease: 'power1.inOut' }, 90);
+        tl.to(char, { y: () => m().py - m().lift - 150, duration: 3, ease: 'power2.out' }, 90);
+        tl.to(char, { y: () => m().py - m().lift + m().R * m().s, duration: 3, ease: 'power2.in' }, 93);
+        tl.to(dot, { scale: () => m().s, duration: 6, ease: 'power1.inOut' }, 90);
+        tl.to(lockup, { opacity: 1, duration: 3, ease: 'power1.out' }, 93);
+        tl.to(dot, { scaleX: () => m().s * 1.3, scaleY: () => m().s * 0.72, duration: 0.4, ease: 'power2.out' }, 96);
+        tl.to(dot, { scaleX: () => m().s, scaleY: () => m().s, duration: 0.7, ease: 'elastic.out(1, 0.5)' }, 96.4);
+        tl.set(dot, { opacity: 0 }, 97.2);
+        tl.set(period, { opacity: 1 }, 97.2);
+        tl.to(finalBlock, { opacity: 1, y: 0, pointerEvents: 'auto', duration: 2.4, ease: 'power2.out' }, 97);
+        tl.to({}, { duration: 1 }, 99);
 
         const refresh = () => ScrollTrigger.refresh();
         document.fonts?.ready.then(refresh);
-        return () => period.classList.remove('is-pulsing');
+        return () => {
+          period.classList.remove('is-pulsing');
+          Object.keys(PALETTE.quiet).forEach((k) => world.style.removeProperty(k));
+        };
       },
     );
 
@@ -231,10 +282,11 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
         </a>
 
         <div className="story__world" aria-hidden="true">
-          <svg className="w-layer w-bg" viewBox="0 0 7000 900" preserveAspectRatio="xMinYMin meet" focusable="false"><SkyDefs /><BgLayer /></svg>
-          <svg className="w-layer w-mid" viewBox="0 0 5200 900" preserveAspectRatio="xMinYMin meet" focusable="false"><MidLayer /></svg>
-          <svg className="w-layer w-top" viewBox="0 0 5200 900" preserveAspectRatio="xMinYMin meet" focusable="false"><TopLayer /></svg>
-          <svg className="w-layer w-fg" viewBox="0 0 5200 900" preserveAspectRatio="xMinYMin meet" focusable="false"><FgLayer /></svg>
+          <svg className="w-layer w-bg" viewBox="0 0 7000 900" preserveAspectRatio="xMinYMin meet" focusable="false"><BgLayer /></svg>
+          <svg className="w-layer w-back" viewBox="0 0 6400 900" preserveAspectRatio="xMinYMin meet" focusable="false"><BackLayer /></svg>
+          <svg className="w-layer w-mid" viewBox="0 0 5600 900" preserveAspectRatio="xMinYMin meet" focusable="false"><MidLayer /></svg>
+          <svg className="w-layer w-top" viewBox="0 0 5600 900" preserveAspectRatio="xMinYMin meet" focusable="false"><TopLayer /></svg>
+          <svg className="w-layer w-fg" viewBox="0 0 8400 900" preserveAspectRatio="xMinYMin meet" focusable="false"><FgLayer /></svg>
         </div>
 
         <div className="story__lockupWrap">
@@ -250,13 +302,23 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
           </div>
         </div>
 
-        <div className="story-dot" aria-hidden="true" />
+        <div className="story-char" aria-hidden="true">
+          <span className="story-char__shadow" />
+          <span className="story-char__dot" />
+        </div>
 
         {BEATS.map((b, i) => (
-          <div className="story__caption" key={b.id} data-beat={b.id}>
-            <h2 className={i === 4 ? 'story__caption-big' : undefined}>{b.text}</h2>
+          <div className={`story__caption ${i === 4 ? 'story__caption--big' : ''}`} key={b.id} data-beat={b.id}>
+            <span className="story__caption-rule" />
+            <h2>{b.text}</h2>
+            {b.sub && <p>{b.sub}</p>}
           </div>
         ))}
+
+        <div className="story__cue" aria-hidden="true">
+          <span>Scroll</span>
+          <span className="story__cue-chevron" />
+        </div>
 
         <div className="story__final">
           <h2>Let's fill your school.</h2>

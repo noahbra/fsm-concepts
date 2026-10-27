@@ -59,6 +59,21 @@ School Websites & Landing Pages; Family Outreach, Nurture & Conversion Support. 
 (Brand Strategy, Creative Content, Web Design, Digital Advertising, Distribution, Social Media Marketing, K-12 Student
 Recruitment). No automation or CRM integration is advertised. REQUIRES_CLIENT_CONFIRMATION.
 
+## How it works (FilmTwist funnel workflow)
+
+The four "How it works" steps on every concept, and beats 3 and 4 of the Concept 03 story, follow the funnel workflow
+published on https://www.filmtwist.com/k-12-student-recruitment (read October 27, 2026, requested by Noah):
+
+1. Digital ads tailored to the school, launched across Google, Meta (Facebook and Instagram), TikTok, and/or streaming
+   advertisement (Spotify, Roku). The page graphic also shows YouTube and LinkedIn icons.
+2. Ads bring interested parents to a landing page where they enter email and contact information and can start the
+   enrollment process.
+3. Form submitted leads to conversion (enrollment). No form leads to an email campaign that brings the family back.
+
+Wording in `src/content/services.ts` (`approach`) is adapted for school readers; the steps and channels are FilmTwist's.
+"Direct target mailing" and "graphic design", listed under "Other services" on the same page, are not part of the funnel
+and are not shown as steps.
+
 ## Calls to action
 
 - Active destination on all concepts: https://www.filmtwist.com/consulting (public page). No form claims to submit anything.

@@ -41,7 +41,7 @@ proof is literally placed in time rather than floating as abstract numbers.
 2. What to do now: four grounded moves for the selected season, each tied to a service.
 3. Services: the five capabilities, reordered by season, with "why now".
 4. Proof: campaign windows on the calendar, then three case cards (lead case first), full attribution.
-5. How it works: the same four steps every season (Get seen, Build trust, Turn interest into action, Measure what works).
+5. How it works: the same four funnel steps every season (ads where families already are, a landing page that starts enrollment, email follow-up for families who need a nudge, applications you can count), from FilmTwist's K-12 recruitment page.
 6. About: the creative team behind FSM, with the FilmTwist relationship stated plainly.
 7. CTA band with the season-specific ask, plus "Not sure which season you are in? Start a conversation anyway."
 8. Footer.

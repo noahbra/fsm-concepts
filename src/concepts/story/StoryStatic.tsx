@@ -4,9 +4,9 @@ import { StaticScene, type SceneState } from './TownScene';
 
 const FRAMES: { state: SceneState; viewBox: string; title: string; line: string }[] = [
   { state: 'quiet', viewBox: '0 0 1600 900', title: "What if families don't know you're here?", line: 'A wonderful school, a quiet street, and no reason for anyone to look twice.' },
-  { state: 'signage', viewBox: '900 0 1600 900', title: "Let's change that.", line: 'It starts with a clear identity and a sign that says who you are.' },
-  { state: 'spreading', viewBox: '1800 0 1600 900', title: 'Give families a reason to notice.', line: 'Posters, search, social and wayfinding light up, and one family becomes several.' },
-  { state: 'full', viewBox: '2800 0 1600 900', title: 'Great schools deserve to be seen. And chosen.', line: 'Families find the route, walk through the door, and the school fills with life.' },
+  { state: 'signage', viewBox: '700 0 1600 900', title: "Let's change that.", line: 'It starts with a clear identity and a sign that says who you are.' },
+  { state: 'spreading', viewBox: '1700 0 1600 900', title: 'Ads where families already are.', line: 'Google, Facebook, Instagram, TikTok and streaming carry your school to the parents who are looking.' },
+  { state: 'full', viewBox: '2750 0 1600 900', title: 'A landing page that starts enrollment.', line: 'Families share their details, begin the application, and get an email nudge if they need one. The school fills.' },
 ];
 
 /** Reduced-motion and paused alternative: the same world as four still frames, same words, same CTA. */
@@ -35,7 +35,7 @@ export function StoryStatic() {
         ))}
       </ol>
       <div className="story-static__final">
-        <h3>Let's fill your school.</h3>
+        <h3>Great schools deserve to be seen. And chosen.</h3>
         <div className="story__final-actions">
           <a className="btn btn--primary" data-testid="cta-primary" href={ctaHref} target="_blank" rel="noopener noreferrer">{siteConfig.primaryCta}</a>
           <a className="btn btn--ghost" href="#work">{siteConfig.secondaryCta}</a>

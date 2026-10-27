@@ -53,12 +53,21 @@ Proof as oversized numerals with the historical period attached.
 **Thesis.** Many excellent schools are simply under-discovered. Visibility, not quality, is what changes.
 
 **How it shows up.** The page opens on the official logo with the tagline "grow your own." set as live text beneath it. On
-scroll the period pops free, falls, squashes and becomes a small character. A pinned, side-scrolling inline-SVG town
-(hills, street, a lovely but quiet school, a tumbleweed, a blank sign) desaturates to color as the character activates
-signage, posters, a search card and a lightbox; more dots arrive from side streets and converge on the school; the world
-is vibrant; the dot arcs back up to become the period again and the CTA appears. Then a conventional, readable site:
-three case studies, services, "from visibility to enrollment", CTA, footer. "Skip the story" at the top, "Rewatch"
-after it, and a static four-frame version under reduced motion. Josefin Sans with Nunito for a rounded, friendly body.
+scroll the period pops free, drops into the world, squashes on landing and becomes a small character with a shadow. A pinned,
+side-scrolling town drawn as layered paper cut-outs (sky, far rooftops, a street of houses and shops, the school, foreground
+lamps and bushes at five parallax depths) begins in a muted dusk palette and warms into brand color as one continuous tween.
+The five beats follow FilmTwist's published K-12 recruitment funnel: a blank sign comes alive; digital ads (a social video on a
+phone, a search result, a streaming spot, a shelter poster) light up along main street and the first families appear; a
+landing page card opens, families walk in from both sides, bunting and window light fill the school, and an email nudges the
+one family that hesitated; the school is full, seen and chosen. Captions are editorial type set in the sky with a short
+subline, not boxes. The character arcs back to its place as the period, the logo reconstitutes and the CTA appears. Then a
+conventional, readable site: three case studies, services, the four-step funnel, CTA, footer. "Skip the story" at the top,
+"Rewatch" after it, and a static four-frame version (same world, same palette journey) under reduced motion. Josefin Sans
+with Nunito for a rounded, friendly body.
+
+Revised October 27, 2026 after Noah's review of the first build ("the scroll animation is not professionally done"): the clip-art
+town, the saturation-blend desaturation, the 2.8x raster logo zoom, the tooltip-style caption boxes and the marble "families"
+were all replaced.
 
 **Strength.** The one people will remember and talk about at the conference.
 **Tradeoff.** Longest path to the services; the most engineering to maintain; must be tested on real iOS devices.

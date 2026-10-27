@@ -72,9 +72,16 @@ export const services: Service[] = [
   },
 ];
 
+/**
+ * How it works: FilmTwist's published K-12 recruitment funnel workflow
+ * (https://www.filmtwist.com/k-12-student-recruitment, read 10/27/2026). Digital ads across Google, Meta
+ * (Facebook and Instagram), TikTok and streaming (Spotify, Roku) send interested parents to a landing page
+ * that collects contact information and lets them start enrollment; families who do not submit the form
+ * get an email campaign. Wording here is adapted for schools; the steps are FilmTwist's.
+ */
 export const approach = [
-  { id: 'seen', title: 'Get seen', line: 'Reach the families who are looking for a school like yours.' },
-  { id: 'trust', title: 'Build trust', line: 'Real classrooms, real students, real stories. Not stock photos.' },
-  { id: 'action', title: 'Turn interest into action', line: 'Clear next steps: inquiry, tour, application.' },
-  { id: 'measure', title: 'Measure what works', line: 'Leads, applications, and cost per lead, reported honestly.' },
+  { id: 'ads', title: 'Ads where families already are', line: 'Digital ads made for your school, running on Google, Facebook, Instagram, TikTok and streaming platforms like Spotify and Roku.' },
+  { id: 'landing', title: 'A landing page that starts enrollment', line: 'Interested parents land on a page built to answer their first questions, share their contact details, and begin the enrollment process.' },
+  { id: 'email', title: 'Follow-up for families who need a nudge', line: 'Families who look but do not apply get an email campaign that brings them back when they are ready.' },
+  { id: 'enroll', title: 'Applications you can count', line: 'Leads, applications and enrollments, reported against the campaign window so you can see what the work produced.' },
 ] as const;

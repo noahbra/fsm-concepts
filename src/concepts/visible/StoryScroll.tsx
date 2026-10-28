@@ -112,7 +112,7 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
           (Object.keys(p) as (keyof typeof p)[]).forEach((k) => world.style.setProperty(k, p[k]));
         };
         applyPalette();
-        gsap.set(world, { opacity: 0, y: 40 });
+        gsap.set(world, { opacity: 1, y: 0, yPercent: 100 }); // the town waits below the viewport and scrolls up into place
         gsap.set(Object.values(layers), { x: 0 });
         gsap.set(char, { x: () => m().px, y: () => m().py + m().R * m().s });
         gsap.set(dot, { scale: () => m().s, opacity: 0, transformOrigin: '50% 100%' });
@@ -200,7 +200,7 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
         tl.to(dot, { scaleX: () => m().s * 0.9, scaleY: () => m().s * 1.25, duration: 0.8, ease: 'power2.out' }, 0.3); // stretches as it pulls away
         tl.to(char, { y: () => m().py + 24, duration: 2.5, ease: 'power1.in' }, 0.3); // a slow slip while the logo lifts
         tl.to(lockup, { opacity: 0, duration: 2.4, ease: 'power2.in' }, 2); // the logo fades as it rises
-        tl.to(world, { opacity: 1, y: 0, duration: 4, ease: 'power2.out' }, 3);
+        tl.to(world, { yPercent: 0, duration: 6.5, ease: 'power2.out' }, 0); // the town scrolls up into position, in place before the dot lands
         tl.to(char, { y: () => m().ground, duration: 4.4, ease: 'power2.in' }, 2.8); // the drop
         tl.to(char, { x: () => m().W * DOT_FRAC, duration: 6, ease: 'power1.inOut' }, 1);
         tl.to(dot, { scaleX: 1, scaleY: 1, duration: 4.4, ease: 'power1.in' }, 2.8);

@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { brand } from '../../content/media';
-import { ctaHref, siteConfig } from '../../content/config';
+import { siteConfig } from '../../content/config';
 import { BackLayer, BgLayer, FgLayer, GY, MidLayer, PALETTE, TopLayer, mixPalette } from './TownScene';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -325,7 +325,7 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
           <div className="story__intro">
             <h1 className="story__h1">{siteConfig.heroLine}</h1>
             <div className="story__intro-actions">
-              <a className="btn btn--primary" data-testid="cta-intro" href={ctaHref} target="_blank" rel="noopener noreferrer">{siteConfig.primaryCta}</a>
+              <a className="btn btn--primary" data-testid="cta-intro" href="#contact">{siteConfig.primaryCta}</a>
               <a className="story__skip" data-testid="skip-story" href="#services">Skip the story</a>
             </div>
           </div>
@@ -353,7 +353,7 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
           <h2>Let's fill your school.</h2>
           <p>Enrollment strategy, standout creative, and campaigns that help families find you.</p>
           <div className="story__final-actions">
-            <a className="btn btn--primary" data-testid="cta-primary" href={ctaHref} target="_blank" rel="noopener noreferrer">{siteConfig.primaryCta}</a>
+            <a className="btn btn--primary" data-testid="cta-primary" href="#contact">{siteConfig.primaryCta}</a>
             <button type="button" className="story__rewatch" onClick={rewatch}>Rewatch the story</button>
           </div>
         </div>

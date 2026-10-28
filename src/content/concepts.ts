@@ -98,3 +98,35 @@ export const mergedDirection: ConceptMeta = {
 };
 
 export const hubPath = url('');
+
+/** The merged direction's version label and the checklist of reviewer notes it answers, shown on the hub. */
+export const mergedVersion = { label: 'Version 2', date: 'October 28, 2026' };
+
+export type ChecklistState = 'done' | 'partly' | 'not-done';
+export interface ChecklistItem { note: string; state: ChecklistState; how: string }
+export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
+  {
+    round: 'First-round reviews, October 27',
+    items: [
+      { note: 'Keep the animated opener, but shorter, and let people skip it', state: 'done', how: 'The story runs at about half of Concept 03\'s length, with a skip link on the first screen.' },
+      { note: 'Put what we do right under the hero, then the case studies', state: 'done', how: 'Services are the first section after the opener; the three campaigns follow.' },
+      { note: 'Simpler graphics, like Concept 01\'s photos', state: 'done', how: 'One card style, photo-led. Concept 02\'s collage, marquee and kinetic type are not used.' },
+      { note: 'Bring out more of the brand colors', state: 'done', how: 'Headings in the kit blue, kit-blue buttons, brand tints in the story\'s quiet palette, kit green and teal as accents.' },
+      { note: 'Keep the fonts and the interactivity', state: 'partly', how: 'Josefin Sans, the brand guide\'s typeface, throughout rather than Concept 02\'s Archivo. Interactivity is one system: the story, a reveal on photos, cards that expand in place.' },
+      { note: 'No hard numbers or estimates up front', state: 'done', how: 'No figures until the case studies, where each number carries its unit, period and source.' },
+      { note: 'Less text; no wall of text after the work', state: 'done', how: 'One line per service, under 60 words per section below the hero.' },
+      { note: 'The story as a pop-up video instead of the opener', state: 'not-done', how: 'Kept as the opener because the brand review rated it as the brand; the skip makes it optional. A one-screen hero with a "Watch the story" button is ready to build if the pop-up is still wanted.' },
+      { note: 'Better thumbnail photos', state: 'partly', how: 'The cards lead with the strongest published campaign photos. New photography is a production item.' },
+    ],
+  },
+  {
+    round: 'Project review of Version 1, October 28',
+    items: [
+      { note: 'Service cells the same size, as a visual', state: 'done', how: 'Five equal tiles, each with an icon.' },
+      { note: 'Case studies as pages on this site, not links to filmtwist.com', state: 'done', how: 'Each campaign has its own page here: results, the work, campaign creative. The published source is cited at the foot.' },
+      { note: 'Cut-out photos of the team for "Who you work with"', state: 'done', how: 'Eleven team members from the FilmTwist About page, names and roles as published. Reuse to confirm.' },
+      { note: 'A work-with-us form wired to FilmTwist\'s form system', state: 'done', how: 'FilmTwist\'s LeadConnector contact form is embedded in the Contact section; submissions go to the FilmTwist account.' },
+      { note: 'Headers in FSM colors', state: 'done', how: 'Section headings use the kit blue (5.3:1 on white, passes AA).' },
+    ],
+  },
+];

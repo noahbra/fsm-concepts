@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { concepts, mergedDirection, type ConceptId, type ConceptMeta } from '../../content/concepts';
+import { concepts, mergedChecklist, mergedDirection, mergedVersion, type ConceptId, type ConceptMeta } from '../../content/concepts';
 import { siteConfig } from '../../content/config';
 import { brand } from '../../content/media';
 import { SkipLink } from '../../components/SkipLink';
@@ -308,6 +308,22 @@ export default function App() {
             Built from the October 27 feedback: Concept 03's opening story, shortened and skippable; Concept 01's structure and clarity below it; one motion rule instead of Concept 02's devices; no numbers up front. The team section uses your published wording and is yours to correct. Campaign photos still carry the reuse note until approval.
           </p>
           <div className="cards cards--one"><ConceptCard c={mergedDirection} merged /></div>
+          <h3 className="hub__subhead">What {mergedVersion.label} addresses <span className="hub__version">({mergedVersion.date})</span></h3>
+          <div className="checklist" data-testid="merged-checklist">
+            {mergedChecklist.map((r) => (
+              <section key={r.round} aria-label={r.round}>
+                <h4>{r.round}</h4>
+                <ul>
+                  {r.items.map((it) => (
+                    <li key={it.note} className={`checklist__item is-${it.state}`}>
+                      <span className="checklist__mark">{it.state === 'done' ? 'Done' : it.state === 'partly' ? 'Partly' : 'Not yet'}</span>
+                      <span><strong>{it.note}.</strong> {it.how}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
           <h3 className="hub__subhead">Does this resolve your notes?</h3>
           <MergedFeedbackForm />
         </section>

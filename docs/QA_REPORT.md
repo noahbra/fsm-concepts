@@ -19,6 +19,27 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 28, 2026 (second): Concept 05 Version 2
+
+Noah's review of the Version 1 preview asked for six changes (recorded in `CONCEPT_05_BRIEF.md`, "Round 2 decisions"):
+equal service tiles with icons; case studies as pages on this site; cut-out team photos; a work-with-us form wired to
+FilmTwist's form system; headings in FSM colors; a feedback-addressed checklist on the hub. All six are built.
+
+- New routes: `visible/work/aspire/`, `visible/work/friendship/`, `visible/work/envision/` (Vite inputs added). The four
+  originals are still byte-identical to `main`.
+- The contact form is FilmTwist's LeadConnector "RFI Contact Form", embedded as filmtwist.com/contact embeds it. No test
+  submission was made; the wiring is verified by the iframe source and form id, and by the frame rendering FilmTwist's live
+  form (fields, consent text, Turnstile) in the preview. Its frame never reaches network idle and logs its own captcha
+  messages, so the test helpers now attribute third-party frame requests and Content Security Policy messages to the third party.
+- Playwright: 192 passed, 0 failed (2.0 min), four projects. Added: three case-page tests and assertions for the five equal
+  tiles, eleven team photos, the embedded form and the hub checklist. Defects found and fixed during this QA: case-page header
+  overflow at 375px (a grid column sized to content); uneven team cells when a role wraps; rating radios sit under their
+  styled labels, so the hub tests now click the label as a reviewer does (the earlier forced clicks had masked this).
+- Lighthouse 13, same flags as the first Concept 05 run, October 28, 2026, `/visible/`: Performance 93, Accessibility 100,
+  Best practices 77, SEO 63, LCP 3.1 s, TBT 130 ms, CLS 0. Best practices fell from 100 to 77 on two audits
+  (`third-party-cookies`, `inspector-issues`), both raised by the embedded LeadConnector form and its Cloudflare Turnstile;
+  consent language before launch is listed in `PRODUCTION_HANDOFF.md`. SEO is the `noindex` reason below.
+
 ## Revision October 28, 2026: Concept 05, the merged direction
 
 Built from the October 27 reviewer feedback to `docs/CONCEPT_05_BRIEF.md` (v4, approved by Noah before the build). `src/concepts/visible/`

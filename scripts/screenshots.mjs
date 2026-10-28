@@ -19,7 +19,8 @@ for (const [id, path] of pages) {
   for (const [kind, vp] of [['desktop', { width: 1440, height: 900 }], ['mobile', { width: 390, height: 844 }]]) {
     const ctx = await browser.newContext({ viewport: vp, deviceScaleFactor: 1, isMobile: kind === 'mobile', hasTouch: kind === 'mobile' });
     const page = await ctx.newPage();
-    await page.goto(base + path, { waitUntil: 'networkidle' });
+    await page.goto(base + path, { waitUntil: 'load' });
+  await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {}); // the embedded form's frame never goes idle
     await page.waitForTimeout(800);
     // poster: first viewport only, without the reviewer ribbon/pill so the card shows the concept itself
     await page.addStyleTag({ content: '.review-ribbon,.review-pill{display:none !important}' });

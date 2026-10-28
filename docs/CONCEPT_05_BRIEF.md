@@ -20,6 +20,17 @@ A school families cannot see becomes visible, and everything on the page becomes
 | Hard numbers up front | None, anywhere | A figure reads as a promise. Case study metrics stay, with their source, pending the client confirmation listed in `docs/CONTENT_AND_CLAIMS.md` |
 | The dusk palette vs "bring out our branding" | Bias the quiet palette toward kit tints | The quiet state becomes blue-tint and teal-tint paper rather than gray, so the brand is present before the color arrives |
 
+### Round 2 decisions (Noah, October 28, 2026, on the Version 1 preview)
+
+| Ask | Call | How it is built |
+| --- | --- | --- |
+| "What we do" cells the same size, as a visual | Five equal tiles, each with a line icon in kit blue on a blue tint | `grid-template-columns: repeat(5, 1fr)` with `grid-auto-rows: 1fr` from 1100px; one column of equal rows below, icon left. Icons are inline SVG in `ServiceIcons.tsx`, no icon font |
+| Case studies as pages on this site, not links to filmtwist.com | Three pages at `visible/work/<case>/` built from `content/caseStudies.ts`: facts, hero, every metric with unit and period, the work, campaign creative, a call to the form, previous and next. The published FilmTwist page is cited once at the foot | The card's "Read the case study" link is internal; no card links to filmtwist.com. Cards still expand in place |
+| Cut-out team photos for "Who you work with" | Eleven members from filmtwist.com/about, names and roles as published, subjects lifted from the headshots (macOS Vision), on brand-tint discs | `content/team.ts`, `public/assets/team/`. Reuse is a client approval, noted on the page |
+| A work-with-us form wired to FilmTwist's form system | FilmTwist's own LeadConnector "RFI Contact Form" (id `DveY4KWgzKqaGiHAAA2e`), embedded exactly as filmtwist.com/contact embeds it. Every call to action on the page now lands on `#contact` | The frame's look (black, agency logo, gold button) is set inside FilmTwist's LeadConnector account and cannot be styled from outside; it also carries Cloudflare Turnstile, so a native FSM-styled form cannot post to it. Ask: FilmTwist duplicates the form in LeadConnector as an "FSM" form (white, kit-blue button, school-specific service options); one config value swaps it in |
+| Should headers use FSM colors | Yes. Section headings in the kit blue #3D6EA3 (5.3:1 on white, AA for all sizes); H3 in the measured blue-deep | The story captions keep their own colors |
+| A feedback-addressed checklist on the hub | On the hub, under the merged card: each first-round note and each round-2 ask with Done, Partly or Not yet and one line on how, no reviewer names | `mergedChecklist` in `content/concepts.ts` |
+
 ## Build rule: fork, do not modify
 
 Concepts 01 to 04 stay live and unchanged for comparison. The new concept lives in `src/concepts/visible/` and copies `TownScene.tsx`, `StoryScroll.tsx`, `StoryStatic.tsx` and `story.css` from `src/concepts/story/`, then changes them there. No class renaming: each concept is its own Vite entry with its own stylesheet, so nothing leaks. The duplicate is acceptable because 01 to 04 are disposable once the direction is chosen.

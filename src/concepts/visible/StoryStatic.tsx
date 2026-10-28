@@ -1,5 +1,5 @@
 import { brand } from '../../content/media';
-import { ctaHref, siteConfig } from '../../content/config';
+import { siteConfig } from '../../content/config';
 import { StaticScene, type SceneState } from './TownScene';
 
 const FRAMES: { state: SceneState; viewBox: string; title: string; line: string }[] = [
@@ -21,7 +21,7 @@ export function StoryStatic() {
         <p className="story__tagline"><span>grow your own</span><span className="story-period">.</span></p>
       </div>
       <h1 className="story__h1">{siteConfig.heroLine}</h1>
-      <a className="btn btn--primary" data-testid="cta-intro" href={ctaHref} target="_blank" rel="noopener noreferrer">{siteConfig.primaryCta}</a>
+      <a className="btn btn--primary" data-testid="cta-intro" href="#contact">{siteConfig.primaryCta}</a>
       <h2 id="story-static-title" className="story-static__title">The Invisible School</h2>
       <p className="story-static__intro">Many excellent schools are simply under-discovered. Here is how that changes.</p>
       <ol className="story-static__frames">
@@ -39,7 +39,7 @@ export function StoryStatic() {
       <div className="story-static__final">
         <h3>Let's fill your school.</h3>
         <p className="story-static__intro">Enrollment strategy, standout creative, and campaigns that help families find you.</p>
-        <a className="btn btn--primary" data-testid="cta-primary" href={ctaHref} target="_blank" rel="noopener noreferrer">{siteConfig.primaryCta}</a>
+        <a className="btn btn--primary" data-testid="cta-primary" href="#contact">{siteConfig.primaryCta}</a>
       </div>
     </section>
   );

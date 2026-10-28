@@ -2,15 +2,16 @@ import { useEffect, useState } from 'react';
 import { SkipLink } from '../../components/SkipLink';
 import { ReviewPill, ReviewRibbon } from '../../components/ReviewChrome';
 import { ResponsiveMedia } from '../../components/ResponsiveMedia';
-import { MetricInline, ProofNote, SourceLink } from '../../components/CaseStudyProof';
-import { SocialLinks } from '../../components/SocialLinks';
+import { MetricInline, ProofNote } from '../../components/CaseStudyProof';
 import { caseStudies, headlineMetric, type CaseStudy } from '../../content/caseStudies';
 import { services } from '../../content/services';
-import { ctaHref, siteConfig } from '../../content/config';
-import { brand } from '../../content/media';
+import { siteConfig, url } from '../../content/config';
+import { team, teamSource } from '../../content/team';
 import { useReducedMotion } from '../../lib/motion';
 import { StoryScroll } from './StoryScroll';
 import { StoryStatic } from './StoryStatic';
+import { ServiceIcon } from './ServiceIcons';
+import { LeadConnectorForm, MobileCta, SiteFooter, SiteHeader } from './Chrome';
 
 type MotionPref = 'auto' | 'on' | 'off';
 
@@ -34,13 +35,19 @@ export function App() {
     return () => { io.disconnect(); root.classList.remove('reveal-ready'); };
   }, [reduced]);
 
-  // The mobile CTA bar hides over the footer; in the static (reduced-motion) version it appears once the first frame scrolls away.
+  // The mobile CTA bar hides over the form and the footer; in the static (reduced-motion) version it appears once the first frame scrolls away.
   useEffect(() => {
     const root = document.documentElement;
     const footer = document.querySelector('.site-footer');
-    if (!footer || typeof IntersectionObserver === 'undefined') return;
-    const io = new IntersectionObserver((entries) => root.classList.toggle('is-at-footer', entries.some((e) => e.isIntersecting)), { threshold: 0.05 });
+    const contact = document.getElementById('contact');
+    if (!footer || !contact || typeof IntersectionObserver === 'undefined') return;
+    const seen = new Map<Element, boolean>();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => seen.set(e.target, e.isIntersecting));
+      root.classList.toggle('is-at-footer', Boolean(seen.get(footer)) || Boolean(seen.get(contact)));
+    }, { threshold: 0.05 });
     io.observe(footer);
+    io.observe(contact);
     let onScroll: (() => void) | undefined;
     if (showStatic) {
       onScroll = () => root.classList.toggle('is-past-intro', window.scrollY > window.innerHeight * 0.6);
@@ -55,24 +62,8 @@ export function App() {
       <SkipLink target="#site-content" label="Skip to services and proof" />
       <ReviewRibbon conceptId="visible" />
 
-      <header className="site-header">
-        <a className="site-header__brand" href="#top" aria-label="Full School Marketing, home">
-          <img src={brand.emblemColor} width={40} height={40} alt="" />
-          <span>Full School Marketing</span>
-        </a>
-        <nav className="site-header__nav" aria-label="Site">
-          <a href="#services">Services</a>
-          <a href="#work">Work</a>
-          <a href="#team">Team</a>
-          <a href="#contact">Contact</a>
-          <a className="site-header__cta" href={ctaHref} target="_blank" rel="noopener noreferrer">Let's talk</a>
-        </nav>
-      </header>
-
-      {/* Below 700px: one primary button per viewport. Shown from the moment the first frame's button fades; hidden over the footer. */}
-      <div className="mobile-cta" data-testid="mobile-cta">
-        <a className="btn btn--primary" href={ctaHref} target="_blank" rel="noopener noreferrer">{siteConfig.primaryCta}</a>
-      </div>
+      <SiteHeader />
+      <MobileCta />
 
       <main id="main">
         <section id="top" className="story-section" aria-label="The Invisible School, a short story">
@@ -101,6 +92,7 @@ export function App() {
               <ul className="services__list">
                 {services.map((s) => (
                   <li className="service" key={s.id}>
+                    <span className="service__icon"><ServiceIcon id={s.id} /></span>
                     <h3>{s.title}</h3>
                     <p className="service__outcome">{s.outcome}</p>
                   </li>
@@ -122,54 +114,51 @@ export function App() {
             </div>
           </section>
 
-          {/* 4. Who you work with: a real agency, real people, real schools. No placeholder copy. */}
+          {/* 4. Who you work with: a real agency, real people, real schools. Photos and roles as published on the FilmTwist About page. */}
           <section id="team" className="team" aria-labelledby="team-title">
             <div className="wrap team__inner">
               <p className="eyebrow">Team</p>
               <h2 id="team-title">Who you work with.</h2>
               <p className="team__line">{siteConfig.teamLine}</p>
+              <ul className="team__grid" data-testid="team-grid">
+                {team.map((p) => (
+                  <li className="team__member" key={p.slug} data-testid="team-member">
+                    <span className="team__photo">
+                      <picture>
+                        <source type="image/webp" srcSet={p.photo.webp} />
+                        <img src={p.photo.png} width={p.photo.width} height={p.photo.height} alt="" loading="lazy" />
+                      </picture>
+                    </span>
+                    <span className="team__name">{p.name}</span>
+                    <span className="team__role">{p.role}</span>
+                  </li>
+                ))}
+              </ul>
               <p className="team__schools">
                 Campaigns above: {caseStudies.map((c) => c.school).join(', ')}.
               </p>
+              <p className="team__rights">Team photos and roles from <a className="textlink" href={teamSource.url} target="_blank" rel="noopener noreferrer">filmtwist.com/about</a>. Reuse approval pending.</p>
             </div>
           </section>
 
-          {/* 5. The first conversation: what the call covers and what to bring. No figures, one button. */}
-          <section id="contact" className="contact" aria-labelledby="contact-title">
+          {/* 5. Work with us: what the call covers, and FilmTwist's own contact form so the lead lands in their system. */}
+          <section id="contact" className="contact" aria-labelledby="contact-title" data-testid="contact">
             <div className="wrap contact__inner">
-              <p className="eyebrow">Contact</p>
-              <h2 id="contact-title">The first conversation.</h2>
-              <p className="contact__line">{siteConfig.contactLine}</p>
-              <a className="btn btn--primary btn--big" data-testid="cta-final" href={ctaHref} target="_blank" rel="noopener noreferrer">{siteConfig.primaryCta}</a>
+              <div className="contact__copy">
+                <p className="eyebrow">Contact</p>
+                <h2 id="contact-title">Work with us.</h2>
+                <p className="contact__line">{siteConfig.contactLine}</p>
+                <p className="contact__note">The form goes straight to the team.</p>
+              </div>
+              <div className="contact__form" data-testid="contact-form">
+                <LeadConnectorForm />
+              </div>
             </div>
           </section>
         </div>
       </main>
 
-      <footer className="site-footer">
-        <div className="wrap site-footer__inner">
-          <div className="site-footer__brand">
-            <picture>
-              <source type="image/webp" srcSet={brand.logoHorizontalWhite.webp} />
-              <img src={brand.logoHorizontalWhite.src} width={brand.logoHorizontalWhite.width} height={brand.logoHorizontalWhite.height} alt="Full School Marketing" loading="lazy" />
-            </picture>
-            <p>{siteConfig.missionLine}</p>
-          </div>
-          <nav className="site-footer__nav" aria-label="Footer">
-            <a href="#services">Services</a>
-            <a href="#work">Work</a>
-            <a href="#team">Team</a>
-            <a href="#contact">Contact</a>
-          </nav>
-          <div className="site-footer__meta">
-            <p>
-              Powered by the team at <a href={siteConfig.filmtwist.url} target="_blank" rel="noopener noreferrer">{siteConfig.filmtwist.name}</a>.
-            </p>
-            <SocialLinks className="social" />
-            <p className="site-footer__legal">© 2026 {siteConfig.legal.copyrightHolder}. Privacy policy and terms to be supplied.</p>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
       <ReviewPill conceptId="visible" />
     </>
   );
@@ -203,8 +192,8 @@ function CaseCard({ c }: { c: CaseStudy }) {
           <ul className="case__secondary">
             {c.metrics.filter((x) => x !== m).map((x) => <li key={x.unit}><strong>{x.display}</strong> {x.label.toLowerCase()}</li>)}
           </ul>
-          <SourceLink c={c} className="textlink" />
         </div>
+        <a className="textlink case__link" href={url(`visible/work/${c.id}/`)} data-testid="case-link">Read the case study</a>
       </div>
     </article>
   );

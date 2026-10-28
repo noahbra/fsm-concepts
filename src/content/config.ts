@@ -32,6 +32,18 @@ export const siteConfig = {
    *  wording (filmtwist.com/consulting). No figures, no estimate. New copy, REQUIRES_CLIENT_CONFIRMATION. */
   contactLine:
     "A free 30-minute call. Tell us how many seats you need to fill, where last year's families came from, and what you have tried. We'll say what we would do first and what it takes. No proposal before we understand your school.",
+  /** FilmTwist's contact form, embedded exactly as filmtwist.com/contact embeds it (LeadConnector inline widget,
+   *  read 10/28/2026). Submissions land in FilmTwist's LeadConnector account; this site handles nothing. It is the
+   *  agency's general "RFI Contact Form"; an FSM-specific form in the same account would let FilmTwist tag school
+   *  leads separately. REQUIRES_CLIENT_CONFIRMATION. */
+  leadConnector: {
+    formId: 'DveY4KWgzKqaGiHAAA2e',
+    formName: 'RFI Contact Form',
+    height: 993,
+    widgetBase: 'https://api.leadconnectorhq.com/widget/form/',
+    embedScript: 'https://link.msgsndr.com/js/form_embed.js',
+    sourcePage: 'https://www.filmtwist.com/contact',
+  },
   primaryCta: "Let's Fill Your School",
   primaryCtaAlt: 'Talk Enrollment Strategy',
   secondaryCta: 'See Our Work',

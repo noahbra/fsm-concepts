@@ -1,6 +1,6 @@
 import { test, expect, type Page, type ConsoleMessage } from '@playwright/test';
 
-const PAGES = ['', 'clean/', 'creative/', 'story/', 'original/'] as const;
+const PAGES = ['', 'clean/', 'creative/', 'story/', 'original/', 'visible/'] as const;
 const CONCEPTS = ['clean/', 'creative/', 'story/', 'original/'] as const;
 const SCHOOLS = ['Aspire Public Schools', 'Friendship Public Charter School', 'Envision Education'];
 const SOURCES = [
@@ -47,8 +47,8 @@ test.describe('Hub', () => {
     await page.goto('');
     await settle(page);
     const imgs = page.locator('.card__media img');
-    await expect(imgs).toHaveCount(8);
-    for (let i = 0; i < 8; i++) {
+    await expect(imgs).toHaveCount(10); // five cards (the merged direction plus the four originals), desktop and mobile each
+    for (let i = 0; i < 10; i++) {
       await imgs.nth(i).scrollIntoViewIfNeeded();
       await expect.poll(() => imgs.nth(i).evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0), { timeout: 10_000 }).toBe(true);
       const ok = await imgs.nth(i).evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0);
@@ -232,11 +232,11 @@ test('Feedback persists across reload, sends to the form, and copy/export includ
   await page.goto('#feedback?concept=creative');
   await settle(page);
   await expect(page.locator('[data-testid="feedback-concept"][data-concept="creative"]')).toHaveAttribute('aria-pressed', 'true');
-  await page.locator('[data-testid="rating-overall"][value="4"]').check({ force: true });
-  await page.locator('[data-testid="rating-brandFit"][value="5"]').check({ force: true });
+  await page.locator('[data-testid="rating-overall"][value="4"]').check();
+  await page.locator('[data-testid="rating-brandFit"][value="5"]').check();
   await page.getByTestId('favorite').fill('The campaign collage hero');
   await page.getByTestId('change').fill('Lighter first screen on mobile');
-  await page.locator('[data-testid="decision"][value="prefer"]').check({ force: true });
+  await page.locator('[data-testid="decision"][value="prefer"]').check();
   await page.getByTestId('reviewer').fill('Test Reviewer');
   await expect(page.getByTestId('feedback-status')).toHaveText(/Saved on this device/);
   await page.reload();
@@ -291,4 +291,116 @@ test('Feedback send is blocked without a name or any answers, and nothing is pos
   await page.getByTestId('submit-feedback').click();
   await expect(page.getByTestId('feedback-status')).toHaveText(/at least one concept/);
   expect(posts).toBe(0);
+});
+
+test('Concept 05: one H1 names the offer, skip lands on services, cards expand in place, chrome links to the merged question', async ({ page, browser, baseURL }) => {
+  await page.goto('visible/');
+  await settle(page);
+  await expect(page.locator('h1')).toHaveCount(1);
+  await expect(page.locator('h1')).toHaveText(/Ads, video and landing pages/);
+  // first frame: the primary button and the one visible skip control are in the document and clickable
+  const intro = page.getByTestId('cta-intro');
+  await expect(intro).toBeVisible();
+  expect(await intro.getAttribute('href')).toBe(CTA);
+  await expect(page.getByTestId('skip-story')).toHaveCount(1);
+  await page.getByTestId('skip-story').click();
+  await page.waitForTimeout(600);
+  await expect(page.getByTestId('services')).toBeInViewport({ ratio: 0.2 });
+  // sections in the brief's order, services in source order with the outcome line
+  const ids = await page.locator('#site-content section').evaluateAll((els) => els.map((e) => e.id));
+  expect(ids).toEqual(['services', 'work', 'team', 'contact']);
+  await expect(page.locator('#services .service')).toHaveCount(5);
+  await expect(page.locator('#services .service').first()).toContainText('Enrollment Strategy & Positioning');
+  // case cards: three, expanding in place to the source link
+  const cards = page.getByTestId('case-study');
+  await expect(cards).toHaveCount(3);
+  for (const s of SCHOOLS) await expect(page.getByText(s, { exact: false }).first()).toBeAttached();
+  const first = cards.first();
+  await first.scrollIntoViewIfNeeded();
+  await expect(first.locator('.case__more')).toBeHidden();
+  await first.getByRole('button', { name: 'What the campaign did' }).click();
+  await expect(first.locator('.case__more')).toBeVisible();
+  await expect(first.locator('a[href^="https://www.filmtwist.com/work/"]')).toBeVisible();
+  const hrefs = await page.locator('a[href^="https://www.filmtwist.com/work/"]').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).href));
+  for (const s of SOURCES) expect(hrefs, `source link ${s}`).toContain(s);
+  // team line and the first conversation carry the sourced copy, no figures
+  await expect(page.locator('#team')).toContainText('started in 2020');
+  await expect(page.locator('#contact')).toContainText('free 30-minute call');
+  await expect(page.locator('#contact')).not.toContainText(/\d{2,}%|\$\d/);
+  // review chrome points at the merged question, not the four-concept form
+  await expect(page.getByRole('link', { name: 'Does this resolve your notes?' }).first()).toHaveAttribute('href', /#merged$/);
+  // the four originals are untouched by construction: their story page still has its own skip pill
+  await page.goto('story/');
+  await settle(page);
+  await expect(page.locator('.story__skip')).toHaveAttribute('href', '#site-content');
+  // reduced motion: static story with the same first frame and one H1
+  const ctx = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } });
+  const p2 = await ctx.newPage();
+  await p2.goto(new URL('visible/', baseURL!).toString());
+  await settle(p2);
+  await expect(p2.getByTestId('story-static')).toBeVisible();
+  await expect(p2.locator('h1')).toHaveCount(1);
+  await expect(p2.getByTestId('story-static')).toContainText("Let's fill your school.");
+  await ctx.close();
+});
+
+test('Concept 05 on a phone: one primary button per viewport, bar appears after the first frame and hides over the footer', async ({ browser }) => {
+  const ctx = await browser.newContext({ viewport: { width: 375, height: 667 }, isMobile: true, hasTouch: true });
+  const page = await ctx.newPage();
+  await page.goto(new URL('visible/', process.env.PW_BASE_URL ?? 'http://localhost:4173/fsm-concepts/').toString());
+  await settle(page);
+  const bar = page.getByTestId('mobile-cta');
+  await expect(bar).toBeHidden();
+  await expect(page.locator('.site-header__cta')).toBeHidden();
+  await expect(page.getByTestId('cta-intro')).toBeVisible();
+  // scroll past the first frame: the intro button fades and the bar takes over
+  await page.evaluate(async () => { for (let y = 0; y < 1400; y += 200) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 80)); } });
+  await page.waitForTimeout(600);
+  await expect(bar).toBeVisible();
+  // over the footer the bar hides
+  await page.locator('.site-footer').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(500);
+  await expect(bar).toBeHidden();
+  await ctx.close();
+});
+
+test('Merged direction feedback sends only its own fields, never the four-concept ratings', async ({ page }) => {
+  // seed a four-concept rating in this browser first, then answer the merged question
+  await page.goto('#feedback?concept=creative');
+  await settle(page);
+  await page.locator('[data-testid="rating-overall"][value="5"]').check();
+  await page.getByTestId('reviewer').fill('Merged Test');
+  await expect(page.getByTestId('feedback-status')).toHaveText(/Saved on this device/);
+  await page.goto('#merged');
+  await settle(page);
+  // the hub smooth-scrolls (hash change, and Playwright's own scroll before a forced click); make scrolling instant here
+  await page.addStyleTag({ content: 'html { scroll-behavior: auto !important }' });
+  await page.waitForFunction(() => new Promise<boolean>((r) => { const y = scrollY; setTimeout(() => r(scrollY === y), 250); }));
+  await expect(page.getByTestId('open-merged')).toHaveAttribute('href', /\/visible\/$/);
+  await expect(page.getByTestId('open-concept')).toHaveCount(4);
+  await page.locator('[data-testid="merged-resolves"][value="mostly"]').check();
+  await page.getByTestId('merged-notes').fill('Shorter still, and the team line needs our names.');
+  await page.getByTestId('merged-fonts').fill('Fine');
+  await expect(page.getByTestId('merged-reviewer')).toHaveValue('Merged Test'); // name reused from the four-concept form
+  const posted: string[] = [];
+  await page.route('https://docs.google.com/forms/**/formResponse', (route) => { posted.push(route.request().postData() ?? ''); return route.fulfill({ status: 200, body: '' }); });
+  await page.getByTestId('submit-merged').click();
+  await expect(page.getByTestId('merged-status')).toHaveText(/Sent at/);
+  await expect(page.getByTestId('merged-sent')).toHaveText(/Last sent/);
+  expect(posted).toHaveLength(1);
+  const body = new URLSearchParams(posted[0]);
+  expect(body.get('entry.94783242')).toBe('Merged Test');
+  expect(body.get('entry.1136712824')).toBe('mostly');
+  expect(body.get('entry.741865373')).toContain('team line needs our names');
+  expect(body.get('entry.528543258')).toBe('Fine');
+  expect(body.get('entry.988458610')).toContain('merged direction feedback');
+  expect(body.get('entry.944882537')).toBeNull(); // Concept 02 overall rating is NOT resent
+  expect(body.get('entry.146796121')).toBeNull(); // the four-concept markdown is NOT resent
+  expect(body.get('entry.958974456')).toBeNull(); // nor the JSON
+  // the merged answers survive a reload and the four-concept rating is still there, untouched
+  await page.reload();
+  await settle(page);
+  await expect(page.locator('[data-testid="merged-resolves"][value="mostly"]')).toBeChecked();
+  await page.locator('[data-testid="feedback-concept"][data-concept="creative"]').click();
+  await expect(page.locator('[data-testid="rating-overall"][value="5"]')).toBeChecked();
 });

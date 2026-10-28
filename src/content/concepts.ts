@@ -1,7 +1,10 @@
 import { url } from './config';
 
+export type ConceptId = 'clean' | 'creative' | 'story' | 'original';
+
 export interface ConceptMeta {
-  id: 'clean' | 'creative' | 'story' | 'original';
+  /** The four original directions, plus 'visible' for the merged direction (kept out of `concepts` on purpose). */
+  id: ConceptId | 'visible';
   number: string;
   name: string;
   label: string;
@@ -73,5 +76,25 @@ export const concepts: ConceptMeta[] = [
     screenshotMobile: url('assets/screenshots/original-mobile.webp'),
   },
 ];
+
+/**
+ * Concept 05, the merged direction built from the October 27, 2026 review (docs/CONCEPT_05_BRIEF.md).
+ * Deliberately NOT in `concepts`: the hub presents it above the four originals with its own question
+ * ("does this resolve your notes?") instead of inviting a five-way vote.
+ */
+export const mergedDirection: ConceptMeta = {
+  id: 'visible',
+  number: '05',
+  name: 'Visible',
+  label: 'The merged direction',
+  workingTitle: 'Visible',
+  path: url('visible/'),
+  proposition: "Concept 03's opening story, shortened and skippable, over Concept 01's structure: what we do, the schools, who you work with, the first conversation. One motion rule, no numbers up front.",
+  toneTags: ['Story opener', 'Clear', 'One system'],
+  distinguishing: 'The first screen names the offer; the story is the brand; everything below it is one card, one palette, one reveal.',
+  matrix: { brandFeel: 'The story as the brand, with the kit as referee', motion: 'Moderate (shorter story, skippable, one reveal rule)', strength: 'Answers the first-round notes in one page', tradeoff: 'Distinctiveness lives in the opener', conferenceFit: 'First screen names the offer and carries the button' },
+  screenshotDesktop: url('assets/screenshots/visible-desktop.webp'),
+  screenshotMobile: url('assets/screenshots/visible-mobile.webp'),
+};
 
 export const hubPath = url('');

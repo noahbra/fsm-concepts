@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { SkipLink } from '../../components/SkipLink';
+import { ReviewPill, ReviewRibbon } from '../../components/ReviewChrome';
 import { ResponsiveMedia } from '../../components/ResponsiveMedia';
 import { MetricInline, ProofNote, SourceLink } from '../../components/CaseStudyProof';
 import { SocialLinks } from '../../components/SocialLinks';
@@ -49,10 +50,10 @@ export function App() {
     return () => { io.disconnect(); root.classList.remove('is-at-footer'); if (onScroll) window.removeEventListener('scroll', onScroll); };
   }, [showStatic]);
 
-  // Review chrome (ribbon and pill) arrives with the hub's merged-direction model in build step 4.
   return (
     <>
       <SkipLink target="#site-content" label="Skip to services and proof" />
+      <ReviewRibbon conceptId="visible" />
 
       <header className="site-header">
         <a className="site-header__brand" href="#top" aria-label="Full School Marketing, home">
@@ -169,6 +170,7 @@ export function App() {
           </div>
         </div>
       </footer>
+      <ReviewPill conceptId="visible" />
     </>
   );
 }

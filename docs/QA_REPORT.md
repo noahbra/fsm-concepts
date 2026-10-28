@@ -19,6 +19,38 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 28, 2026: Concept 05, the merged direction
+
+Built from the October 27 reviewer feedback to `docs/CONCEPT_05_BRIEF.md` (v4, approved by Noah before the build). `src/concepts/visible/`
+is a fork of Concept 03's story code; the four originals are byte-identical to `main` (`git diff --quiet main -- src/concepts/{clean,creative,story,original}` passes).
+The hub gained a "merged direction" card above the four originals and a separate feedback model for it
+(`fsm-review-merged-v1`, its own six Google Form fields), so a merged send never re-posts the four-concept ratings.
+
+- Typecheck and production build: PASS.
+- Playwright: three tests added (Concept 05 first frame, skip, sections, cards, chrome, reduced motion; Concept 05 phone CTA bar;
+  merged feedback isolation). Full suite after the build: 144 passed, 0 failed (1.5 min), four projects.
+- Defects found and fixed during this QA: the hub card count assertion (8 to 10 images); the reduced-motion test built its URL
+  relative to the story page; the merged form read the reviewer's name only at mount (now re-read on arrival at the section and on
+  focus); forced radio clicks raced the hub's smooth scroll under suite load (five `check({ force: true })` calls, two of them
+  pre-existing, are now plain `check()`, which waits for the element to stop moving); the OG image title ran under the thumbnail
+  on every concept (titles now wrap and the thumbnail sits above the text block; all six OG images regenerated).
+- Frame review: 12-frame contact sheets of the pinned opener at 1440x900 and 375x667 (`docs/screenshots/concept05-step1-*-frames.png`),
+  plus full pages and the seam into the services section, were reviewed before the hub work started.
+- Lighthouse 13 (`npx lighthouse@latest`, `--preset=perf --form-factor=mobile --throttling-method=simulate`, headless Chrome),
+  October 28, 2026, against the production build on `http://localhost:4173/fsm-concepts/`. Raw JSON in `docs/lighthouse/`.
+
+| Page | Performance | Accessibility | Best practices | SEO | LCP | TBT | CLS |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 05 /visible/ | 92 | 100 | 100 | 63 | 3.0 s | 150 ms | 0 |
+| Hub / (re-measured, same flags) | 100 | 100 | 100 | 63 | 0.9 s | 0 ms | 0.04 |
+
+The brief's targets for Concept 05 were Performance >= 89, Accessibility 100, LCP <= 3.2 s: met. SEO is 63 for the `noindex` reason
+given under "Lighthouse" below. The hub's figures differ from the October 26 row because the flags differ (`--preset=perf`); they are
+not comparable to that run.
+
+Not done in this revision: a real-device iOS check of the pinned opener, and client confirmation of the three new copy claims
+(`docs/CONTENT_AND_CLAIMS.md`, "Concept 05 copy").
+
 ## Summary
 
 | Area | Status |

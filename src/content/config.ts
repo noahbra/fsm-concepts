@@ -73,6 +73,15 @@ export const siteConfig = {
         story: { decision: 'entry.1440135353', overall: 'entry.335769173' },
         original: { decision: 'entry.738929427', overall: 'entry.721860725' },
       },
+      /** Concept 05, the merged direction: its own fields and its own send (added to the same form 10/28/2026). */
+      merged: {
+        resolves: 'entry.1136712824',
+        notes: 'entry.741865373',
+        fonts: 'entry.528543258',
+        storyLength: 'entry.569794535',
+        teamSection: 'entry.1582022351',
+        markdown: 'entry.988458610',
+      },
     },
   },
 

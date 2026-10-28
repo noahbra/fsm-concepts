@@ -1,6 +1,6 @@
 # Concept 05 design brief: Visible (fourth draft)
 
-Status: DRAFT v4 for approval, October 27, 2026. No code until approved.
+Status: APPROVED by the project owner October 28, 2026 and BUILT on branch `concept-05-visible` (`src/concepts/visible/`). This document is the spec the build was checked against; deviations are noted in `docs/QA_REPORT.md`.
 Basis: FilmTwist's review of Concepts 01 to 04 on October 27, 2026 (details in the ThirdWay client record, not in this repo), the FSM Brand Guide, and three rounds of pressure testing against the code.
 Changes from v3: the merged direction gets its own feedback model, send and form fields (the hub's existing send re-posts every filled concept, so 05 cannot share it); the three promises the code could not keep are replaced (no-JavaScript test, stage-ordered services, the "last 6%" fade); the opening hold is described as a retune, not a parameter; the tagline is the one named contrast exception and text greens move to the ink weights after measurement; the mobile bottom row is resolved; the intro fade and the CTA bar are tied to the same timeline position; the expanding card is specified; the fork drops the class-prefix work and the screenshot assertion becomes a folder-diff check; the handoff doc and claims register gain their Concept 05 entries; the "both reviewers" line is corrected.
 

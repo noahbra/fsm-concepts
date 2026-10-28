@@ -28,6 +28,7 @@ What remains to turn the chosen concept into the final Full School Marketing sit
 - Concept-specific:
   - 02: confirm every gallery item is approved; add true video assets with pause controls if desired.
   - 03: test the pinned story on real iOS Safari and low-end Android; keep the static reduced-motion path in sync when scenes change.
+  - 05 (the merged direction, `src/concepts/visible/`): it is a fork of 03's story code, so promoting it means promoting `visible/` and retiring `story/` along with the other originals. Confirm the three new copy claims (hero line, team line with "started in 2020", first-conversation line) before launch; wire the merged-feedback fields out of the review build with the rest of the review chrome.
   - 04: confirm the client is comfortable with the worksheet arithmetic on their published campaign figures; consider adding a "send me my worksheet" email capture.
 
 ## Content work

@@ -21,7 +21,8 @@ before the rerun. Lighthouse was not rerun for this revision.
 
 ## Revision October 28, 2026 (third): Concept 05 Version 2.1
 
-Not yet deployed; built and tested locally on October 28, 2026 (commit recorded in git). Noah's review of Version 2 live
+Deployed to GitHub Pages on October 28, 2026 (commit `0ff29d0`, run 40768763430). The full suite was rerun against the live site
+(`PW_BASE_URL=https://noahbra.github.io/fsm-concepts/`): 196 passed, 0 failed (1.9 min). Noah's review of Version 2 live
 asked for five changes (recorded in `CONCEPT_05_BRIEF.md`, "Round 3 decisions"): an FSM-branded form instead of the embedded
 FilmTwist frame; the brand rising on the first scroll with the tagline dissolving and the dot dropping from the period;
 a revised tagline; the school scrolling up and the dot rejoining the logo at the end; the school's windows corrected and

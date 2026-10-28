@@ -4,7 +4,7 @@ export type ConceptId = 'clean' | 'creative' | 'story' | 'original';
 
 export interface ConceptMeta {
   /** The four original directions, plus 'visible' for the merged direction (kept out of `concepts` on purpose). */
-  id: ConceptId | 'visible';
+  id: ConceptId | 'visible' | 'bold';
   number: string;
   name: string;
   label: string;
@@ -95,6 +95,22 @@ export const mergedDirection: ConceptMeta = {
   matrix: { brandFeel: 'The story as the brand, with the kit as referee', motion: 'Moderate (shorter story, skippable, one reveal rule)', strength: 'Answers the first-round notes in one page', tradeoff: 'Distinctiveness lives in the opener', conferenceFit: 'First screen names the offer and carries the button' },
   screenshotDesktop: url('assets/screenshots/visible-desktop.webp'),
   screenshotMobile: url('assets/screenshots/visible-mobile.webp'),
+};
+
+/** Concept 06, the current direction (October 28, 2026): Concept 02 rebuilt per docs/CONCEPT_06_BRIEF.md. Kept out of `concepts`. */
+export const currentDirection: ConceptMeta = {
+  id: 'bold',
+  number: '06',
+  name: 'Bold, rebuilt',
+  label: 'The current direction',
+  workingTitle: 'Bold, rebuilt',
+  path: url('bold/'),
+  proposition: "Concept 02's hero, reel and energy on the kit's blue and green, with what we do right under the hero, the case studies as pages, the team, and a form. No opening story.",
+  toneTags: ['Bold', 'Brand color', 'No story'],
+  distinguishing: 'The Concept 02 collage and marquee, retokened to the kit, with the Concept 05 services tiles, case pages, team and form.',
+  matrix: { brandFeel: 'Confident studio energy in brand color', motion: 'Moderate', strength: 'Keeps what the decision maker rated highest', tradeoff: 'Busier first screen than 01 or 05', conferenceFit: 'Good: visual proof in one swipe' },
+  screenshotDesktop: url('assets/screenshots/bold-desktop.webp'),
+  screenshotMobile: url('assets/screenshots/bold-mobile.webp'),
 };
 
 export const hubPath = url('');

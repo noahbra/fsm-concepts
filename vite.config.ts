@@ -21,6 +21,7 @@ export default defineConfig({
         story: resolve(__dirname, 'story/index.html'),
         original: resolve(__dirname, 'original/index.html'),
         visible: resolve(__dirname, 'visible/index.html'),
+        bold: resolve(__dirname, 'bold/index.html'),
         'visible-work-aspire': resolve(__dirname, 'visible/work/aspire/index.html'),
         'visible-work-friendship': resolve(__dirname, 'visible/work/friendship/index.html'),
         'visible-work-envision': resolve(__dirname, 'visible/work/envision/index.html'),

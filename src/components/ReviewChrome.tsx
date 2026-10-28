@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { siteConfig } from '../content/config';
-import { concepts, hubPath, mergedDirection, type ConceptMeta } from '../content/concepts';
+import { concepts, currentDirection, hubPath, mergedDirection, type ConceptMeta } from '../content/concepts';
 import { copyText, drawQr } from '../lib/share';
 
 type ChromeId = ConceptMeta['id'];
-const all = [...concepts, mergedDirection];
+const all = [...concepts, mergedDirection, currentDirection];
 const find = (id: ChromeId) => all.find((x) => x.id === id)!;
 /** Where "review this" goes: the four originals open the shared form; the merged direction has its own question. */
-const reviewHref = (c: ConceptMeta) => (c.id === 'visible' ? `${hubPath}#merged` : `${hubPath}#feedback?concept=${c.id}`);
+const reviewHref = (c: ConceptMeta) => (c.id === 'bold' ? `${hubPath}#current` : c.id === 'visible' ? `${hubPath}#merged` : `${hubPath}#feedback?concept=${c.id}`);
+const isDirection = (c: ConceptMeta) => c.id === 'visible' || c.id === 'bold';
 
 /**
  * Reviewer-only chrome: a top ribbon ("Design concept 02 of 4 · Compare all four") and a floating
@@ -20,12 +21,12 @@ export function ReviewRibbon({ conceptId }: { conceptId: ChromeId }) {
   return (
     <div className="review-ribbon" role="region" aria-label="Review navigation">
       <div className="review-ribbon__inner">
-        <span className="review-ribbon__tag">{c.id === 'visible' ? 'Merged direction' : `Concept ${c.number} of 4`}</span>
+        <span className="review-ribbon__tag">{c.id === 'bold' ? 'Current direction' : c.id === 'visible' ? 'Merged direction' : `Concept ${c.number} of 4`}</span>
         <span>{c.name}</span>
         <span className="review-ribbon__hide-sm">Design concept for review, not a live business site.</span>
         <span className="review-ribbon__spacer" />
         <a href={hubPath}>Compare all four</a>
-        <a href={reviewHref(c)}>{c.id === 'visible' ? 'Does this resolve your notes?' : 'Review this concept'}</a>
+        <a href={reviewHref(c)}>{isDirection(c) ? 'Does this resolve your notes?' : 'Review this concept'}</a>
       </div>
     </div>
   );
@@ -60,7 +61,7 @@ export function ReviewPill({ conceptId }: { conceptId: ChromeId }) {
           <h2>Concept {c.number}: {c.name}</h2>
           <p>Design concept for review. Not a live business site.</p>
           <a href={hubPath}>Compare all four concepts</a>
-          <a href={reviewHref(c)}>{c.id === 'visible' ? 'Does this resolve your notes?' : 'Rate and comment on this concept'}</a>
+          <a href={reviewHref(c)}>{isDirection(c) ? 'Does this resolve your notes?' : 'Rate and comment on this concept'}</a>
           <button type="button" onClick={async () => setStatus((await copyText(shareUrl)) ? 'Link copied.' : 'Copy failed. Select the address bar instead.')}>Copy shareable link</button>
           <button type="button" onClick={() => setQr((v) => !v)} aria-expanded={qr}>{qr ? 'Hide QR code' : 'Show QR code for phone testing'}</button>
           {qr && <canvas ref={canvas} width={180} height={180} aria-label={`QR code linking to ${shareUrl}`} role="img" />}

@@ -20,6 +20,7 @@ export default defineConfig({
         creative: resolve(__dirname, 'creative/index.html'),
         story: resolve(__dirname, 'story/index.html'),
         original: resolve(__dirname, 'original/index.html'),
+        visible: resolve(__dirname, 'visible/index.html'),
       },
     },
   },

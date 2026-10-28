@@ -21,6 +21,8 @@ export const siteConfig = {
   provisionalBookingUrl: 'https://calendly.com/dpathak/30min',
   consultationApproved: false,
 
+  /** Concept 05 first-frame H1: names the offer, no sentiment, no numbers. New copy, REQUIRES_CLIENT_CONFIRMATION. */
+  heroLine: 'Ads, video and landing pages that bring families to your school.',
   primaryCta: "Let's Fill Your School",
   primaryCtaAlt: 'Talk Enrollment Strategy',
   secondaryCta: 'See Our Work',

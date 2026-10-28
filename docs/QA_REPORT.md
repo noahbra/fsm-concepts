@@ -21,6 +21,9 @@ before the rerun. Lighthouse was not rerun for this revision.
 
 ## Revision October 28, 2026 (second): Concept 05 Version 2
 
+Deployed to GitHub Pages on October 28, 2026 (merge `2e21858`, run 40759807755). The full suite was rerun against the live site
+(`PW_BASE_URL=https://noahbra.github.io/fsm-concepts/`): 192 passed, 0 failed (2.3 min). The hub, `/visible/` and the three case pages return 200.
+
 Noah's review of the Version 1 preview asked for six changes (recorded in `CONCEPT_05_BRIEF.md`, "Round 2 decisions"):
 equal service tiles with icons; case studies as pages on this site; cut-out team photos; a work-with-us form wired to
 FilmTwist's form system; headings in FSM colors; a feedback-addressed checklist on the hub. All six are built.

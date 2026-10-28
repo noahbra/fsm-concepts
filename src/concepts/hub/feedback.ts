@@ -65,7 +65,7 @@ export function toFormBody(s: FeedbackState, submittedAt: string): URLSearchPara
   body.set(f.submittedAt, submittedAt);
   body.set(f.page, typeof location !== 'undefined' ? location.href.split('#')[0] : '');
   for (const c of concepts) {
-    const ids = f.concepts[c.id];
+    const ids = (f.concepts as Record<string, { decision: string; overall: string } | undefined>)[c.id];
     const v = s.concepts[c.id];
     if (!ids || !v || !hasAnyInput(v)) continue;
     body.set(ids.decision, v.decision || 'not set');
@@ -84,6 +84,67 @@ export function toFormBody(s: FeedbackState, submittedAt: string): URLSearchPara
 export async function sendFeedback(s: FeedbackState, submittedAt: string): Promise<boolean> {
   try {
     await fetch(siteConfig.feedbackForm.action, { method: 'POST', mode: 'no-cors', body: toFormBody(s, submittedAt) });
+    return true;
+  } catch { return false; }
+}
+
+/* ---------------------------------------------------------------------------------------------------------------
+ * The merged direction (Concept 05) has its OWN model, storage key, send and form fields. The four-concept send above
+ * posts every filled concept from saved state on each click; sharing it would resubmit a reviewer's earlier ratings
+ * as a new row every time they answered the merged question.
+ * ------------------------------------------------------------------------------------------------------------- */
+export type Resolves = 'yes' | 'mostly' | 'no' | '';
+export interface MergedFeedback { reviewer: string; resolves: Resolves; notes: string; fonts: string; storyLength: string; teamSection: string; updatedAt: string; sentAt: string }
+export const MERGED_STORAGE_KEY = 'fsm-review-merged-v1';
+export const emptyMerged = (): MergedFeedback => ({ reviewer: '', resolves: '', notes: '', fonts: '', storyLength: '', teamSection: '', updatedAt: '', sentAt: '' });
+
+export function loadMerged(): MergedFeedback {
+  try {
+    const raw = localStorage.getItem(MERGED_STORAGE_KEY);
+    const base = emptyMerged();
+    if (!raw) { base.reviewer = loadState().reviewer; return base; } // reuse the name they already typed, nothing else
+    return { ...base, ...(JSON.parse(raw) as Partial<MergedFeedback>) };
+  } catch { return emptyMerged(); }
+}
+export function saveMerged(m: MergedFeedback): boolean {
+  try { localStorage.setItem(MERGED_STORAGE_KEY, JSON.stringify(m)); return true; } catch { return false; }
+}
+export function clearMerged() { try { localStorage.removeItem(MERGED_STORAGE_KEY); } catch { /* ignore */ } }
+export const mergedAsks: { key: 'fonts' | 'storyLength' | 'teamSection'; label: string; hint: string }[] = [
+  { key: 'fonts', label: 'Fonts', hint: 'Josefin Sans throughout, per the brand guide. Does it hold up as body text?' },
+  { key: 'storyLength', label: 'Story length', hint: 'The opener is about half as long as Concept 03, with a skip on the first screen.' },
+  { key: 'teamSection', label: 'Team section', hint: '"Who you work with" is built from your published wording. What should change?' },
+];
+export function hasMergedInput(m: MergedFeedback) {
+  return Boolean(m.resolves || m.notes.trim() || m.fonts.trim() || m.storyLength.trim() || m.teamSection.trim());
+}
+export function mergedToMarkdown(m: MergedFeedback): string {
+  return [
+    '# Full School Marketing: merged direction feedback (Concept 05, Visible)', '',
+    `Reviewer: ${m.reviewer || '(not given)'}`, `Page: ${typeof location !== 'undefined' ? location.href.split('#')[0] : ''}`, '',
+    `- Resolves your notes: ${m.resolves || 'not answered'}`,
+    `- Notes: ${m.notes.trim() || '(none)'}`,
+    ...mergedAsks.map((a) => `- ${a.label}: ${m[a.key].trim() || '(none)'}`), '',
+  ].join('\n');
+}
+/** Only the merged fields, the reviewer, the timestamp and the page. Never the four-concept ratings. */
+export function mergedToFormBody(m: MergedFeedback, submittedAt: string): URLSearchParams {
+  const f = siteConfig.feedbackForm.fields;
+  const body = new URLSearchParams();
+  body.set(f.reviewer, m.reviewer.trim());
+  body.set(f.submittedAt, submittedAt);
+  body.set(f.page, typeof location !== 'undefined' ? location.href.split('#')[0] : '');
+  body.set(f.merged.resolves, m.resolves || 'not answered');
+  body.set(f.merged.notes, m.notes.trim());
+  body.set(f.merged.fonts, m.fonts.trim());
+  body.set(f.merged.storyLength, m.storyLength.trim());
+  body.set(f.merged.teamSection, m.teamSection.trim());
+  body.set(f.merged.markdown, mergedToMarkdown(m));
+  return body;
+}
+export async function sendMerged(m: MergedFeedback, submittedAt: string): Promise<boolean> {
+  try {
+    await fetch(siteConfig.feedbackForm.action, { method: 'POST', mode: 'no-cors', body: mergedToFormBody(m, submittedAt) });
     return true;
   } catch { return false; }
 }

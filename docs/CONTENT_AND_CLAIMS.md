@@ -105,6 +105,26 @@ they are comfortable with their published campaign figures being used as scenari
 
 No text, layout or code was copied from any reference site.
 
+## Concept 05 copy (new claims, added October 28, 2026)
+
+The merged direction introduces three pieces of copy that the first four concepts did not carry. Each is a claim to confirm with the client; none is approved by the build.
+
+| Copy | Where | Basis | State |
+| --- | --- | --- | --- |
+| "Ads, video and landing pages that bring families to your school." | Concept 05 first-frame H1 (`siteConfig.heroLine`) | Names the offer; the three nouns are FilmTwist's own service names on the K-12 page. No figures. | REQUIRES_CLIENT_CONFIRMATION (wording) |
+| "Full School Marketing is Filmtwist Creative Agency's K-12 student recruitment practice, started in 2020. We help schools grow their own. Our team covers strategy, design, photography, video, websites and paid advertising." | Concept 05 "Who you work with" (`siteConfig.teamLine`) | Agency name and "K-12 Student Recruitment" from filmtwist.com navigation; mission line from the Brand Guide, verbatim; the six team nouns map one to one onto roles on filmtwist.com/about; "started in 2020" is the project owner's ruling (10/28/2026). Connective words only: "is," "practice," "Our team covers." FilmTwist's own "since 2010" is the agency's date and is not used. | REQUIRES_CLIENT_CONFIRMATION (the practice framing, the 2020 date, whether to name people) |
+| "A free 30-minute call. Tell us how many seats you need to fill, where last year's families came from, and what you have tried. We'll say what we would do first and what it takes. No proposal before we understand your school." | Concept 05 "The first conversation" (`siteConfig.contactLine`) | "Free 30-minute" is FilmTwist's wording on filmtwist.com/consulting. The rest describes the call; no figures, no estimate. | REQUIRES_CLIENT_CONFIRMATION (wording) |
+| School names in text only (Aspire Public Schools, Friendship Public Charter School, Envision Education) | Concept 05 "Who you work with" | The three published campaigns. School logos would need a separate approval and are not used. Alder Graduate School of Education appears on FilmTwist's K-12 page but is not a K-12 school and is not named. | Names: as the case studies. Logos: not used |
+
+## Concept 05 Version 2 additions (October 28, 2026)
+
+| Item | Where | Basis | State |
+| --- | --- | --- | --- |
+| Team photos, names and roles (Tien Louis-Goff, Deepa Pathak, Jackie Costanzo, Emily Martin, Jesse, Rhett, David, Kien, Stefan, Sunny Kim, Alec Gossage) | Concept 05 "Who you work with"; `src/content/team.ts`, `public/assets/team/` | https://www.filmtwist.com/about, read 10/28/2026; wording as published (first names only where the page shows only a first name). Headshots are the page's own files with the background lifted. The page labels them "Team photos and roles from filmtwist.com/about. Reuse approval pending." | REQUIRES_CLIENT_CONFIRMATION (reuse; who should appear; full names for the five shown by first name) |
+| Contact form | Concept 05 "Work with us"; `siteConfig.leadConnector` | FilmTwist's LeadConnector "RFI Contact Form" `DveY4KWgzKqaGiHAAA2e`, embedded as https://www.filmtwist.com/contact embeds it (iframe plus `link.msgsndr.com/js/form_embed.js`), read 10/28/2026. Submissions go to FilmTwist's account; this site stores nothing. The form carries FilmTwist's own terms and privacy consent text and Cloudflare Turnstile. No test submission was made. | REQUIRES_CLIENT_CONFIRMATION (an FSM-specific form in the same account is recommended; see PRODUCTION_HANDOFF) |
+| Case-study pages | `visible/work/{aspire,friendship,envision}/` | Every figure, descriptor, story line and image is the same record as the cards (`caseStudies.ts`), with the published source cited at the foot of each page. No new claims. | As the case studies |
+| Hub checklist wording | Hub, "What Version 2 addresses" | Paraphrases of the 10/27 reviewer notes and the 10/28 asks, no names, no ratings. | Internal review copy |
+
 ## Unresolved approvals
 
 1. Reuse of FilmTwist campaign creative (including student imagery) on the FSM site.
@@ -114,3 +134,5 @@ No text, layout or code was copied from any reference site.
 5. Consultation destination (consulting page vs. booking link vs. a hooked-up form with a privacy policy).
 6. Privacy policy and terms text.
 7. Which case studies and figures are approved for FSM.
+8. Reuse of the FilmTwist team headshots, names and roles on the FSM site (Concept 05).
+9. An FSM-specific LeadConnector form (fields, options, styling) in place of the agency's RFI Contact Form.

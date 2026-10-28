@@ -1,27 +1,30 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { concepts, type ConceptMeta } from '../../content/concepts';
+import { concepts, mergedChecklist, mergedDirection, mergedVersion, type ConceptId, type ConceptMeta } from '../../content/concepts';
 import { siteConfig } from '../../content/config';
 import { brand } from '../../content/media';
 import { SkipLink } from '../../components/SkipLink';
 import { copyText, downloadFile, drawQr } from '../../lib/share';
-import { clearState, emptyConcept, hasAnyInput, loadState, ratingFields, saveState, sendFeedback, toJson, toMarkdown, type Decision, type FeedbackState } from './feedback';
+import {
+  clearMerged, clearState, emptyConcept, hasAnyInput, hasMergedInput, loadMerged, loadState, mergedAsks, mergedToMarkdown, ratingFields, saveMerged, saveState,
+  sendFeedback, sendMerged, toJson, toMarkdown, type Decision, type FeedbackState, type MergedFeedback, type Resolves,
+} from './feedback';
 
 const REVIEW_DATE = 'October 2026';
 
-function parseConceptFromHash(): ConceptMeta['id'] | null {
+function parseConceptFromHash(): ConceptId | null {
   const h = window.location.hash; // "#feedback?concept=clean"
   const m = h.match(/concept=(clean|creative|story|original)/);
-  return m ? (m[1] as ConceptMeta['id']) : null;
+  return m ? (m[1] as ConceptId) : null;
 }
 
-function ConceptCard({ c }: { c: ConceptMeta }) {
+function ConceptCard({ c, merged = false }: { c: ConceptMeta; merged?: boolean }) {
   const [status, setStatus] = useState('');
   const [qr, setQr] = useState(false);
   const canvas = useRef<HTMLCanvasElement>(null);
   const absolute = window.location.origin + c.path;
   useEffect(() => { if (qr && canvas.current) drawQr(canvas.current, absolute).catch(() => setStatus('QR could not be generated.')); }, [qr, absolute]);
   return (
-    <article className="card" aria-labelledby={`card-${c.id}`}>
+    <article className={`card${merged ? ' card--merged' : ''}`} aria-labelledby={`card-${c.id}`}>
       <div className="card__media">
         <img src={c.screenshotDesktop} width={1440} height={900} alt={`Desktop screenshot of Concept ${c.number}, ${c.name}`} loading="lazy" />
         <img className="card__mobile" src={c.screenshotMobile} width={390} height={844} alt="" loading="lazy" />
@@ -34,8 +37,17 @@ function ConceptCard({ c }: { c: ConceptMeta }) {
         <ul className="card__tags" aria-label="Tone">{c.toneTags.map((t) => <li key={t}>{t}</li>)}</ul>
         <p className="card__feature"><strong>Distinguishing feature.</strong> {c.distinguishing}</p>
         <div className="card__actions">
-          <a className="btn btn--primary" href={c.path} data-testid="open-concept" data-concept={c.id}>Open concept</a>
-          <a className="btn btn--accent" href={`#feedback?concept=${c.id}`} onClick={() => window.dispatchEvent(new CustomEvent('fsm:select-concept', { detail: c.id }))}>Review concept</a>
+          {merged ? (
+            <>
+              <a className="btn btn--primary" href={c.path} data-testid="open-merged">Open the merged direction</a>
+              <a className="btn btn--accent" href="#merged-form">Does this resolve your notes?</a>
+            </>
+          ) : (
+            <>
+              <a className="btn btn--primary" href={c.path} data-testid="open-concept" data-concept={c.id}>Open concept</a>
+              <a className="btn btn--accent" href={`#feedback?concept=${c.id}`} onClick={() => window.dispatchEvent(new CustomEvent('fsm:select-concept', { detail: c.id }))}>Review concept</a>
+            </>
+          )}
         </div>
         <div className="card__util">
           <a className="btn btn--ghost btn--small" href={c.path} target="_blank" rel="noopener noreferrer">Open in new tab</a>
@@ -67,9 +79,82 @@ function Rating({ conceptId, field, label, value, onChange }: { conceptId: strin
   );
 }
 
+/** The merged direction's own form: one question, three targeted asks, its own send. Never touches the four-concept answers. */
+function MergedFeedbackForm() {
+  const [m, setM] = useState<MergedFeedback>(() => loadMerged());
+  const [status, setStatus] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  // The name typed into the four-concept form on this same visit is reused here; both forms mount at once,
+  // so re-read it when the reviewer arrives at this section or focuses the empty name field.
+  const reuseName = () => setM((cur) => (cur.reviewer.trim() ? cur : { ...cur, reviewer: loadState().reviewer }));
+  useEffect(() => {
+    const onHash = () => { if (location.hash.startsWith('#merged')) reuseName(); };
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+  const firstTouch = useRef(true);
+  const justSent = useRef(false);
+  useEffect(() => {
+    if (firstTouch.current) { firstTouch.current = false; return; }
+    const next = { ...m, updatedAt: new Date().toISOString() };
+    const ok = saveMerged(next);
+    if (justSent.current) { justSent.current = false; return; }
+    setStatus(ok ? `Saved on this device at ${new Date(next.updatedAt).toLocaleTimeString()}.` : 'Could not save on this device (private mode?). Copy before leaving.');
+  }, [m]);
+  const update = (patch: Partial<MergedFeedback>) => setM((s) => ({ ...s, ...patch }));
+  const submit = async () => {
+    if (!siteConfig.feedbackEnabled) return;
+    if (!m.reviewer.trim()) { setStatus('Add your name first, so we know whose feedback this is.'); document.getElementById('merged-reviewer')?.focus(); return; }
+    if (!hasMergedInput(m)) { setStatus('Answer the question or leave a note before sending.'); return; }
+    setSubmitting(true);
+    const submittedAt = new Date().toISOString();
+    const ok = await sendMerged(m, submittedAt);
+    setSubmitting(false);
+    if (ok) { justSent.current = true; setM((s) => ({ ...s, sentAt: submittedAt })); setStatus(`Sent at ${new Date(submittedAt).toLocaleTimeString()}. You can revise and send again; each send is a new entry.`); }
+    else setStatus('Could not send (network). Copy instead and email it to the project owner.');
+  };
+  return (
+    <div className="form" id="merged-form">
+      <fieldset className="rating">
+        <legend className="form__legend">Does the merged direction resolve your notes from the first round?</legend>
+        <div className="decision">
+          {([['yes', 'Yes'], ['mostly', 'Mostly'], ['no', 'No']] as [Resolves, string][]).map(([v, l]) => (
+            <label key={v}><input type="radio" name="merged-resolves" value={v} checked={m.resolves === v} onChange={() => update({ resolves: v })} data-testid="merged-resolves" /><span>{l}</span></label>
+          ))}
+        </div>
+      </fieldset>
+      <div className="form__row">
+        <label htmlFor="merged-notes">What still needs to change?</label>
+        <textarea id="merged-notes" value={m.notes} onChange={(e) => update({ notes: e.target.value })} data-testid="merged-notes" placeholder="Anything, in your words." />
+      </div>
+      <div className="form__grid">
+        {mergedAsks.map((a) => (
+          <div className="form__row" key={a.key}>
+            <label htmlFor={`merged-${a.key}`}>{a.label}</label>
+            <p className="form__hint">{a.hint}</p>
+            <input id={`merged-${a.key}`} type="text" value={m[a.key]} onChange={(e) => update({ [a.key]: e.target.value })} data-testid={`merged-${a.key}`} />
+          </div>
+        ))}
+      </div>
+      <div className="form__row">
+        <label htmlFor="merged-reviewer">Reviewer name</label>
+        <input id="merged-reviewer" type="text" required value={m.reviewer} onChange={(e) => update({ reviewer: e.target.value })} onFocus={reuseName} data-testid="merged-reviewer" autoComplete="name" placeholder="So we know whose feedback this is" />
+      </div>
+      <div className="form__actions">
+        {siteConfig.feedbackEnabled && <button type="button" className="btn btn--primary" onClick={submit} disabled={submitting} data-testid="submit-merged">{submitting ? 'Sending' : 'Send'}</button>}
+        <button type="button" className="btn btn--ghost" onClick={async () => setStatus((await copyText(mergedToMarkdown(m))) ? 'Copied to the clipboard.' : 'Copy failed.')} data-testid="copy-merged">Copy</button>
+        <button type="button" className="btn btn--ghost btn--small" onClick={() => { if (confirm('Clear your saved answers about the merged direction on this device?')) { clearMerged(); setM(loadMerged()); setStatus('Cleared.'); } }}>Clear</button>
+      </div>
+      <div className="form__status" role="status" aria-live="polite" data-testid="merged-status">{status}</div>
+      {m.sentAt && <p className="form__note" data-testid="merged-sent">Last sent {new Date(m.sentAt).toLocaleString()}.</p>}
+      <p className="form__note">This sends only your answers about the merged direction. Your ratings of the four original concepts are not resent.</p>
+    </div>
+  );
+}
+
 function FeedbackForm() {
   const [state, setState] = useState<FeedbackState>(() => loadState());
-  const [selected, setSelected] = useState<ConceptMeta['id']>(() => parseConceptFromHash() ?? 'clean');
+  const [selected, setSelected] = useState<ConceptId>(() => parseConceptFromHash() ?? 'clean');
   const [status, setStatus] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const firstTouch = useRef(true);
@@ -123,7 +208,7 @@ function FeedbackForm() {
         <span className="form__legend" id="concept-picker-label">Concept</span>
         <div className="concept-tabs" role="group" aria-labelledby="concept-picker-label">
           {concepts.map((x) => (
-            <button key={x.id} type="button" aria-pressed={x.id === selected} onClick={() => setSelected(x.id)} data-testid="feedback-concept" data-concept={x.id}>
+            <button key={x.id} type="button" aria-pressed={x.id === selected} onClick={() => setSelected(x.id as ConceptId)} data-testid="feedback-concept" data-concept={x.id}>
               {x.number} {x.name}{hasAnyInput(state.concepts[x.id] ?? emptyConcept()) && <span className="dot" aria-label="has feedback" />}
             </button>
           ))}
@@ -195,6 +280,7 @@ function FeedbackForm() {
 export default function App() {
   useEffect(() => {
     if (window.location.hash.startsWith('#feedback')) document.getElementById('feedback')?.scrollIntoView();
+    if (window.location.hash === '#merged') document.getElementById('merged')?.scrollIntoView();
   }, []);
   return (
     <div className="hub">
@@ -212,12 +298,38 @@ export default function App() {
       <main id="main">
         <section className="hub__wrap hub__title">
           <h1>Full School Marketing: <span>Website Direction Review</span></h1>
-          <p>Four working website directions for Full School Marketing. Open each one on your phone and on a desktop, scroll the whole page, then record what you think below. Pick a direction, or tell us what to combine.</p>
+          <p>The merged direction built from your first-round notes, and the four original directions it came from. Open each one on your phone and on a desktop, scroll the whole page, then record what you think below.</p>
           <p className="hub__notice"><span aria-hidden="true">!</span><span>These are design concepts, not a live business site. Copy, links and campaign images are drafts for review. Campaign creative shown is from FilmTwist's published case studies; client approval for reuse is pending.</span></p>
         </section>
 
+        <section className="hub__wrap hub__section hub__merged" id="merged" aria-labelledby="merged-h">
+          <h2 id="merged-h">The merged direction</h2>
+          <p style={{ maxWidth: '62ch', color: '#444', lineHeight: 1.5 }}>
+            Built from the October 27 feedback: Concept 03's opening story, shortened and skippable; Concept 01's structure and clarity below it; one motion rule instead of Concept 02's devices; no numbers up front. The team section uses your published wording and is yours to correct. Campaign photos still carry the reuse note until approval.
+          </p>
+          <div className="cards cards--one"><ConceptCard c={mergedDirection} merged /></div>
+          <h3 className="hub__subhead">What {mergedVersion.label} addresses <span className="hub__version">({mergedVersion.date})</span></h3>
+          <div className="checklist" data-testid="merged-checklist">
+            {mergedChecklist.map((r) => (
+              <section key={r.round} aria-label={r.round}>
+                <h4>{r.round}</h4>
+                <ul>
+                  {r.items.map((it) => (
+                    <li key={it.note} className={`checklist__item is-${it.state}`}>
+                      <span className="checklist__mark">{it.state === 'done' ? 'Done' : it.state === 'partly' ? 'Partly' : 'Not yet'}</span>
+                      <span><strong>{it.note}.</strong> {it.how}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
+          <h3 className="hub__subhead">Does this resolve your notes?</h3>
+          <MergedFeedbackForm />
+        </section>
+
         <section className="hub__wrap hub__section" aria-labelledby="concepts-h">
-          <h2 id="concepts-h">The four concepts</h2>
+          <h2 id="concepts-h">The four original concepts</h2>
           <div className="cards">{concepts.map((c) => <ConceptCard key={c.id} c={c} />)}</div>
         </section>
 

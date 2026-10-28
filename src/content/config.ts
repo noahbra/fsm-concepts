@@ -21,6 +21,29 @@ export const siteConfig = {
   provisionalBookingUrl: 'https://calendly.com/dpathak/30min',
   consultationApproved: false,
 
+  /** Concept 05 first-frame H1: names the offer, no sentiment, no numbers. New copy, REQUIRES_CLIENT_CONFIRMATION. */
+  heroLine: 'Ads, video and landing pages that bring families to your school.',
+  /** Concept 05 "Who you work with": built only from FilmTwist's published phrases (agency name, the "K-12 Student
+   *  Recruitment" service name, the Brand Guide mission line, roles on filmtwist.com/about) plus "is," "practice,"
+   *  "Our team covers." The 2020 date is the project owner's ruling (10/28/2026). REQUIRES_CLIENT_CONFIRMATION. */
+  teamLine:
+    "Full School Marketing is Filmtwist Creative Agency's K-12 student recruitment practice, started in 2020. We help schools grow their own. Our team covers strategy, design, photography, video, websites and paid advertising.",
+  /** Concept 05 "The first conversation": what the call covers and what to bring. "Free 30-minute" is FilmTwist's own
+   *  wording (filmtwist.com/consulting). No figures, no estimate. New copy, REQUIRES_CLIENT_CONFIRMATION. */
+  contactLine:
+    "A free 30-minute call. Tell us how many seats you need to fill, where last year's families came from, and what you have tried. We'll say what we would do first and what it takes. No proposal before we understand your school.",
+  /** FilmTwist's contact form, embedded exactly as filmtwist.com/contact embeds it (LeadConnector inline widget,
+   *  read 10/28/2026). Submissions land in FilmTwist's LeadConnector account; this site handles nothing. It is the
+   *  agency's general "RFI Contact Form"; an FSM-specific form in the same account would let FilmTwist tag school
+   *  leads separately. REQUIRES_CLIENT_CONFIRMATION. */
+  leadConnector: {
+    formId: 'DveY4KWgzKqaGiHAAA2e',
+    formName: 'RFI Contact Form',
+    height: 993,
+    widgetBase: 'https://api.leadconnectorhq.com/widget/form/',
+    embedScript: 'https://link.msgsndr.com/js/form_embed.js',
+    sourcePage: 'https://www.filmtwist.com/contact',
+  },
   primaryCta: "Let's Fill Your School",
   primaryCtaAlt: 'Talk Enrollment Strategy',
   secondaryCta: 'See Our Work',
@@ -61,6 +84,15 @@ export const siteConfig = {
         creative: { decision: 'entry.1585371997', overall: 'entry.944882537' },
         story: { decision: 'entry.1440135353', overall: 'entry.335769173' },
         original: { decision: 'entry.738929427', overall: 'entry.721860725' },
+      },
+      /** Concept 05, the merged direction: its own fields and its own send (added to the same form 10/28/2026). */
+      merged: {
+        resolves: 'entry.1136712824',
+        notes: 'entry.741865373',
+        fonts: 'entry.528543258',
+        storyLength: 'entry.569794535',
+        teamSection: 'entry.1582022351',
+        markdown: 'entry.988458610',
       },
     },
   },

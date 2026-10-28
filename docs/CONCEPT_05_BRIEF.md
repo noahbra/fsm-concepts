@@ -31,6 +31,16 @@ A school families cannot see becomes visible, and everything on the page becomes
 | Should headers use FSM colors | Yes. Section headings in the kit blue #3D6EA3 (5.3:1 on white, AA for all sizes); H3 in the measured blue-deep | The story captions keep their own colors |
 | A feedback-addressed checklist on the hub | On the hub, under the merged card: each first-round note and each round-2 ask with Done, Partly or Not yet and one line on how, no reviewer names | `mergedChecklist` in `content/concepts.ts` |
 
+### Round 3 decisions (Noah, October 28, 2026, on Version 2 live)
+
+| Ask | Call | How it is built |
+| --- | --- | --- |
+| "Instead of a confusing FilmTwist form, rebrand it as an FSM form" | A native Full School Marketing form (`FsmForm.tsx`): Josefin Sans labels in the kit blue, paper inputs, kit-blue button. Same fields, required flags, option lists and consent text as FilmTwist's "RFI Contact Form", read from the widget configuration | It posts the widget's own multipart payload (`formData` JSON keyed by the form's field tags, plus `locationId` and `formId`) to `backend.leadconnectorhq.com/forms/submit`, so the lead lands in FilmTwist's account as a widget submission. The form's Turnstile site keys are empty in its configuration, so a token-less post is a legitimate widget path. One real submission by Noah or FilmTwist is still needed to confirm the lead arrives; this site makes no test submissions. `siteConfig.leadConnector.mode = 'embed'` restores the iframe |
+| "The first scroll should show the brand rising immediately (feels initially stuck)" | The opening hold is gone (`HOLD = 0`). From the first scroll step the lockup rises, the H1 and buttons dissolve, the period lets go of the dot and the dot drops into the town | Timeline 0 to 13 rewritten in `StoryScroll.tsx`; beats from 13 on are untouched |
+| Revise the tagline "Ads, video and landing pages that bring families to your school." | "Enrollment marketing for K-12 schools." (FilmTwist's own terms on its K-12 page). REQUIRES_CLIENT_CONFIRMATION | `siteConfig.heroLine`; OG image and tests follow it |
+| "At the end the school scrolls up and the dot rejoins the logo" | The town scrolls up and out (90 to 95), then the dot rises and lands in the reconstituted logo as its period (95 to 98), then the invitation | Timeline 90 to 100 rewritten |
+| "The school's windows are wrong; check all objects for orientation" | The right-hand group of school windows was placed by a formula that put the last window past the wall. Both rows are now three windows a side, mirrored about the door, in the quiet scene and the lit scene. The clock and "SCHOOL" label are nudged clear of the roof trim | `SCHOOL_WIN_X` in `TownScene.tsx`. Every other object (houses, shops, awnings, bus shelter, sign, bench, lamps, trees, bushes, figures, ad cards, landing page, envelope, bunting, banner) was checked against its coordinates and sits as drawn |
+
 ## Build rule: fork, do not modify
 
 Concepts 01 to 04 stay live and unchanged for comparison. The new concept lives in `src/concepts/visible/` and copies `TownScene.tsx`, `StoryScroll.tsx`, `StoryStatic.tsx` and `story.css` from `src/concepts/story/`, then changes them there. No class renaming: each concept is its own Vite entry with its own stylesheet, so nothing leaks. The duplicate is acceptable because 01 to 04 are disposable once the direction is chosen.
@@ -55,7 +65,7 @@ Copy rule: "Let's fill your school." appears once, as the hero's closing line, i
 ## The first frame, exactly
 
 - **Layers.** The lockup wrapper keeps its pointer-events-off behavior for the period-dot measurement. The H1, button and skip link sit in an intro layer inside the same centered grid as the lockup, directly below it, with pointer events on. It fades on the lockup's timeline position (7) as its own tween. While faded, the intro layer is `inert` so nothing invisible can take focus.
-- **H1.** Names the offer, no sentiment, no numbers. Working line: "Ads, video and landing pages that bring families to your school." The page has exactly one H1 and it is here.
+- **H1.** Names the offer, no sentiment, no numbers. Working line (Version 2.1, replacing "Ads, video and landing pages that bring families to your school." at the October 28 review of Version 2): "Enrollment marketing for K-12 schools." The page has exactly one H1 and it is here.
 - **Button.** Primary, kit blue, same destination as the other concepts.
 - **Skip.** One visible control: the text link "Skip the story" in the intro layer, target `#services`. The existing skip pill is removed. The screen-reader skip link stays (invisible until focused; an accessibility control, not a second button).
 - **Mobile, 375 by 667.** Stacked logo at 26vh, maximum 165px wide; tagline; H1 on two lines at most; button; skip link; scroll cue. The sticky header is accounted for with top padding on the pin. The pause pill is hidden below 700px. The scroll cue hides at the same moment the CTA bar appears.

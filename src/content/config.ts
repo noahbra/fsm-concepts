@@ -22,7 +22,7 @@ export const siteConfig = {
   consultationApproved: false,
 
   /** Concept 05 first-frame H1: names the offer, no sentiment, no numbers. New copy, REQUIRES_CLIENT_CONFIRMATION. */
-  heroLine: 'Ads, video and landing pages that bring families to your school.',
+  heroLine: 'Enrollment marketing for K-12 schools.',
   /** Concept 05 "Who you work with": built only from FilmTwist's published phrases (agency name, the "K-12 Student
    *  Recruitment" service name, the Brand Guide mission line, roles on filmtwist.com/about) plus "is," "practice,"
    *  "Our team covers." The 2020 date is the project owner's ruling (10/28/2026). REQUIRES_CLIENT_CONFIRMATION. */
@@ -39,10 +39,28 @@ export const siteConfig = {
   leadConnector: {
     formId: 'DveY4KWgzKqaGiHAAA2e',
     formName: 'RFI Contact Form',
+    /** FilmTwist's LeadConnector location (sub-account), from the widget configuration. */
+    locationId: '6DjFgiECQC0Tt8gNX4vT',
     height: 993,
     widgetBase: 'https://api.leadconnectorhq.com/widget/form/',
     embedScript: 'https://link.msgsndr.com/js/form_embed.js',
+    /** The forms service the widget itself posts to (multipart: formData JSON, locationId, formId). */
+    submitUrl: 'https://backend.leadconnectorhq.com/forms/submit',
     sourcePage: 'https://www.filmtwist.com/contact',
+    /** 'fsm' renders the FSM-branded form that posts to the service above; 'embed' renders FilmTwist's widget frame. */
+    mode: 'fsm' as 'fsm' | 'embed',
+    /** Custom-field tags from the form configuration. Standard fields use their own names (full_name, email, phone, terms_and_conditions). */
+    fields: { services: 'EJestVkia960oHxT9PxO', leadSource: 'XrSIkifPP25CWRXwy0t6', budget: 'MgHxET4F4WHl8USXu65T', needs: '7FmoBx7Yyarn8ptrhdUe' },
+    /** The form's own option lists, verbatim (they are picklist values on FilmTwist's contact record, so they are not reworded). */
+    options: {
+      services: ['Marketing Services', 'Photo/Video Creative Content Services', 'Website Design', 'Website Mgmt. Services', 'Social Media Mgmt. Services', 'Consulting', 'Commercial Campaign', 'Live Event Services', 'Other'],
+      leadSource: ['Google', 'LinkedIn', 'Facebook', 'Instagram', 'Yelp', 'Referral', 'Other'],
+      budget: ['< $1,000', '$1,000 - $2,000', '$2,000 - $3,000', '$3,000 - $5,000', '$5,000 - $7,000', '$7,000 - $10,000', '> $10,000', 'Not sure yet'],
+    },
+    termsUrl: 'https://www.filmtwist.com/terms-and-conditions',
+    privacyUrl: 'http://filmtwist.com/privacy-policy',
+    /** The form's configured thank-you text, verbatim. */
+    thankYouText: 'Thank you for taking the time to complete this form. Please check your email for next steps.',
   },
   primaryCta: "Let's Fill Your School",
   primaryCtaAlt: 'Talk Enrollment Strategy',

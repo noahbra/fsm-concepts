@@ -10,7 +10,7 @@ const titles = {
   creative: ['Make your school the one families remember.', 'Concept 02: Bold & Creative'],
   story: ['The Invisible School', 'Concept 03: a scroll-driven story'],
   original: ['Start With Your Number', 'Concept 04: a worksheet, not a brochure'],
-  visible: ['Ads, video and landing pages that bring families to your school.', 'Concept 05: the merged direction'],
+  visible: ['Enrollment marketing for K-12 schools.', 'Concept 05: the merged direction'],
 };
 for (const [id, [t, s]] of Object.entries(titles)) {
   const shot = `public/assets/screenshots/${id}-desktop.webp`;

@@ -12,6 +12,7 @@ import { StoryScroll } from './StoryScroll';
 import { StoryStatic } from './StoryStatic';
 import { ServiceIcon } from './ServiceIcons';
 import { LeadConnectorForm, MobileCta, SiteFooter, SiteHeader } from './Chrome';
+import { FsmForm } from './FsmForm';
 
 type MotionPref = 'auto' | 'on' | 'off';
 
@@ -68,7 +69,7 @@ export function App() {
       <main id="main">
         <section id="top" className="story-section" aria-label="The Invisible School, a short story">
           <p className="sr-only">
-            The page opens with the Full School Marketing logo, the line "Ads, video and landing pages that bring families to your school," a button
+            The page opens with the Full School Marketing logo, the line "Enrollment marketing for K-12 schools," a button
             to start a conversation, and a link to skip the story. Then a short illustrated story: the period from the tagline grow your own becomes a
             small character who walks through a quiet town where a wonderful school sits unnoticed. A sign comes alive, then digital ads on phones,
             search and streaming reach families where they already are, a landing page lets them share their details and start enrollment, an email
@@ -150,8 +151,8 @@ export function App() {
                 <p className="contact__line">{siteConfig.contactLine}</p>
                 <p className="contact__note">The form goes straight to the team.</p>
               </div>
-              <div className="contact__form" data-testid="contact-form">
-                <LeadConnectorForm />
+              <div className={`contact__form${siteConfig.leadConnector.mode === 'fsm' ? ' contact__form--fsm' : ''}`} data-testid="contact-form">
+                {siteConfig.leadConnector.mode === 'fsm' ? <FsmForm /> : <LeadConnectorForm />}
               </div>
             </div>
           </section>

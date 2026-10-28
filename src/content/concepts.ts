@@ -100,7 +100,7 @@ export const mergedDirection: ConceptMeta = {
 export const hubPath = url('');
 
 /** The merged direction's version label and the checklist of reviewer notes it answers, shown on the hub. */
-export const mergedVersion = { label: 'Version 2', date: 'October 28, 2026' };
+export const mergedVersion = { label: 'Version 2.1', date: 'October 28, 2026' };
 
 export type ChecklistState = 'done' | 'partly' | 'not-done';
 export interface ChecklistItem { note: string; state: ChecklistState; how: string }
@@ -125,8 +125,18 @@ export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
       { note: 'Service cells the same size, as a visual', state: 'done', how: 'Five equal tiles, each with an icon.' },
       { note: 'Case studies as pages on this site, not links to filmtwist.com', state: 'done', how: 'Each campaign has its own page here: results, the work, campaign creative. The published source is cited at the foot.' },
       { note: 'Cut-out photos of the team for "Who you work with"', state: 'done', how: 'Eleven team members from the FilmTwist About page, names and roles as published. Reuse to confirm.' },
-      { note: 'A work-with-us form wired to FilmTwist\'s form system', state: 'done', how: 'FilmTwist\'s LeadConnector contact form is embedded in the Contact section; submissions go to the FilmTwist account.' },
+      { note: 'A work-with-us form wired to FilmTwist\'s form system', state: 'done', how: 'The Contact form posts to FilmTwist\'s LeadConnector contact form; submissions land in the FilmTwist account (rebuilt in Version 2.1, below).' },
       { note: 'Headers in FSM colors', state: 'done', how: 'Section headings use the kit blue (5.3:1 on white, passes AA).' },
+    ],
+  },
+  {
+    round: 'Project review of Version 2, October 28',
+    items: [
+      { note: 'The embedded FilmTwist form is confusing; make it an FSM form', state: 'done', how: 'A Full School Marketing form in the site\'s own type and colors, with the same fields, options and consent text as FilmTwist\'s form. It still posts to FilmTwist\'s form service, so leads land in the same place. One real submission is needed to confirm the lead arrives.' },
+      { note: 'The first scroll should move the brand at once; it feels stuck', state: 'done', how: 'No opening hold. On the first scroll the logo rises, the tagline dissolves and the dot drops from the period in one motion.' },
+      { note: 'Revise the tagline under the logo', state: 'done', how: 'Now "Enrollment marketing for K-12 schools." Wording to confirm.' },
+      { note: 'At the end, the school scrolls up and the dot rejoins the logo', state: 'done', how: 'The town scrolls up and out first, then the dot rises into the reconstituted logo as its period.' },
+      { note: 'The school\'s windows are wrong; check every object\'s orientation', state: 'done', how: 'The right-hand windows sat past the wall; both rows are now three a side, mirrored about the door. Every other object in the scene was checked (roofs, doors, awnings, bench, lamps, trees, clock, flag, cards, envelope, banners) and sits as drawn.' },
     ],
   },
 ];

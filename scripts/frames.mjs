@@ -1,9 +1,11 @@
 /**
  * Capture the pinned story at N evenly spaced scroll positions.
- * Usage: node scripts/frames.mjs <url> <outDir> <prefix> [width=1440] [height=900] [n=16]
+ * Usage: node scripts/frames.mjs <url> <outDir> <prefix> [width=1440] [height=900] [n=16] [fractions]
+ * `fractions` (optional) is a comma-separated list of story progress values in 0..1 that replaces the even spacing.
  */
 import { chromium } from '@playwright/test';
-const [url, outDir, prefix, w = '1440', h = '900', n = '16'] = process.argv.slice(2);
+const [url, outDir, prefix, w = '1440', h = '900', n = '16', fractions] = process.argv.slice(2);
+const steps = fractions ? fractions.split(',').map(Number) : Array.from({ length: +n + 1 }, (_, i) => i / +n);
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport: { width: +w, height: +h }, deviceScaleFactor: 1, isMobile: +w < 500, hasTouch: +w < 500 });
 const page = await ctx.newPage();
@@ -16,8 +18,8 @@ const range = await page.evaluate(() => {
   const r = stage.getBoundingClientRect();
   return { start: r.top + window.scrollY, end: r.top + window.scrollY + r.height - window.innerHeight };
 });
-for (let i = 0; i <= +n; i++) {
-  const y = range.start + ((range.end - range.start) * i) / +n;
+for (let i = 0; i < steps.length; i++) {
+  const y = range.start + (range.end - range.start) * steps[i];
   await page.evaluate((y) => window.scrollTo(0, y), y);
   await page.waitForTimeout(900);
   await page.screenshot({ path: `${outDir}/${prefix}-${String(i).padStart(2, '0')}.png` });

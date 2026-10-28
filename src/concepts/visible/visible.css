@@ -208,6 +208,23 @@ section.services, section.work, section.team, section.contact { padding: 5.5rem 
 .contact__note { color: var(--s-muted); font-size: .95rem; }
 .contact__form { background: #fff; border-radius: var(--s-radius); padding: .75rem; box-shadow: 0 10px 30px rgba(31,42,51,.06); }
 .contact__form iframe { display: block; width: 100%; }
+.contact__form--fsm { padding: 1.75rem; }
+.fsm-form { display: grid; gap: 1.1rem; }
+.fsm-form__row--2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+@media (max-width: 599px) { .fsm-form__row--2 { grid-template-columns: 1fr; } }
+.fsm-form__field { display: grid; gap: .35rem; font-family: var(--s-font-head); font-weight: 700; font-size: .92rem; color: var(--fsm-blue-deep); }
+.fsm-form__field abbr { text-decoration: none; color: var(--fsm-green-ink); }
+.fsm-form input, .fsm-form select, .fsm-form textarea { font: 400 1rem/1.4 var(--s-font-body); color: var(--s-ink); background: var(--s-paper); border: 1.5px solid #cfdae6; border-radius: .7rem; padding: .7rem .85rem; width: 100%; }
+.fsm-form select { appearance: none; -webkit-appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--fsm-blue) 50%), linear-gradient(135deg, var(--fsm-blue) 50%, transparent 50%); background-position: calc(100% - 1.1rem) 50%, calc(100% - .75rem) 50%; background-size: .35rem .35rem; background-repeat: no-repeat; padding-right: 2.2rem; }
+.fsm-form input:focus-visible, .fsm-form select:focus-visible, .fsm-form textarea:focus-visible { outline: 3px solid var(--fsm-blue); outline-offset: 1px; border-color: var(--fsm-blue); }
+.fsm-form textarea { resize: vertical; min-height: 6.5rem; }
+.fsm-form__consent { display: grid; grid-template-columns: auto 1fr; gap: .7rem; align-items: start; font-size: .85rem; line-height: 1.45; color: var(--s-muted); }
+.fsm-form__consent input { width: 1.1rem; height: 1.1rem; margin-top: .15rem; accent-color: var(--fsm-blue); }
+.fsm-form__consent a { color: var(--fsm-blue-deep); font-weight: 700; }
+.fsm-form__actions { display: grid; gap: .6rem; justify-items: start; }
+.fsm-form__status { font-size: .9rem; color: #9a3b1f; margin: 0; min-height: 1.2em; }
+.fsm-form--sent { gap: .5rem; padding: 1rem 0; }
+.fsm-form--sent h3 { font-size: 1.5rem; color: var(--fsm-blue); }
 
 /* case-study pages (visible/work/<case>/) */
 .case-page { padding: 1.5rem 0 4rem; }

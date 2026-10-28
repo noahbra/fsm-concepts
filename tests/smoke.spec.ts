@@ -308,7 +308,7 @@ test('Concept 05: one H1 names the offer, skip lands on services, cards expand i
   await page.goto('visible/');
   await settle(page);
   await expect(page.locator('h1')).toHaveCount(1);
-  await expect(page.locator('h1')).toHaveText(/Ads, video and landing pages/);
+  await expect(page.locator('h1')).toHaveText(/Enrollment marketing for K-12 schools/);
   // first frame: the primary button and the one visible skip control are in the document and clickable
   const intro = page.getByTestId('cta-intro');
   await expect(intro).toBeVisible();
@@ -348,10 +348,8 @@ test('Concept 05: one H1 names the offer, skip lands on services, cards expand i
   // contact: FilmTwist's own form, embedded; no figures in our copy
   await expect(page.locator('#contact')).toContainText('free 30-minute call');
   await expect(page.locator('#contact .contact__copy')).not.toContainText(/\d{2,}%|\$\d/);
-  const form = page.getByTestId('leadconnector-form');
-  await expect(form).toBeAttached();
-  expect(await form.getAttribute('src')).toBe(`https://api.leadconnectorhq.com/widget/form/${LEADCONNECTOR_FORM}`);
-  expect(await form.getAttribute('data-form-id')).toBe(LEADCONNECTOR_FORM);
+  await expect(page.getByTestId('fsm-form')).toBeVisible();
+  expect(await page.locator('#contact iframe').count()).toBe(0); // the FSM-branded form, not FilmTwist's widget frame
   await expect(page.locator('.site-header__cta')).toHaveAttribute('href', '#contact');
   // review chrome points at the merged question, not the four-concept form
   await expect(page.getByRole('link', { name: 'Does this resolve your notes?' }).first()).toHaveAttribute('href', /#merged$/);
@@ -397,6 +395,58 @@ for (const id of CASES) {
     expect(errors, errors.join('\n')).toEqual([]);
   });
 }
+
+test('Concept 05 form: posts to LeadConnector with the widget\'s payload shape, thanks on success, keeps the answers on failure', async ({ page }) => {
+  await page.goto('visible/');
+  await settle(page);
+  await page.addStyleTag({ content: 'html { scroll-behavior: auto !important }' });
+  await page.getByTestId('fsm-form').scrollIntoViewIfNeeded();
+  // required fields block an empty send: nothing is posted
+  let posts = 0;
+  await page.route('https://backend.leadconnectorhq.com/forms/submit**', (route) => { posts += 1; return route.fulfill({ status: 200, contentType: 'application/json', body: '{"status":true}' }); });
+  await page.getByTestId('fsm-submit').click();
+  expect(posts).toBe(0);
+  await expect(page.getByTestId('fsm-form')).toBeVisible();
+  // fill the form as a school leader would
+  await page.getByTestId('fsm-name').fill('Test Principal');
+  await page.getByTestId('fsm-email').fill('principal@example.org');
+  await page.getByTestId('fsm-phone').fill('555 010 2030');
+  await page.getByTestId('fsm-services').selectOption('Marketing Services');
+  await page.getByTestId('fsm-source').selectOption('Referral');
+  await page.getByTestId('fsm-budget').selectOption('Not sure yet');
+  await page.getByTestId('fsm-needs').fill('Forty seats in TK and K.');
+  // a failing service keeps the answers on the page and says so
+  await page.unroute('https://backend.leadconnectorhq.com/forms/submit**');
+  await page.route('https://backend.leadconnectorhq.com/forms/submit**', (route) => route.fulfill({ status: 500, body: '' }));
+  await page.getByTestId('fsm-submit').click(); // consent unchecked: still blocked by the browser
+  await page.getByTestId('fsm-terms').check();
+  await page.getByTestId('fsm-submit').click();
+  await expect(page.getByTestId('fsm-status')).toContainText('500');
+  await expect(page.getByTestId('fsm-needs')).toHaveValue('Forty seats in TK and K.');
+  // the real shape: multipart with formData JSON keyed by the form's field tags, plus locationId and formId
+  const bodies: string[] = [];
+  const urls: string[] = [];
+  await page.unroute('https://backend.leadconnectorhq.com/forms/submit**');
+  await page.route('https://backend.leadconnectorhq.com/forms/submit**', (route) => { urls.push(route.request().url()); bodies.push(route.request().postData() ?? ''); return route.fulfill({ status: 200, contentType: 'application/json', body: '{"status":true}' }); });
+  await page.getByTestId('fsm-submit').click();
+  await expect(page.getByTestId('fsm-form-sent')).toContainText('Thank you');
+  expect(bodies).toHaveLength(1);
+  expect(urls[0]).toBe(`https://backend.leadconnectorhq.com/forms/submit?formId=${LEADCONNECTOR_FORM}&locationId=6DjFgiECQC0Tt8gNX4vT`);
+  const body = bodies[0];
+  expect(body).toContain('name="formData"');
+  expect(body).toContain('name="locationId"\r\n\r\n6DjFgiECQC0Tt8gNX4vT');
+  expect(body).toContain(`name="formId"\r\n\r\n${LEADCONNECTOR_FORM}`);
+  const json = JSON.parse(body.split('name="formData"')[1].split('\r\n\r\n')[1].split('\r\n')[0]);
+  expect(json.full_name).toBe('Test Principal');
+  expect(json.email).toBe('principal@example.org');
+  expect(json.EJestVkia960oHxT9PxO).toBe('Marketing Services');
+  expect(json.XrSIkifPP25CWRXwy0t6).toBe('Referral');
+  expect(json.MgHxET4F4WHl8USXu65T).toBe('Not sure yet');
+  expect(json['7FmoBx7Yyarn8ptrhdUe']).toBe('Forty seats in TK and K.');
+  expect(json.terms_and_conditions).toBe(true);
+  expect(json.formId).toBe(LEADCONNECTOR_FORM);
+  expect(json.location_id).toBe('6DjFgiECQC0Tt8gNX4vT');
+});
 
 test('Concept 05 on a phone: one primary button per viewport, bar appears after the first frame and hides over the footer', async ({ browser }) => {
   const ctx = await browser.newContext({ viewport: { width: 375, height: 667 }, isMobile: true, hasTouch: true });

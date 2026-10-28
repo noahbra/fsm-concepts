@@ -61,6 +61,13 @@ export function mixPalette(t: number): PaletteVars {
   return out;
 }
 
+/**
+ * School windows: three each side of the tower and door, mirrored about the building's center (x 3500). Body spans
+ * 3220 to 3780; both groups keep a 36 unit margin from the wall and a 40 unit gap to the door (3470 to 3530).
+ * (Version 2 derived the right-hand group from a formula that put the last window past the wall.)
+ */
+const SCHOOL_WIN_X = [3256, 3322, 3388, 3570, 3636, 3702];
+
 const BRAND = { blue: '#3d6ea3', green: '#32b67a', bright: '#22cf50', teal: '#3da39b', ink: '#1f2a33', gold: '#f0b429', coral: '#e9643b' };
 const FAM_TONES = [BRAND.teal, BRAND.blue, BRAND.green, BRAND.coral, BRAND.gold, BRAND.bright];
 const FONT = 'Josefin Sans Variable, Josefin Sans, sans-serif';
@@ -273,12 +280,12 @@ export function MidLayer() {
         <polygon points="3436,300 3500,246 3564,300" fill="var(--school-roof)" />
         <rect x={3498} y={186} width={4} height={62} fill="var(--fg)" />
         <polygon className="w-flag" points="3502,188 3546,198 3502,210" fill="var(--sign)" />
-        <circle cx={3500} cy={350} r={24} fill="var(--clock)" />
-        <path d="M3500 336 L3500 350 L3510 356" stroke="var(--school-roof)" strokeWidth={3} fill="none" strokeLinecap="round" />
-        <text x={3500} y={393} textAnchor="middle" fontFamily={FONT} fontWeight={700} fontSize={14} letterSpacing={3} fill="var(--school-roof)">SCHOOL</text>
+        <circle cx={3500} cy={344} r={24} fill="var(--clock)" />
+        <path d="M3500 330 L3500 344 L3510 350" stroke="var(--school-roof)" strokeWidth={3} fill="none" strokeLinecap="round" />
+        <text x={3500} y={386} textAnchor="middle" fontFamily={FONT} fontWeight={700} fontSize={14} letterSpacing={3} fill="var(--school-roof)">SCHOOL</text>
         {[0, 1].map((row) =>
-          [0, 1, 2, 3, 4, 5].map((c) => (
-            <rect key={`w${row}${c}`} x={c < 3 ? 3256 + c * 66 : 3498 + c * 66 - 66} y={GY - 236 + row * 100} width={42} height={60} rx={3} fill="var(--win)" />
+          SCHOOL_WIN_X.map((wx, c) => (
+            <rect key={`w${row}${c}`} x={wx} y={GY - 236 + row * 100} width={42} height={60} rx={3} fill="var(--win)" />
           )),
         )}
         <rect x={3470} y={GY - 90} width={60} height={90} rx={4} fill="var(--door)" />
@@ -377,8 +384,8 @@ export function TopLayer() {
 
       {/* the school fills with light */}
       {[0, 1].map((row) =>
-        [0, 1, 2, 3, 4, 5].map((c) => (
-          <rect key={`g${row}${c}`} className="w-glow" x={c < 3 ? 3256 + c * 66 : 3498 + c * 66 - 66} y={GY - 236 + row * 100} width={42} height={60} rx={3} fill="#ffd36b" />
+        SCHOOL_WIN_X.map((wx, c) => (
+          <rect key={`g${row}${c}`} className="w-glow" x={wx} y={GY - 236 + row * 100} width={42} height={60} rx={3} fill="#ffd36b" />
         )),
       )}
       <rect className="w-glow" x={3470} y={GY - 90} width={60} height={90} rx={4} fill="#ffb84d" />

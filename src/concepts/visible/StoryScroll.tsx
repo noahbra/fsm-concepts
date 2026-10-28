@@ -133,10 +133,10 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
         gsap.set(period, { opacity: 1 });
         gsap.set(cue, { opacity: 1 });
 
-        // Concept 05: the pin is 350% (Concept 03 ran 600%). The story timeline keeps its 0 to 100 positions untouched
-        // and is nested in a master timeline behind an extra opening hold, so the first frame (H1, button, skip)
-        // reads for about half a viewport before anything moves. (HOLD + 6) / (HOLD + 100) * 3.5 viewports ~= 0.5.
-        const HOLD = 10;
+        // Concept 05: the pin is 350% (Concept 03 ran 600%). The story timeline keeps its 13 to 100 positions untouched
+        // and is nested in a master timeline. Version 2.1: no opening hold. The first scroll moves the brand at once
+        // (the Version 1 hold read as the page being stuck), so HOLD stays at 0 and the opening runs in 0 to 13.
+        const HOLD = 0;
         const tl = gsap.timeline({ defaults: { ease: 'none' } });
         const master = gsap.timeline({
           defaults: { ease: 'none' },
@@ -149,9 +149,9 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
             anticipatePin: 1,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
-              period.classList.toggle('is-pulsing', self.progress < (HOLD + 5) / (HOLD + 100));
-              // the mobile CTA bar appears at the moment the intro layer's button fades (timeline position 7), never before
-              document.documentElement.classList.toggle('is-past-intro', self.progress >= (HOLD + 7) / (HOLD + 100));
+              period.classList.toggle('is-pulsing', self.progress < (HOLD + 0.3) / (HOLD + 100));
+              // the mobile CTA bar appears once the intro layer's button has dissolved (timeline position 3), never before
+              document.documentElement.classList.toggle('is-past-intro', self.progress >= (HOLD + 3) / (HOLD + 100));
             },
           },
         });
@@ -188,30 +188,26 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
         const pop = (target: gsap.TweenTarget, pos: number, dur = 1.2, stagger = 0) =>
           tl.to(target, { opacity: 1, scale: 1, transformOrigin: '50% 100%', duration: dur, stagger, ease: 'back.out(1.7)' }, pos);
 
-        // ---- 0 to 6: the lockup holds. The period breathes (CSS), the scroll cue shows.
-        tl.to({}, { duration: 6 }, 0);
-        tl.to(cue, { opacity: 0, duration: 1.2 }, 2.5);
-
-        // ---- 6 to 13: the period becomes the character and drops into the world
-        tl.set(period, { opacity: 0 }, 6);
-        tl.set(dot, { opacity: 1 }, 6);
-        tl.to(dot, { scaleX: () => m().s * 1.25, scaleY: () => m().s * 0.75, duration: 0.6, ease: 'power2.out' }, 6);
-        tl.to(dot, { scaleX: () => m().s * 0.9, scaleY: () => m().s * 1.2, duration: 0.5, ease: 'power2.out' }, 6.6);
-        tl.to(char, { y: () => m().py - 110, duration: 1.6, ease: 'power2.out' }, 7);
-        tl.to(dot, { scale: 0.55, duration: 1.6, ease: 'power1.inOut' }, 7);
-        tl.to(lockup, { opacity: 0, y: -30, duration: 2.4, ease: 'power2.in' }, 7);
-        // the intro layer (H1, button, skip) leaves on the same position as the lockup, as its own tween,
-        // then drops out of the layout so the reconstituted lockup at the end sits where the final frame expects it
-        tl.to(intro, { autoAlpha: 0, y: -30, duration: 2.4, ease: 'power2.in' }, 7);
-        tl.set(intro, { display: 'none' }, 9.5);
-        tl.to(world, { opacity: 1, y: 0, duration: 3.6, ease: 'power2.out' }, 7.2);
-        tl.to(char, { y: () => m().ground, duration: 3.2, ease: 'power2.in' }, 8.6);
-        tl.to(char, { x: () => m().W * DOT_FRAC, duration: 4.8, ease: 'power1.inOut' }, 7);
-        tl.to(dot, { scaleX: 1, scaleY: 1, duration: 3.2, ease: 'power1.in' }, 8.6);
-        tl.to(shadow, { opacity: 1, duration: 1, ease: 'power2.in' }, 10.8);
-        tl.to(dot, { scaleX: 1.4, scaleY: 0.66, duration: 0.4, ease: 'power2.out' }, 11.8);
-        tl.to(dot, { scaleX: 0.92, scaleY: 1.12, duration: 0.5, ease: 'power2.out' }, 12.2);
-        tl.to(dot, { scaleX: 1, scaleY: 1, duration: 0.9, ease: 'elastic.out(1, 0.5)' }, 12.7);
+        // ---- 0 to 13: the first scroll moves the brand at once. The lockup rises, the H1 and buttons dissolve, and the
+        // period lets go of the dot in the same motion: the dot keeps the period's place while the logo lifts away, then
+        // drops into the world. The wrap stays lifted for the whole story; the ending reconstitutes the logo in that place.
+        tl.to(lockupWrap, { y: () => -m().lift, duration: 4, ease: 'power2.out' }, 0);
+        tl.to(intro, { autoAlpha: 0, y: -16, duration: 3, ease: 'power1.in' }, 0);
+        tl.set(intro, { display: 'none' }, 3.2); // out of the layout so the reconstituted lockup sits where the final frame expects it
+        tl.to(cue, { opacity: 0, duration: 1 }, 0);
+        tl.set(period, { opacity: 0 }, 0.3);
+        tl.set(dot, { opacity: 1 }, 0.3);
+        tl.to(dot, { scaleX: () => m().s * 0.9, scaleY: () => m().s * 1.25, duration: 0.8, ease: 'power2.out' }, 0.3); // stretches as it pulls away
+        tl.to(char, { y: () => m().py + 24, duration: 2.5, ease: 'power1.in' }, 0.3); // a slow slip while the logo lifts
+        tl.to(lockup, { opacity: 0, duration: 2.4, ease: 'power2.in' }, 2); // the logo fades as it rises
+        tl.to(world, { opacity: 1, y: 0, duration: 4, ease: 'power2.out' }, 3);
+        tl.to(char, { y: () => m().ground, duration: 4.4, ease: 'power2.in' }, 2.8); // the drop
+        tl.to(char, { x: () => m().W * DOT_FRAC, duration: 6, ease: 'power1.inOut' }, 1);
+        tl.to(dot, { scaleX: 1, scaleY: 1, duration: 4.4, ease: 'power1.in' }, 2.8);
+        tl.to(shadow, { opacity: 1, duration: 1, ease: 'power2.in' }, 6.2);
+        tl.to(dot, { scaleX: 1.4, scaleY: 0.66, duration: 0.4, ease: 'power2.out' }, 7.2); // lands
+        tl.to(dot, { scaleX: 0.92, scaleY: 1.12, duration: 0.5, ease: 'power2.out' }, 7.6);
+        tl.to(dot, { scaleX: 1, scaleY: 1, duration: 0.9, ease: 'elastic.out(1, 0.5)' }, 8.1);
 
         // ---- Beat 1 (14 to 28): a lovely school nobody sees
         caption(0, 14, 27);
@@ -268,22 +264,24 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
         for (let i = 0; i < 6; i++) tl.to(flag, { skewY: i % 2 ? -8 : 8, transformOrigin: '0% 50%', duration: 1, ease: 'sine.inOut' }, 80 + i);
         tl.to(flag, { skewY: 0, transformOrigin: '0% 50%', duration: 1, ease: 'sine.inOut' }, 86);
 
-        // ---- 90 to 100: the character returns to its place as the period, the logo reconstitutes, the invitation
-        tl.to(world, { opacity: 0, y: 40, duration: 4, ease: 'power2.in' }, 90);
+        // ---- 90 to 100: the school scrolls up and away first (90 to 95), the character rides up with it and rejoins
+        // the logo as the period once the town has cleared (95 to 98), then the invitation
+        tl.to(world, { y: () => -pin.clientHeight * 1.05, duration: 5, ease: 'power2.in' }, 90);
+        tl.to(world, { opacity: 0, duration: 1.2, ease: 'power1.in' }, 93.8);
         tl.to(shadow, { opacity: 0, duration: 1 }, 90);
         tl.set(lockup, { opacity: 0, y: 0 }, 90);
         tl.set(lockupWrap, { y: () => -m().lift }, 90);
-        tl.to(char, { x: () => m().px, duration: 6, ease: 'power1.inOut' }, 90);
-        tl.to(char, { y: () => m().py - m().lift - 150, duration: 3, ease: 'power2.out' }, 90);
-        tl.to(char, { y: () => m().py - m().lift + m().R * m().s, duration: 3, ease: 'power2.in' }, 93);
-        tl.to(dot, { scale: () => m().s, duration: 6, ease: 'power1.inOut' }, 90);
-        tl.to(lockup, { opacity: 1, duration: 3, ease: 'power1.out' }, 93);
-        tl.to(dot, { scaleX: () => m().s * 1.3, scaleY: () => m().s * 0.72, duration: 0.4, ease: 'power2.out' }, 96);
-        tl.to(dot, { scaleX: () => m().s, scaleY: () => m().s, duration: 0.7, ease: 'elastic.out(1, 0.5)' }, 96.4);
-        tl.set(dot, { opacity: 0 }, 97.2);
-        tl.set(period, { opacity: 1 }, 97.2);
-        tl.to(finalBlock, { autoAlpha: 1, y: 0, duration: 2.4, ease: 'power2.out' }, 97);
-        tl.to({}, { duration: 1 }, 99);
+        tl.to(char, { x: () => m().px, duration: 6, ease: 'power1.inOut' }, 91);
+        tl.to(char, { y: () => m().py - m().lift - 150, duration: 3.5, ease: 'power2.out' }, 91.5);
+        tl.to(char, { y: () => m().py - m().lift + m().R * m().s, duration: 2.5, ease: 'power2.in' }, 95);
+        tl.to(dot, { scale: () => m().s, duration: 6, ease: 'power1.inOut' }, 91);
+        tl.to(lockup, { opacity: 1, duration: 2.5, ease: 'power1.out' }, 95);
+        tl.to(dot, { scaleX: () => m().s * 1.3, scaleY: () => m().s * 0.72, duration: 0.4, ease: 'power2.out' }, 97.5);
+        tl.to(dot, { scaleX: () => m().s, scaleY: () => m().s, duration: 0.7, ease: 'elastic.out(1, 0.5)' }, 97.9);
+        tl.set(dot, { opacity: 0 }, 98.6);
+        tl.set(period, { opacity: 1 }, 98.6);
+        tl.to(finalBlock, { autoAlpha: 1, y: 0, duration: 2, ease: 'power2.out' }, 97.5);
+        tl.to({}, { duration: 0.5 }, 99.5);
         master.add(tl, HOLD);
 
         const refresh = () => ScrollTrigger.refresh();

@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SkipLink } from '../../components/SkipLink';
 import { ResponsiveMedia } from '../../components/ResponsiveMedia';
 import { MetricInline, ProofNote, SourceLink } from '../../components/CaseStudyProof';
 import { SocialLinks } from '../../components/SocialLinks';
-import { caseStudies, headlineMetric } from '../../content/caseStudies';
-import { services, approach } from '../../content/services';
+import { caseStudies, headlineMetric, type CaseStudy } from '../../content/caseStudies';
+import { services } from '../../content/services';
 import { ctaHref, siteConfig } from '../../content/config';
 import { brand } from '../../content/media';
 import { useReducedMotion } from '../../lib/motion';
@@ -17,7 +17,37 @@ export function App() {
   const reduced = useReducedMotion();
   const [motion, setMotion] = useState<MotionPref>('auto');
   const showStatic = motion === 'off' || (motion === 'auto' && reduced);
-  const serviceById = (id: string) => services.find((s) => s.id === id)!;
+
+  // The reveal: photos enter desaturated and faded and come into full color as they reach the viewport.
+  // Full color is the default; the pre-state class is added only once the observer exists, and never under reduced motion.
+  useEffect(() => {
+    if (reduced || typeof IntersectionObserver === 'undefined') return;
+    const root = document.documentElement;
+    const targets = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }),
+      { threshold: 0.3 },
+    );
+    root.classList.add('reveal-ready');
+    targets.forEach((t) => io.observe(t));
+    return () => { io.disconnect(); root.classList.remove('reveal-ready'); };
+  }, [reduced]);
+
+  // The mobile CTA bar hides over the footer; in the static (reduced-motion) version it appears once the first frame scrolls away.
+  useEffect(() => {
+    const root = document.documentElement;
+    const footer = document.querySelector('.site-footer');
+    if (!footer || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver((entries) => root.classList.toggle('is-at-footer', entries.some((e) => e.isIntersecting)), { threshold: 0.05 });
+    io.observe(footer);
+    let onScroll: (() => void) | undefined;
+    if (showStatic) {
+      onScroll = () => root.classList.toggle('is-past-intro', window.scrollY > window.innerHeight * 0.6);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+    return () => { io.disconnect(); root.classList.remove('is-at-footer'); if (onScroll) window.removeEventListener('scroll', onScroll); };
+  }, [showStatic]);
 
   // Review chrome (ribbon and pill) arrives with the hub's merged-direction model in build step 4.
   return (
@@ -30,12 +60,18 @@ export function App() {
           <span>Full School Marketing</span>
         </a>
         <nav className="site-header__nav" aria-label="Site">
-          <a href="#work">Work</a>
           <a href="#services">Services</a>
-          <a href="#approach">Approach</a>
+          <a href="#work">Work</a>
+          <a href="#team">Team</a>
+          <a href="#contact">Contact</a>
           <a className="site-header__cta" href={ctaHref} target="_blank" rel="noopener noreferrer">Let's talk</a>
         </nav>
       </header>
+
+      {/* Below 700px: one primary button per viewport. Shown from the moment the first frame's button fades; hidden over the footer. */}
+      <div className="mobile-cta" data-testid="mobile-cta">
+        <a className="btn btn--primary" href={ctaHref} target="_blank" rel="noopener noreferrer">{siteConfig.primaryCta}</a>
+      </div>
 
       <main id="main">
         <section id="top" className="story-section" aria-label="The Invisible School, a short story">
@@ -56,81 +92,54 @@ export function App() {
         </section>
 
         <div id="site-content" tabIndex={-1} className="site-content">
-          <section id="work" className="work" aria-labelledby="work-title">
-            <div className="wrap">
-              <p className="eyebrow">Real schools, real campaigns</p>
-              <h2 id="work-title">Schools that got seen. And chosen.</h2>
-              <p className="lede">{siteConfig.filmtwist.attribution} Each result is tied to the school, the outcome, and the reporting window.</p>
-              <div className="work__list">
-                {caseStudies.map((c, i) => {
-                  const m = headlineMetric(c);
-                  return (
-                    <article className={`case ${i % 2 ? 'case--flip' : ''}`} key={c.id} data-testid="case-study">
-                      <div className="case__media">
-                        <ResponsiveMedia asset={c.hero} sizes="(max-width: 760px) 100vw, 56vw" />
-                        {c.assetsReady !== 'approved' && <span className="case__rights">Campaign creative from the published case study. Reuse approval pending.</span>}
-                      </div>
-                      <div className="case__body">
-                        <p className="case__descriptor">{c.descriptor}</p>
-                        <h3>{c.school}</h3>
-                        <p className="case__metric"><MetricInline m={m} c={c} /></p>
-                        <ul className="case__secondary">
-                          {c.metrics.filter((x) => x !== m).map((x) => <li key={x.unit}><strong>{x.display}</strong> {x.label.toLowerCase()}</li>)}
-                        </ul>
-                        <p className="case__summary">{c.summary}</p>
-                        <ul className="tags" aria-label="Services">
-                          {c.services.map((id) => <li key={id}>{serviceById(id).short}</li>)}
-                        </ul>
-                        <SourceLink c={c} className="textlink" />
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
-              <ProofNote className="proof-note" />
-            </div>
-          </section>
-
+          {/* 2. What we do: five services in the client's order, one line each (the outcome field). No paragraphs, no stage labels. */}
           <section id="services" className="services" aria-labelledby="services-title" data-testid="services">
             <div className="wrap">
-              <p className="eyebrow">What we do</p>
-              <h2 id="services-title">From your first impression to the first day of school.</h2>
-              <ul className="services__grid">
-                {services.map((s, i) => (
+              <p className="eyebrow">Services</p>
+              <h2 id="services-title">What we do.</h2>
+              <ul className="services__list">
+                {services.map((s) => (
                   <li className="service" key={s.id}>
-                    <span className="service__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                     <h3>{s.title}</h3>
                     <p className="service__outcome">{s.outcome}</p>
-                    <p className="service__desc">{s.description}</p>
                   </li>
                 ))}
               </ul>
             </div>
           </section>
 
-          <section id="approach" className="approach" aria-labelledby="approach-title">
+          {/* 3. Schools that got seen: three photo-led cards, one sourced headline metric each, expanding in place. */}
+          <section id="work" className="work" aria-labelledby="work-title">
             <div className="wrap">
-              <p className="eyebrow">How it works</p>
-              <h2 id="approach-title">From visibility to enrollment.</h2>
-              <ol className="path">
-                {approach.map((a, i) => (
-                  <li className="path__step" key={a.id}>
-                    <span className="path__dot" aria-hidden="true" style={{ ['--i' as string]: i }} />
-                    <h3>{a.title}</h3>
-                    <p>{a.line}</p>
-                  </li>
-                ))}
-              </ol>
+              <p className="eyebrow">Work</p>
+              <h2 id="work-title">Schools that got seen. And chosen.</h2>
+              <p className="lede">{siteConfig.filmtwist.attribution}</p>
+              <div className="work__list">
+                {caseStudies.map((c) => <CaseCard c={c} key={c.id} />)}
+              </div>
+              <ProofNote className="proof-note" />
             </div>
           </section>
 
-          <section className="final" aria-labelledby="final-title">
-            <div className="wrap final__inner">
-              <span className="final__dot" aria-hidden="true" />
-              <h2 id="final-title">Let's fill your school.</h2>
-              <p>Tell us about your enrollment goals and what families say when they find you. We'll talk through what could move the numbers.</p>
+          {/* 4. Who you work with: a real agency, real people, real schools. No placeholder copy. */}
+          <section id="team" className="team" aria-labelledby="team-title">
+            <div className="wrap team__inner">
+              <p className="eyebrow">Team</p>
+              <h2 id="team-title">Who you work with.</h2>
+              <p className="team__line">{siteConfig.teamLine}</p>
+              <p className="team__schools">
+                Campaigns above: {caseStudies.map((c) => c.school).join(', ')}.
+              </p>
+            </div>
+          </section>
+
+          {/* 5. The first conversation: what the call covers and what to bring. No figures, one button. */}
+          <section id="contact" className="contact" aria-labelledby="contact-title">
+            <div className="wrap contact__inner">
+              <p className="eyebrow">Contact</p>
+              <h2 id="contact-title">The first conversation.</h2>
+              <p className="contact__line">{siteConfig.contactLine}</p>
               <a className="btn btn--primary btn--big" data-testid="cta-final" href={ctaHref} target="_blank" rel="noopener noreferrer">{siteConfig.primaryCta}</a>
-              <p className="final__note">{siteConfig.filmtwist.relationship}</p>
             </div>
           </section>
         </div>
@@ -146,10 +155,10 @@ export function App() {
             <p>{siteConfig.missionLine}</p>
           </div>
           <nav className="site-footer__nav" aria-label="Footer">
-            <a href="#work">Work</a>
             <a href="#services">Services</a>
-            <a href="#approach">Approach</a>
-            <a href={ctaHref} target="_blank" rel="noopener noreferrer">Let's talk</a>
+            <a href="#work">Work</a>
+            <a href="#team">Team</a>
+            <a href="#contact">Contact</a>
           </nav>
           <div className="site-footer__meta">
             <p>
@@ -161,5 +170,40 @@ export function App() {
         </div>
       </footer>
     </>
+  );
+}
+
+/** One case study: photo, descriptor, school, the headline metric with its source, and a button that expands the card in place. */
+function CaseCard({ c }: { c: CaseStudy }) {
+  const [open, setOpen] = useState(false);
+  const m = headlineMetric(c);
+  const panelId = `case-${c.id}-more`;
+  return (
+    <article className={`case${open ? ' is-open' : ''}`} data-testid="case-study">
+      <figure className="case__figure">
+        <div className="case__media" data-reveal>
+          <ResponsiveMedia asset={c.hero} sizes="(max-width: 760px) 100vw, 56vw" />
+        </div>
+        {c.assetsReady !== 'approved' && <figcaption className="case__rights">Campaign creative from the published case study. Reuse approval pending.</figcaption>}
+      </figure>
+      <div className="case__body">
+        <p className="case__descriptor">{c.descriptor}</p>
+        <h3>{c.school}</h3>
+        <p className="case__metric"><MetricInline m={m} c={c} /></p>
+        <button type="button" className="case__toggle" aria-expanded={open} aria-controls={panelId} onClick={() => setOpen((v) => !v)}>
+          {open ? 'Show less' : 'What the campaign did'}
+        </button>
+        <div id={panelId} className="case__more" hidden={!open}>
+          <p className="case__summary">{c.summary}</p>
+          <ul className="case__story">
+            {c.story.map((line) => <li key={line}>{line}</li>)}
+          </ul>
+          <ul className="case__secondary">
+            {c.metrics.filter((x) => x !== m).map((x) => <li key={x.unit}><strong>{x.display}</strong> {x.label.toLowerCase()}</li>)}
+          </ul>
+          <SourceLink c={c} className="textlink" />
+        </div>
+      </div>
+    </article>
   );
 }

@@ -23,6 +23,15 @@ export const siteConfig = {
 
   /** Concept 05 first-frame H1: names the offer, no sentiment, no numbers. New copy, REQUIRES_CLIENT_CONFIRMATION. */
   heroLine: 'Ads, video and landing pages that bring families to your school.',
+  /** Concept 05 "Who you work with": built only from FilmTwist's published phrases (agency name, the "K-12 Student
+   *  Recruitment" service name, the Brand Guide mission line, roles on filmtwist.com/about) plus "is," "practice,"
+   *  "Our team covers." The 2020 date is the project owner's ruling (10/28/2026). REQUIRES_CLIENT_CONFIRMATION. */
+  teamLine:
+    "Full School Marketing is Filmtwist Creative Agency's K-12 student recruitment practice, started in 2020. We help schools grow their own. Our team covers strategy, design, photography, video, websites and paid advertising.",
+  /** Concept 05 "The first conversation": what the call covers and what to bring. "Free 30-minute" is FilmTwist's own
+   *  wording (filmtwist.com/consulting). No figures, no estimate. New copy, REQUIRES_CLIENT_CONFIRMATION. */
+  contactLine:
+    "A free 30-minute call. Tell us how many seats you need to fill, where last year's families came from, and what you have tried. We'll say what we would do first and what it takes. No proposal before we understand your school.",
   primaryCta: "Let's Fill Your School",
   primaryCtaAlt: 'Talk Enrollment Strategy',
   secondaryCta: 'See Our Work',

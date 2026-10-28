@@ -148,7 +148,11 @@ export function StoryScroll({ onRewatchRef }: { onRewatchRef?: (fn: () => void) 
             scrub: 0.5,
             anticipatePin: 1,
             invalidateOnRefresh: true,
-            onUpdate: (self) => period.classList.toggle('is-pulsing', self.progress < (HOLD + 5) / (HOLD + 100)),
+            onUpdate: (self) => {
+              period.classList.toggle('is-pulsing', self.progress < (HOLD + 5) / (HOLD + 100));
+              // the mobile CTA bar appears at the moment the intro layer's button fades (timeline position 7), never before
+              document.documentElement.classList.toggle('is-past-intro', self.progress >= (HOLD + 7) / (HOLD + 100));
+            },
           },
         });
         master.to({}, { duration: HOLD }, 0);

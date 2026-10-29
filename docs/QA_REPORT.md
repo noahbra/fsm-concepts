@@ -26,8 +26,8 @@ the site is in review (`REPLAY_EVERY_LOAD` in `Opener.tsx`; he refreshed, saw no
 at launch the flag goes to false and the opener plays once per session as the brief specified. The hero photograph is now the one
 he chose from filmtwist.com (four students on school steps; `public/assets/site/hero-school-steps-*`, a new `site` section in
 `scripts/optimize-assets.mjs` and `siteMedia()` in `media.ts`), with no caption since it is not a case-study asset; the Aspire
-chalk-numeral still and its caption are gone. Playwright: 276 passed, 0 failed before the push. Posters for the page and the hub
-regenerated.
+chalk-numeral still and its caption are gone. Playwright: 276 passed, 0 failed before the push (commit `df7ac85`), and 276 passed, 0 failed against the live site after
+it. Posters for the page and the hub regenerated.
 
 ## Revision October 29, 2026 (fifth): Concept 06 round 2, the opener
 

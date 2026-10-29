@@ -26,6 +26,11 @@ animation. It did, as the opener's own statement slide, and then again as the he
 is removed; the opener is the logo animation and the landing, 3.5 s, and the page's H1 is the statement. The landing's
 measured offset against the header logo stays 0 px. Test duration updated.
 
+The mark then grew to fill the space the statement left: about 82 percent of the width on desktop and laptop, 83 on a
+390 px phone, 88 on a 360 px phone, measured with at least 16 px clear each side and no horizontal overflow; the first cut
+ran to 4 px from the phone edge and was trimmed. Landing offset against the header logo: 0 px on all four. Local suite
+after the change: 276 passed, 0 failed.
+
 ## Revision October 29, 2026 (eighth): nothing above the page until the mark lands (not deployed)
 
 The project owner still saw "the header in the animation" after the seventh revision. Measured live in Chromium and WebKit: the

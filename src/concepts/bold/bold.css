@@ -106,10 +106,10 @@
 .cr-opener-lock { overflow: hidden; }
 .cr-opener { position: fixed; inset: 0; z-index: 2000; background: #fff; display: grid; place-items: center; overflow: hidden; will-change: transform; }
 .cr-opener-dot { position: fixed; left: 0; top: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--fsm-blue); will-change: transform; }
-.cr-opener-stage { display: grid; gap: clamp(1.2rem, 4vh, 2.2rem); justify-items: center; text-align: center; padding: 0 1.25rem; width: min(100%, 1100px); }
+.cr-opener-stage { display: grid; gap: clamp(1.2rem, 4vh, 2.2rem); justify-items: center; text-align: center; padding: 0 1.25rem; width: min(100%, 1500px); }
 .cr-opener-mark { display: flex; align-items: center; gap: clamp(.5rem, 2vw, 1.3rem); will-change: transform; }
-.cr-opener-mark svg { width: clamp(120px, 24vw, 300px); height: auto; overflow: visible; flex: none; }
-.cr-opener-word { font-family: var(--fsm-font-brand), sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; line-height: 1.02; font-size: clamp(1.6rem, 5.6vw, 4.4rem); text-align: left; }
+.cr-opener-mark svg { width: clamp(118px, 30vw, 430px); height: auto; overflow: visible; flex: none; }
+.cr-opener-word { font-family: var(--fsm-font-brand), sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; line-height: 1.02; font-size: clamp(1.55rem, 6.6vw, 6.2rem); text-align: left; }
 .cr-opener-word > span { display: block; white-space: nowrap; }
 .cr-opener-l1 { color: var(--fsm-blue); }
 .cr-opener-l2 { color: var(--fsm-green-bright); }

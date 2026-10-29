@@ -645,7 +645,7 @@ test('Concept 06 opener: plays over a rendered page and again on reload while in
   await expect(opener).toBeVisible();
   await expect(page.locator('h1')).toHaveCount(1); // the page is in the document underneath
   await expect(page.getByTestId('fsm-form')).toBeAttached();
-  expect(await page.evaluate(() => window.__fsmOpener?.duration)).toBeCloseTo(4.0, 1);
+  expect(await page.evaluate(() => window.__fsmOpener?.duration)).toBeCloseTo(3.5, 1);
   await expect(page.locator('.cr-header')).toHaveCSS('opacity', '0'); // the header waits for the mark (retried: it fades out over 0.4 s under the white field)
   await expect(page.locator('.review-ribbon')).toHaveCSS('opacity', '0'); // and so does the review ribbon above it
   await expect(opener).toHaveCount(0, { timeout: 8_000 });

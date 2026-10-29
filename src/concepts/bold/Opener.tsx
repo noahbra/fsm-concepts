@@ -7,7 +7,7 @@ gsap.registerPlugin(MorphSVGPlugin);
 
 /**
  * The opener: the FSM mark as FilmTwist animates it at the top of their module videos, shortened for the web, then the
- * statement, then the page. A kit-blue dot bounces across a white field, squashes into the hand, the leaves grow out of
+ * the page (the headline is the page's own H1, not a slide of its own). A kit-blue dot bounces across a white field, squashes into the hand, the leaves grow out of
  * it while the wordmark wipes in, the headline rises under the mark, and the whole field slides up off a page that was
  * rendered underneath from the first paint. About 3.9 seconds; any scroll, tap, click or key skips it.
  *
@@ -24,7 +24,7 @@ export const OPENER_KEY = 'fsm-bold-opener-seen';
  * A page that sets the flag itself (the test suite, `?opener=0`) still suppresses it in either mode.
  */
 export const REPLAY_EVERY_LOAD = true;
-export const OPENER_DURATION = 4.0;
+export const OPENER_DURATION = 3.5; // no statement slide: the page headline is the statement, on the first page
 
 const HAND = 'M666,816.5c1.1,0.7,1.4,1,1.8,1.1c29.4,9.5,58.7,19.1,88.2,28.3c16.1,5,32.3,10.4,49.4,8.9c8.6-0.7,17.4-2.7,25.4-6c20.7-8.3,37.9-22.6,56-35.2c18-12.6,35.7-25.5,53.8-37.9c19.6-13.5,40.5-24.6,64.5-27.9c7.9-1.1,16-1.1,24-0.7c4.3,0.2,8.8,1.9,12.8,3.8c11.5,5.3,15.4,13.3,11.2,25.2c-2.9,8-6.8,16.1-11.9,22.8c-12.4,16-26,31-38.6,46.9c-8.6,10.7-16.8,21.8-24.3,33.3c-17.1,26.4-39.5,47.8-62.9,68.4c-23.1,20.5-48.2,38.2-74.8,53.8c-18,10.5-37.2,18.8-57.2,24.9c-11.1,3.3-22.1,2.1-33-0.1c-20.3-4.1-40.5-8.4-60.6-13.4c-35.5-8.9-70.9-18.5-106.3-27.8c-15.7-4.1-31.3-8.4-47-12.4c-2.6-0.6-5.5-0.4-8.2,0.2c-27,5.3-54,10.6-80.9,16.4c-14.8,3.1-27.6-0.2-39.8-8.8c-18.1-12.8-31.8-29.3-42.2-48.6c-16.3-30.3-24.4-62.3-19.4-96.9c1.9-13.2,6.3-25.2,16.4-34.5c5.2-4.8,10.2-10.1,16.1-13.9c30.3-20.1,61.2-39.1,94.1-54.7c20.4-9.7,41.7-17.8,63.9-21.5c18.2-3,36.9-3.4,55.4-4.5c55.4-3.4,110.6-0.1,165.7,5.2c22.4,2.1,44.7,5.6,67.1,8.8c8,1.1,15.7,3.4,21.9,9.2c13.1,12.2,13.2,32.5,0.8,46.3c-19.3,21.5-43.3,32.4-72,34.7c-19.9,1.6-39.8,1.9-59.7,0.6c-15.5-1-30.9-0.8-45.8,4.8C669,815.4,667.8,815.8,666,816.5z';
 const LEAVES = 'M686.6,498.5c0.4-0.5,0.8-0.9,1-1.4c26.6-46.7,65.8-79.9,112.9-104.1c54.7-28.1,113.1-40.8,174.6-38.9c2.3,0.1,4.6,0.3,7.6,0.5c-0.8,6.4-1.3,12.7-2.4,18.8c-7.2,38.4-22.9,73.3-44.6,105.6c-34.6,51.5-76.1,96.5-126.7,132.8c-18,12.9-37.2,23.9-57.8,32c-8.9,3.5-18,5.5-27.6,5c-8.4-0.5-11.7-2.9-13.9-11c-3.6-13-2.1-26.1,0.6-39c3.8-18.4,11.7-35.1,21.1-51.2c0.9-1.5,1.8-3.1,2-5c-0.6,0.6-1.4,1.1-1.9,1.8c-21,24.5-34.6,52.3-36.9,84.8c-1.2,16.5,1.1,32.6,12.7,45.6c4.5,5,10.5,8.8,15.3,12.7c-14.4,3.1-29.5-3.3-40-17.7c-7.9-10.9-15.8-21.8-23.8-32.5c-11-14.8-26.4-24.4-41.8-34.1c17.2,22,36.2,42.9,46,70.6c-2.7,0.3-4.7,0.6-6.8,0.7c-29.9,0.8-56.6-8.1-80-26.9c-14.2-11.4-27.1-24.1-37.5-39c-12.7-18.1-24.4-37-37-56.1c1.5-0.2,2.1-0.4,2.7-0.4c36.5,4.9,72.7,10.9,107.3,24.5c20.1,7.9,36.9,20.6,52.8,34.6c0.7,0.6,1.3,1.2,2.2,2c0.3-0.6,0.6-1,0.5-1.3c-4.6-21.6-2-43.4-1.9-65.2c0.2-21.3-2-42.2-8.6-62.5c-0.6-1.9-1.4-3.8-2.1-5.6c-0.2-0.4-0.5-0.7-1.3-1.7c4.2,22.8,6.2,45.1,5.4,68.1c-9.4-3.8-17.1-9.2-23-17c-22.9-30.6-32-64.9-26.6-102.6c2.9-19.7,7.4-39.1,10.9-58.8c1.4-7.7,1.8-15.6,2.7-23.4c0.5-0.5,1-0.9,1.5-1.4c1.1,1.8,2.1,3.7,3.4,5.3c10.3,13.3,21.3,26.1,30.6,40.1c6.6,9.9,12.2,20.8,16.1,32.1C683.1,444.8,688.1,471,686.6,498.5z';
@@ -59,12 +59,11 @@ export function Opener() {
   const hand = useRef<SVGPathElement>(null);
   const leaves = useRef<SVGPathElement>(null);
   const word = useRef<HTMLDivElement>(null);
-  const statement = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     if (!show) return;
-    const ov = overlay.current, d = dot.current, s = svg.current, h = hand.current, l = leaves.current, w = word.current, st = statement.current;
-    if (!ov || !d || !s || !h || !l || !w || !st) return;
+    const ov = overlay.current, d = dot.current, s = svg.current, h = hand.current, l = leaves.current, w = word.current;
+    if (!ov || !d || !s || !h || !l || !w) return;
     const html = document.documentElement;
     html.classList.add('cr-opener-lock', 'cr-opener-playing');
     let done = false;
@@ -107,10 +106,8 @@ export function Opener() {
     // 3. The leaves grow from the stem while the wordmark rises in, letter by letter.
     tl.fromTo(l, { scale: 0, opacity: 0, svgOrigin: STEM }, { scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(1.6)', svgOrigin: STEM }, 1.45);
     tl.fromTo(letters, { y: '0.5em', opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, stagger: 0.028, ease: 'power2.out' }, 1.5);
-    // 4. The statement.
-    tl.fromTo(st, { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out' }, 2.45);
-    // 5. The field slides up and the page is there.
-    // 5. The landing: the mark and wordmark shrink and glide into the header's logo spot while the statement fades, the white
+        // 5. The field slides up and the page is there.
+    // 5. The landing: the mark and wordmark shrink and glide into the header's logo spot, the white
     //    field dissolves to reveal the page, and the header fades in around the logo that just arrived. One logo, one motion.
     const landing = (duration: number) => {
       const seq = gsap.timeline();
@@ -129,7 +126,6 @@ export function Opener() {
         return (aimed = { x: t.left - g.left - (sv.left - g.left) * scale, y: t.top - g.top, scale });
       };
       seq.to(mark, { x: () => aim().x, y: () => aim().y, scale: () => aim().scale, transformOrigin: '0 0', duration: duration * 0.8, ease: 'power3.inOut' }, 0);
-      seq.to(st, { opacity: 0, y: -12, duration: duration * 0.35, ease: 'power2.in' }, 0);
       // the field stays white until the mark is most of the way up, then dissolves to the page beneath
       seq.to(ov, { backgroundColor: 'rgba(255,255,255,0)', duration: duration * 0.45, ease: 'power2.inOut' }, duration * 0.55);
       // once the mark has landed, the header (and, in review, the ribbon and pill) fades in around it; a tween, not a class
@@ -193,9 +189,6 @@ export function Opener() {
             ))}
           </div>
         </div>
-        <p className="cr-opener-statement" ref={statement} style={{ opacity: 0 }}>
-          Make your school the one families <em>remember.</em>
-        </p>
       </div>
     </div>
   );

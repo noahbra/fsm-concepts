@@ -19,6 +19,13 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 29, 2026 (ninth): the statement slide is gone from the opener (not deployed)
+
+The project owner, on the cache-free link: the headline "Make your school the one families remember." appears in the
+animation. It did, as the opener's own statement slide, and then again as the hero H1 the moment the page appeared. The slide
+is removed; the opener is the logo animation and the landing, 3.5 s, and the page's H1 is the statement. The landing's
+measured offset against the header logo stays 0 px. Test duration updated.
+
 ## Revision October 29, 2026 (eighth): nothing above the page until the mark lands (not deployed)
 
 The project owner still saw "the header in the animation" after the seventh revision. Measured live in Chromium and WebKit: the

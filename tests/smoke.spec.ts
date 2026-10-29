@@ -646,7 +646,7 @@ test('Concept 06 opener: plays over a rendered page and again on reload while in
   await expect(page.locator('h1')).toHaveCount(1); // the page is in the document underneath
   await expect(page.getByTestId('fsm-form')).toBeAttached();
   expect(await page.evaluate(() => window.__fsmOpener?.duration)).toBeCloseTo(4.0, 1);
-  expect(await page.evaluate(() => getComputedStyle(document.querySelector('.cr-header')!).opacity)).toBe('0'); // the header waits for the mark
+  await expect(page.locator('.cr-header')).toHaveCSS('opacity', '0'); // the header waits for the mark (retried: it fades out over 0.4 s under the white field)
   await expect(opener).toHaveCount(0, { timeout: 8_000 });
   expect(await page.evaluate(() => sessionStorage.getItem('fsm-bold-opener-seen'))).toBeNull(); // review mode: no flag, so it replays
   expect(await page.evaluate(() => document.documentElement.classList.contains('cr-opener-lock'))).toBe(false);

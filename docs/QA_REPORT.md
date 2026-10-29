@@ -29,6 +29,12 @@ mid-word on desktop (now `white-space: nowrap`, size trimmed), and the first cut
 moved, leaving the big mark over the hero text (resequenced: travel first, then dissolve). Test: the header is at opacity 0
 while the opener plays and back at 1 once it ends.
 
+Deployed on the project owner's go (commit 2b56162, Pages run 40940819198 success). Live suite afterward: 271 passed, 5 failed.
+Four were the opener test in every browser: the header's opacity read 0.69 at the instant the test sampled it, mid-way through
+its 0.4 s fade under the white field, so the assertion was racing a transition the viewer cannot see. The assertion now retries
+(`toHaveCSS`). The fifth was `read ETIMEDOUT` fetching the Concept 05 Friendship case page, the same network shape as the
+earlier timeouts today. Live rerun of those five tests in all browsers after the fix: 8 passed, 0 failed.
+
 ## Revision October 29, 2026 (sixth): replay the opener on every load during review; the hero photograph
 
 Two changes on the project owner's word after Version 2 went live, deployed together. The opener replays on every load while

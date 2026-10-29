@@ -647,10 +647,12 @@ test('Concept 06 opener: plays over a rendered page and again on reload while in
   await expect(page.getByTestId('fsm-form')).toBeAttached();
   expect(await page.evaluate(() => window.__fsmOpener?.duration)).toBeCloseTo(4.0, 1);
   await expect(page.locator('.cr-header')).toHaveCSS('opacity', '0'); // the header waits for the mark (retried: it fades out over 0.4 s under the white field)
+  await expect(page.locator('.review-ribbon')).toHaveCSS('opacity', '0'); // and so does the review ribbon above it
   await expect(opener).toHaveCount(0, { timeout: 8_000 });
   expect(await page.evaluate(() => sessionStorage.getItem('fsm-bold-opener-seen'))).toBeNull(); // review mode: no flag, so it replays
   expect(await page.evaluate(() => document.documentElement.classList.contains('cr-opener-lock'))).toBe(false);
   await expect(page.locator('.cr-header')).toHaveCSS('opacity', '1'); // and is back once it lands
+  await expect(page.locator('.review-ribbon')).toHaveCSS('opacity', '1');
   await page.reload({ waitUntil: 'load' });
   await expect(page.getByTestId('opener')).toBeVisible(); // review mode: every load
   await expect(page.getByTestId('opener')).toHaveCount(0, { timeout: 8_000 });

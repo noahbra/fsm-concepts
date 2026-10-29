@@ -73,6 +73,7 @@ export function Opener() {
       done = true;
       if (!REPLAY_EVERY_LOAD) { try { sessionStorage.setItem(OPENER_KEY, '1'); } catch { /* ignore */ } }
       html.classList.remove('cr-opener-lock', 'cr-opener-playing');
+      gsap.set('.cr-header, .review-ribbon, .review-pill', { clearProps: 'opacity' });
       delete window.__fsmOpener;
       setShow(false);
     };
@@ -114,17 +115,27 @@ export function Opener() {
     const landing = (duration: number) => {
       const seq = gsap.timeline();
       const mark = w.parentElement as HTMLElement; // .cr-opener-mark: the svg and the wordmark together
-      const target = document.querySelector<HTMLElement>('.cr-header .cr-logo img');
-      const g = mark.getBoundingClientRect();
-      if (target && g.width > 0) {
+      // Measured when the landing tween first renders (function-based values), not when the timeline is built: at build time
+      // the brand font may not have loaded, and a wider fallback wordmark shifts the centered mark by tens of pixels.
+      let aimed: { x: number; y: number; scale: number } | null = null;
+      const aim = () => {
+        if (aimed) return aimed;
+        const target = document.querySelector<HTMLElement>('.cr-header .cr-logo img');
+        const g = mark.getBoundingClientRect(), sv = s.getBoundingClientRect();
+        if (!target || g.width === 0) return (aimed = { x: 0, y: 0, scale: 1 });
         const t = target.getBoundingClientRect();
         const scale = t.height / g.height;
-        seq.to(mark, { x: t.left + (t.width - g.width * scale) / 2 - g.left, y: t.top - g.top, scale, transformOrigin: '0 0', duration: duration * 0.8, ease: 'power3.inOut' }, 0);
-      }
+        // left edges align so the hand lands exactly on the header logo's hand; the mark box can be wider than its content, so aim the svg itself
+        return (aimed = { x: t.left - g.left - (sv.left - g.left) * scale, y: t.top - g.top, scale });
+      };
+      seq.to(mark, { x: () => aim().x, y: () => aim().y, scale: () => aim().scale, transformOrigin: '0 0', duration: duration * 0.8, ease: 'power3.inOut' }, 0);
       seq.to(st, { opacity: 0, y: -12, duration: duration * 0.35, ease: 'power2.in' }, 0);
       // the field stays white until the mark is most of the way up, then dissolves to the page beneath
       seq.to(ov, { backgroundColor: 'rgba(255,255,255,0)', duration: duration * 0.45, ease: 'power2.inOut' }, duration * 0.55);
-      seq.add(() => { html.classList.remove('cr-opener-playing'); }, duration * 0.7); // the header fades in (CSS transition)
+      // once the mark has landed, the header (and, in review, the ribbon and pill) fades in around it; a tween, not a class
+      // flip, so a seek shows the same frame a viewer gets. finish() clears the inline opacity after the class comes off.
+      const chrome = Array.from(document.querySelectorAll<HTMLElement>('.cr-header, .review-ribbon, .review-pill'));
+      seq.to(chrome, { opacity: 1, duration: 0.4, ease: 'power2.out' }, duration * 0.8);
       seq.to(mark, { opacity: 0, duration: duration * 0.2, ease: 'power1.in' }, duration * 0.8);
       return seq;
     };
@@ -148,6 +159,7 @@ export function Opener() {
       window.removeEventListener('keydown', skip);
       tl.kill();
       html.classList.remove('cr-opener-lock', 'cr-opener-playing');
+      gsap.set('.cr-header, .review-ribbon, .review-pill', { clearProps: 'opacity' });
       delete window.__fsmOpener;
     };
   }, [show]);

@@ -19,6 +19,22 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 29, 2026 (eighth): nothing above the page until the mark lands (not deployed)
+
+The project owner still saw "the header in the animation" after the seventh revision. Measured live in Chromium and WebKit: the
+site header was at opacity 0 for the whole play, but the review ribbon above it (the "Current direction" strip, review-only
+chrome) and the review pill were never hidden, so the ribbon showed through as the white field dissolved, before the mark had
+landed. On a phone it is a tall dark bar and reads as a header. Now the header, ribbon and pill all wait and fade in together
+by a GSAP tween once the mark has landed (a tween, not a class flip, so a seek shows the frame a viewer gets; the CSS
+transition on the header is gone, so it snaps to hidden under the white field at mount instead of racing a fade).
+
+Second defect found while measuring the landing: on desktop and tablet the landed mark sat 17 to 25 px left of the header
+logo. The target was measured when the timeline was built, before the brand font had loaded; the wider fallback wordmark
+shifted the centered mark. The landing tween now uses function-based values, measured when it first renders, and aims the
+svg itself rather than its box. Landed mark versus header logo on desktop, phone and tablet: 0 px in x, y and height.
+
+Tests: the ribbon is asserted hidden during play and visible after, alongside the header. Local suite: 276 passed, 0 failed.
+
 ## Revision October 29, 2026 (seventh): the opener lands on the header logo (branch of main, not deployed)
 
 On the project owner's note that the logo appeared twice (big in the opener, then again in the header), the opener now opens

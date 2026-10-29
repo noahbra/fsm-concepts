@@ -58,10 +58,10 @@
 .cr-link-arrow:hover { color: var(--ink); }
 
 /* ---- header ---- */
-.cr-header { position: sticky; top: 0; z-index: 50; transition: opacity .4s ease; background: rgba(31,61,92,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,.08); }
+.cr-header { position: sticky; top: 0; z-index: 50; background: rgba(31,61,92,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,.08); }
 .cr-header-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 68px; }
 .cr-logo img { height: 34px; width: auto; }
-.cr-opener-playing .cr-header { opacity: 0; } /* hidden until the opener's mark lands on its logo */
+.cr-opener-playing .cr-header, .cr-opener-playing .review-ribbon, .cr-opener-playing .review-pill { opacity: 0; } /* nothing above the page until the opener's mark lands on the header logo; the review ribbon and pill wait too */
 .cr-nav { display: flex; align-items: center; gap: 1.6rem; }
 .cr-nav a:not(.cr-btn) { color: #fff; text-decoration: none; font-family: var(--label); font-weight: 600; font-size: .9rem; letter-spacing: .06em; text-transform: uppercase; padding: .35rem 0; border-bottom: 2px solid transparent; }
 .cr-nav a:not(.cr-btn):hover { border-bottom-color: var(--accent); }

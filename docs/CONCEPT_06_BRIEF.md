@@ -1,6 +1,6 @@
 # Concept 06 design brief: Bold, rebuilt
 
-Status: approved by the project owner, built on the `concept-06-bold` branch and deployed on his go, October 28, 2026 (steps 1 to 3 below; commit `b2d0581`). Live at https://noahbra.github.io/fsm-concepts/bold/.
+Status: approved by the project owner, built on the `concept-06-bold` branch and deployed on his go, October 28, 2026 (steps 1 to 3 below; commit `b2d0581`). Round 2 (the opener, the one-photo green hero, the uncropped reel) deployed on his go October 29, 2026 (commit `bfdf75d`). Live at https://noahbra.github.io/fsm-concepts/bold/.
 Basis: the decision maker's October 28 verdict on Concept 05 (drop the opening video, too far from option 2, too plain), her October 27 rating of Concept 02 (preferred, 5 of 5: the fonts, the interactivity; change a few colors to bring out the brand; the graphics are busy, borrow the simplicity of Concept 01's photos), the brand owner's October 27 notes (Concept 02's hero is the only part she liked; too much information after the work; "What we make. What it does." is a wall of text; what we do under the hero, then the case studies; no hard numbers up front), and the project owner's round 2 and 3 asks on Concept 05, which stand. Reviewer names stay out of this repo.
 
 ## The idea, one sentence
@@ -79,7 +79,7 @@ The H1 wording (Concept 02's, unchanged), the tagline, team photo reuse and the 
 - Hub: a "The current direction" section (`#current`) above the merged direction, with its own feedback model (`fsm-review-current-v1`), five fields added to the feedback form on October 28, and a "What Version 1 addresses" checklist. Concept 05 is labeled "Version 2.1, superseded" and keeps its checklist and form.
 - Cut tests 1 to 6 are asserted in `tests/smoke.spec.ts` ("Concept 06: one H1 ...") except test 1, which is a reading of the phone capture, and test 5, which is a `git diff main` over the Concept 01 to 05 directories before the merge.
 
-## Round 2: the opener (October 29, 2026, built on the `concept-06-round-2` branch)
+## Round 2: the opener (October 29, 2026, built on the `concept-06-round-2` branch and deployed)
 
 The decision maker's October 29 review (hub form, "mostly" resolves): the site is solid; the opening is still a little busy; he proposes "a logo animation screen with the hand and then a bold statement and then it transitions into the first page", more brand color at the open, and more green overall. The headline type stays.
 

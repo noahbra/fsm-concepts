@@ -19,12 +19,15 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
-## Revision October 29, 2026 (fifth): Concept 06 round 2, the opener (branch, not deployed)
+## Revision October 29, 2026 (fifth): Concept 06 round 2, the opener
+
+Deployed to GitHub Pages on October 29, 2026 on the project owner's go (commit `bfdf75d`, run 40934439541). The full suite was
+rerun against the live site (`PW_BASE_URL=https://noahbra.github.io/fsm-concepts/`): 276 passed, 0 failed (3.5 min).
 
 Built on the `concept-06-round-2` branch after the two October 29 reviews of Version 1 (hub form: "mostly" resolves from both;
 the opener still busy; a logo animation then a statement then the page; more green; the hero thumbnails; the stale staff list;
 the reel's cropped creatives). The opener and hero were shown to the project owner as frame strips and captures before the rest
-was built. Not deployed: it waits for his go.
+was built.
 
 - Opener (`src/concepts/bold/Opener.tsx`): FilmTwist's own module-video intro rebuilt for the web from the emblem's two SVG
   paths. A kit-blue dot bounces three arcs, morphs into the hand (GSAP MorphSVG, free in gsap 3.13 and later), the leaves grow

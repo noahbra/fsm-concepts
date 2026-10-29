@@ -1,6 +1,6 @@
 # Concept 06 design brief: Bold, rebuilt
 
-Status: approved by the project owner and built on the `concept-06-bold` branch, October 28, 2026 (steps 1 to 3 below). Not deployed until the project owner's go.
+Status: approved by the project owner, built on the `concept-06-bold` branch and deployed on his go, October 28, 2026 (steps 1 to 3 below; commit `b2d0581`). Live at https://noahbra.github.io/fsm-concepts/bold/.
 Basis: the decision maker's October 28 verdict on Concept 05 (drop the opening video, too far from option 2, too plain), her October 27 rating of Concept 02 (preferred, 5 of 5: the fonts, the interactivity; change a few colors to bring out the brand; the graphics are busy, borrow the simplicity of Concept 01's photos), the brand owner's October 27 notes (Concept 02's hero is the only part she liked; too much information after the work; "What we make. What it does." is a wall of text; what we do under the hero, then the case studies; no hard numbers up front), and the project owner's round 2 and 3 asks on Concept 05, which stand. Reviewer names stay out of this repo.
 
 ## The idea, one sentence

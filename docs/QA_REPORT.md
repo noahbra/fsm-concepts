@@ -19,11 +19,14 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
-## Revision October 28, 2026 (fourth): Concept 06, the current direction (branch, not deployed)
+## Revision October 28, 2026 (fourth): Concept 06, the current direction
+
+Deployed to GitHub Pages on October 28, 2026 on the project owner's go (commit `b2d0581`, run 40799727233). The full suite was
+rerun against the live site (`PW_BASE_URL=https://noahbra.github.io/fsm-concepts/`): 268 passed, 0 failed (2.6 min).
 
 Built on the `concept-06-bold` branch per `CONCEPT_06_BRIEF.md` after the decision maker's October 28 review of Concept 05
-(drop the opening video; too far from Concept 02; too plain). Not deployed: the hub link is in the client's hands, so the
-branch waits for the project owner's go. Step 1 (hero and reel) was shown to him before steps 2 and 3 were built.
+(drop the opening video; too far from Concept 02; too plain). The branch waited for the project owner's go because the hub link is in the
+client's hands. Step 1 (hero and reel) was shown to him before steps 2 and 3 were built.
 
 - New pages: `/bold/` and `/bold/work/{aspire,friendship,envision}/`, Concept 02's page forked to `src/concepts/bold/` with
   kit-blue surfaces, kit-green accent, Archivo display over Josefin Sans text, a three-panel collage, the Concept 02 reel,

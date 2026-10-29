@@ -58,9 +58,10 @@
 .cr-link-arrow:hover { color: var(--ink); }
 
 /* ---- header ---- */
-.cr-header { position: sticky; top: 0; z-index: 50; background: rgba(31,61,92,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,.08); }
+.cr-header { position: sticky; top: 0; z-index: 50; transition: opacity .4s ease; background: rgba(31,61,92,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,.08); }
 .cr-header-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 68px; }
 .cr-logo img { height: 34px; width: auto; }
+.cr-opener-playing .cr-header { opacity: 0; } /* hidden until the opener's mark lands on its logo */
 .cr-nav { display: flex; align-items: center; gap: 1.6rem; }
 .cr-nav a:not(.cr-btn) { color: #fff; text-decoration: none; font-family: var(--label); font-weight: 600; font-size: .9rem; letter-spacing: .06em; text-transform: uppercase; padding: .35rem 0; border-bottom: 2px solid transparent; }
 .cr-nav a:not(.cr-btn):hover { border-bottom-color: var(--accent); }
@@ -105,11 +106,11 @@
 .cr-opener-lock { overflow: hidden; }
 .cr-opener { position: fixed; inset: 0; z-index: 2000; background: #fff; display: grid; place-items: center; overflow: hidden; will-change: transform; }
 .cr-opener-dot { position: fixed; left: 0; top: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--fsm-blue); will-change: transform; }
-.cr-opener-stage { display: grid; gap: clamp(1.2rem, 4vh, 2.2rem); justify-items: center; text-align: center; padding: 0 1.25rem; width: min(100%, 900px); }
-.cr-opener-mark { display: flex; align-items: center; gap: clamp(.5rem, 2vw, 1.1rem); }
-.cr-opener-mark svg { width: clamp(110px, 22vw, 250px); height: auto; overflow: visible; flex: none; }
-.cr-opener-word { font-family: var(--fsm-font-brand), sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; line-height: 1.02; font-size: clamp(1.5rem, 5.8vw, 4rem); text-align: left; }
-.cr-opener-word > span { display: block; }
+.cr-opener-stage { display: grid; gap: clamp(1.2rem, 4vh, 2.2rem); justify-items: center; text-align: center; padding: 0 1.25rem; width: min(100%, 1100px); }
+.cr-opener-mark { display: flex; align-items: center; gap: clamp(.5rem, 2vw, 1.3rem); will-change: transform; }
+.cr-opener-mark svg { width: clamp(120px, 24vw, 300px); height: auto; overflow: visible; flex: none; }
+.cr-opener-word { font-family: var(--fsm-font-brand), sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; line-height: 1.02; font-size: clamp(1.6rem, 5.6vw, 4.4rem); text-align: left; }
+.cr-opener-word > span { display: block; white-space: nowrap; }
 .cr-opener-l1 { color: var(--fsm-blue); }
 .cr-opener-l2 { color: var(--fsm-green-bright); }
 .cr-opener-letter { display: inline-block; white-space: pre; }

@@ -19,6 +19,16 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 29, 2026 (seventh): the opener lands on the header logo (branch of main, not deployed)
+
+On the project owner's note that the logo appeared twice (big in the opener, then again in the header), the opener now opens
+larger (about 60 percent of the viewport) and ends with the mark and wordmark gliding into the header's logo position while
+the statement fades, the white field dissolving only once the mark is most of the way there, and the header fading in around
+the logo that just landed. 4.0 s. Two defects caught in the frame strip before any deploy: the enlarged wordmark wrapped
+mid-word on desktop (now `white-space: nowrap`, size trimmed), and the first cut dissolved the field before the mark had
+moved, leaving the big mark over the hero text (resequenced: travel first, then dissolve). Test: the header is at opacity 0
+while the opener plays and back at 1 once it ends.
+
 ## Revision October 29, 2026 (sixth): replay the opener on every load during review; the hero photograph
 
 Two changes on the project owner's word after Version 2 went live, deployed together. The opener replays on every load while

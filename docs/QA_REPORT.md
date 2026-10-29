@@ -34,6 +34,7 @@ shifted the centered mark. The landing tween now uses function-based values, mea
 svg itself rather than its box. Landed mark versus header logo on desktop, phone and tablet: 0 px in x, y and height.
 
 Tests: the ribbon is asserted hidden during play and visible after, alongside the header. Local suite: 276 passed, 0 failed.
+Deployed on the project owner's go (commit 9be3fae, Pages run 40945183822 success). Live suite afterward, exit code read directly: 276 passed, 0 failed (3.7 min).
 
 ## Revision October 29, 2026 (seventh): the opener lands on the header logo (branch of main, not deployed)
 

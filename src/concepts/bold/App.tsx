@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { siteConfig, url } from '../../content/config';
 import { caseStudies, headlineMetric, type CaseStudy } from '../../content/caseStudies';
 import { services } from '../../content/services';
@@ -11,6 +11,7 @@ import { useReducedMotion } from '../../lib/motion';
 import { ServiceIcon } from '../visible/ServiceIcons';
 import { FsmForm } from '../visible/FsmForm';
 import { Header, Footer } from './Chrome';
+import { Opener } from './Opener';
 
 /**
  * Concept 06: Bold, rebuilt. Concept 02's page forked on October 28, 2026 (docs/CONCEPT_06_BRIEF.md): the hero, reel
@@ -38,6 +39,7 @@ export function App() {
 
   return (
     <>
+      <Opener />
       <SkipLink />
       <ReviewRibbon conceptId="bold" />
       <Header />
@@ -56,56 +58,11 @@ export function App() {
   );
 }
 
-/* Hero collage: three real campaign assets, layered (Concept 02 had four and a sticker; the brief asks for simpler frames). */
-const collage = [
-  { item: caseStudies[1].hero, label: 'Digital ad, Friendship PCS', cls: 'cr-panel--a' },
-  { item: caseStudies[0].gallery[0], label: 'Social ads, Aspire Public Schools', cls: 'cr-panel--b' },
-  { item: caseStudies[2].hero, label: 'School photography, Envision Education', cls: 'cr-panel--c' },
-];
+/* Hero: one campaign photograph beside the statement (round 2, October 29: both reviewers asked for the collage to go). */
+const heroPhoto = { item: caseStudies[0].hero, label: 'Campaign photography, Aspire Public Schools' };
 
 function Hero() {
   const reduced = useReducedMotion();
-  const stage = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (reduced) return;
-    if (!window.matchMedia('(pointer: fine)').matches) return;
-    const el = stage.current;
-    if (!el) return;
-    let raf = 0;
-    let tx = 0;
-    let ty = 0;
-    const onMove = (e: MouseEvent) => {
-      const r = el.getBoundingClientRect();
-      const x = (e.clientX - (r.left + r.width / 2)) / r.width;
-      const y = (e.clientY - (r.top + r.height / 2)) / r.height;
-      tx = Math.max(-1, Math.min(1, x));
-      ty = Math.max(-1, Math.min(1, y));
-      if (!raf) raf = requestAnimationFrame(apply);
-    };
-    const apply = () => {
-      raf = 0;
-      el.style.setProperty('--tilt-x', `${(-ty * 6).toFixed(2)}deg`);
-      el.style.setProperty('--tilt-y', `${(tx * 8).toFixed(2)}deg`);
-      el.style.setProperty('--shift-x', `${(tx * 14).toFixed(1)}px`);
-      el.style.setProperty('--shift-y', `${(ty * 14).toFixed(1)}px`);
-    };
-    const onLeave = () => {
-      el.style.setProperty('--tilt-x', '0deg');
-      el.style.setProperty('--tilt-y', '0deg');
-      el.style.setProperty('--shift-x', '0px');
-      el.style.setProperty('--shift-y', '0px');
-    };
-    const hero = el.closest('section') ?? el;
-    hero.addEventListener('mousemove', onMove);
-    hero.addEventListener('mouseleave', onLeave);
-    return () => {
-      hero.removeEventListener('mousemove', onMove);
-      hero.removeEventListener('mouseleave', onLeave);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, [reduced]);
-
   const words = 'Make your school the one families remember.'.split(' ');
 
   return (
@@ -137,14 +94,10 @@ function Hero() {
           </div>
         </div>
 
-        <div className="cr-collage" ref={stage} aria-label="Campaign creative from FilmTwist school enrollment work" role="group">
-          {collage.map((p, i) => (
-            <figure key={i} className={`cr-panel ${p.cls}`}>
-              <ResponsiveMedia asset={p.item} sizes="(max-width: 900px) 60vw, 30vw" priority={i < 2} />
-              <figcaption>{p.label}</figcaption>
-            </figure>
-          ))}
-        </div>
+        <figure className="cr-hero-photo" style={{ aspectRatio: `${heroPhoto.item.width} / ${heroPhoto.item.height}` }}>
+          <ResponsiveMedia asset={heroPhoto.item} sizes="(max-width: 960px) 92vw, 44vw" priority />
+          <figcaption>{heroPhoto.label}</figcaption>
+        </figure>
       </div>
     </section>
   );

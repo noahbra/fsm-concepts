@@ -33,6 +33,11 @@ async function settle(page: Page) {
   await page.waitForTimeout(300);
 }
 
+// Concept 06's opener plays once per session; every test starts past it (the opener's own test clears the flag).
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => { try { sessionStorage.setItem('fsm-bold-opener-seen', '1'); } catch { /* storage blocked */ } });
+});
+
 test.describe('Hub', () => {
   test('loads and exposes four working concept links', async ({ page, baseURL }) => {
     const errors = watch(page);

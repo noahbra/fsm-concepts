@@ -1,7 +1,7 @@
 /* Concept 06: Bold, rebuilt. Forked from Concept 02 (creative.css) on October 28, 2026; the cr- prefix is kept because each
    concept is its own page and nothing here leaks. Retokened: kit blue surfaces in place of black, kit green as the accent,
    Archivo for display, Josefin Sans for everything read. */
-.cr-header, .cr-hero, .cr-reel, .cr-services, .cr-work, .cr-team, .cr-partner, .cr-cta, .cr-footer, .cr-casepage {
+.cr-header, .cr-hero, .cr-reel, .cr-services, .cr-work, .cr-team, .cr-partner, .cr-cta, .cr-footer, .cr-casepage, .cr-opener {
   --ink: var(--fsm-ink);
   --surface: var(--fsm-blue);        /* hero, final call */
   --surface-2: var(--fsm-blue-deep); /* reel */
@@ -74,7 +74,15 @@
 }
 
 /* ---- hero ---- */
-.cr-hero { background: radial-gradient(1200px 600px at 85% 10%, rgba(61,163,155,.22), transparent 60%), radial-gradient(800px 500px at 10% 90%, rgba(50,182,122,.22), transparent 60%), var(--surface); color: #fff; overflow: hidden; position: relative; }
+.cr-hero {
+  /* Round 2: the page opens green. The kit green (#32b67a) deepened to #1a7f54 so white body text clears 4.5:1; the gradient runs to the kit's green ink; the glow is the kit teal, deep. */
+  --hero-green: #1a7f54;
+  background: radial-gradient(900px 520px at 88% 12%, rgba(46,127,121,.55), transparent 62%), linear-gradient(165deg, var(--hero-green) 0%, var(--fsm-green-ink) 100%);
+  color: #fff; overflow: hidden; position: relative;
+}
+.cr-hero .cr-eyebrow--light { color: #fff; opacity: .85; }
+.cr-hero .cr-btn--primary { background: #fff; color: var(--fsm-blue-ink); border-color: #fff; }
+.cr-hero .cr-btn--primary:hover { background: var(--fsm-green-tint); border-color: var(--fsm-green-tint); }
 .cr-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
 .cr-hero-inner { position: relative; display: grid; gap: 3rem; padding: clamp(3rem, 8vh, 6rem) 0 clamp(3rem, 8vh, 6rem); min-height: calc(100vh - 68px - 32px); align-items: center; }
 @media (min-width: 960px) { .cr-hero-inner { grid-template-columns: 1.15fr 1fr; gap: 2rem; } }
@@ -88,24 +96,25 @@
 .cr-kinetic .cr-word { opacity: 0; transform: translateY(.5em) rotate(2deg); animation: cr-word-in .7s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: calc(var(--i) * 90ms + 120ms); }
 @keyframes cr-word-in { to { opacity: 1; transform: none; } }
 
-/* collage */
-.cr-collage { position: relative; aspect-ratio: 1 / 1; max-width: 640px; width: 100%; margin-inline: auto; transform-style: preserve-3d; perspective: 1200px; --tilt-x: 0deg; --tilt-y: 0deg; --shift-x: 0px; --shift-y: 0px; }
-.cr-panel { position: absolute; margin: 0; border-radius: 14px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.08); background: var(--surface-3); transform: rotate(var(--rot)) translate3d(calc(var(--shift-x) * var(--depth)), calc(var(--shift-y) * var(--depth)), 0); transition: transform .35s ease-out; }
-.cr-panel img { width: 100%; height: 100%; object-fit: cover; }
-.cr-panel picture { height: 100%; }
-.cr-panel figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 2.2rem .8rem .7rem; font-family: var(--label); font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,.78)); }
-.cr-panel--a { left: 0; top: 2%; width: 56%; aspect-ratio: 1; --rot: -3deg; --depth: 1.5; z-index: 3; }
-.cr-panel--b { right: 0; top: 0; width: 42%; aspect-ratio: 441/394; --rot: 2.5deg; --depth: .8; z-index: 2; }
-.cr-panel--c { right: 5%; bottom: 0; width: 56%; aspect-ratio: 4/3; --rot: -2deg; --depth: 1.2; z-index: 4; }
-@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .cr-collage { transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y)); transition: transform .3s ease-out; }
-}
-@media (max-width: 959px) {
-  .cr-collage { aspect-ratio: auto; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; max-width: 100%; perspective: none; }
-  .cr-panel { position: static; width: auto; aspect-ratio: 1; --rot: 0deg; transform: none; }
-  .cr-panel--b { aspect-ratio: 1; }
-  .cr-panel--c { grid-column: span 2; aspect-ratio: 16 / 9; }
-}
+.cr-hero-photo { position: relative; margin: 0; width: 100%; max-width: 620px; margin-inline: auto; border-radius: 18px; overflow: hidden; background: var(--fsm-green-ink); box-shadow: 0 30px 60px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.1); }
+.cr-hero-photo picture { height: 100%; }
+.cr-hero-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.cr-hero-photo figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 2.2rem .9rem .75rem; font-family: var(--label); font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,.72)); }
+
+/* ---- opener: the mark as FilmTwist animates it, then the statement, then the page (Opener.tsx) ---- */
+.cr-opener-lock { overflow: hidden; }
+.cr-opener { position: fixed; inset: 0; z-index: 2000; background: #fff; display: grid; place-items: center; overflow: hidden; will-change: transform; }
+.cr-opener-dot { position: fixed; left: 0; top: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--fsm-blue); will-change: transform; }
+.cr-opener-stage { display: grid; gap: clamp(1.2rem, 4vh, 2.2rem); justify-items: center; text-align: center; padding: 0 1.25rem; width: min(100%, 900px); }
+.cr-opener-mark { display: flex; align-items: center; gap: clamp(.5rem, 2vw, 1.1rem); }
+.cr-opener-mark svg { width: clamp(110px, 22vw, 250px); height: auto; overflow: visible; flex: none; }
+.cr-opener-word { font-family: var(--fsm-font-brand), sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; line-height: 1.02; font-size: clamp(1.5rem, 5.8vw, 4rem); text-align: left; }
+.cr-opener-word > span { display: block; }
+.cr-opener-l1 { color: var(--fsm-blue); }
+.cr-opener-l2 { color: var(--fsm-green-bright); }
+.cr-opener-letter { display: inline-block; white-space: pre; }
+.cr-opener-statement { margin: 0; font-family: var(--display); font-variation-settings: 'wdth' 125; font-weight: 900; text-transform: uppercase; letter-spacing: -.02em; line-height: .95; font-size: clamp(1.7rem, 5vw, 3.8rem); color: var(--fsm-blue); max-width: 20ch; text-wrap: balance; }
+.cr-opener-statement em { font-style: normal; color: var(--fsm-green-deep); }
 
 /* ---- reel / marquee ---- */
 .cr-reel { background: var(--surface-2); color: #fff; padding: 1.8rem 0 2.2rem; border-top: 1px solid rgba(255,255,255,.08); border-bottom: 1px solid rgba(255,255,255,.08); overflow: hidden; }
@@ -280,7 +289,7 @@
 @media (prefers-reduced-motion: reduce) {
   .cr-kinetic .cr-word { opacity: 1; transform: none; animation: none; }
   .cr-marquee-track { animation: none; }
-  .cr-panel, .cr-case-media img, .cr-btn, .cr-case, [data-reveal] { transition: none; }
+  .cr-hero-photo, .cr-case-media img, .cr-btn, .cr-case, [data-reveal] { transition: none; }
   .reveal-ready [data-reveal]:not(.is-in) { filter: none; opacity: 1; }
 }
 

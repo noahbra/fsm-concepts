@@ -125,6 +125,15 @@ The merged direction introduces three pieces of copy that the first four concept
 | Case-study pages | `visible/work/{aspire,friendship,envision}/` | Every figure, descriptor, story line and image is the same record as the cards (`caseStudies.ts`), with the published source cited at the foot of each page. No new claims. | As the case studies |
 | Hub checklist wording | Hub, "What Version 2 addresses" | Paraphrases of the 10/27 reviewer notes and the 10/28 asks, no names, no ratings. | Internal review copy |
 
+## Concept 06 round 2 (October 29, 2026)
+
+| Where | Text | Status |
+| --- | --- | --- |
+| Opener | The FSM mark and wordmark, animated as in the opening of the FSM module videos; the statement is the page's H1 line | Brand assets from the kit; the sequence is the client's own, from their videos |
+| Hero photo caption | "Campaign photography, Aspire Public Schools" | The Aspire case hero (FilmTwist's published campaign page); reuse approval is the standing one for campaign images |
+| Reel | Tile and dialog captions are the media record's captions and school short names | Unchanged |
+| Hub | "Reviews of Version 1, October 29" checklist wording (six items) | Paraphrases of the two reviewers' notes, no names |
+
 ## Concept 06 (October 28, 2026)
 
 Concept 06 reuses Concept 02's hero copy, Concept 05's services, case, team and contact copy, and the content record unchanged. The only wording it introduces is below.

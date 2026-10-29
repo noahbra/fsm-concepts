@@ -636,3 +636,62 @@ test('Current direction feedback sends only its own fields, never the merged or 
   await expect(page.locator('[data-testid="current-resolves"][value="yes"]')).toBeChecked();
   await expect(page.locator('[data-testid="merged-resolves"][value="no"]')).toBeChecked();
 });
+
+test('Concept 06 opener: plays once per session over a rendered page, any key skips it, none under reduced motion', async ({ page, browser, baseURL }) => {
+  await page.addInitScript(() => { try { sessionStorage.removeItem('fsm-bold-opener-seen'); } catch { /* ignore */ } });
+  const errors = watch(page);
+  await page.goto('bold/', { waitUntil: 'load' });
+  const opener = page.getByTestId('opener');
+  await expect(opener).toBeVisible();
+  await expect(page.locator('h1')).toHaveCount(1); // the page is in the document underneath
+  await expect(page.getByTestId('fsm-form')).toBeAttached();
+  expect(await page.evaluate(() => window.__fsmOpener?.duration)).toBeCloseTo(3.9, 1);
+  await expect(opener).toHaveCount(0, { timeout: 8_000 });
+  expect(await page.evaluate(() => sessionStorage.getItem('fsm-bold-opener-seen'))).toBe('1');
+  expect(await page.evaluate(() => document.documentElement.classList.contains('cr-opener-lock'))).toBe(false);
+  await page.reload({ waitUntil: 'load' });
+  await expect(page.getByTestId('opener')).toHaveCount(0); // once per session
+  // a key skips it
+  await page.goto('bold/?opener=1', { waitUntil: 'load' });
+  await expect(page.getByTestId('opener')).toBeVisible();
+  await page.keyboard.press('Space');
+  await expect(page.getByTestId('opener')).toHaveCount(0, { timeout: 2_000 });
+  expect(errors).toEqual([]);
+  // reduced motion: no opener at all
+  const ctx = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } });
+  const p2 = await ctx.newPage();
+  await p2.goto(`${baseURL}bold/`, { waitUntil: 'load' });
+  await p2.waitForTimeout(400);
+  await expect(p2.getByTestId('opener')).toHaveCount(0);
+  await ctx.close();
+});
+
+test('Concept 06 reel: every creative shows whole, hover enlarges, click opens the full creative, Escape closes', async ({ page }) => {
+  await page.goto('bold/', { waitUntil: 'load' });
+  await settle(page);
+  const items = page.getByTestId('reel-item');
+  expect(await items.count()).toBeGreaterThanOrEqual(8);
+  const crops = await items.evaluateAll((els) => els.map((el) => {
+    const img = el.querySelector('img')!; // the asset's own width and height attributes: off-screen tiles are lazy and not yet decoded
+    const shown = img.clientWidth / img.clientHeight, natural = Number(img.getAttribute('width')) / Number(img.getAttribute('height'));
+    return { shown: +shown.toFixed(2), natural: +natural.toFixed(2), ok: Math.abs(shown - natural) / natural < 0.03 };
+  }));
+  expect(crops.filter((c) => !c.ok)).toEqual([]);
+  await page.getByRole('button', { name: 'Pause reel' }).click(); // tiles must be still for a hover to land
+  const first = items.first();
+  await first.hover();
+  await page.waitForTimeout(350);
+  const scale = await first.evaluate((el) => { const m = new DOMMatrix(getComputedStyle(el).transform); return m.a; });
+  expect(scale).toBeGreaterThan(1.3);
+  await first.click();
+  const box = page.getByTestId('lightbox');
+  await expect(box).toBeVisible();
+  await expect(box.locator('img')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(box).toBeHidden();
+  await first.click();
+  await expect(box).toBeVisible();
+  await page.getByTestId('lightbox-close').click();
+  await expect(box).toBeHidden();
+});
+

@@ -79,7 +79,7 @@ The H1 wording (Concept 02's, unchanged), the tagline, team photo reuse and the 
 - Hub: a "The current direction" section (`#current`) above the merged direction, with its own feedback model (`fsm-review-current-v1`), five fields added to the feedback form on October 28, and a "What Version 1 addresses" checklist. Concept 05 is labeled "Version 2.1, superseded" and keeps its checklist and form.
 - Cut tests 1 to 6 are asserted in `tests/smoke.spec.ts` ("Concept 06: one H1 ...") except test 1, which is a reading of the phone capture, and test 5, which is a `git diff main` over the Concept 01 to 05 directories before the merge.
 
-## Round 2: the opener (October 29, 2026, proposed, not built)
+## Round 2: the opener (October 29, 2026, built on the `concept-06-round-2` branch)
 
 The decision maker's October 29 review (hub form, "mostly" resolves): the site is solid; the opening is still a little busy; he proposes "a logo animation screen with the hand and then a bold statement and then it transitions into the first page", more brand color at the open, and more green overall. The headline type stays.
 
@@ -99,6 +99,16 @@ The decision maker's October 29 review (hub form, "mostly" resolves): the site i
 **The brand owner's October 29 review (hub form, "mostly" resolves) adds three items.** She is "not a fan of the three little thumbnails" in the hero, which confirms the one-photo hero above; both reviewers now reject the collage. The staff list is out of date: the eleven cut-outs were read from filmtwist.com/about on October 28, so that page is itself stale, and the current roster (names, titles, headshots) must come from her before the team section can be corrected (REQUIRES_CLIENT_CONFIRMATION; until then the section stays as built with the source note). The reel crops the creatives (fixed 190px tiles, `object-fit: cover`); she asks whether that is fine and for an enlarged view on hover. Round 2 shows each creative whole on its tile (contain, on the reel's dark surface) and opens the full creative in a dialog on hover intent or tap, closable with Escape, never autoplaying the marquee behind it. Type and color are settled with her ("that works", "the mix of colors are good"), so the green lean stays confined to the opener and the hero field.
 
 **Gate.** Build the opener and the recolored hero on a branch, show the project owner a frame strip (`scripts/frames.mjs` style, twelve frames across the sequence) and the phone capture before anything else, and nothing deploys without his go. The brand owner has not answered on Concept 06; her answer should be in hand, or asked for in the same reply, before the opener ships, so the opener is built once.
+
+## Round 2 build notes (October 29, 2026)
+
+- `src/concepts/bold/Opener.tsx`: the dot, the hand (a GSAP MorphSVG from a circle path to the emblem's hand path), the leaves (scaled from the stem), the wordmark (live Josefin Sans, letter stagger), the statement (the H1 line in the display face), the slide-up. 3.9 seconds. Session flag `fsm-bold-opener-seen`; `?opener=1|0` forces it on or off; `window.__fsmOpener.seek(t)` pauses the timeline at `t` for frame captures and tests (it returns nothing: a GSAP timeline handed back through `page.evaluate` serializes a cyclic graph and crashes the renderer). Skip on wheel, touchstart, pointerdown or keydown. The overlay is `aria-hidden` and the page is in the document underneath from the first paint.
+- The bounce is written as sequential tweens; a GSAP `keyframes` array for the same arcs stalled at the first apex in Chromium.
+- Hero: one photograph (`caseStudies[0].hero`, the Aspire chalk-numeral still) beside the statement, on `#1a7f54` to the green ink with a deep-teal glow. White body text on the field measures above 4.5:1. The primary button is white with blue-ink text.
+- Reel: each tile is a button sized by the asset's own proportion (`--ar`), 190px tall, `object-fit: contain`, so nothing is cropped; hover or focus scales it 1.45 in place; click, tap or Enter opens a native `<dialog>` with the full creative and a caption; Escape, the Close button or the backdrop closes it. Duplicated marquee items stay `aria-hidden` with `tabindex="-1"`. The caption no longer widens the tile.
+- Hub: `currentVersion` is Version 2 (October 29); the checklist opens with the "Reviews of Version 1, October 29" round (six items, one not done: the staff roster).
+- Team: unchanged, pending the current roster from the client.
+- Tests: the opener (plays once over a rendered page, flag set, reload shows none, a key skips, reduced motion shows none) and the reel (every creative's shown proportion within 3% of its natural one, hover scale above 1.3, dialog opens and closes by Escape and by the button). Every other test starts past the opener through a `beforeEach` init script.
 
 ## Out of scope
 

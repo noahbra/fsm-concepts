@@ -117,20 +117,34 @@
 .cr-opener-statement em { font-style: normal; color: var(--fsm-green-deep); }
 
 /* ---- reel / marquee ---- */
-.cr-reel { background: var(--surface-2); color: #fff; padding: 1.8rem 0 2.2rem; border-top: 1px solid rgba(255,255,255,.08); border-bottom: 1px solid rgba(255,255,255,.08); overflow: hidden; }
+.cr-reel { background: var(--surface-2); color: #fff; padding: 1.8rem 0 2.2rem; border-top: 1px solid rgba(255,255,255,.08); border-bottom: 1px solid rgba(255,255,255,.08); position: relative; z-index: 2; }
 .cr-reel-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
 .cr-reel-head .cr-eyebrow { margin: 0; }
 .cr-reel-pause { background: none; border: 1px solid rgba(255,255,255,.4); color: #fff; border-radius: 999px; padding: .4rem .9rem; font-family: var(--label); font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
 .cr-reel-pause:hover { border-color: #fff; background: rgba(255,255,255,.1); }
-.cr-marquee { width: 100%; overflow: hidden; }
+.cr-marquee { width: 100%; overflow-x: clip; overflow-y: visible; padding: .4rem 0; }
 .cr-marquee-track { display: flex; gap: 1rem; width: max-content; margin: 0; padding: 0; list-style: none; animation: cr-marquee 55s linear infinite; }
 .cr-marquee:hover .cr-marquee-track, .cr-marquee:focus-within .cr-marquee-track, .cr-marquee.is-paused .cr-marquee-track { animation-play-state: paused; }
-.cr-marquee-track li { width: 280px; flex: none; }
-.cr-marquee-track img, .cr-reel-grid img { width: 100%; height: 190px; object-fit: cover; border-radius: 10px; }
+.cr-marquee-track li { flex: none; width: auto; display: grid; justify-items: start; }
+.cr-marquee-track li > span { width: 0; min-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* the caption never widens the tile */
+/* Round 2: the whole creative at its own proportion (--ar from the asset), 190px tall, never cropped; hover enlarges in place. */
+.cr-reel-item { display: block; margin: 0; padding: 0; border: 0; background: var(--surface-3); border-radius: 10px; overflow: hidden; cursor: zoom-in; height: 190px; aspect-ratio: var(--ar); transition: transform .25s ease, box-shadow .25s ease; transform-origin: center; }
+.cr-reel-item picture, .cr-reel-item img { display: block; width: 100%; height: 100%; }
+.cr-reel-item img { object-fit: contain; border-radius: 0; }
+.cr-reel-item:hover, .cr-reel-item:focus-visible { transform: scale(1.45); box-shadow: 0 18px 40px rgba(0,0,0,.5); outline: none; }
+.cr-marquee-track li:hover, .cr-marquee-track li:focus-within, .cr-reel-grid li:hover, .cr-reel-grid li:focus-within { position: relative; z-index: 5; }
+.cr-reel-item:focus-visible { box-shadow: 0 0 0 3px var(--accent), 0 18px 40px rgba(0,0,0,.5); }
+.cr-lightbox { border: 0; padding: 0; background: transparent; max-width: min(92vw, 1100px); max-height: 92vh; }
+.cr-lightbox::backdrop { background: rgba(31,61,92,.88); }
+.cr-lightbox-figure { margin: 0; background: var(--surface-3); border-radius: 14px; overflow: hidden; }
+.cr-lightbox-figure picture, .cr-lightbox-figure img { display: block; max-width: min(92vw, 1100px); max-height: calc(92vh - 5.5rem); width: auto; height: auto; margin-inline: auto; }
+.cr-lightbox-figure figcaption { padding: .8rem 1rem; color: #fff; font-family: var(--label); font-size: .8rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.cr-lightbox-close { margin: .8rem auto 0; display: block; background: #fff; color: var(--fsm-blue-ink); border: 0; border-radius: 999px; padding: .6rem 1.2rem; font-family: var(--label); font-weight: 700; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+
 .cr-marquee-track span, .cr-reel-grid span { display: block; margin-top: .5rem; font-family: var(--label); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.7); }
 @keyframes cr-marquee { to { transform: translateX(-50%); } }
 .cr-reel-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
-.cr-reel-grid img { height: 140px; }
+.cr-reel-grid .cr-reel-item { height: 140px; max-width: 100%; }
 
 /* ---- what we do: five equal tiles, icon, name, one line (Concept 05's tiles on this chrome) ---- */
 .cr-services { background: #fff; color: var(--ink); padding-bottom: clamp(3rem, 7vw, 5.5rem); }
@@ -289,7 +303,7 @@
 @media (prefers-reduced-motion: reduce) {
   .cr-kinetic .cr-word { opacity: 1; transform: none; animation: none; }
   .cr-marquee-track { animation: none; }
-  .cr-hero-photo, .cr-case-media img, .cr-btn, .cr-case, [data-reveal] { transition: none; }
+  .cr-hero-photo, .cr-reel-item, .cr-case-media img, .cr-btn, .cr-case, [data-reveal] { transition: none; }
   .reveal-ready [data-reveal]:not(.is-in) { filter: none; opacity: 1; }
 }
 

@@ -8,7 +8,7 @@ import sharp from 'sharp';
 import { mkdir } from 'node:fs/promises';
 
 const base = process.argv[2] || 'http://localhost:4173/fsm-concepts/';
-const pages = [['hub', ''], ['clean', 'clean/'], ['creative', 'creative/'], ['story', 'story/'], ['original', 'original/'], ['visible', 'visible/'], ['bold', 'bold/']];
+const pages = [['hub', ''], ['clean', 'clean/'], ['creative', 'creative/'], ['story', 'story/'], ['original', 'original/'], ['visible', 'visible/'], ['bold', 'bold/?opener=0']];
 // Poster scroll offsets: the story pages open on a calm logo, so their posters are taken mid-narrative (full-color school beat).
 // Concept 03 pins for 600% of the viewport; Concept 05 for 350%, so its offsets are shorter.
 const posterScroll = { story: { desktop: 4000, mobile: 4300 }, visible: { desktop: 2700, mobile: 2550 } };

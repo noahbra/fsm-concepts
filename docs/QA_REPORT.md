@@ -19,6 +19,41 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 29, 2026 (fifth): Concept 06 round 2, the opener (branch, not deployed)
+
+Built on the `concept-06-round-2` branch after the two October 29 reviews of Version 1 (hub form: "mostly" resolves from both;
+the opener still busy; a logo animation then a statement then the page; more green; the hero thumbnails; the stale staff list;
+the reel's cropped creatives). The opener and hero were shown to the project owner as frame strips and captures before the rest
+was built. Not deployed: it waits for his go.
+
+- Opener (`src/concepts/bold/Opener.tsx`): FilmTwist's own module-video intro rebuilt for the web from the emblem's two SVG
+  paths. A kit-blue dot bounces three arcs, morphs into the hand (GSAP MorphSVG, free in gsap 3.13 and later), the leaves grow
+  from the stem, the wordmark rises letter by letter, the H1 line appears, the field slides up off the rendered page. 3.9 s.
+  Once per session (`sessionStorage`), any wheel, touch, pointer or key skips, none under reduced motion, `aria-hidden`; the page
+  (H1, sections, form) is in the document from the first paint.
+- Hero: the three-panel collage replaced by one campaign photograph beside the statement on a deep kit-green field (#1a7f54 to
+  the green ink; white body text above 4.5:1), white primary button. The photograph is preloaded with `fetchpriority="high"`.
+- Reel: every creative shown whole at its own proportion (no cropping), hover or focus enlarges it in place, click, tap or Enter
+  opens the full creative in a native dialog that Escape, Close or the backdrop dismisses.
+- Hub: Version 2 (October 29) with a "Reviews of Version 1, October 29" round at the top of the checklist (six items; the staff
+  roster is the one not done, pending the client).
+- Playwright: 276 passed, 0 failed (2.8 min), four projects. New: the opener test (plays once over a rendered page, flag set,
+  reload shows none, a key skips, reduced motion shows none) and the reel test (every tile's proportion within 3% of the asset's,
+  hover scale above 1.3, dialog opens and closes two ways); every other test starts past the opener through a `beforeEach`.
+  An earlier run showed eight failures: the reel test read `naturalWidth` of lazy, undecoded images (now the asset's declared
+  size), and three webkit page loads and one opener run that failed while Lighthouse and a capture script ran on the same
+  machine at the same time; all pass alone and in the clean rerun.
+- Defects found and fixed during the build: the statement fell back to a serif (the display font variable was not scoped to the
+  overlay); the bounce stalled at its first apex in Chromium when written as a GSAP keyframes array (now sequential tweens);
+  the seek hook returned the GSAP timeline, which `page.evaluate` tried to serialize and crashed the renderer (now returns
+  nothing); reel captions widened their tiles (the caption no longer sizes the tile); a width cap letterboxed wide creatives
+  (cap removed).
+- Lighthouse 13 (mobile, simulated throttling) on the production build: `/bold/` with the opener 91 / 100 / 100 / 63, LCP 3.4 s,
+  TBT 0 ms, CLS 0; `/bold/?opener=0` 92 / 100 / 100 / 63, LCP 3.3 s, FCP 0.9 s. The LCP element is now the hero photograph
+  (Version 1's was the headline text at 0.9 s); the observed render delay is 124 ms and the 3.3 s is the throttling model's
+  estimate for an image LCP. SEO 63 is the deliberate `noindex` alone.
+- Posters: `bold-*.webp` and the hub's regenerated (the page and the card changed); other pages' posters regenerated and reverted.
+
 ## Revision October 28, 2026 (fourth): Concept 06, the current direction
 
 Deployed to GitHub Pages on October 28, 2026 on the project owner's go (commit `b2d0581`, run 40799727233). The full suite was

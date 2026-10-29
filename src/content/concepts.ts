@@ -158,8 +158,19 @@ export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
 ];
 
 /** The current direction's version label and the checklist of reviewer notes it answers, shown on the hub. No names. */
-export const currentVersion = { label: 'Version 1', date: 'October 28, 2026' };
+export const currentVersion = { label: 'Version 2', date: 'October 29, 2026' };
 export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
+  {
+    round: 'Reviews of Version 1, October 29',
+    items: [
+      { note: 'The opening is still a little busy; open with a logo animation, then a bold statement, then the page', state: 'done', how: 'The opener is the mark as it animates at the top of the FSM module videos, rebuilt for the web: the dot, the hand, the leaves, the wordmark, then the headline, then the page. Once per session, any scroll or tap skips it, nothing under reduced motion.' },
+      { note: 'Not a fan of the three little thumbnails in the hero', state: 'done', how: 'The collage is gone. The hero is the statement beside one campaign photograph.' },
+      { note: 'Lean more into the brand colors at the open, and into the greens', state: 'done', how: 'The opener is the mark in its own colors on white; the hero field is now the kit green, deepened so white type stays readable. The final call stays blue.' },
+      { note: 'The reel crops the creatives; enlarge on hover', state: 'done', how: 'Every creative shows whole at its own proportion. Hovering enlarges it in place; a click or tap opens it full size.' },
+      { note: 'The staff list is out of date', state: 'not-done', how: 'The eleven names came from filmtwist.com/about. The current roster, titles and headshots are needed from FilmTwist; the section updates the day they arrive.' },
+      { note: 'The headline type works', state: 'done', how: 'Unchanged.' },
+    ],
+  },
   {
     round: 'Review of Concept 05, October 28',
     items: [

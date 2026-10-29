@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { siteConfig, url } from '../../content/config';
 import { caseStudies, headlineMetric, type CaseStudy } from '../../content/caseStudies';
 import { services } from '../../content/services';
@@ -120,9 +120,50 @@ const reelItems = [
   school: caseStudies.find((c) => [c.hero, ...c.gallery].includes(m))!.shortName,
 }));
 
+type ReelItem = (typeof reelItems)[number];
+
+/**
+ * Round 2 (October 29): every creative is shown whole, at its own proportion, on the reel's dark surface (the brand owner
+ * noted the cropping). Hovering a tile enlarges it in place; a click, tap or Enter opens the full creative in a dialog
+ * that Escape, the Close button or the backdrop dismisses. The marquee pauses while a tile is hovered or focused.
+ */
+function ReelTile({ m, dup, onOpen, sizes }: { m: ReelItem; dup: boolean; onOpen: (m: ReelItem) => void; sizes: string }) {
+  const label = `${m.caption ?? 'School photography'}, ${m.school}`;
+  return (
+    <li aria-hidden={dup || undefined} style={{ '--ar': `${m.width} / ${m.height}` } as React.CSSProperties}>
+      <button type="button" className="cr-reel-item" onClick={() => onOpen(m)} tabIndex={dup ? -1 : 0} aria-label={`Enlarge: ${label}`} data-testid={dup ? undefined : 'reel-item'}>
+        <ResponsiveMedia asset={m} sizes={sizes} alt={dup ? '' : undefined} />
+      </button>
+      <span>{label}</span>
+    </li>
+  );
+}
+
 function Reel() {
   const reduced = useReducedMotion();
   const [paused, setPaused] = useState(false);
+  const [open, setOpen] = useState<ReelItem | null>(null);
+  const dialog = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const d = dialog.current;
+    if (!d) return;
+    if (open && !d.open) d.showModal();
+    if (!open && d.open) d.close();
+  }, [open]);
+
+  const onBackdrop = (e: MouseEvent<HTMLDialogElement>) => { if (e.target === e.currentTarget) setOpen(null); };
+  const lightbox = (
+    <dialog ref={dialog} className="cr-lightbox" aria-label={open ? `${open.caption ?? 'School photography'}, ${open.school}` : 'Campaign creative'} onClose={() => setOpen(null)} onClick={onBackdrop} data-testid="lightbox">
+      {open && (
+        <figure className="cr-lightbox-figure">
+          <ResponsiveMedia asset={open} sizes="min(92vw, 1100px)" />
+          <figcaption>{open.caption ?? 'School photography'}, {open.school}</figcaption>
+        </figure>
+      )}
+      <button type="button" className="cr-lightbox-close" onClick={() => setOpen(null)} data-testid="lightbox-close" aria-label="Close">Close</button>
+    </dialog>
+  );
 
   if (reduced) {
     return (
@@ -132,16 +173,10 @@ function Reel() {
             <span className="cr-eyebrow cr-eyebrow--light">Three campaign types, one team</span>
           </div>
           <ul className="cr-reel-grid">
-            {reelItems.map((m, i) => (
-              <li key={i}>
-                <ResponsiveMedia asset={m} sizes="(max-width: 700px) 50vw, 20vw" />
-                <span>
-                  {m.caption ?? 'School photography'}, {m.school}
-                </span>
-              </li>
-            ))}
+            {reelItems.map((m, i) => <ReelTile m={m} dup={false} onOpen={setOpen} sizes="(max-width: 700px) 50vw, 20vw" key={i} />)}
           </ul>
         </div>
+        {lightbox}
       </section>
     );
   }
@@ -156,18 +191,10 @@ function Reel() {
       </div>
       <div className={`cr-marquee${paused ? ' is-paused' : ''}`}>
         <ul className="cr-marquee-track">
-          {[0, 1].map((dup) =>
-            reelItems.map((m, i) => (
-              <li key={`${dup}-${i}`} aria-hidden={dup === 1 || undefined}>
-                <ResponsiveMedia asset={m} sizes="280px" alt={dup === 1 ? '' : undefined} />
-                <span>
-                  {m.caption ?? 'School photography'}, {m.school}
-                </span>
-              </li>
-            )),
-          )}
+          {[0, 1].map((dup) => reelItems.map((m, i) => <ReelTile m={m} dup={dup === 1} onOpen={setOpen} sizes="340px" key={`${dup}-${i}`} />))}
         </ul>
       </div>
+      {lightbox}
     </section>
   );
 }

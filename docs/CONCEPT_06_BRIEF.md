@@ -79,6 +79,25 @@ The H1 wording (Concept 02's, unchanged), the tagline, team photo reuse and the 
 - Hub: a "The current direction" section (`#current`) above the merged direction, with its own feedback model (`fsm-review-current-v1`), five fields added to the feedback form on October 28, and a "What Version 1 addresses" checklist. Concept 05 is labeled "Version 2.1, superseded" and keeps its checklist and form.
 - Cut tests 1 to 6 are asserted in `tests/smoke.spec.ts` ("Concept 06: one H1 ...") except test 1, which is a reading of the phone capture, and test 5, which is a `git diff main` over the Concept 01 to 05 directories before the merge.
 
+## Round 2: the opener (October 29, 2026, proposed, not built)
+
+The decision maker's October 29 review (hub form, "mostly" resolves): the site is solid; the opening is still a little busy; he proposes "a logo animation screen with the hand and then a bold statement and then it transitions into the first page", more brand color at the open, and more green overall. The headline type stays.
+
+**The source.** The FilmTwist module videos open with an animation of the FSM mark that FilmTwist made (reference clip and hold frame in `fsm-concepts-source/animation/`, cut from the "welcome" module in the client's DAY 0 folder; not committed). On white: a kit-blue dot bounces across the frame in decaying arcs for about 2.4 seconds; it squashes and morphs into the blue hand; the two leaves grow up out of the hand while the wordmark wipes in from the left with a rippled edge ("FULL SCHOOL" in blue over "MARKETING" in the bright green); a hold of about 0.7 seconds; a fade to white; the content crossfades in. About 5.5 seconds in all, with a music bed. Colors sampled from the hold frame: hand and "FULL SCHOOL" #3c6ea3, "MARKETING" #23ce4e, leaves #28c660 toward teal, background white.
+
+**The web version is that sequence, shorter, then the statement, then the page.**
+
+1. White field. The dot enters and bounces, 1.2 seconds (three arcs, not five). This is the same dot that Concept 05 used, so the motif carries.
+2. The dot morphs into the hand (0.3 seconds, a path morph between the dot and the hand path of `fsm-emblem-color.svg`, which has the hand and the leaves as two paths). The leaves grow from the stem (0.5 seconds, scale from the base) while the wordmark wipes in (0.6 seconds, a clip-path wipe with a per-letter rise; live text in the brand face, not an image).
+3. Hold 0.4 seconds. The bold statement rises under the mark: the Concept 06 H1 line, set in the display face, blue on white with one green word. 0.6 seconds.
+4. The whole opener slides up and the page is underneath, already rendered. 0.5 seconds. Total about 3.6 seconds; the statement is readable from 2.6 seconds.
+
+**Guardrails, all asserted in the suite.** Once per session (a session-storage flag; a return visit lands on the page). Any scroll, click, tap or key skips to the page at once. No audio. Under reduced motion there is no opener at all. The opener is an overlay above a fully rendered page: the H1, the services and the form are in the document from the first paint, so search engines, screen readers and the LCP measurement see the page, not the overlay, and the overlay is `aria-hidden`. Nothing the visitor can act on is ever behind it longer than the sequence.
+
+**The hero under it gets simpler and greener.** The three-panel collage is what he reads as busy (the same note as October 27). It becomes one photo panel beside the statement, and the hero surface moves from kit blue to a kit-green field (#32B67A deepening toward the teal), white type, the button in blue-ink on white. The header and footer stay blue-ink; the final call stays blue, so the page opens green and closes blue. Services, work and team sections are unchanged.
+
+**Gate.** Build the opener and the recolored hero on a branch, show the project owner a frame strip (`scripts/frames.mjs` style, twelve frames across the sequence) and the phone capture before anything else, and nothing deploys without his go. The brand owner has not answered on Concept 06; her answer should be in hand, or asked for in the same reply, before the opener ships, so the opener is built once.
+
 ## Out of scope
 
 Production hosting, analytics, the privacy and terms pages, a dedicated FSM form in the FilmTwist form service, new photography.

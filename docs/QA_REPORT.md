@@ -31,6 +31,11 @@ The mark then grew to fill the space the statement left: about 82 percent of the
 ran to 4 px from the phone edge and was trimmed. Landing offset against the header logo: 0 px on all four. Local suite
 after the change: 276 passed, 0 failed.
 
+Deployed on the project owner's go (commits d77d567 and e83e62d, Pages run 40948065846 success). Live suite afterward:
+273 passed, 3 failed, all network: one image request reported `cancelled` while the opener test navigated away (WebKit
+desktop), and two Concept 05 case pages that did not finish loading on WebKit mobile. Live rerun of those three tests in
+all browsers: 12 passed, 0 failed.
+
 ## Revision October 29, 2026 (eighth): nothing above the page until the mark lands (not deployed)
 
 The project owner still saw "the header in the animation" after the seventh revision. Measured live in Chromium and WebKit: the

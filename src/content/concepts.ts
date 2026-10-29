@@ -86,7 +86,7 @@ export const mergedDirection: ConceptMeta = {
   id: 'visible',
   number: '05',
   name: 'Visible',
-  label: 'The merged direction',
+  label: 'The merged direction, superseded',
   workingTitle: 'Visible',
   path: url('visible/'),
   proposition: "Concept 03's opening story, shortened and skippable, over Concept 01's structure: what we do, the schools, who you work with, the first conversation. One motion rule, no numbers up front.",
@@ -153,6 +153,39 @@ export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
       { note: 'Revise the tagline under the logo', state: 'done', how: 'Now "Enrollment marketing for K-12 schools." Wording to confirm.' },
       { note: 'At the end, the school scrolls up and the dot rejoins the logo', state: 'done', how: 'The town scrolls up and out first, then the dot rises into the reconstituted logo as its period.' },
       { note: 'The school\'s windows are wrong; check every object\'s orientation', state: 'done', how: 'The right-hand windows sat past the wall; both rows are now three a side, mirrored about the door. Every other object in the scene was checked (roofs, doors, awnings, bench, lamps, trees, clock, flag, cards, envelope, banners) and sits as drawn.' },
+    ],
+  },
+];
+
+/** The current direction's version label and the checklist of reviewer notes it answers, shown on the hub. No names. */
+export const currentVersion = { label: 'Version 1', date: 'October 28, 2026' };
+export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
+  {
+    round: 'Review of Concept 05, October 28',
+    items: [
+      { note: 'Drop the opening video; it is confusing', state: 'done', how: 'No story on this page: not as an opener, a pop-up or a link. Concepts 03 and 05 stay on the hub for the record.' },
+      { note: 'Too far from Concept 02; the best of it was lost', state: 'done', how: 'Concept 02\'s code is the base: its hero, headline face, kinetic headline, collage, reel and four partner steps are back.' },
+      { note: 'Concept 05 feels too plain', state: 'done', how: 'Display type at full weight, the collage with its pointer tilt, the marquee, and the brand blue as the surface of the hero, the reel and the final call.' },
+    ],
+  },
+  {
+    round: 'First-round notes on Concept 02, October 27',
+    items: [
+      { note: 'Change a few colors to bring out the brand', state: 'done', how: 'Kit blue takes over from black on the hero, reel and final call; kit green is the accent and the button; teal sits in the gradients. Light sections use the kit blue for headings.' },
+      { note: 'The graphics are busy; borrow the simplicity of Concept 01\'s photos', state: 'partly', how: 'Three collage panels instead of four, no sticker, no numbered badges, one photo per card, no photo filters. The marquee and the tilt are kept on purpose.' },
+      { note: 'Keep the fonts and the interactivity', state: 'partly', how: 'Concept 02\'s headline face stays for every heading; the brand guide\'s Josefin Sans replaces it for everything read (body, tiles, form, footer). The kinetic headline, tilt and marquee are kept.' },
+      { note: 'Only the hero worked; too much information after the work; no hard numbers up front', state: 'done', how: 'The hero is kept. The ledger and the results tiles are gone: five service tiles with one line each come right under the reel, and the first figure on the page is on the case cards, each with its period and source.' },
+      { note: 'What we do under the hero, then the case studies', state: 'done', how: 'Hero, reel, what we do, work, who you work with, how we partner, work with us.' },
+    ],
+  },
+  {
+    round: 'Standing asks from the project reviews, October 28',
+    items: [
+      { note: 'Service cells the same size, as a visual', state: 'done', how: 'Five equal tiles with icons, from Concept 05.' },
+      { note: 'Case studies as pages on this site', state: 'done', how: 'Each campaign has its own page here in this chrome: results, the work, campaign creative, the published source at the foot.' },
+      { note: 'Cut-out photos of the team', state: 'done', how: 'The eleven cut-outs from Concept 05, names and roles as published. Reuse to confirm.' },
+      { note: 'An FSM form that posts to FilmTwist\'s form system', state: 'done', how: 'Concept 05\'s form, restyled: same fields, options and consent text, posting to FilmTwist\'s form service. One real submission is still needed to confirm the lead arrives.' },
+      { note: 'Headers in FSM colors; revised tagline', state: 'done', how: 'Light-section headings carry the kit blue; the hero eyebrow is "Enrollment marketing for K-12 schools". Wording to confirm.' },
     ],
   },
 ];

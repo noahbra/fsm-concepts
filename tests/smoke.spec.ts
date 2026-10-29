@@ -1,6 +1,6 @@
 import { test, expect, type Page, type ConsoleMessage } from '@playwright/test';
 
-const PAGES = ['', 'clean/', 'creative/', 'story/', 'original/', 'visible/', 'visible/work/aspire/', 'visible/work/friendship/', 'visible/work/envision/'] as const;
+const PAGES = ['', 'clean/', 'creative/', 'story/', 'original/', 'visible/', 'visible/work/aspire/', 'visible/work/friendship/', 'visible/work/envision/', 'bold/', 'bold/work/aspire/', 'bold/work/friendship/', 'bold/work/envision/'] as const;
 const CASES = ['aspire', 'friendship', 'envision'] as const;
 const LEADCONNECTOR_FORM = 'DveY4KWgzKqaGiHAAA2e';
 /** FilmTwist's embedded form (LeadConnector) is third-party: its own requests are not this site's defects. */
@@ -55,8 +55,8 @@ test.describe('Hub', () => {
     await page.goto('');
     await settle(page);
     const imgs = page.locator('.card__media img');
-    await expect(imgs).toHaveCount(10); // five cards (the merged direction plus the four originals), desktop and mobile each
-    for (let i = 0; i < 10; i++) {
+    await expect(imgs).toHaveCount(12); // six cards (the current direction, the merged direction, the four originals), desktop and mobile each
+    for (let i = 0; i < 12; i++) {
       await imgs.nth(i).scrollIntoViewIfNeeded();
       await expect.poll(() => imgs.nth(i).evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0), { timeout: 10_000 }).toBe(true);
       const ok = await imgs.nth(i).evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0);
@@ -396,8 +396,8 @@ for (const id of CASES) {
   });
 }
 
-test('Concept 05 form: posts to LeadConnector with the widget\'s payload shape, thanks on success, keeps the answers on failure', async ({ page }) => {
-  await page.goto('visible/');
+for (const formPage of ['visible/', 'bold/'] as const) test(`${formPage} form: posts to LeadConnector with the widget's payload shape, thanks on success, keeps the answers on failure`, async ({ page }) => {
+  await page.goto(formPage);
   await settle(page);
   await page.addStyleTag({ content: 'html { scroll-behavior: auto !important }' });
   await page.getByTestId('fsm-form').scrollIntoViewIfNeeded();
@@ -514,4 +514,120 @@ test('Merged direction feedback sends only its own fields, never the four-concep
   await expect(page.locator('[data-testid="merged-resolves"][value="mostly"]')).toBeChecked();
   await page.locator('[data-testid="feedback-concept"][data-concept="creative"]').click();
   await expect(page.locator('[data-testid="rating-overall"][value="5"]')).toBeChecked();
+});
+
+test('Concept 06: one H1, what we do right under the reel, no figure above the case cards, three case links, eleven team cut-outs, chrome links to the current question', async ({ page, browser, baseURL }) => {
+  await page.goto('bold/');
+  await settle(page);
+  await expect(page.locator('h1')).toHaveCount(1);
+  await expect(page.locator('h1')).toHaveText('Make your school the one families remember.');
+  // section order: reel, services, work, team, partner, contact (the brand owner's order)
+  const order = await page.locator('main > section').evaluateAll((els) => els.map((e) => e.id || e.className.split(' ')[0]));
+  expect(order).toEqual(['top', 'cr-reel', 'services', 'work', 'team', 'partner', 'contact']);
+  // no figure above the case cards: nothing with two or more digits before #work, apart from "K-12"
+  const above = await page.evaluate(() => {
+    const out: string[] = [];
+    for (const el of Array.from(document.querySelectorAll('main > section'))) { if (el.id === 'work') break; out.push((el as HTMLElement).innerText); }
+    return out.join(' ').replace(/K-12/g, '');
+  });
+  expect(above.match(/\d[\d,.]*\d/g) ?? [], 'figures above the case cards').toEqual([]);
+  await expect(page.getByTestId('services').locator('li')).toHaveCount(5);
+  // every paragraph above the case cards is short (the "wall of text" objection)
+  const longest = await page.evaluate(() => Math.max(...Array.from(document.querySelectorAll('#services p, #services h3')).map((p) => (p as HTMLElement).innerText.split(/\s+/).length)));
+  expect(longest).toBeLessThanOrEqual(20);
+  const cards = page.getByTestId('case-study');
+  await expect(cards).toHaveCount(3);
+  const caseLinks = await page.getByTestId('case-link').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).href));
+  for (const id of CASES) expect(caseLinks.some((h) => h.endsWith(`/bold/work/${id}/`)), `case link ${id}`).toBe(true);
+  for (const h of caseLinks) expect((await page.request.get(h)).status(), h).toBe(200);
+  const hrefs = await page.locator('a[href^="https://www.filmtwist.com/work/"]').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).href));
+  for (const src of SOURCES) expect(hrefs, `source link ${src}`).toContain(src);
+  await expect(page.getByTestId('team-member')).toHaveCount(11);
+  await expect(page.getByTestId('contact-form').getByTestId('fsm-form')).toBeAttached();
+  expect(await page.getByTestId('cta-primary').getAttribute('href')).toBe('#contact');
+  // the review chrome points at the current direction's question, not the four-concept form
+  const review = await page.getByRole('link', { name: 'Does this resolve your notes?' }).first().getAttribute('href');
+  expect(review).toMatch(/#current$/);
+  // reduced motion: the reel is a static grid, every photo is in full color, nothing is hidden
+  const ctx = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } });
+  const p2 = await ctx.newPage();
+  await p2.goto(new URL('bold/', baseURL!).toString());
+  await settle(p2);
+  await expect(p2.locator('.cr-reel--static')).toBeVisible();
+  await expect(p2.locator('h1')).toHaveCount(1);
+  const dimmed = await p2.locator('[data-reveal]').evaluateAll((els) => els.filter((e) => getComputedStyle(e).opacity !== '1').length);
+  expect(dimmed).toBe(0);
+  for (const id of ['services', 'work', 'team', 'partner', 'contact']) await expect(p2.locator(`#${id}`)).toBeVisible();
+  await ctx.close();
+});
+
+for (const id of CASES) {
+  test(`Concept 06 case page ${id}: the published campaign on this site, every figure with its source, creative that loads`, async ({ page }) => {
+    const errors = watch(page);
+    await page.goto(`bold/work/${id}/`);
+    await settle(page);
+    await expect(page.locator('h1')).toHaveCount(1);
+    await expect(page.locator('h1')).toHaveText(SCHOOLS.find((s) => s.toLowerCase().startsWith(id === 'friendship' ? 'friendship' : id))!);
+    expect(await page.getByTestId('case-metrics').locator('li').count()).toBeGreaterThanOrEqual(3);
+    const src = await page.getByTestId('case-source').locator('a[href^="https://www.filmtwist.com/work/"]').getAttribute('href');
+    expect(SOURCES, `source ${src}`).toContain(src!);
+    const imgs = page.getByTestId('case-gallery').locator('img');
+    expect(await imgs.count()).toBeGreaterThanOrEqual(3);
+    for (let i = 0; i < await imgs.count(); i++) {
+      await imgs.nth(i).scrollIntoViewIfNeeded();
+      await expect.poll(() => imgs.nth(i).evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
+    }
+    for (const t of ['case-back', 'case-prev', 'case-next', 'cta-final']) {
+      const href = await page.getByTestId(t).evaluate((a) => (a as HTMLAnchorElement).href);
+      expect(href, t).toContain('/fsm-concepts/bold/');
+      const res = await page.request.get(href.split('#')[0]);
+      expect(res.status(), `${t} ${href}`).toBe(200);
+    }
+    expect(await page.getByTestId('cta-final').getAttribute('href')).toBe('../../#contact');
+    expect(errors, errors.join('\n')).toEqual([]);
+  });
+}
+
+test('Current direction feedback sends only its own fields, never the merged or four-concept answers', async ({ page }) => {
+  await page.goto('#merged');
+  await settle(page);
+  await page.addStyleTag({ content: 'html { scroll-behavior: auto !important }' });
+  await page.waitForFunction(() => new Promise<boolean>((r) => { const y = scrollY; setTimeout(() => r(scrollY === y), 250); }));
+  await page.locator('[data-testid="merged-resolves"][value="no"]').check();
+  await page.getByTestId('merged-reviewer').fill('Current Test');
+  await expect(page.getByTestId('merged-status')).toHaveText(/Saved on this device/);
+  await page.goto('#current');
+  await settle(page);
+  await page.addStyleTag({ content: 'html { scroll-behavior: auto !important }' });
+  await page.waitForFunction(() => new Promise<boolean>((r) => { const y = scrollY; setTimeout(() => r(scrollY === y), 250); }));
+  await expect(page.getByTestId('open-current')).toHaveAttribute('href', /\/bold\/$/);
+  const checklist = page.getByTestId('current-checklist');
+  await expect(checklist).toBeVisible();
+  expect(await checklist.locator('li').count()).toBeGreaterThanOrEqual(12);
+  await expect(checklist).toContainText('Partly');
+  await expect(page.getByTestId('open-merged')).toHaveCount(1);
+  await expect(page.getByTestId('open-concept')).toHaveCount(4);
+  await page.locator('[data-testid="current-resolves"][value="yes"]').check();
+  await page.getByTestId('current-notes').fill('Closer. The blue could be a shade lighter.');
+  await page.getByTestId('current-color').fill('Enough brand');
+  await expect(page.getByTestId('current-reviewer')).toHaveValue('Current Test'); // name reused from the merged form
+  const posted: string[] = [];
+  await page.route('https://docs.google.com/forms/**/formResponse', (route) => { posted.push(route.request().postData() ?? ''); return route.fulfill({ status: 200, body: '' }); });
+  await page.getByTestId('submit-current').click();
+  await expect(page.getByTestId('current-status')).toHaveText(/Sent at/);
+  await expect(page.getByTestId('current-sent')).toHaveText(/Last sent/);
+  expect(posted).toHaveLength(1);
+  const body = new URLSearchParams(posted[0]);
+  expect(body.get('entry.94783242')).toBe('Current Test');
+  expect(body.get('entry.586107830')).toBe('yes');
+  expect(body.get('entry.535067219')).toContain('shade lighter');
+  expect(body.get('entry.1637215238')).toBe('Enough brand');
+  expect(body.get('entry.1912088952')).toContain('current direction feedback');
+  expect(body.get('entry.1136712824')).toBeNull(); // the merged answer is NOT resent
+  expect(body.get('entry.944882537')).toBeNull(); // nor any four-concept rating
+  expect(body.get('entry.146796121')).toBeNull();
+  await page.reload();
+  await settle(page);
+  await expect(page.locator('[data-testid="current-resolves"][value="yes"]')).toBeChecked();
+  await expect(page.locator('[data-testid="merged-resolves"][value="no"]')).toBeChecked();
 });

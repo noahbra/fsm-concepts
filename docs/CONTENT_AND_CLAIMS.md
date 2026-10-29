@@ -125,6 +125,17 @@ The merged direction introduces three pieces of copy that the first four concept
 | Case-study pages | `visible/work/{aspire,friendship,envision}/` | Every figure, descriptor, story line and image is the same record as the cards (`caseStudies.ts`), with the published source cited at the foot of each page. No new claims. | As the case studies |
 | Hub checklist wording | Hub, "What Version 2 addresses" | Paraphrases of the 10/27 reviewer notes and the 10/28 asks, no names, no ratings. | Internal review copy |
 
+## Concept 06 (October 28, 2026)
+
+Concept 06 reuses Concept 02's hero copy, Concept 05's services, case, team and contact copy, and the content record unchanged. The only wording it introduces is below.
+
+| Copy | Where | Basis | State |
+| --- | --- | --- | --- |
+| The four partner steps: "Your enrollment goals, grade bands, neighborhoods and the families you most want to reach." / "Film and photo days, ad creative, print, out-of-home and landing pages. Your school, not stock." / "Campaigns go live where families already are, timed to your application windows." / "We read leads, applications and cost per lead, and adjust as the season moves." | Concept 06 "How we partner" | Concept 02's four lines, trimmed so the section stays under 60 words. Describe the engagement; no figures, no client names. | REQUIRES_CLIENT_CONFIRMATION (wording, as for Concept 02) |
+| Section headings: "What we do." / "Schools that got seen. And chosen." / "Who you work with." / "Four steps, one season at a time." / "Let's fill your school." / case pages: "What the campaign did." / "The work." / "Campaign creative." | Concept 06 and its case pages | Concept 05's and Concept 02's headings, unchanged in substance. | As the earlier concepts |
+| "The form goes straight to the team." | Concept 06 "Work with us" | Concept 05's line; the form posts to FilmTwist's form service (see Version 2.1 above). | As Concept 05 |
+| Hub checklist wording, "What Version 1 addresses" | Hub, the current direction | Paraphrases of the October 27 notes on Concept 02 and the October 28 review of Concept 05, no names, no ratings. | Internal review copy |
+
 ## Unresolved approvals
 
 1. Reuse of FilmTwist campaign creative (including student imagery) on the FSM site.

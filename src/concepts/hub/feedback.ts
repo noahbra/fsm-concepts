@@ -148,3 +148,59 @@ export async function sendMerged(m: MergedFeedback, submittedAt: string): Promis
     return true;
   } catch { return false; }
 }
+
+/* ---------------------------------------------------------------------------------------------------------------
+ * The current direction (Concept 06) has its own model, storage key, send and form fields, for the same reason.
+ * ------------------------------------------------------------------------------------------------------------- */
+export interface CurrentFeedback { reviewer: string; resolves: Resolves; notes: string; type: string; color: string; updatedAt: string; sentAt: string }
+export const CURRENT_STORAGE_KEY = 'fsm-review-current-v1';
+export const emptyCurrent = (): CurrentFeedback => ({ reviewer: '', resolves: '', notes: '', type: '', color: '', updatedAt: '', sentAt: '' });
+
+export function loadCurrent(): CurrentFeedback {
+  try {
+    const raw = localStorage.getItem(CURRENT_STORAGE_KEY);
+    const base = emptyCurrent();
+    if (!raw) { base.reviewer = loadMerged().reviewer || loadState().reviewer; return base; } // reuse the name they already typed, nothing else
+    return { ...base, ...(JSON.parse(raw) as Partial<CurrentFeedback>) };
+  } catch { return emptyCurrent(); }
+}
+export function saveCurrent(m: CurrentFeedback): boolean {
+  try { localStorage.setItem(CURRENT_STORAGE_KEY, JSON.stringify(m)); return true; } catch { return false; }
+}
+export function clearCurrent() { try { localStorage.removeItem(CURRENT_STORAGE_KEY); } catch { /* ignore */ } }
+export const currentAsks: { key: 'type' | 'color'; label: string; hint: string }[] = [
+  { key: 'type', label: 'Type', hint: "Concept 02's headline face for headings, the brand guide's Josefin Sans for everything you read. Does the mix work?" },
+  { key: 'color', label: 'Color', hint: 'Kit blue in place of black, kit green as the accent and the button. Enough brand, or too much blue?' },
+];
+export function hasCurrentInput(m: CurrentFeedback) {
+  return Boolean(m.resolves || m.notes.trim() || m.type.trim() || m.color.trim());
+}
+export function currentToMarkdown(m: CurrentFeedback): string {
+  return [
+    '# Full School Marketing: current direction feedback (Concept 06, Bold, rebuilt)', '',
+    `Reviewer: ${m.reviewer || '(not given)'}`, `Page: ${typeof location !== 'undefined' ? location.href.split('#')[0] : ''}`, '',
+    `- Resolves your notes: ${m.resolves || 'not answered'}`,
+    `- Notes: ${m.notes.trim() || '(none)'}`,
+    ...currentAsks.map((a) => `- ${a.label}: ${m[a.key].trim() || '(none)'}`), '',
+  ].join('\n');
+}
+/** Only the current-direction fields, the reviewer, the timestamp and the page. Never the earlier answers. */
+export function currentToFormBody(m: CurrentFeedback, submittedAt: string): URLSearchParams {
+  const f = siteConfig.feedbackForm.fields;
+  const body = new URLSearchParams();
+  body.set(f.reviewer, m.reviewer.trim());
+  body.set(f.submittedAt, submittedAt);
+  body.set(f.page, typeof location !== 'undefined' ? location.href.split('#')[0] : '');
+  body.set(f.current.resolves, m.resolves || 'not answered');
+  body.set(f.current.notes, m.notes.trim());
+  body.set(f.current.type, m.type.trim());
+  body.set(f.current.color, m.color.trim());
+  body.set(f.current.markdown, currentToMarkdown(m));
+  return body;
+}
+export async function sendCurrent(m: CurrentFeedback, submittedAt: string): Promise<boolean> {
+  try {
+    await fetch(siteConfig.feedbackForm.action, { method: 'POST', mode: 'no-cors', body: currentToFormBody(m, submittedAt) });
+    return true;
+  } catch { return false; }
+}

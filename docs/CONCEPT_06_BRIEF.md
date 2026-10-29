@@ -1,6 +1,6 @@
-# Concept 06 design brief: Bold, rebuilt (first draft)
+# Concept 06 design brief: Bold, rebuilt
 
-Status: DRAFT for the project owner's approval, October 28, 2026. Nothing is built.
+Status: approved by the project owner and built on the `concept-06-bold` branch, October 28, 2026 (steps 1 to 3 below). Not deployed until the project owner's go.
 Basis: the decision maker's October 28 verdict on Concept 05 (drop the opening video, too far from option 2, too plain), her October 27 rating of Concept 02 (preferred, 5 of 5: the fonts, the interactivity; change a few colors to bring out the brand; the graphics are busy, borrow the simplicity of Concept 01's photos), the brand owner's October 27 notes (Concept 02's hero is the only part she liked; too much information after the work; "What we make. What it does." is a wall of text; what we do under the hero, then the case studies; no hard numbers up front), and the project owner's round 2 and 3 asks on Concept 05, which stand. Reviewer names stay out of this repo.
 
 ## The idea, one sentence
@@ -69,6 +69,15 @@ Concept 02 as the decision maker rated it, with the brand owner's three objectio
 ## Content to confirm (client, via the project owner)
 
 The H1 wording (Concept 02's, unchanged), the tagline, team photo reuse and the five first-name-only members, campaign creative reuse, and one real submission through the form.
+
+## Build notes (October 28, 2026)
+
+- Step 1 (hero and reel) was shown to the project owner before step 2; his go came the same day.
+- Section 7 is the final call: the "Let's fill your school" headline on kit blue with Concept 05's contact copy and the FSM form in a paper card. There is no separate call-to-action band after the form.
+- The four partner steps are Concept 02's lines, trimmed to 58 words in all (titles included); no new claims.
+- Case pages live at `bold/work/<case>/`, Concept 05's `CasePage` ported to this chrome (`src/concepts/bold/CasePage.tsx`); the content record is unchanged.
+- Hub: a "The current direction" section (`#current`) above the merged direction, with its own feedback model (`fsm-review-current-v1`), five fields added to the feedback form on October 28, and a "What Version 1 addresses" checklist. Concept 05 is labeled "Version 2.1, superseded" and keeps its checklist and form.
+- Cut tests 1 to 6 are asserted in `tests/smoke.spec.ts` ("Concept 06: one H1 ...") except test 1, which is a reading of the phone capture, and test 5, which is a `git diff main` over the Concept 01 to 05 directories before the merge.
 
 ## Out of scope
 

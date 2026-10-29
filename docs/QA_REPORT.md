@@ -19,6 +19,37 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 28, 2026 (fourth): Concept 06, the current direction (branch, not deployed)
+
+Built on the `concept-06-bold` branch per `CONCEPT_06_BRIEF.md` after the decision maker's October 28 review of Concept 05
+(drop the opening video; too far from Concept 02; too plain). Not deployed: the hub link is in the client's hands, so the
+branch waits for the project owner's go. Step 1 (hero and reel) was shown to him before steps 2 and 3 were built.
+
+- New pages: `/bold/` and `/bold/work/{aspire,friendship,envision}/`, Concept 02's page forked to `src/concepts/bold/` with
+  kit-blue surfaces, kit-green accent, Archivo display over Josefin Sans text, a three-panel collage, the Concept 02 reel,
+  Concept 05's five service tiles, three case cards opening case pages in this chrome, the eleven team cut-outs, Concept
+  02's four steps trimmed to 58 words, and the FSM form on the final call. No story, no results section, no ledger.
+  Concepts 01 to 05 are byte-identical to `main` (`git diff main` over their directories is empty).
+- Hub: a "The current direction" section (`#current`) above the merged direction, with its own feedback model and storage
+  key (`fsm-review-current-v1`), five fields added to the feedback form on October 28 (`fields.current`), and a "What
+  Version 1 addresses" checklist (13 items, no names). Concept 05 is labeled "Version 2.1, superseded" and keeps its form.
+- Playwright: 268 passed, 0 failed (2.5 min), four projects. New: the four Concept 06 pages in the page loop; a Concept 06
+  test asserting one H1, the section order (reel, services, work, team, partner, contact), no figure above the case cards
+  (every two-or-more-digit run before `#work`, "K-12" excepted), no service line over 20 words, three case links that resolve,
+  eleven team members, the form present, the review chrome pointing at `#current`, and the reduced-motion page with the
+  static reel and every photo at full opacity; the Concept 06 case pages with the same assertions as Concept 05's; the FSM
+  form test now runs on both `/visible/` and `/bold/`; a current-direction feedback test asserting only the five new fields
+  plus reviewer, time and page are posted, never the merged or four-concept answers, and that both saved states survive a reload.
+- Defects found and fixed during the build: the case page head widened past a phone viewport (the facts list's auto-fit
+  columns sized the head's grid column intrinsically; fixed with `minmax(0, 1fr)` and `min-width: 0`); at 390px the metrics
+  tiles went to two columns and "$31.21" at the display size overflowed its tile by 4px on the friendship page (the first full
+  run failed that page's overflow test in all four projects; the figure now scales with the viewport and wraps if it must).
+- Lighthouse 13 (mobile, simulated throttling, headless Chrome) on the production build: `/bold/` Performance 100,
+  Accessibility 100, Best Practices 100, SEO 63, LCP 0.9 s, TBT 10 ms, CLS 0.022; `/bold/work/friendship/` 90 / 100 / 100 / 63,
+  LCP 3.6 s, TBT 0 ms, CLS 0.045. SEO is 63 for the documented reason only (`noindex`). Raw JSON in `docs/lighthouse/bold-*.json`.
+- Posters and OG images: `bold-desktop.webp`, `bold-mobile.webp`, `og/bold.png` added; the hub's regenerated because its page
+  changed. Other pages' posters were regenerated and reverted (capture noise, no code change).
+
 ## Revision October 28, 2026 (third): Concept 05 Version 2.1
 
 Deployed to GitHub Pages on October 28, 2026 (commit `0ff29d0`, run 40768763430). The full suite was rerun against the live site

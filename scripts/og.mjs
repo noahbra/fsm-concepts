@@ -5,12 +5,13 @@ import { mkdir, access } from 'node:fs/promises';
 await mkdir('public/og', { recursive: true });
 const logo = await sharp('public/assets/brand/fsm-logo-horizontal.png').resize({ width: 520 }).toBuffer();
 const titles = {
-  hub: ['Website Direction Review', 'The merged direction and the four concepts it came from'],
+  hub: ['Website Direction Review', 'The current direction, the merged direction, and the four concepts'],
   clean: ['Great schools deserve full classrooms.', 'Concept 01: Clean & Modern'],
   creative: ['Make your school the one families remember.', 'Concept 02: Bold & Creative'],
   story: ['The Invisible School', 'Concept 03: a scroll-driven story'],
   original: ['Start With Your Number', 'Concept 04: a worksheet, not a brochure'],
   visible: ['Enrollment marketing for K-12 schools.', 'Concept 05: the merged direction'],
+  bold: ['Make your school the one families remember.', 'Concept 06: the current direction'],
 };
 for (const [id, [t, s]] of Object.entries(titles)) {
   const shot = `public/assets/screenshots/${id}-desktop.webp`;

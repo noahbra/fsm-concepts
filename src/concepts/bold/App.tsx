@@ -1,26 +1,41 @@
 import { useEffect, useRef, useState } from 'react';
-import { siteConfig } from '../../content/config';
-import { caseStudies } from '../../content/caseStudies';
-import { brand } from '../../content/media';
+import { siteConfig, url } from '../../content/config';
+import { caseStudies, headlineMetric, type CaseStudy } from '../../content/caseStudies';
+import { services } from '../../content/services';
+import { team, teamSource } from '../../content/team';
 import { ReviewRibbon, ReviewPill } from '../../components/ReviewChrome';
 import { ResponsiveMedia } from '../../components/ResponsiveMedia';
-import { SocialLinks } from '../../components/SocialLinks';
+import { MetricInline, ProofNote, SourceLink } from '../../components/CaseStudyProof';
 import { SkipLink } from '../../components/SkipLink';
 import { useReducedMotion } from '../../lib/motion';
+import { ServiceIcon } from '../visible/ServiceIcons';
+import { FsmForm } from '../visible/FsmForm';
+import { Header, Footer } from './Chrome';
 
 /**
- * Concept 06: Bold, rebuilt. Concept 02's page forked on October 28, 2026 (docs/CONCEPT_06_BRIEF.md). Step 1 of the build:
- * header, hero and reel on the retokened surfaces. Sections 3 to 8 (what we do, work, team, how we partner, work with us)
- * follow in step 2 once the project owner has seen the hero.
+ * Concept 06: Bold, rebuilt. Concept 02's page forked on October 28, 2026 (docs/CONCEPT_06_BRIEF.md): the hero, reel
+ * and energy on the kit's blue and green, then what we do, the work, who you work with, how we partner and the form.
+ * No opening story, no results section, no ledger. Section order is the brand owner's; the components below the reel
+ * are Concept 05's, restyled to this chrome.
  */
-const NAV = [
-  { href: '#services', label: 'What we do' },
-  { href: '#work', label: 'Work' },
-  { href: '#team', label: 'Team' },
-  { href: '#contact', label: 'Contact' },
-];
-
 export function App() {
+  const reduced = useReducedMotion();
+
+  // Concept 05's reveal: campaign photos enter desaturated and faded and come into full color as they reach the viewport.
+  // Full color is the default; the pre-state class is added only once the observer exists, and never under reduced motion.
+  useEffect(() => {
+    if (reduced || typeof IntersectionObserver === 'undefined') return;
+    const root = document.documentElement;
+    const targets = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }),
+      { threshold: 0.3 },
+    );
+    root.classList.add('reveal-ready');
+    targets.forEach((t) => io.observe(t));
+    return () => { io.disconnect(); root.classList.remove('reveal-ready'); };
+  }, [reduced]);
+
   return (
     <>
       <SkipLink />
@@ -29,39 +44,15 @@ export function App() {
       <main id="main">
         <Hero />
         <Reel />
+        <Services />
+        <Work />
+        <Team />
+        <Partner />
+        <Contact />
       </main>
       <Footer />
       <ReviewPill conceptId="bold" />
     </>
-  );
-}
-
-function Header() {
-  const [open, setOpen] = useState(false);
-  return (
-    <header className="cr-header">
-      <div className="cr-wrap cr-header-inner">
-        <a href="#top" className="cr-logo" aria-label="Full School Marketing home">
-          <picture>
-            <source type="image/webp" srcSet={brand.logoHorizontalWhite.webp} />
-            <img src={brand.logoHorizontalWhite.src} width={brand.logoHorizontalWhite.width} height={brand.logoHorizontalWhite.height} alt="Full School Marketing" />
-          </picture>
-        </a>
-        <button type="button" className="cr-menu-btn" aria-expanded={open} aria-controls="cr-nav" onClick={() => setOpen((v) => !v)}>
-          {open ? 'Close' : 'Menu'}
-        </button>
-        <nav id="cr-nav" className={`cr-nav${open ? ' is-open' : ''}`} aria-label="Primary">
-          {NAV.map((n) => (
-            <a key={n.href} href={n.href} onClick={() => setOpen(false)}>
-              {n.label}
-            </a>
-          ))}
-          <a className="cr-btn cr-btn--small" href="#contact">
-            Let&rsquo;s talk
-          </a>
-        </nav>
-      </div>
-    </header>
   );
 }
 
@@ -228,36 +219,166 @@ function Reel() {
   );
 }
 
-function Footer() {
+/* 3. What we do: five services in the client's order, one line each (the outcome field). Concept 05's tiles on this chrome. */
+function Services() {
   return (
-    <footer className="cr-footer">
-      <div className="cr-wrap cr-footer-inner">
-        <div className="cr-footer-brand">
-          <picture>
-            <source type="image/webp" srcSet={brand.logoHorizontalWhite.webp} />
-            <img src={brand.logoHorizontalWhite.src} width={brand.logoHorizontalWhite.width} height={brand.logoHorizontalWhite.height} alt="Full School Marketing" />
-          </picture>
-          <p>
-            {siteConfig.missionLine} Powered by the team at{' '}
-            <a href={siteConfig.filmtwist.url} target="_blank" rel="noopener noreferrer">
-              {siteConfig.filmtwist.name}
-            </a>
-            .
-          </p>
-          <SocialLinks className="cr-social" itemClassName="cr-social-link" />
+    <section id="services" className="cr-services" aria-labelledby="services-title" data-testid="services">
+      <div className="cr-wrap">
+        <div className="cr-section-head">
+          <span className="cr-eyebrow">Services</span>
+          <h2 id="services-title" className="cr-h2">
+            What <span className="cr-accent">we do.</span>
+          </h2>
         </div>
-        <nav className="cr-footer-nav" aria-label="Footer">
-          {NAV.map((n) => (
-            <a key={n.href} href={n.href}>
-              {n.label}
-            </a>
+        <ul className="cr-service-list">
+          {services.map((s) => (
+            <li className="cr-service" key={s.id}>
+              <span className="cr-service-icon"><ServiceIcon id={s.id} /></span>
+              <h3>{s.title}</h3>
+              <p>{s.outcome}</p>
+            </li>
           ))}
-        </nav>
-        <div className="cr-footer-legal">
-          <p>Privacy policy and terms to be supplied.</p>
-          <p>&copy; 2026 {siteConfig.legal.copyrightHolder}. Campaign creative shown with reuse approval pending.</p>
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+/* 4. Work: three photo-led cards, one sourced headline metric each, each opening its case page on this site. */
+function Work() {
+  return (
+    <section id="work" className="cr-work" aria-labelledby="work-title">
+      <div className="cr-wrap">
+        <div className="cr-section-head cr-section-head--row">
+          <div>
+            <span className="cr-eyebrow">Work</span>
+            <h2 id="work-title" className="cr-h2">
+              Schools that got seen. <span className="cr-accent">And chosen.</span>
+            </h2>
+          </div>
+          <p className="cr-lede">{siteConfig.filmtwist.attribution}</p>
+        </div>
+        <div className="cr-case-row">
+          {caseStudies.map((c) => <CaseCard c={c} key={c.id} />)}
+        </div>
+        <ProofNote className="cr-proofnote" />
+      </div>
+    </section>
+  );
+}
+
+/** One case study: photo, descriptor, school, the headline metric with its period and source, and the link to its page here. */
+function CaseCard({ c }: { c: CaseStudy }) {
+  const m = headlineMetric(c);
+  return (
+    <article className="cr-case" data-testid="case-study">
+      <a className="cr-case-media" href={url(`bold/work/${c.id}/`)} aria-label={`${c.school}: read the case study`} tabIndex={-1} data-reveal>
+        <ResponsiveMedia asset={c.hero} sizes="(max-width: 900px) 100vw, 33vw" />
+      </a>
+      <div className="cr-case-body">
+        <p className="cr-case-desc">{c.descriptor}</p>
+        <h3 className="cr-case-title">{c.school}</h3>
+        <p className="cr-case-metric">
+          <span className="cr-case-big">{m.display}</span>
+          <MetricInline m={m} c={c} className="cr-case-metric-line" />
+        </p>
+        <p className="cr-case-source">
+          <SourceLink c={c}>Source</SourceLink>
+        </p>
+        <a className="cr-link-arrow" href={url(`bold/work/${c.id}/`)} data-testid="case-link">Read the case study</a>
+      </div>
+    </article>
+  );
+}
+
+/* 5. Who you work with: the agency behind the brand, as published on the FilmTwist About page. Concept 05's cut-outs. */
+function Team() {
+  return (
+    <section id="team" className="cr-team" aria-labelledby="team-title">
+      <div className="cr-wrap">
+        <div className="cr-section-head cr-section-head--row">
+          <div>
+            <span className="cr-eyebrow">Team</span>
+            <h2 id="team-title" className="cr-h2">
+              Who you <span className="cr-accent">work with.</span>
+            </h2>
+          </div>
+          <p className="cr-lede">{siteConfig.teamLine}</p>
+        </div>
+        <ul className="cr-team-grid" data-testid="team-grid">
+          {team.map((p) => (
+            <li className="cr-member" key={p.slug} data-testid="team-member">
+              <span className="cr-member-photo">
+                <picture>
+                  <source type="image/webp" srcSet={p.photo.webp} />
+                  <img src={p.photo.png} width={p.photo.width} height={p.photo.height} alt="" loading="lazy" />
+                </picture>
+              </span>
+              <span className="cr-member-name">{p.name}</span>
+              <span className="cr-member-role">{p.role}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="cr-team-note">
+          Campaigns above: {caseStudies.map((c) => c.school).join(', ')}. Team photos and roles from{' '}
+          <a href={teamSource.url} target="_blank" rel="noopener noreferrer">filmtwist.com/about</a>. Reuse approval pending.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* 6. How we partner: Concept 02's four steps, one line each, under 60 words in all. */
+const steps = [
+  { t: 'Discover', d: 'Your enrollment goals, grade bands, neighborhoods and the families you most want to reach.' },
+  { t: 'Create', d: 'Film and photo days, ad creative, print, out-of-home and landing pages. Your school, not stock.' },
+  { t: 'Launch', d: 'Campaigns go live where families already are, timed to your application windows.' },
+  { t: 'Improve', d: 'We read leads, applications and cost per lead, and adjust as the season moves.' },
+];
+
+function Partner() {
+  return (
+    <section id="partner" className="cr-partner" aria-labelledby="partner-title">
+      <div className="cr-wrap">
+        <div className="cr-section-head">
+          <span className="cr-eyebrow">How we partner</span>
+          <h2 id="partner-title" className="cr-h2">
+            Four steps, <span className="cr-accent">one season at a time.</span>
+          </h2>
+        </div>
+        <ol className="cr-steps">
+          {steps.map((s, i) => (
+            <li key={s.t}>
+              <span className="cr-step-num" aria-hidden="true">
+                {i + 1}
+              </span>
+              <h3>{s.t}</h3>
+              <p>{s.d}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+/* 7. Work with us: the final call on kit blue, Concept 05's intro copy, and the FSM form posting to FilmTwist's form service. */
+function Contact() {
+  return (
+    <section id="contact" className="cr-cta" aria-labelledby="cta-title" data-testid="contact">
+      <div className="cr-wrap cr-cta-inner">
+        <div className="cr-cta-copy">
+          <span className="cr-eyebrow cr-eyebrow--light">Contact</span>
+          <h2 id="cta-title" className="cr-h1 cr-h1--cta">
+            Let&rsquo;s fill <span className="cr-accent">your school.</span>
+          </h2>
+          <p>{siteConfig.contactLine}</p>
+          <p className="cr-cta-note">The form goes straight to the team.</p>
+        </div>
+        <div className="cr-cta-form" data-testid="contact-form">
+          <FsmForm />
         </div>
       </div>
-    </footer>
+    </section>
   );
 }

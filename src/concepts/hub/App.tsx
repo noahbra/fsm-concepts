@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { concepts, mergedChecklist, mergedDirection, mergedVersion, type ConceptId, type ConceptMeta } from '../../content/concepts';
+import { concepts, currentChecklist, currentDirection, currentVersion, mergedChecklist, mergedDirection, mergedVersion, type ConceptId, type ConceptMeta } from '../../content/concepts';
 import { siteConfig } from '../../content/config';
 import { brand } from '../../content/media';
 import { SkipLink } from '../../components/SkipLink';
 import { copyText, downloadFile, drawQr } from '../../lib/share';
 import {
-  clearMerged, clearState, emptyConcept, hasAnyInput, hasMergedInput, loadMerged, loadState, mergedAsks, mergedToMarkdown, ratingFields, saveMerged, saveState,
-  sendFeedback, sendMerged, toJson, toMarkdown, type Decision, type FeedbackState, type MergedFeedback, type Resolves,
+  clearCurrent, clearMerged, clearState, currentAsks, currentToMarkdown, emptyConcept, hasAnyInput, hasCurrentInput, hasMergedInput, loadCurrent, loadMerged, loadState,
+  mergedAsks, mergedToMarkdown, ratingFields, saveCurrent, saveMerged, saveState, sendCurrent, sendFeedback, sendMerged, toJson, toMarkdown,
+  type CurrentFeedback, type Decision, type FeedbackState, type MergedFeedback, type Resolves,
 } from './feedback';
 
 const REVIEW_DATE = 'October 2026';
@@ -17,14 +18,14 @@ function parseConceptFromHash(): ConceptId | null {
   return m ? (m[1] as ConceptId) : null;
 }
 
-function ConceptCard({ c, merged = false }: { c: ConceptMeta; merged?: boolean }) {
+function ConceptCard({ c, direction }: { c: ConceptMeta; direction?: 'merged' | 'current' }) {
   const [status, setStatus] = useState('');
   const [qr, setQr] = useState(false);
   const canvas = useRef<HTMLCanvasElement>(null);
   const absolute = window.location.origin + c.path;
   useEffect(() => { if (qr && canvas.current) drawQr(canvas.current, absolute).catch(() => setStatus('QR could not be generated.')); }, [qr, absolute]);
   return (
-    <article className={`card${merged ? ' card--merged' : ''}`} aria-labelledby={`card-${c.id}`}>
+    <article className={`card${direction ? ` card--${direction}` : ''}`} aria-labelledby={`card-${c.id}`}>
       <div className="card__media">
         <img src={c.screenshotDesktop} width={1440} height={900} alt={`Desktop screenshot of Concept ${c.number}, ${c.name}`} loading="lazy" />
         <img className="card__mobile" src={c.screenshotMobile} width={390} height={844} alt="" loading="lazy" />
@@ -37,7 +38,12 @@ function ConceptCard({ c, merged = false }: { c: ConceptMeta; merged?: boolean }
         <ul className="card__tags" aria-label="Tone">{c.toneTags.map((t) => <li key={t}>{t}</li>)}</ul>
         <p className="card__feature"><strong>Distinguishing feature.</strong> {c.distinguishing}</p>
         <div className="card__actions">
-          {merged ? (
+          {direction === 'current' ? (
+            <>
+              <a className="btn btn--primary" href={c.path} data-testid="open-current">Open the current direction</a>
+              <a className="btn btn--accent" href="#current-form">Does this resolve your notes?</a>
+            </>
+          ) : direction === 'merged' ? (
             <>
               <a className="btn btn--primary" href={c.path} data-testid="open-merged">Open the merged direction</a>
               <a className="btn btn--accent" href="#merged-form">Does this resolve your notes?</a>
@@ -76,6 +82,77 @@ function Rating({ conceptId, field, label, value, onChange }: { conceptId: strin
       </div>
       <div className="rating__hint" aria-hidden="true"><span>1 = weak</span><span>5 = strong</span></div>
     </fieldset>
+  );
+}
+
+/** The current direction's own form: one question, two targeted asks, its own send. Never touches the earlier answers. */
+function CurrentFeedbackForm() {
+  const [m, setM] = useState<CurrentFeedback>(() => loadCurrent());
+  const [status, setStatus] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const reuseName = () => setM((cur) => (cur.reviewer.trim() ? cur : { ...cur, reviewer: loadMerged().reviewer || loadState().reviewer }));
+  useEffect(() => {
+    const onHash = () => { if (location.hash.startsWith('#current')) reuseName(); };
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+  const firstTouch = useRef(true);
+  const justSent = useRef(false);
+  useEffect(() => {
+    if (firstTouch.current) { firstTouch.current = false; return; }
+    const next = { ...m, updatedAt: new Date().toISOString() };
+    const ok = saveCurrent(next);
+    if (justSent.current) { justSent.current = false; return; }
+    setStatus(ok ? `Saved on this device at ${new Date(next.updatedAt).toLocaleTimeString()}.` : 'Could not save on this device (private mode?). Copy before leaving.');
+  }, [m]);
+  const update = (patch: Partial<CurrentFeedback>) => setM((s) => ({ ...s, ...patch }));
+  const submit = async () => {
+    if (!siteConfig.feedbackEnabled) return;
+    if (!m.reviewer.trim()) { setStatus('Add your name first, so we know whose feedback this is.'); document.getElementById('current-reviewer')?.focus(); return; }
+    if (!hasCurrentInput(m)) { setStatus('Answer the question or leave a note before sending.'); return; }
+    setSubmitting(true);
+    const submittedAt = new Date().toISOString();
+    const ok = await sendCurrent(m, submittedAt);
+    setSubmitting(false);
+    if (ok) { justSent.current = true; setM((s) => ({ ...s, sentAt: submittedAt })); setStatus(`Sent at ${new Date(submittedAt).toLocaleTimeString()}. You can revise and send again; each send is a new entry.`); }
+    else setStatus('Could not send (network). Copy instead and email it to the project owner.');
+  };
+  return (
+    <div className="form" id="current-form">
+      <fieldset className="rating">
+        <legend className="form__legend">Does the current direction resolve your notes?</legend>
+        <div className="decision">
+          {([['yes', 'Yes'], ['mostly', 'Mostly'], ['no', 'No']] as [Resolves, string][]).map(([v, l]) => (
+            <label key={v}><input type="radio" name="current-resolves" value={v} checked={m.resolves === v} onChange={() => update({ resolves: v })} data-testid="current-resolves" /><span>{l}</span></label>
+          ))}
+        </div>
+      </fieldset>
+      <div className="form__row">
+        <label htmlFor="current-notes">What still needs to change?</label>
+        <textarea id="current-notes" value={m.notes} onChange={(e) => update({ notes: e.target.value })} data-testid="current-notes" placeholder="Anything, in your words." />
+      </div>
+      <div className="form__grid">
+        {currentAsks.map((a) => (
+          <div className="form__row" key={a.key}>
+            <label htmlFor={`current-${a.key}`}>{a.label}</label>
+            <p className="form__hint">{a.hint}</p>
+            <input id={`current-${a.key}`} type="text" value={m[a.key]} onChange={(e) => update({ [a.key]: e.target.value })} data-testid={`current-${a.key}`} />
+          </div>
+        ))}
+      </div>
+      <div className="form__row">
+        <label htmlFor="current-reviewer">Reviewer name</label>
+        <input id="current-reviewer" type="text" required value={m.reviewer} onChange={(e) => update({ reviewer: e.target.value })} onFocus={reuseName} data-testid="current-reviewer" autoComplete="name" placeholder="So we know whose feedback this is" />
+      </div>
+      <div className="form__actions">
+        {siteConfig.feedbackEnabled && <button type="button" className="btn btn--primary" onClick={submit} disabled={submitting} data-testid="submit-current">{submitting ? 'Sending' : 'Send'}</button>}
+        <button type="button" className="btn btn--ghost" onClick={async () => setStatus((await copyText(currentToMarkdown(m))) ? 'Copied to the clipboard.' : 'Copy failed.')} data-testid="copy-current">Copy</button>
+        <button type="button" className="btn btn--ghost btn--small" onClick={() => { if (confirm('Clear your saved answers about the current direction on this device?')) { clearCurrent(); setM(loadCurrent()); setStatus('Cleared.'); } }}>Clear</button>
+      </div>
+      <div className="form__status" role="status" aria-live="polite" data-testid="current-status">{status}</div>
+      {m.sentAt && <p className="form__note" data-testid="current-sent">Last sent {new Date(m.sentAt).toLocaleString()}.</p>}
+      <p className="form__note">This sends only your answers about the current direction. Your earlier answers are not resent.</p>
+    </div>
   );
 }
 
@@ -281,6 +358,7 @@ export default function App() {
   useEffect(() => {
     if (window.location.hash.startsWith('#feedback')) document.getElementById('feedback')?.scrollIntoView();
     if (window.location.hash === '#merged') document.getElementById('merged')?.scrollIntoView();
+    if (window.location.hash === '#current') document.getElementById('current')?.scrollIntoView();
   }, []);
   return (
     <div className="hub">
@@ -298,16 +376,42 @@ export default function App() {
       <main id="main">
         <section className="hub__wrap hub__title">
           <h1>Full School Marketing: <span>Website Direction Review</span></h1>
-          <p>The merged direction built from your first-round notes, and the four original directions it came from. Open each one on your phone and on a desktop, scroll the whole page, then record what you think below.</p>
+          <p>The current direction, built from your notes on the merged direction; the merged direction it replaces; and the four original concepts. Open the current direction on your phone and on a desktop, scroll the whole page, then record what you think below.</p>
           <p className="hub__notice"><span aria-hidden="true">!</span><span>These are design concepts, not a live business site. Copy, links and campaign images are drafts for review. Campaign creative shown is from FilmTwist's published case studies; client approval for reuse is pending.</span></p>
         </section>
 
-        <section className="hub__wrap hub__section hub__merged" id="merged" aria-labelledby="merged-h">
-          <h2 id="merged-h">The merged direction</h2>
+        <section className="hub__wrap hub__section hub__merged" id="current" aria-labelledby="current-h">
+          <h2 id="current-h">The current direction</h2>
           <p style={{ maxWidth: '62ch', color: '#444', lineHeight: 1.5 }}>
-            Built from the October 27 feedback: Concept 03's opening story, shortened and skippable; Concept 01's structure and clarity below it; one motion rule instead of Concept 02's devices; no numbers up front. The team section uses your published wording and is yours to correct. Campaign photos still carry the reuse note until approval.
+            Built from the October 28 review of the merged direction: Concept 02 as you rated it, in the brand's blue and green, with no opening story. What we do sits right under the hero as five tiles; the three campaigns follow as cards that open their own pages here; then the team, the four steps and a form. No figures until the case cards.
           </p>
-          <div className="cards cards--one"><ConceptCard c={mergedDirection} merged /></div>
+          <div className="cards cards--one"><ConceptCard c={currentDirection} direction="current" /></div>
+          <h3 className="hub__subhead">What {currentVersion.label} addresses <span className="hub__version">({currentVersion.date})</span></h3>
+          <div className="checklist" data-testid="current-checklist">
+            {currentChecklist.map((r) => (
+              <section key={r.round} aria-label={r.round}>
+                <h4>{r.round}</h4>
+                <ul>
+                  {r.items.map((it) => (
+                    <li key={it.note} className={`checklist__item is-${it.state}`}>
+                      <span className="checklist__mark">{it.state === 'done' ? 'Done' : it.state === 'partly' ? 'Partly' : 'Not yet'}</span>
+                      <span><strong>{it.note}.</strong> {it.how}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
+          <h3 className="hub__subhead">Does this resolve your notes?</h3>
+          <CurrentFeedbackForm />
+        </section>
+
+        <section className="hub__wrap hub__section hub__merged hub__merged--superseded" id="merged" aria-labelledby="merged-h">
+          <h2 id="merged-h">The merged direction <span className="hub__version">({mergedVersion.label}, superseded)</span></h2>
+          <p style={{ maxWidth: '62ch', color: '#444', lineHeight: 1.5 }}>
+            Superseded by the current direction on October 28 and kept for the record. Built from the October 27 feedback: Concept 03's opening story, shortened and skippable; Concept 01's structure and clarity below it; one motion rule instead of Concept 02's devices; no numbers up front. The team section uses your published wording and is yours to correct. Campaign photos still carry the reuse note until approval.
+          </p>
+          <div className="cards cards--one"><ConceptCard c={mergedDirection} direction="merged" /></div>
           <h3 className="hub__subhead">What {mergedVersion.label} addresses <span className="hub__version">({mergedVersion.date})</span></h3>
           <div className="checklist" data-testid="merged-checklist">
             {mergedChecklist.map((r) => (

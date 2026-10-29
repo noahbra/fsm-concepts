@@ -112,6 +112,14 @@ export const siteConfig = {
         teamSection: 'entry.1582022351',
         markdown: 'entry.988458610',
       },
+      /** Concept 06, the current direction: its own fields and its own send (added to the same form 10/28/2026). */
+      current: {
+        resolves: 'entry.586107830',
+        notes: 'entry.535067219',
+        type: 'entry.764680778',
+        color: 'entry.1637215238',
+        markdown: 'entry.1912088952',
+      },
     },
   },
 

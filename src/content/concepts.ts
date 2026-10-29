@@ -163,7 +163,7 @@ export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
   {
     round: 'Reviews of Version 1, October 29',
     items: [
-      { note: 'The opening is still a little busy; open with a logo animation, then a bold statement, then the page', state: 'done', how: 'The opener is the mark as it animates at the top of the FSM module videos, rebuilt for the web: the dot, the hand, the leaves, the wordmark, then the headline, then the page. Once per session, any scroll or tap skips it, nothing under reduced motion.' },
+      { note: 'The opening is still a little busy; open with a logo animation, then a bold statement, then the page', state: 'done', how: 'The opener is the mark as it animates at the top of the FSM module videos, rebuilt for the web: the dot, the hand, the leaves, the wordmark, then the headline, then the page. It replays on every load while the site is in review; any scroll or tap skips it, nothing under reduced motion.' },
       { note: 'Not a fan of the three little thumbnails in the hero', state: 'done', how: 'The collage is gone. The hero is the statement beside one campaign photograph.' },
       { note: 'Lean more into the brand colors at the open, and into the greens', state: 'done', how: 'The opener is the mark in its own colors on white; the hero field is now the kit green, deepened so white type stays readable. The final call stays blue.' },
       { note: 'The reel crops the creatives; enlarge on hover', state: 'done', how: 'Every creative shows whole at its own proportion. Hovering enlarges it in place; a click or tap opens it full size.' },

@@ -33,7 +33,7 @@ async function settle(page: Page) {
   await page.waitForTimeout(300);
 }
 
-// Concept 06's opener plays once per session; every test starts past it (the opener's own test clears the flag).
+// Concept 06's opener honors a seen flag; every test starts past it (the opener's own test clears the flag).
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => { try { sessionStorage.setItem('fsm-bold-opener-seen', '1'); } catch { /* storage blocked */ } });
 });
@@ -637,7 +637,7 @@ test('Current direction feedback sends only its own fields, never the merged or 
   await expect(page.locator('[data-testid="merged-resolves"][value="no"]')).toBeChecked();
 });
 
-test('Concept 06 opener: plays once per session over a rendered page, any key skips it, none under reduced motion', async ({ page, browser, baseURL }) => {
+test('Concept 06 opener: plays over a rendered page and again on reload while in review, any key skips it, none under reduced motion', async ({ page, browser, baseURL }) => {
   await page.addInitScript(() => { try { sessionStorage.removeItem('fsm-bold-opener-seen'); } catch { /* ignore */ } });
   const errors = watch(page);
   await page.goto('bold/', { waitUntil: 'load' });
@@ -647,10 +647,11 @@ test('Concept 06 opener: plays once per session over a rendered page, any key sk
   await expect(page.getByTestId('fsm-form')).toBeAttached();
   expect(await page.evaluate(() => window.__fsmOpener?.duration)).toBeCloseTo(3.9, 1);
   await expect(opener).toHaveCount(0, { timeout: 8_000 });
-  expect(await page.evaluate(() => sessionStorage.getItem('fsm-bold-opener-seen'))).toBe('1');
+  expect(await page.evaluate(() => sessionStorage.getItem('fsm-bold-opener-seen'))).toBeNull(); // review mode: no flag, so it replays
   expect(await page.evaluate(() => document.documentElement.classList.contains('cr-opener-lock'))).toBe(false);
   await page.reload({ waitUntil: 'load' });
-  await expect(page.getByTestId('opener')).toHaveCount(0); // once per session
+  await expect(page.getByTestId('opener')).toBeVisible(); // review mode: every load
+  await expect(page.getByTestId('opener')).toHaveCount(0, { timeout: 8_000 });
   // a key skips it
   await page.goto('bold/?opener=1', { waitUntil: 'load' });
   await expect(page.getByTestId('opener')).toBeVisible();

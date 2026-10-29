@@ -235,5 +235,14 @@
       "half": 574,
       "source": "teasers-10.jpg"
     }
+  ],
+  "site": [
+    {
+      "name": "hero-school-steps",
+      "width": 1400,
+      "height": 933,
+      "half": 700,
+      "source": "hero-school-steps.png"
+    }
   ]
 }

@@ -19,6 +19,16 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 29, 2026 (sixth): replay the opener on every load during review; the hero photograph
+
+Two changes on the project owner's word after Version 2 went live, deployed together. The opener replays on every load while
+the site is in review (`REPLAY_EVERY_LOAD` in `Opener.tsx`; he refreshed, saw nothing, and reviewers would read that as broken);
+at launch the flag goes to false and the opener plays once per session as the brief specified. The hero photograph is now the one
+he chose from filmtwist.com (four students on school steps; `public/assets/site/hero-school-steps-*`, a new `site` section in
+`scripts/optimize-assets.mjs` and `siteMedia()` in `media.ts`), with no caption since it is not a case-study asset; the Aspire
+chalk-numeral still and its caption are gone. Playwright: 276 passed, 0 failed before the push. Posters for the page and the hub
+regenerated.
+
 ## Revision October 29, 2026 (fifth): Concept 06 round 2, the opener
 
 Deployed to GitHub Pages on October 29, 2026 on the project owner's go (commit `bfdf75d`, run 40934439541). The full suite was

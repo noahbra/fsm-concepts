@@ -5,6 +5,7 @@ import { services } from '../../content/services';
 import { team, teamSource } from '../../content/team';
 import { ReviewRibbon, ReviewPill } from '../../components/ReviewChrome';
 import { ResponsiveMedia } from '../../components/ResponsiveMedia';
+import { siteMedia } from '../../content/media';
 import { MetricInline, ProofNote, SourceLink } from '../../components/CaseStudyProof';
 import { SkipLink } from '../../components/SkipLink';
 import { useReducedMotion } from '../../lib/motion';
@@ -58,8 +59,13 @@ export function App() {
   );
 }
 
-/* Hero: one campaign photograph beside the statement (round 2, October 29: both reviewers asked for the collage to go). */
-const heroPhoto = { item: caseStudies[0].hero, label: 'Campaign photography, Aspire Public Schools' };
+/* Hero: one photograph beside the statement (round 2, October 29: both reviewers asked for the collage to go). The photograph
+   is the one the project owner chose from filmtwist.com on October 29; no caption, since it is not a case-study asset. */
+const heroPhoto = siteMedia(
+  'hero-school-steps',
+  'Four young students in red polo shirts sitting on school steps, laughing and clapping',
+  { sourceUrl: 'https://cdn.prod.website-files.com/66cf053fc0fd9e79e5290cf5/680bbaaa31d7b9b9f1bc8dda_Screenshot%202025-04-25%20at%2011.38.54%E2%80%AFAM.png' },
+);
 
 function Hero() {
   const reduced = useReducedMotion();
@@ -94,9 +100,8 @@ function Hero() {
           </div>
         </div>
 
-        <figure className="cr-hero-photo" style={{ aspectRatio: `${heroPhoto.item.width} / ${heroPhoto.item.height}` }}>
-          <ResponsiveMedia asset={heroPhoto.item} sizes="(max-width: 960px) 92vw, 44vw" priority />
-          <figcaption>{heroPhoto.label}</figcaption>
+        <figure className="cr-hero-photo" style={{ aspectRatio: `${heroPhoto.width} / ${heroPhoto.height}` }}>
+          <ResponsiveMedia asset={heroPhoto} sizes="(max-width: 960px) 92vw, 44vw" priority />
         </figure>
       </div>
     </section>

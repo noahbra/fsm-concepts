@@ -60,6 +60,26 @@ export function campaignMedia(
   };
 }
 
+interface SiteManifestEntry { name: string; width: number; height: number; half: number; source: string }
+
+/** A site image that is not campaign creative (the Concept 06 hero photograph). Same pipeline, `public/assets/site/`. */
+export function siteMedia(name: string, alt: string, opts: { rights?: AssetRights; sourceUrl: string; caption?: string }): MediaAsset {
+  const m = ((manifest as { site?: SiteManifestEntry[] }).site ?? []).find((e) => e.name === name);
+  if (!m) throw new Error(`Missing site asset ${name}. Run node scripts/optimize-assets.mjs`);
+  const base = `assets/site/${name}`;
+  return {
+    src: url(`${base}-${m.width}.webp`),
+    srcSet: `${url(`${base}-${m.half}.webp`)} ${m.half}w, ${url(`${base}-${m.width}.webp`)} ${m.width}w`,
+    fallback: url(`${base}-${m.width}.jpg`),
+    width: m.width,
+    height: m.height,
+    alt,
+    rights: opts.rights ?? 'pending-approval',
+    sourceUrl: opts.sourceUrl,
+    caption: opts.caption,
+  };
+}
+
 export const brand = {
   logoHorizontal: { src: url('assets/brand/fsm-logo-horizontal.png'), webp: url('assets/brand/fsm-logo-horizontal.webp'), width: 1600, height: 466 },
   logoStacked: { src: url('assets/brand/fsm-logo-stacked.png'), webp: url('assets/brand/fsm-logo-stacked.webp'), width: 1200, height: 1404 },

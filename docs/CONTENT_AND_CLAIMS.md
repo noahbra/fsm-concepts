@@ -130,7 +130,7 @@ The merged direction introduces three pieces of copy that the first four concept
 | Where | Text | Status |
 | --- | --- | --- |
 | Opener | The FSM mark and wordmark, animated as in the opening of the FSM module videos; the statement is the page's H1 line | Brand assets from the kit; the sequence is the client's own, from their videos |
-| Hero photo caption | "Campaign photography, Aspire Public Schools" | The Aspire case hero (FilmTwist's published campaign page); reuse approval is the standing one for campaign images |
+| Hero photograph | Four students on school steps, no caption (`assets/site/hero-school-steps-*`) | Chosen by the project owner on October 29 from filmtwist.com (its CDN file `680bbaaa31d7b9b9f1bc8dda_Screenshot 2025-04-25 at 11.38.54 AM.png`; the page it sits on is not in the saved source pages). The client's own site image; reuse on this site REQUIRES_CLIENT_CONFIRMATION like the campaign images. Replaced the Aspire chalk-numeral still, which carried the caption "Campaign photography, Aspire Public Schools" for part of October 29. |
 | Reel | Tile and dialog captions are the media record's captions and school short names | Unchanged |
 | Hub | "Reviews of Version 1, October 29" checklist wording (six items) | Paraphrases of the two reviewers' notes, no names |
 

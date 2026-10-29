@@ -37,7 +37,7 @@ async function campaign(caseId, file, outName, maxW = 1400) {
   return { caseId, name: outName, width: outMeta.width, height: outMeta.height, half, source: file };
 }
 
-const manifest = { logos: [], campaigns: [] };
+const manifest = { logos: [], campaigns: [], site: [] };
 
 await ensure(join(OUT, 'brand'));
 manifest.logos.push(await logo(join(SRC, 'logos/fsm-logo-color-01.png'), join(OUT, 'brand/fsm-logo-horizontal'), 1600));
@@ -83,6 +83,24 @@ const C = [
   ['envision', 'teasers-10.jpg', 'teacher-and-students'],
 ];
 for (const [c, f, n] of C) manifest.campaigns.push(await campaign(c, f, n));
+
+// Site images that are not campaign creative: the Concept 06 hero photograph, taken from filmtwist.com by the project owner
+// on October 29, 2026 (provenance in fsm-concepts-source/site/*.SOURCE.txt; rights: pending client approval).
+async function site(file, outName, maxW = 1400) {
+  const src = join(SRC, 'site', file);
+  const dir = join(OUT, 'site');
+  await ensure(dir);
+  const meta = await sharp(src).metadata();
+  const w = Math.min(maxW, meta.width);
+  const half = Math.round(w / 2);
+  const base = join(dir, outName);
+  await sharp(src).resize({ width: w }).webp({ quality: 82 }).toFile(`${base}-${w}.webp`);
+  await sharp(src).resize({ width: half }).webp({ quality: 80 }).toFile(`${base}-${half}.webp`);
+  await sharp(src).resize({ width: w }).jpeg({ quality: 82, mozjpeg: true }).toFile(`${base}-${w}.jpg`);
+  const outMeta = await sharp(`${base}-${w}.webp`).metadata();
+  return { name: outName, width: outMeta.width, height: outMeta.height, half, source: file };
+}
+for (const [f, n] of [['hero-school-steps.png', 'hero-school-steps']]) manifest.site.push(await site(f, n));
 
 await writeFile(new URL('../src/content/assetManifest.generated.json', import.meta.url), JSON.stringify(manifest, null, 2));
 console.log('logos', manifest.logos);

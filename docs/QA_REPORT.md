@@ -19,7 +19,7 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
-## Revision October 30, 2026 (thirteenth): "Schools we've worked with" strip (not deployed)
+## Revision October 30, 2026 (thirteenth): "Schools we've worked with" strip
 
 Eleven school logos (the brand owner's full list) in one tile each, inside the Work section above the case cards.
 `scripts/client-logos.mjs` trims each source, fits it in a 520 by 240 box (2x of the tile), writes png and webp (SVGs are
@@ -33,6 +33,9 @@ spill for every logo in Chromium and WebKit at 1440, 1024 and 390, no horizontal
 at 61 by 69 px on a tablet (a vertical lockup). Tests: eleven logos, every image loaded, every alt a school name, light
 marks on a non-white tile, zero spill. Full local suite before the spill fix: 280 passed; Concept 06 and hub tests after
 it: 48 passed, 0 failed. Hub: Version 3.1 with a "Reviews of Version 3" round.
+Deployed the same afternoon: commit 764af56, Pages run 41138893514 (success). Measured live: all nineteen logo files
+under assets/clients serve, the live Concept 06 bundle (bold-D1XnyESd.js) matches the local build and carries the strip;
+full suite against the live site in all four browsers: 280 passed, 0 failed. Lighthouse was not rerun for this revision.
 
 ## Revision October 30, 2026 (twelfth): team rows balanced
 

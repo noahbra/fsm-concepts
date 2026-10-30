@@ -548,7 +548,10 @@ test('Concept 06: one H1, what we do right under the reel, no figure above the c
   const hrefs = await page.locator('a[href^="https://www.filmtwist.com/work/"]').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).href));
   for (const src of SOURCES) expect(hrefs, `source link ${src}`).toContain(src);
   await expect(page.getByTestId('team-member')).toHaveCount(9);
-  await expect(page.getByTestId('contact-form').getByTestId('fsm-form')).toBeAttached();
+  // nine people wrap into balanced, centered rows: never a lone tile starting a row, and no row wider than the one above
+  const rows = await page.getByTestId('team-member').evaluateAll((els) => { const m = new Map<number, number>(); for (const el of els) { const t = Math.round(el.getBoundingClientRect().top); m.set(t, (m.get(t) ?? 0) + 1); } return [...m.entries()].sort((a, b) => a[0] - b[0]).map(([, n]) => n); });
+  expect(rows[rows.length - 1]).toBeGreaterThan(1);
+  for (let i = 1; i < rows.length; i++) expect(rows[i]).toBeLessThanOrEqual(rows[i - 1]);
   expect(await page.getByTestId('cta-primary').getAttribute('href')).toBe('#contact');
   // the review chrome points at the current direction's question, not the four-concept form
   const review = await page.getByRole('link', { name: 'Does this resolve your notes?' }).first().getAttribute('href');

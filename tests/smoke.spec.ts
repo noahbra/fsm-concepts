@@ -716,7 +716,7 @@ test('Concept 06a and 06b: frozen earlier versions at their own addresses, banne
     await expect(banner.locator('a')).toHaveAttribute('href', '/fsm-concepts/bold/');
     await expect(page.locator('.review-ribbon')).toHaveCount(0);
     await expect(page.locator('.review-pill')).toHaveCount(0);
-    expect(await page.locator('img').first().evaluate((el) => (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth > 0)).toBe(true);
+    await expect.poll(() => page.locator('img').first().evaluate((el) => (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth > 0), { timeout: 15_000 }).toBe(true);
     expect(errors.filter((e) => !/cancelled/.test(e))).toEqual([]);
   }
 });

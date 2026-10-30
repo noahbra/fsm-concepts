@@ -19,7 +19,7 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
-## Revision October 29, 2026 (eleventh): Concepts 06a and 06b frozen for comparison (not deployed)
+## Revision October 29, 2026 (eleventh): Concepts 06a and 06b frozen for comparison
 
 Frozen builds of commits b2d0581 (06a, Version 1) and e83e62d (06b, Version 2) from detached worktrees, `VITE_REVIEW_MODE=false`,
 base `/fsm-concepts/6a/` and `/6b/`; `bold/`, `static/` and `assets/` copied into `public/`, every page stamped with a
@@ -27,7 +27,15 @@ frozen-version banner linking to the current page. First copy missed the hashed 
 `static/`, not `assets/`); rebuilt and verified every script path resolves. Test: hub links to both; each serves one H1,
 the banner, no review ribbon or pill, first image loads, no console errors other than canceled requests.
 
-## Revision October 29, 2026 (tenth): hero back on kit blue, roster from the brand owner (not deployed)
+Deployed on the project owner's go the morning of October 30 (commit 4804212, Pages run 41063717385 success, 6:31 AM
+Pacific). Live: the hub, the current page, `6a/bold/` and `6b/bold/` all answer 200; both banners present; the 06a hashed
+bundle resolves. Live suite: 275 passed, 5 failed. Three of the five were the new test asserting the first image loaded
+synchronously after `load`, before the logo had finished downloading over the network (it was `complete` with a 1600 px
+width three seconds later); the assertion now polls up to 15 s. One was the reel hover scale read at 1 on Chromium
+desktop (a timing read, passes on rerun), one a GitHub Pages 503 on the Visible page. Live rerun of those three tests in
+all four browsers: 60 passed, 0 failed. This run also covers the tenth revision's content, live since the evening before.
+
+## Revision October 29, 2026 (tenth): hero back on kit blue, roster from the brand owner
 
 From the Version 2 reviews by email. Hero: the round-2 green field (kit green darkened to #1a7f54, not a guide color) is
 replaced by Version 1's kit-blue field with the one photo kept; the hero button returns to the kit-green primary on blue.
@@ -35,6 +43,9 @@ Team: Jesse, Sunny Kim and Alec Gossage removed; Pat Angeles added in Alec's pla
 from the brand owner's email, subject lifted with macOS Vision and framed to the set (subject top about 30 px, bottom on the
 frame edge, 360 px square, png and webp). Her title was not in the note; "Studio Administrator" is her own email signature, marked to confirm. Team count asserted at
 nine on the Concept 05 and 06 pages. Hub: Version 3, with a "Reviews of Version 2, October 29" round.
+
+Deployed on the project owner's go (commit f93680f, Pages run 40995285217 success, 8:04 PM Pacific). The live suite for
+this revision ran the next morning together with the eleventh; see that entry.
 
 ## Revision October 29, 2026 (ninth): the statement slide is gone from the opener (not deployed)
 

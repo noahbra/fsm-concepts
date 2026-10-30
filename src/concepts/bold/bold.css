@@ -160,7 +160,7 @@
 /* ---- work: three case cards, one photo, one sourced headline metric, a link to the case page ---- */
 .cr-work { background: var(--paper); color: var(--ink); padding-bottom: clamp(3rem, 7vw, 5.5rem); }
 /* Schools we've worked with: logo tiles in centered rows; a light (white or cream) mark gets the blue-ink tile as its backstop. */
-.cr-clients { margin: 0 0 clamp(2rem, 4vw, 3rem); }
+.cr-clients { margin: clamp(2.5rem, 5vw, 4rem) 0 0; }
 .cr-clients-title { font-family: var(--label); font-weight: 700; font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; color: var(--blue); margin: 0 0 1rem; text-align: center; }
 .cr-clients-row { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: var(--g); --g: .75rem; --c: var(--c-phone, 3); --fix: var(--fix-phone, 0); }
 /* columns per breakpoint come from the component (it knows the count and avoids a remainder of one); when a lone tile is
@@ -174,6 +174,13 @@
 .cr-client:nth-last-child(-n+2) img { max-width: calc(100% * (var(--c) - var(--fix)) / var(--c)); } /* a widened tile still shows its logo at the normal column size */
 @media (min-width: 700px) { .cr-clients-row { --c: var(--c-tab, 4); --fix: var(--fix-tab, 0); } .cr-client { height: 100px; padding: .9rem 1.25rem; } }
 @media (min-width: 1200px) { .cr-clients-row { --c: var(--c-desk, 6); --fix: var(--fix-desk, 0); } .cr-client { height: 104px; padding: .9rem 1.1rem; } }
+/* the looping row: fixed tiles, one slow pass per tile count, paused on hover or focus; the component swaps in the static rows under reduced motion */
+.cr-clients-marquee { --tile-w: 168px; overflow-x: clip; overflow-y: visible; padding: .25rem 0; -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent); }
+.cr-clients-track { --g: .75rem; --c: 1; --fix: 0; list-style: none; margin: 0; padding: 0; display: flex; gap: var(--g); width: max-content; animation: cr-clients-scroll calc(var(--n, 13) * 3.4s) linear infinite; }
+.cr-clients-marquee:hover .cr-clients-track, .cr-clients-marquee:focus-within .cr-clients-track { animation-play-state: paused; }
+.cr-clients-track .cr-client { flex: 0 0 var(--tile-w); height: 96px; padding: .8rem 1rem; }
+@keyframes cr-clients-scroll { to { transform: translateX(calc(-50% - var(--g) / 2)); } } /* exactly one copy of the list, so the loop is seamless */
+@media (max-width: 699px) { .cr-clients-marquee { --tile-w: 136px; } .cr-clients-track .cr-client { height: 80px; padding: .6rem .8rem; } }
 .cr-clients-note { margin: .9rem 0 0; font-size: .78rem; color: #666; text-align: center; }
 .cr-case-row { display: grid; gap: 1.5rem; }
 @media (min-width: 900px) { .cr-case-row { grid-template-columns: repeat(3, 1fr); } .cr-case:nth-child(2) { transform: translateY(2.5rem); } }
@@ -315,7 +322,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .cr-kinetic .cr-word { opacity: 1; transform: none; animation: none; }
-  .cr-marquee-track { animation: none; }
+  .cr-marquee-track, .cr-clients-track { animation: none; }
   .cr-hero-photo, .cr-reel-item, .cr-case-media img, .cr-btn, .cr-case, [data-reveal] { transition: none; }
   .reveal-ready [data-reveal]:not(.is-in) { filter: none; opacity: 1; }
 }

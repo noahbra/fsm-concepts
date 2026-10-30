@@ -556,16 +556,23 @@ test('Concept 06: one H1, what we do right under the reel, no figure above the c
   const logos = page.getByTestId('client-logo');
   await expect(logos).toHaveCount(13);
   await page.getByTestId('client-strip').scrollIntoViewIfNeeded();
-  // thirteen tiles still wrap without a lone tile on any row, rows never widen downward
-  const logoRows = await logos.evaluateAll((els) => { const m = new Map<number, number>(); for (const el of els) { const t = Math.round(el.getBoundingClientRect().top); m.set(t, (m.get(t) ?? 0) + 1); } return [...m.entries()].sort((a, b) => a[0] - b[0]).map(([, n]) => n); });
-  expect(logoRows.reduce((a, b) => a + b, 0)).toBe(13);
-  expect(logoRows[logoRows.length - 1], `logo rows ${logoRows.join('-')}`).toBeGreaterThan(1);
-  for (let i = 1; i < logoRows.length; i++) expect(logoRows[i], `logo rows ${logoRows.join('-')}`).toBeLessThanOrEqual(logoRows[i - 1]);
+  // the strip sits below the three case studies and loops as one slow row: the track moves on its own and pauses under the pointer
+  expect(await page.getByTestId('client-strip').evaluate((el) => el.getBoundingClientRect().top > document.querySelector('.cr-case-row')!.getBoundingClientRect().bottom)).toBe(true);
+  await expect(page.getByTestId('client-strip')).toHaveAttribute('data-mode', 'marquee');
+  const track = page.locator('.cr-clients-track');
+  const x0 = await track.evaluate((el) => new DOMMatrixReadOnly(getComputedStyle(el).transform).m41);
+  await page.waitForTimeout(700);
+  const x1 = await track.evaluate((el) => new DOMMatrixReadOnly(getComputedStyle(el).transform).m41);
+  expect(x1, 'the logo row should be moving').not.toBe(x0);
+  await page.getByTestId('client-marquee').hover();
+  await expect.poll(() => track.evaluate((el) => getComputedStyle(el).animationPlayState)).toBe('paused');
+  await page.mouse.move(0, 0);
   await expect.poll(() => logos.locator('img').evaluateAll((imgs) => imgs.filter((el) => !(el as HTMLImageElement).complete || (el as HTMLImageElement).naturalWidth === 0).length), { timeout: 15_000 }).toBe(0);
   expect(await logos.locator('img').evaluateAll((imgs) => imgs.map((el) => (el as HTMLImageElement).alt).filter((a) => a.length < 4))).toEqual([]);
+  // every mark measured dark after Aspire and Education for Change were recolored for white tiles (October 30); the backstop still holds for any light mark
   const dark = await logos.evaluateAll((els) => els.filter((el) => el.getAttribute('data-tone') === 'light').map((el) => getComputedStyle(el).backgroundColor));
-  expect(dark.length).toBeGreaterThanOrEqual(2);
-  for (const bg of dark) expect(bg).not.toBe('rgb(255, 255, 255)');
+  expect(dark).toEqual([]);
+  expect(await logos.evaluateAll((els) => els.map((el) => getComputedStyle(el).backgroundColor).filter((bg) => bg !== 'rgb(255, 255, 255)'))).toEqual([]);
   const spill = await logos.evaluateAll((els) => els.map((el) => { const t = el.getBoundingClientRect(), i = el.querySelector('img')!.getBoundingClientRect(); return Math.round(Math.max(0, t.top - i.top, i.bottom - t.bottom, t.left - i.left, i.right - t.right)); }));
   expect(spill.filter((px) => px > 1), 'logos spilling out of their tiles').toEqual([]);
   expect(await page.getByTestId('cta-primary').getAttribute('href')).toBe('#contact');
@@ -582,6 +589,12 @@ test('Concept 06: one H1, what we do right under the reel, no figure above the c
   const dimmed = await p2.locator('[data-reveal]').evaluateAll((els) => els.filter((e) => getComputedStyle(e).opacity !== '1').length);
   expect(dimmed).toBe(0);
   for (const id of ['services', 'work', 'team', 'partner', 'contact']) await expect(p2.locator(`#${id}`)).toBeVisible();
+  // under reduced motion the schools strip is static, centered rows: all thirteen, never a lone tile, rows never widening downward
+  await expect(p2.getByTestId('client-strip')).toHaveAttribute('data-mode', 'static');
+  const logoRows = await p2.getByTestId('client-logo').evaluateAll((els) => { const m = new Map<number, number>(); for (const el of els) { const t = Math.round(el.getBoundingClientRect().top); m.set(t, (m.get(t) ?? 0) + 1); } return [...m.entries()].sort((a, b) => a[0] - b[0]).map(([, n]) => n); });
+  expect(logoRows.reduce((a, b) => a + b, 0)).toBe(13);
+  expect(logoRows[logoRows.length - 1], `logo rows ${logoRows.join('-')}`).toBeGreaterThan(1);
+  for (let i = 1; i < logoRows.length; i++) expect(logoRows[i], `logo rows ${logoRows.join('-')}`).toBeLessThanOrEqual(logoRows[i - 1]);
   await ctx.close();
 });
 

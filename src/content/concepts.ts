@@ -169,6 +169,7 @@ export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
     round: 'Reviews of Version 3, October 30',
     items: [
       { note: 'Does the site read as if FSM has worked with only three schools?', state: 'done', how: 'A "Schools we\'ve worked with" strip now sits above the three case studies with every school on the brand owner\'s list (eleven), one logo tile each. Logos are from each school\'s public site; reuse needs the schools\' and FSM\'s approval.' },
+      { note: 'Schools strip: lower on the page, scrolling, every logo on white', state: 'done', how: 'Now below the three case studies as one slow looping row (pauses under the pointer; static rows when the device asks for reduced motion). Aspire\'s wordmark is set in its own purple and Education for Change\'s in the blue of its dark version, so no tile needs a dark backstop.' },
       { note: 'Two more schools: Morgan Autism Center and Visions In Education', state: 'done', how: 'Added October 30 at the project owner\'s request, logos from each site\'s own vector. Thirteen tiles; the rows rebalance to 7 and 6.' },
       { note: 'Anawakalmekak: include it?', state: 'partly', how: 'In for now, with the brand owner\'s question mark. Say the word and it comes out. Its only public logo is small; a better file is welcome.' },
       { note: 'Education for Change logo', state: 'partly', how: 'Only the light version (cream lettering) is published, so it sits on a dark tile. A dark-text version from FSM\'s files would let it sit on white like the others.' },

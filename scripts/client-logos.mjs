@@ -13,8 +13,8 @@ const BOX = { w: 520, h: 240 };
 const clients = [
   ['alpha', 'alpha/alpha-public-schools-vertical-1648.png'],
   ['anawakalmekak', 'anawakalmekak/anawakalmekak-wordmark-308.png'],
-  ['aspire', 'aspire/aspire-public-schools.svg'],
-  ['education-for-change', 'education-for-change/education-for-change-primary-light-3300.png'],
+  ['aspire', 'aspire/aspire-public-schools-wordmark-purple.svg'],
+  ['education-for-change', 'education-for-change/education-for-change-primary-wordmark-blue-3300.png'],
   ['envision', 'envision/envision-education-full-color.svg'],
   ['friendship', 'friendship/friendship-public-charter-school.svg'],
   ['invictus', 'invictus/invictus-academy-of-richmond-2500.png'],

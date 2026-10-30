@@ -19,6 +19,20 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 30, 2026 (fifteenth): the strip below the case studies, scrolling, all white (not deployed)
+
+Project owner: white tiles for Aspire and Education for Change with their white text made visible; should the proof sit lower,
+and should it scroll. Aspire's wordmark path (`fill="#ffffff"`) is set in the mark's own purple (#85568a); Education for
+Change's cream pixels are recolored to the wordmark blue measured from its dark version (#4e76b5, the tree untouched);
+both now measure dark (0.45, 0.50) and every tile is white. The strip moved below the three case studies and the proof note.
+Without reduced motion it is one looping row: fixed 168 by 96 px tiles (136 by 80 on a phone), the list twice, a CSS
+animation of 3.4 s per tile (44.2 s for thirteen) translating exactly one copy so the loop is seamless, paused on hover or
+focus, edges faded with a mask. Under reduced motion the component renders the static centered rows of the fourteenth
+revision. Images are eager so tiles never slide in blank. Measured in Chromium and WebKit at 1440 and 390: strip below the
+case row; track moves about 38 px in 0.7 s; every tile white; 0 px spill; no horizontal overflow; reduced motion gives 7-6
+and 3-3-3-2-2. Tests: strip below the cases, track moving, paused on hover, no light-tone tile and every tile white,
+reduced-motion rows. Concept 06 and hub tests 48 passed; full local suite 280 passed, 0 failed.
+
 ## Revision October 30, 2026 (fourteenth): two more schools in the strip (not deployed)
 
 Morgan Autism Center and Visions In Education added at the project owner's request: both from the header vector on the

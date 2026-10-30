@@ -22,8 +22,8 @@
     "svg": "aspire.svg",
     "width": 756,
     "height": 281,
-    "lightness": 0.77,
-    "tone": "light"
+    "lightness": 0.45,
+    "tone": "dark"
   },
   {
     "slug": "education-for-change",
@@ -31,8 +31,8 @@
     "webp": "education-for-change.webp",
     "width": 520,
     "height": 176,
-    "lightness": 0.87,
-    "tone": "light"
+    "lightness": 0.5,
+    "tone": "dark"
   },
   {
     "slug": "envision",

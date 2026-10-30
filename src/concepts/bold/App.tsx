@@ -242,32 +242,38 @@ function columns(n: number, candidates: number[]): { c: number; fix: 0 | 1 } {
 }
 
 function ClientStrip() {
+  const reduced = useReducedMotion();
   const n = clients.length;
   const desk = columns(n, [6, 7, 5]), tab = columns(n, [4, 5, 3]), phone = columns(n, [3, 2]);
   const vars = { '--c-desk': desk.c, '--fix-desk': desk.fix, '--c-tab': tab.c, '--fix-tab': tab.fix, '--c-phone': phone.c, '--fix-phone': phone.fix } as CSSProperties;
+  // One slow row that loops (the second copy is decoration), paused on hover or focus; static centered rows under reduced motion.
+  const tiles = (dup: boolean) => clients.map((c) => (
+    <li className={`cr-client${c.tone === 'light' ? ' cr-client--dark' : ''}`} key={dup ? `${c.slug}-dup` : c.slug} data-testid={dup ? 'client-logo-dup' : 'client-logo'} data-tone={c.tone} aria-hidden={dup || undefined}>
+      {c.svg ? (
+        <img src={c.svg} width={c.width} height={c.height} alt={dup ? '' : c.name} />
+      ) : (
+        <picture>
+          <source type="image/webp" srcSet={c.webp} />
+          <img src={c.png} width={c.width} height={c.height} alt={dup ? '' : c.name} />
+        </picture>
+      )}
+    </li>
+  ));
   return (
-    <div className="cr-clients" data-testid="client-strip">
+    <div className="cr-clients" data-testid="client-strip" data-mode={reduced ? 'static' : 'marquee'}>
       <h3 className="cr-clients-title" id="clients-title">Schools we've worked with</h3>
-      <ul className="cr-clients-row" aria-labelledby="clients-title" style={vars} data-count={n}>
-        {clients.map((c) => (
-          <li className={`cr-client${c.tone === 'light' ? ' cr-client--dark' : ''}`} key={c.slug} data-testid="client-logo" data-tone={c.tone}>
-            {c.svg ? (
-              <img src={c.svg} width={c.width} height={c.height} alt={c.name} loading="lazy" />
-            ) : (
-              <picture>
-                <source type="image/webp" srcSet={c.webp} />
-                <img src={c.png} width={c.width} height={c.height} alt={c.name} loading="lazy" />
-              </picture>
-            )}
-          </li>
-        ))}
-      </ul>
+      {reduced ? (
+        <ul className="cr-clients-row" aria-labelledby="clients-title" style={vars} data-count={n}>{tiles(false)}</ul>
+      ) : (
+        <div className="cr-clients-marquee" data-testid="client-marquee">
+          <ul className="cr-clients-track" aria-labelledby="clients-title" style={{ '--n': n } as CSSProperties}>{tiles(false)}{tiles(true)}</ul>
+        </div>
+      )}
       <p className="cr-clients-note">{clientsSource.note}</p>
     </div>
   );
 }
 
-/* 4. Work: three photo-led cards, one sourced headline metric each, each opening its case page on this site. */
 function Work() {
   return (
     <section id="work" className="cr-work" aria-labelledby="work-title">
@@ -281,11 +287,11 @@ function Work() {
           </div>
           <p className="cr-lede">{siteConfig.filmtwist.attribution}</p>
         </div>
-        <ClientStrip />
         <div className="cr-case-row">
           {caseStudies.map((c) => <CaseCard c={c} key={c.id} />)}
         </div>
         <ProofNote className="cr-proofnote" />
+        <ClientStrip />
       </div>
     </section>
   );

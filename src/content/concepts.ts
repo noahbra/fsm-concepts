@@ -158,7 +158,7 @@ export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
 ];
 
 /** The current direction's version label and the checklist of reviewer notes it answers, shown on the hub. No names. */
-export const currentVersion = { label: 'Concept 06c (Version 3)', date: 'October 29, 2026' };
+export const currentVersion = { label: 'Concept 06c (Version 3.1)', date: 'October 30, 2026' };
 /** Earlier versions of Concept 06, each a frozen build of the commit the client reviewed, served at its own address without review chrome. */
 export const previousVersions: { label: string; detail: string; path: string }[] = [
   { label: 'Concept 06a', detail: 'Version 1, October 28', path: '6a/bold/' },
@@ -166,10 +166,19 @@ export const previousVersions: { label: string; detail: string; path: string }[]
 ];
 export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
   {
+    round: 'Reviews of Version 3, October 30',
+    items: [
+      { note: 'Does the site read as if FSM has worked with only three schools?', state: 'done', how: 'A "Schools we\'ve worked with" strip now sits above the three case studies with every school on the brand owner\'s list (eleven), one logo tile each. Logos are from each school\'s public site; reuse needs the schools\' and FSM\'s approval.' },
+      { note: 'Anawakalmekak: include it?', state: 'partly', how: 'In for now, with the brand owner\'s question mark. Say the word and it comes out. Its only public logo is small; a better file is welcome.' },
+      { note: 'Education for Change logo', state: 'partly', how: 'Only the light version (cream lettering) is published, so it sits on a dark tile. A dark-text version from FSM\'s files would let it sit on white like the others.' },
+      { note: 'Pat Angeles\'s title', state: 'done', how: 'Studio Administrator, confirmed by the decision maker on October 30.' },
+    ],
+  },
+  {
     round: 'Reviews of Version 2, October 29',
     items: [
       { note: 'Is that green in the brand guide? It feels off; do not lean into that much green', state: 'done', how: 'It was not a guide color: the kit green darkened so white type stayed readable. The hero is back on the kit blue, as in Version 1, with the guide\'s greens as accents only. The one-photo hero stays.' },
-      { note: 'Staff: remove Jesse, Sunny and Alec; add Pat Angeles in Alec\'s place', state: 'done', how: 'Done as sent, with the headshot from the email. Her title, Studio Administrator, is from her own email signature; confirm it.' },
+      { note: 'Staff: remove Jesse, Sunny and Alec; add Pat Angeles in Alec\'s place', state: 'done', how: 'Done as sent, with the headshot from the email. Her title, Studio Administrator, was confirmed on October 30.' },
       { note: 'Keep the opening animation; it is short enough to keep people engaged', state: 'done', how: 'Kept. It no longer carries its own headline; the page headline is the first thing on screen when the mark lands.' },
     ],
   },

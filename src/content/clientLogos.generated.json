@@ -1,0 +1,98 @@
+[
+  {
+    "slug": "alpha",
+    "png": "alpha.png",
+    "webp": "alpha.webp",
+    "width": 213,
+    "height": 240,
+    "lightness": 0.55,
+    "tone": "dark"
+  },
+  {
+    "slug": "anawakalmekak",
+    "png": "anawakalmekak.png",
+    "webp": "anawakalmekak.webp",
+    "width": 304,
+    "height": 61,
+    "lightness": 0.28,
+    "tone": "dark"
+  },
+  {
+    "slug": "aspire",
+    "svg": "aspire.svg",
+    "width": 756,
+    "height": 281,
+    "lightness": 0.77,
+    "tone": "light"
+  },
+  {
+    "slug": "education-for-change",
+    "png": "education-for-change.png",
+    "webp": "education-for-change.webp",
+    "width": 520,
+    "height": 176,
+    "lightness": 0.87,
+    "tone": "light"
+  },
+  {
+    "slug": "envision",
+    "svg": "envision.svg",
+    "width": 788,
+    "height": 216,
+    "lightness": 0.45,
+    "tone": "dark"
+  },
+  {
+    "slug": "friendship",
+    "svg": "friendship.svg",
+    "width": 294,
+    "height": 70,
+    "lightness": 0.15,
+    "tone": "dark"
+  },
+  {
+    "slug": "invictus",
+    "png": "invictus.png",
+    "webp": "invictus.webp",
+    "width": 520,
+    "height": 138,
+    "lightness": 0.33,
+    "tone": "dark"
+  },
+  {
+    "slug": "mpms",
+    "png": "mpms.png",
+    "webp": "mpms.webp",
+    "width": 240,
+    "height": 240,
+    "lightness": 0.59,
+    "tone": "dark"
+  },
+  {
+    "slug": "sherman-thomas",
+    "png": "sherman-thomas.png",
+    "webp": "sherman-thomas.webp",
+    "width": 491,
+    "height": 240,
+    "lightness": 0.71,
+    "tone": "dark"
+  },
+  {
+    "slug": "summit-leadership-academy",
+    "png": "summit-leadership-academy.png",
+    "webp": "summit-leadership-academy.webp",
+    "width": 211,
+    "height": 240,
+    "lightness": 0.56,
+    "tone": "dark"
+  },
+  {
+    "slug": "washington-yu-ying",
+    "png": "washington-yu-ying.png",
+    "webp": "washington-yu-ying.webp",
+    "width": 520,
+    "height": 117,
+    "lightness": 0.52,
+    "tone": "dark"
+  }
+]

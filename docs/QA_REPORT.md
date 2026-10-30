@@ -19,6 +19,21 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 30, 2026 (thirteenth): "Schools we've worked with" strip (not deployed)
+
+Eleven school logos (the brand owner's full list) in one tile each, inside the Work section above the case cards.
+`scripts/client-logos.mjs` trims each source, fits it in a 520 by 240 box (2x of the tile), writes png and webp (SVGs are
+copied as is: Aspire, Envision, Friendship have no live text), and measures the mean luminance of the opaque pixels; a
+mark above 0.72 is marked light and gets the blue-ink tile. Measured: Aspire 0.77 and Education for Change 0.87 light,
+Sherman Thomas 0.71 (white panel with a green border, fine on white), the rest 0.15 to 0.59. Three cuts: the first wrapped
+5-5-1 on desktop and 2-2-2-2-2-1 on a phone (lone tiles), now 6-5 from 1200 px, 4-4-3 on a tablet, 3-3-3-2 on a phone;
+the second let tall logos spill out of their tiles (a percentage max-height does not resolve inside a grid tile with an
+inline picture wrapper), fixed with a flex tile, `picture { display: contents }` and overflow hidden; the third measured 0 px
+spill for every logo in Chromium and WebKit at 1440, 1024 and 390, no horizontal overflow. Smallest rendered logo: Alpha
+at 61 by 69 px on a tablet (a vertical lockup). Tests: eleven logos, every image loaded, every alt a school name, light
+marks on a non-white tile, zero spill. Full local suite before the spill fix: 280 passed; Concept 06 and hub tests after
+it: 48 passed, 0 failed. Hub: Version 3.1 with a "Reviews of Version 3" round.
+
 ## Revision October 30, 2026 (twelfth): team rows balanced
 
 The project owner saw a lone ninth tile starting the second team row (at the 1320 px content width the auto-fill grid

@@ -552,6 +552,17 @@ test('Concept 06: one H1, what we do right under the reel, no figure above the c
   const rows = await page.getByTestId('team-member').evaluateAll((els) => { const m = new Map<number, number>(); for (const el of els) { const t = Math.round(el.getBoundingClientRect().top); m.set(t, (m.get(t) ?? 0) + 1); } return [...m.entries()].sort((a, b) => a[0] - b[0]).map(([, n]) => n); });
   expect(rows[rows.length - 1]).toBeGreaterThan(1);
   for (let i = 1; i < rows.length; i++) expect(rows[i]).toBeLessThanOrEqual(rows[i - 1]);
+  // schools we've worked with: every client on the list, each logo loaded, each with its school's name, light marks on the dark tile
+  const logos = page.getByTestId('client-logo');
+  await expect(logos).toHaveCount(11);
+  await page.getByTestId('client-strip').scrollIntoViewIfNeeded();
+  await expect.poll(() => logos.locator('img').evaluateAll((imgs) => imgs.filter((el) => !(el as HTMLImageElement).complete || (el as HTMLImageElement).naturalWidth === 0).length), { timeout: 15_000 }).toBe(0);
+  expect(await logos.locator('img').evaluateAll((imgs) => imgs.map((el) => (el as HTMLImageElement).alt).filter((a) => a.length < 4))).toEqual([]);
+  const dark = await logos.evaluateAll((els) => els.filter((el) => el.getAttribute('data-tone') === 'light').map((el) => getComputedStyle(el).backgroundColor));
+  expect(dark.length).toBeGreaterThanOrEqual(2);
+  for (const bg of dark) expect(bg).not.toBe('rgb(255, 255, 255)');
+  const spill = await logos.evaluateAll((els) => els.map((el) => { const t = el.getBoundingClientRect(), i = el.querySelector('img')!.getBoundingClientRect(); return Math.round(Math.max(0, t.top - i.top, i.bottom - t.bottom, t.left - i.left, i.right - t.right)); }));
+  expect(spill.filter((px) => px > 1), 'logos spilling out of their tiles').toEqual([]);
   expect(await page.getByTestId('cta-primary').getAttribute('href')).toBe('#contact');
   // the review chrome points at the current direction's question, not the four-concept form
   const review = await page.getByRole('link', { name: 'Does this resolve your notes?' }).first().getAttribute('href');

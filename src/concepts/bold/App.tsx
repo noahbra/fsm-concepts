@@ -3,6 +3,7 @@ import { siteConfig, url } from '../../content/config';
 import { caseStudies, headlineMetric, type CaseStudy } from '../../content/caseStudies';
 import { services } from '../../content/services';
 import { team, teamSource } from '../../content/team';
+import { clients, clientsSource } from '../../content/clients';
 import { ReviewRibbon, ReviewPill } from '../../components/ReviewChrome';
 import { ResponsiveMedia } from '../../components/ResponsiveMedia';
 import { siteMedia } from '../../content/media';
@@ -229,6 +230,31 @@ function Services() {
   );
 }
 
+/* 4a. Schools we've worked with: every client on the brand owner's list, one logo tile each, above the three case studies.
+   Each logo sits on a tile so a white or cream mark never lands on the paper (the tile goes blue-ink for those). */
+function ClientStrip() {
+  return (
+    <div className="cr-clients" data-testid="client-strip">
+      <h3 className="cr-clients-title" id="clients-title">Schools we've worked with</h3>
+      <ul className="cr-clients-row" aria-labelledby="clients-title">
+        {clients.map((c) => (
+          <li className={`cr-client${c.tone === 'light' ? ' cr-client--dark' : ''}`} key={c.slug} data-testid="client-logo" data-tone={c.tone}>
+            {c.svg ? (
+              <img src={c.svg} width={c.width} height={c.height} alt={c.name} loading="lazy" />
+            ) : (
+              <picture>
+                <source type="image/webp" srcSet={c.webp} />
+                <img src={c.png} width={c.width} height={c.height} alt={c.name} loading="lazy" />
+              </picture>
+            )}
+          </li>
+        ))}
+      </ul>
+      <p className="cr-clients-note">{clientsSource.note}</p>
+    </div>
+  );
+}
+
 /* 4. Work: three photo-led cards, one sourced headline metric each, each opening its case page on this site. */
 function Work() {
   return (
@@ -243,6 +269,7 @@ function Work() {
           </div>
           <p className="cr-lede">{siteConfig.filmtwist.attribution}</p>
         </div>
+        <ClientStrip />
         <div className="cr-case-row">
           {caseStudies.map((c) => <CaseCard c={c} key={c.id} />)}
         </div>

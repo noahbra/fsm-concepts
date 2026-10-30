@@ -1,7 +1,7 @@
 /**
  * The FilmTwist team, as published on https://www.filmtwist.com/about (read October 28, 2026).
  * October 29, 2026, from the brand owner: Jesse, Sunny Kim and Alec Gossage removed; Pat Angeles added in Alec's place
- * (headshot from her email; the title is from her own email signature, "Studio Administrator", to confirm).
+ * (headshot from her email; the title "Studio Administrator" is from her own email signature and was confirmed by the decision maker on October 30, 2026).
  * Names and roles are the page's own wording; where the page shows only a first name, only the first name is used.
  * Photos are the page's headshots with the background lifted (public/assets/team). Reuse on the FSM site is a
  * client approval (REQUIRES_CLIENT_CONFIRMATION), like the campaign imagery. Order follows the About page.

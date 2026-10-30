@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type MouseEvent } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from 'react';
 import { siteConfig, url } from '../../content/config';
 import { caseStudies, headlineMetric, type CaseStudy } from '../../content/caseStudies';
 import { services } from '../../content/services';
@@ -232,11 +232,23 @@ function Services() {
 
 /* 4a. Schools we've worked with: every client on the brand owner's list, one logo tile each, above the three case studies.
    Each logo sits on a tile so a white or cream mark never lands on the paper (the tile goes blue-ink for those). */
+/** Columns for n tiles: the first candidate that divides n, else the first that does not leave a lone tile, else the
+ *  first candidate with the CSS fix (the last two tiles widen so the final rows end 2-2, never 1). */
+function columns(n: number, candidates: number[]): { c: number; fix: 0 | 1 } {
+  const even = candidates.find((c) => n % c === 0);
+  if (even) return { c: even, fix: 0 };
+  const noLone = candidates.find((c) => n % c !== 1);
+  return noLone ? { c: noLone, fix: 0 } : { c: candidates[0], fix: 1 };
+}
+
 function ClientStrip() {
+  const n = clients.length;
+  const desk = columns(n, [6, 7, 5]), tab = columns(n, [4, 5, 3]), phone = columns(n, [3, 2]);
+  const vars = { '--c-desk': desk.c, '--fix-desk': desk.fix, '--c-tab': tab.c, '--fix-tab': tab.fix, '--c-phone': phone.c, '--fix-phone': phone.fix } as CSSProperties;
   return (
     <div className="cr-clients" data-testid="client-strip">
       <h3 className="cr-clients-title" id="clients-title">Schools we've worked with</h3>
-      <ul className="cr-clients-row" aria-labelledby="clients-title">
+      <ul className="cr-clients-row" aria-labelledby="clients-title" style={vars} data-count={n}>
         {clients.map((c) => (
           <li className={`cr-client${c.tone === 'light' ? ' cr-client--dark' : ''}`} key={c.slug} data-testid="client-logo" data-tone={c.tone}>
             {c.svg ? (

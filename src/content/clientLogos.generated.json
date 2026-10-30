@@ -69,6 +69,14 @@
     "tone": "dark"
   },
   {
+    "slug": "morgan-autism-center",
+    "svg": "morgan-autism-center.svg",
+    "width": 1080,
+    "height": 408,
+    "lightness": 0.29,
+    "tone": "dark"
+  },
+  {
     "slug": "sherman-thomas",
     "png": "sherman-thomas.png",
     "webp": "sherman-thomas.webp",
@@ -84,6 +92,15 @@
     "width": 211,
     "height": 240,
     "lightness": 0.56,
+    "tone": "dark"
+  },
+  {
+    "slug": "visions-in-education",
+    "png": "visions-in-education.png",
+    "webp": "visions-in-education.webp",
+    "width": 520,
+    "height": 213,
+    "lightness": 0.45,
     "tone": "dark"
   },
   {

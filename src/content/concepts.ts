@@ -158,7 +158,7 @@ export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
 ];
 
 /** The current direction's version label and the checklist of reviewer notes it answers, shown on the hub. No names. */
-export const currentVersion = { label: 'Concept 06c (Version 3.1)', date: 'October 30, 2026' };
+export const currentVersion = { label: 'Concept 06c (Version 3.2)', date: 'October 30, 2026' };
 /** Earlier versions of Concept 06, each a frozen build of the commit the client reviewed, served at its own address without review chrome. */
 export const previousVersions: { label: string; detail: string; path: string }[] = [
   { label: 'Concept 06a', detail: 'Version 1, October 28', path: '6a/bold/' },
@@ -169,6 +169,7 @@ export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
     round: 'Reviews of Version 3, October 30',
     items: [
       { note: 'Does the site read as if FSM has worked with only three schools?', state: 'done', how: 'A "Schools we\'ve worked with" strip now sits above the three case studies with every school on the brand owner\'s list (eleven), one logo tile each. Logos are from each school\'s public site; reuse needs the schools\' and FSM\'s approval.' },
+      { note: 'Two more schools: Morgan Autism Center and Visions In Education', state: 'done', how: 'Added October 30 at the project owner\'s request, logos from each site\'s own vector. Thirteen tiles; the rows rebalance to 7 and 6.' },
       { note: 'Anawakalmekak: include it?', state: 'partly', how: 'In for now, with the brand owner\'s question mark. Say the word and it comes out. Its only public logo is small; a better file is welcome.' },
       { note: 'Education for Change logo', state: 'partly', how: 'Only the light version (cream lettering) is published, so it sits on a dark tile. A dark-text version from FSM\'s files would let it sit on white like the others.' },
       { note: 'Pat Angeles\'s title', state: 'done', how: 'Studio Administrator, confirmed by the decision maker on October 30.' },

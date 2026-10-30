@@ -162,14 +162,18 @@
 /* Schools we've worked with: logo tiles in centered rows; a light (white or cream) mark gets the blue-ink tile as its backstop. */
 .cr-clients { margin: 0 0 clamp(2rem, 4vw, 3rem); }
 .cr-clients-title { font-family: var(--label); font-weight: 700; font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; color: var(--blue); margin: 0 0 1rem; text-align: center; }
-.cr-clients-row { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; }
+.cr-clients-row { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: var(--g); --g: .75rem; --c: var(--c-phone, 3); --fix: var(--fix-phone, 0); }
+/* columns per breakpoint come from the component (it knows the count and avoids a remainder of one); when a lone tile is
+   unavoidable (--fix: 1) the last two tiles widen to one column fewer, so the final rows read 3-3-3-2-2 instead of 3-3-3-3-1 */
 /* Eleven tiles: 3 per row on a phone (3, 3, 3, 2), 4 on a tablet (4, 4, 3), 6 from 1200 px (6, 5); never a lone tile. */
-.cr-client { flex: 0 0 calc(33.334% - .5rem); min-width: 0; height: 76px; padding: .6rem .7rem; box-sizing: border-box; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #e2e1db; border-radius: 12px; overflow: hidden; }
+.cr-client { flex: 0 0 calc((100% - var(--g) * (var(--c) - 1)) / var(--c)); min-width: 0; height: 76px; padding: .6rem .7rem; box-sizing: border-box; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #e2e1db; border-radius: 12px; overflow: hidden; }
 .cr-client picture { display: contents; } /* so the image's percentage limits resolve against the tile, not the wrapper */
 .cr-client img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
 .cr-client--dark { background: var(--fsm-blue-ink); border-color: var(--fsm-blue-ink); }
-@media (min-width: 700px) { .cr-client { flex-basis: calc(25% - .5625rem); height: 100px; padding: .9rem 1.25rem; } }
-@media (min-width: 1200px) { .cr-client { flex-basis: calc(16.667% - .625rem); height: 104px; padding: .9rem 1.1rem; } }
+.cr-client:nth-last-child(-n+2) { flex-basis: calc((100% - var(--g) * (var(--c) - 1 - var(--fix))) / (var(--c) - var(--fix))); }
+.cr-client:nth-last-child(-n+2) img { max-width: calc(100% * (var(--c) - var(--fix)) / var(--c)); } /* a widened tile still shows its logo at the normal column size */
+@media (min-width: 700px) { .cr-clients-row { --c: var(--c-tab, 4); --fix: var(--fix-tab, 0); } .cr-client { height: 100px; padding: .9rem 1.25rem; } }
+@media (min-width: 1200px) { .cr-clients-row { --c: var(--c-desk, 6); --fix: var(--fix-desk, 0); } .cr-client { height: 104px; padding: .9rem 1.1rem; } }
 .cr-clients-note { margin: .9rem 0 0; font-size: .78rem; color: #666; text-align: center; }
 .cr-case-row { display: grid; gap: 1.5rem; }
 @media (min-width: 900px) { .cr-case-row { grid-template-columns: repeat(3, 1fr); } .cr-case:nth-child(2) { transform: translateY(2.5rem); } }

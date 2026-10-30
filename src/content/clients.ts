@@ -1,6 +1,7 @@
 /**
  * Schools FSM has worked with, for the "Schools we've worked with" strip on Concept 06 (October 30, 2026).
- * The list is the brand owner's full client list (relayed by the project owner, October 30, 2026), in her order.
+ * The list is the brand owner's full client list (relayed by the project owner, October 30, 2026), in her order, plus
+ * Morgan Autism Center and Visions In Education, added by the project owner the same afternoon; the list is alphabetical.
  * Logos were pulled from each school's own public site (or a public job-board copy) at the largest size served;
  * provenance per file in fsm-concepts-source/logos/clients/SOURCE.txt (not committed). Reuse of every mark on the
  * FSM site is a client approval (REQUIRES_CLIENT_CONFIRMATION). Anawakalmekak is on the list with the brand owner's
@@ -36,8 +37,10 @@ const names: Record<string, { name: string; source: string; flag?: string }> = {
   friendship: { name: 'Friendship Public Charter School', source: 'friendshipschools.org' },
   invictus: { name: 'Invictus Academy of Richmond', source: 'invictusofrichmond.org' },
   mpms: { name: 'Marin Primary & Middle School', source: 'mpms.org' },
+  'morgan-autism-center': { name: 'Morgan Autism Center', source: 'morgancenter.org' },
   'sherman-thomas': { name: 'Sherman Thomas Charter School', source: 'stcsca.org' },
   'summit-leadership-academy': { name: 'Summit Leadership Academy', source: 'edjoin.org/summitleadershipacademy' },
+  'visions-in-education': { name: 'Visions In Education', source: 'viedu.org' },
   'washington-yu-ying': { name: 'Washington Yu Ying Public Charter School', source: 'washingtonyuying.org' },
 };
 

@@ -19,8 +19,10 @@ const clients = [
   ['friendship', 'friendship/friendship-public-charter-school.svg'],
   ['invictus', 'invictus/invictus-academy-of-richmond-2500.png'],
   ['mpms', 'mpms/marin-primary-middle-school-1058.png'],
+  ['morgan-autism-center', 'morgan-autism-center/morgan-autism-center.svg'],
   ['sherman-thomas', 'sherman-thomas/sherman-thomas-charter-schools-947.png'],
   ['summit-leadership-academy', 'summit-leadership-academy/summit-leadership-academy-3928.png'],
+  ['visions-in-education', 'visions-in-education/visions-in-education-horizontal-2304.png'],
   ['washington-yu-ying', 'washington-yu-ying/washington-yu-ying-horizontal-982.png'],
 ];
 

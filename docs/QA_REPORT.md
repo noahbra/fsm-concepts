@@ -19,6 +19,19 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 30, 2026 (fourteenth): two more schools in the strip (not deployed)
+
+Morgan Autism Center and Visions In Education added at the project owner's request: both from the header vector on the
+school's own site (Webflow `logo-vector.svg`; `1999-Logo-HORZ-02.svg`). The Visions SVG carries "Est. 1999" as live Arial
+text, so it was rendered in Chromium at 8x (2304 px, transparent) and the strip uses that PNG; the Morgan vector has no
+live text and is used as is. Both measure dark (0.29, 0.45) and sit on white. Thirteen is prime, so the strip now takes its
+column count from the component (`columns()` in `App.tsx`: the first candidate that divides the count, else the first
+that leaves no lone tile, else the first with the CSS fix that widens the last two tiles to one column fewer, with their
+logos capped to the normal column size). Measured in Chromium and WebKit: rows 7-6 at 1440, 5-5-3 at 1024, 3-3-3-2-2 at
+390; 0 px spill for every logo; no horizontal overflow; the widened phone tiles show their logos at 99 px wide against
+87 px for their neighbors. Test: thirteen tiles, rows summing to thirteen, last row above one, rows never widening
+downward. Full local suite: 280 passed, 0 failed. Hub: Version 3.2.
+
 ## Revision October 30, 2026 (thirteenth): "Schools we've worked with" strip
 
 Eleven school logos (the brand owner's full list) in one tile each, inside the Work section above the case cards.

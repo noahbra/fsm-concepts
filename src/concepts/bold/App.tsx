@@ -306,7 +306,7 @@ function Team() {
         </ul>
         <p className="cr-team-note">
           Campaigns above: {caseStudies.map((c) => c.school).join(', ')}. Team photos and roles from{' '}
-          <a href={teamSource.url} target="_blank" rel="noopener noreferrer">filmtwist.com/about</a>. Reuse approval pending.
+          <a href={teamSource.url} target="_blank" rel="noopener noreferrer">filmtwist.com/about</a> and the FilmTwist team (October 29). Reuse approval pending.
         </p>
       </div>
     </section>

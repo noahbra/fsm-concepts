@@ -138,7 +138,7 @@ export function App() {
               <p className="team__schools">
                 Campaigns above: {caseStudies.map((c) => c.school).join(', ')}.
               </p>
-              <p className="team__rights">Team photos and roles from <a className="textlink" href={teamSource.url} target="_blank" rel="noopener noreferrer">filmtwist.com/about</a>. Reuse approval pending.</p>
+              <p className="team__rights">Team photos and roles from <a className="textlink" href={teamSource.url} target="_blank" rel="noopener noreferrer">filmtwist.com/about</a> and the FilmTwist team (October 29). Reuse approval pending.</p>
             </div>
           </section>
 

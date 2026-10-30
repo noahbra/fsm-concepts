@@ -164,7 +164,7 @@ export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
     round: 'Reviews of Version 2, October 29',
     items: [
       { note: 'Is that green in the brand guide? It feels off; do not lean into that much green', state: 'done', how: 'It was not a guide color: the kit green darkened so white type stayed readable. The hero is back on the kit blue, as in Version 1, with the guide\'s greens as accents only. The one-photo hero stays.' },
-      { note: 'Staff: remove Jesse, Sunny and Alec; add Pat Angeles in Alec\'s place', state: 'partly', how: 'Done as sent, with the headshot from the email. Pat\'s title was not in the note, so it reads "Title to confirm" until it arrives.' },
+      { note: 'Staff: remove Jesse, Sunny and Alec; add Pat Angeles in Alec\'s place', state: 'done', how: 'Done as sent, with the headshot from the email. Her title, Studio Administrator, is from her own email signature; confirm it.' },
       { note: 'Keep the opening animation; it is short enough to keep people engaged', state: 'done', how: 'Kept. It no longer carries its own headline; the page headline is the first thing on screen when the mark lands.' },
     ],
   },

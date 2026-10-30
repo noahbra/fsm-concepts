@@ -1,7 +1,7 @@
 /**
  * The FilmTwist team, as published on https://www.filmtwist.com/about (read October 28, 2026).
  * October 29, 2026, from the brand owner: Jesse, Sunny Kim and Alec Gossage removed; Pat Angeles added in Alec's place
- * (headshot from her email; title not given, so it reads "Title to confirm" until she says).
+ * (headshot from her email; the title is from her own email signature, "Studio Administrator", to confirm).
  * Names and roles are the page's own wording; where the page shows only a first name, only the first name is used.
  * Photos are the page's headshots with the background lifted (public/assets/team). Reuse on the FSM site is a
  * client approval (REQUIRES_CLIENT_CONFIRMATION), like the campaign imagery. Order follows the About page.
@@ -28,5 +28,5 @@ export const team: TeamMember[] = [
   { slug: 'david', name: 'David', role: 'Senior Videographer', photo: photo('david') },
   { slug: 'kien', name: 'Kien', role: 'Senior Videographer', photo: photo('kien') },
   { slug: 'stefan', name: 'Stefan', role: 'PPC Manager', photo: photo('stefan') },
-  { slug: 'pat', name: 'Pat Angeles', role: 'Title to confirm', photo: photo('pat') }, // brand owner, 10/29: "in Alec's spot"; no title given
+  { slug: 'pat', name: 'Pat Angeles', role: 'Studio Administrator', photo: photo('pat') }, // brand owner, 10/29: "in Alec's spot"; title from her own email signature (Patricia Angeles, Studio Administrator, 10/17)
 ];

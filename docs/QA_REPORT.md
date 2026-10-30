@@ -19,7 +19,7 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
-## Revision October 30, 2026 (fifteenth): the strip below the case studies, scrolling, all white (not deployed)
+## Revision October 30, 2026 (fifteenth): the strip below the case studies, scrolling, all white
 
 Project owner: white tiles for Aspire and Education for Change with their white text made visible; should the proof sit lower,
 and should it scroll. Aspire's wordmark path (`fill="#ffffff"`) is set in the mark's own purple (#85568a); Education for
@@ -32,8 +32,12 @@ revision. Images are eager so tiles never slide in blank. Measured in Chromium a
 case row; track moves about 38 px in 0.7 s; every tile white; 0 px spill; no horizontal overflow; reduced motion gives 7-6
 and 3-3-3-2-2. Tests: strip below the cases, track moving, paused on hover, no light-tone tile and every tile white,
 reduced-motion rows. Concept 06 and hub tests 48 passed; full local suite 280 passed, 0 failed.
+Deployed with the fourteenth revision: commits 43d16fa and 8cb1f1e, Pages run 41144093330 (success, 4:23 PM). Measured live:
+the Concept 06 bundle (bold-hmsrUtOz.js) matches the local build and carries the looping track, the four new or recolored
+logo files serve, the live Aspire SVG has no white fill left; full suite against the live site in all four browsers:
+280 passed, 0 failed. Lighthouse was not rerun for this revision.
 
-## Revision October 30, 2026 (fourteenth): two more schools in the strip (not deployed)
+## Revision October 30, 2026 (fourteenth): two more schools in the strip
 
 Morgan Autism Center and Visions In Education added at the project owner's request: both from the header vector on the
 school's own site (Webflow `logo-vector.svg`; `1999-Logo-HORZ-02.svg`). The Visions SVG carries "Est. 1999" as live Arial

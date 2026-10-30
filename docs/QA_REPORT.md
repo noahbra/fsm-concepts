@@ -19,6 +19,21 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 30, 2026 (twelfth): team rows balanced
+
+The project owner saw a lone ninth tile starting the second team row (at the 1320 px content width the auto-fill grid
+gave 8 and 1). The grid is now a centered flex wrap with fixed column bases: 5 over 4 from 1000 px up, 3 by 3 below,
+the photo shrinking to the column on a phone. First cut set the column width as a cap instead of a basis and still wrapped
+8 and 1 (flex breaks lines on the basis); second cut kept pairs on a phone, which left a centered lone tile and failed
+the new assertion; third cut is 3 by 3 everywhere under 1000 px. Measured rows: 5/4 at 1440, 1280 and 1024; 3/3/3 at
+768, 390 and 360; no horizontal overflow. Concept 06 tests locally: 28 passed. Deployed on the project owner's go
+(commit 5800556, Pages run 41088915185 success, 9:20 AM Pacific); live rows re-measured the same; full live suite
+280 passed, 0 failed.
+
+Also checked on the project owner's report that the work-image hover motion was lost: the live case-card zoom (1.04)
+and reel enlarge (1.45) measured working in Chromium and WebKit after both a skipped and a finished opener, and the
+motion CSS is byte-identical to Version 2. Not reproduced; Concept 06a never had the reel hover (a round 2 feature).
+
 ## Revision October 29, 2026 (eleventh): Concepts 06a and 06b frozen for comparison
 
 Frozen builds of commits b2d0581 (06a, Version 1) and e83e62d (06b, Version 2) from detached worktrees, `VITE_REVIEW_MODE=false`,

@@ -19,6 +19,14 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 29, 2026 (eleventh): Concepts 06a and 06b frozen for comparison (not deployed)
+
+Frozen builds of commits b2d0581 (06a, Version 1) and e83e62d (06b, Version 2) from detached worktrees, `VITE_REVIEW_MODE=false`,
+base `/fsm-concepts/6a/` and `/6b/`; `bold/`, `static/` and `assets/` copied into `public/`, every page stamped with a
+frozen-version banner linking to the current page. First copy missed the hashed `static/` bundles (the pages reference
+`static/`, not `assets/`); rebuilt and verified every script path resolves. Test: hub links to both; each serves one H1,
+the banner, no review ribbon or pill, first image loads, no console errors other than canceled requests.
+
 ## Revision October 29, 2026 (tenth): hero back on kit blue, roster from the brand owner (not deployed)
 
 From the Version 2 reviews by email. Hero: the round-2 green field (kit green darkened to #1a7f54, not a guide color) is

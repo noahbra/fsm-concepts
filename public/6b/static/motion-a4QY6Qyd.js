@@ -1,0 +1,1 @@
+import{S as e}from"./share-BQUtsTUw.js";var t=e(),n=`(prefers-reduced-motion: reduce)`;function r(){return typeof window<`u`&&window.matchMedia(n).matches}function i(){let[e,i]=(0,t.useState)(r);return(0,t.useEffect)(()=>{let e=window.matchMedia(n),t=()=>i(e.matches);return e.addEventListener(`change`,t),()=>e.removeEventListener(`change`,t)},[]),e}export{i as n,r as t};

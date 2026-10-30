@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { concepts, currentChecklist, currentDirection, currentVersion, mergedChecklist, mergedDirection, mergedVersion, type ConceptId, type ConceptMeta } from '../../content/concepts';
-import { siteConfig } from '../../content/config';
+import { concepts, currentChecklist, currentDirection, currentVersion, mergedChecklist, mergedDirection, mergedVersion, type ConceptId, type ConceptMeta, previousVersions } from '../../content/concepts';
+import { siteConfig, url } from '../../content/config';
 import { brand } from '../../content/media';
 import { SkipLink } from '../../components/SkipLink';
 import { copyText, downloadFile, drawQr } from '../../lib/share';
@@ -387,6 +387,12 @@ export default function App() {
           </p>
           <div className="cards cards--one"><ConceptCard c={currentDirection} direction="current" /></div>
           <h3 className="hub__subhead">What {currentVersion.label} addresses <span className="hub__version">({currentVersion.date})</span></h3>
+          <p className="hub__previous" data-testid="previous-versions">
+            Earlier versions, frozen so you can compare:{' '}
+            {previousVersions.map((v, i) => (
+              <span key={v.path}>{i > 0 ? ' · ' : ''}<a href={url(v.path)}>{v.label}</a> <span className="hub__version">({v.detail})</span></span>
+            ))}
+          </p>
           <div className="checklist" data-testid="current-checklist">
             {currentChecklist.map((r) => (
               <section key={r.round} aria-label={r.round}>

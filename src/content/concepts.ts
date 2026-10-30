@@ -158,7 +158,12 @@ export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
 ];
 
 /** The current direction's version label and the checklist of reviewer notes it answers, shown on the hub. No names. */
-export const currentVersion = { label: 'Version 3', date: 'October 29, 2026' };
+export const currentVersion = { label: 'Concept 06c (Version 3)', date: 'October 29, 2026' };
+/** Earlier versions of Concept 06, each a frozen build of the commit the client reviewed, served at its own address without review chrome. */
+export const previousVersions: { label: string; detail: string; path: string }[] = [
+  { label: 'Concept 06a', detail: 'Version 1, October 28', path: '6a/bold/' },
+  { label: 'Concept 06b', detail: 'Version 2, October 29', path: '6b/bold/' },
+];
 export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
   {
     round: 'Reviews of Version 2, October 29',

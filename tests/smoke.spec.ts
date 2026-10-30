@@ -700,3 +700,23 @@ test('Concept 06 reel: every creative shows whole, hover enlarges, click opens t
   await expect(box).toBeHidden();
 });
 
+
+test('Concept 06a and 06b: frozen earlier versions at their own addresses, banner back to the current one, no review chrome; the hub links to both', async ({ page }) => {
+  await page.goto('', { waitUntil: 'load' });
+  const links = page.getByTestId('previous-versions').locator('a');
+  await expect(links).toHaveCount(2);
+  const hrefs = await links.evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute('href')));
+  expect(hrefs.map((h) => h?.replace(/^.*fsm-concepts\//, ''))).toEqual(['6a/bold/', '6b/bold/']);
+  for (const [path, label] of [['6a/bold/', 'Concept 06a'], ['6b/bold/', 'Concept 06b']] as const) {
+    const errors = watch(page);
+    await page.goto(`${path}?opener=0`, { waitUntil: 'load' });
+    await expect(page.locator('h1')).toHaveCount(1);
+    const banner = page.getByTestId('frozen-banner');
+    await expect(banner).toContainText(label);
+    await expect(banner.locator('a')).toHaveAttribute('href', '/fsm-concepts/bold/');
+    await expect(page.locator('.review-ribbon')).toHaveCount(0);
+    await expect(page.locator('.review-pill')).toHaveCount(0);
+    expect(await page.locator('img').first().evaluate((el) => (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth > 0)).toBe(true);
+    expect(errors.filter((e) => !/cancelled/.test(e))).toEqual([]);
+  }
+});

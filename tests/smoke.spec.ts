@@ -343,10 +343,10 @@ test('Concept 05: one H1 names the offer, skip lands on services, cards expand i
   const caseLinks = await page.getByTestId('case-link').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).href));
   for (const id of CASES) expect(caseLinks.some((h) => h.endsWith(`/visible/work/${id}/`)), `case link ${id}`).toBe(true);
   expect(await page.locator('[data-testid="case-study"] a[href^="https://www.filmtwist.com/work/"]').count()).toBe(0);
-  // team: the sourced line, eleven cut-out photos that load, roles as published
+  // team: the sourced line, nine cut-out photos that load, roles as published
   await expect(page.locator('#team')).toContainText('started in 2020');
   const members = page.getByTestId('team-member');
-  await expect(members).toHaveCount(11);
+  await expect(members).toHaveCount(9);
   await members.first().scrollIntoViewIfNeeded();
   await expect.poll(() => members.first().locator('img').evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
   await expect(members.first()).toContainText('Operations Manager');
@@ -521,7 +521,7 @@ test('Merged direction feedback sends only its own fields, never the four-concep
   await expect(page.locator('[data-testid="rating-overall"][value="5"]')).toBeChecked();
 });
 
-test('Concept 06: one H1, what we do right under the reel, no figure above the case cards, three case links, eleven team cut-outs, chrome links to the current question', async ({ page, browser, baseURL }) => {
+test('Concept 06: one H1, what we do right under the reel, no figure above the case cards, three case links, nine team cut-outs, chrome links to the current question', async ({ page, browser, baseURL }) => {
   await page.goto('bold/');
   await settle(page);
   await expect(page.locator('h1')).toHaveCount(1);
@@ -547,7 +547,7 @@ test('Concept 06: one H1, what we do right under the reel, no figure above the c
   for (const h of caseLinks) expect((await page.request.get(h)).status(), h).toBe(200);
   const hrefs = await page.locator('a[href^="https://www.filmtwist.com/work/"]').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).href));
   for (const src of SOURCES) expect(hrefs, `source link ${src}`).toContain(src);
-  await expect(page.getByTestId('team-member')).toHaveCount(11);
+  await expect(page.getByTestId('team-member')).toHaveCount(9);
   await expect(page.getByTestId('contact-form').getByTestId('fsm-form')).toBeAttached();
   expect(await page.getByTestId('cta-primary').getAttribute('href')).toBe('#contact');
   // the review chrome points at the current direction's question, not the four-concept form

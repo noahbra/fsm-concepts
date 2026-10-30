@@ -19,6 +19,15 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 29, 2026 (tenth): hero back on kit blue, roster from the brand owner (not deployed)
+
+From the Version 2 reviews by email. Hero: the round-2 green field (kit green darkened to #1a7f54, not a guide color) is
+replaced by Version 1's kit-blue field with the one photo kept; the hero button returns to the kit-green primary on blue.
+Team: Jesse, Sunny Kim and Alec Gossage removed; Pat Angeles added in Alec's place. Her headshot is the 512 px inline image
+from the brand owner's email, subject lifted with macOS Vision and framed to the set (subject top about 30 px, bottom on the
+frame edge, 360 px square, png and webp). Her title was not given and renders "Title to confirm". Team count asserted at
+nine on the Concept 05 and 06 pages. Hub: Version 3, with a "Reviews of Version 2, October 29" round.
+
 ## Revision October 29, 2026 (ninth): the statement slide is gone from the opener (not deployed)
 
 The project owner, on the cache-free link: the headline "Make your school the one families remember." appears in the

@@ -776,7 +776,7 @@ test('Concept 06 reel: every tile, including the off-screen ones, has its image 
 test('Concept 06 Version 3.4: the provenance footnotes are off the page (the register in docs/CONTENT_AND_CLAIMS.md keeps them)', async ({ page }) => {
   await page.goto('bold/', { waitUntil: 'load' });
   await settle(page);
-  for (const s of ['FilmTwist-reported', 'Campaigns above:', 'School logos from each school', 'Client approval for reuse', 'reuse approval pending', 'delivered by the FilmTwist team', 'team behind FilmTwist']) {
+  for (const s of ['FilmTwist-reported', 'Campaigns above:', 'School logos from each school', 'Client approval for reuse', 'reuse approval pending', 'delivered by the FilmTwist team', 'team behind FilmTwist', 'The form goes straight to the team']) {
     expect(await page.getByText(s).count(), s).toBe(0);
   }
   expect(await page.locator('meta[name="description"]').getAttribute('content')).not.toContain('team behind');

@@ -237,7 +237,6 @@
 .cr-cta .cr-h1--cta { margin: 0; max-width: 14ch; }
 .cr-cta .cr-accent, .cr-casepage-cta .cr-accent { color: var(--accent); }
 .cr-cta-copy p { margin: 0; font-size: 1.1rem; max-width: 46ch; color: rgba(255,255,255,.92); }
-.cr-cta-copy .cr-cta-note { font-size: .9rem; color: rgba(255,255,255,.7); }
 .cr-cta-form { background: #fff; color: var(--ink); border-radius: 18px; padding: clamp(1.25rem, 3vw, 2rem); box-shadow: 0 30px 60px rgba(0,0,0,.25); }
 
 /* the FSM form (src/concepts/visible/FsmForm.tsx) on this chrome */

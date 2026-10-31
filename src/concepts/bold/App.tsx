@@ -409,7 +409,6 @@ function Contact() {
             Let&rsquo;s fill <span className="cr-accent">your school.</span>
           </h2>
           <p>{siteConfig.contactLine}</p>
-          <p className="cr-cta-note">The form goes straight to the team.</p>
         </div>
         <div className="cr-cta-form" data-testid="contact-form">
           <FsmForm />

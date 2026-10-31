@@ -49,6 +49,7 @@ function fsmSite(): Plugin {
       out = out.split('"../assets/').join('"' + base.replace(/\/?$/, '/') + 'assets/'); // the page sits at the root now, not under bold/
       out = out.split('="../assets/').join('="' + base.replace(/\/?$/, '/') + 'assets/').split(' ../assets/').join(' ' + base.replace(/\/?$/, '/') + 'assets/');
       if (indexable) out = out.replace(/\s*<meta name="robots" content="noindex" \/>/, '');
+      out = out.split(' Concept 06: Bold, rebuilt.').join(''); // the review label has no place in the production description
       return out;
     },
     generateBundle(_, bundle) {

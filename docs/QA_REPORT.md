@@ -36,6 +36,13 @@ and read as if FilmTwist were a product); the relationship is stated once, in th
 Work heading no longer uses the two-column head, so it sits at full width. The case pages' own "reuse approval pending"
 caption was not in the ask and stays.
 Full local suite (four browsers, served from the built `dist/`): 284 passed, 0 failed (3.1 min). Hub Version 3.4.
+Deployed on the project owner's "deploy": commits 019819b and 04a7e4b pushed to the review repo (Pages run 41227814841,
+success) and to the production repo (run 41227871404, success); live suite against the review site 284 passed, 0 failed
+(3.7 min). The live check then found the page's meta description still said "from the team behind FilmTwist" on both
+sites, with the review label "Concept 06: Bold, rebuilt." carried into production. Fixed in a third commit: the
+description now reads "School enrollment creative, campaigns and strategy for K-12 schools, from Full School Marketing.";
+the production transform strips the review label (verified in the local `SITE=fsm` build); the footnote test asserts the
+description. Both sites redeployed; the live descriptions are recorded in the Deployment section's note for this revision.
 
 ## Revision October 30, 2026 (sixteenth): the evening answers, fourteen tiles
 

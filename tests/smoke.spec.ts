@@ -760,6 +760,7 @@ test('Concept 06 Version 3.4: the provenance footnotes are off the page (the reg
   for (const s of ['FilmTwist-reported', 'Campaigns above:', 'School logos from each school', 'Client approval for reuse', 'reuse approval pending', 'delivered by the FilmTwist team', 'team behind FilmTwist']) {
     expect(await page.getByText(s).count(), s).toBe(0);
   }
+  expect(await page.locator('meta[name="description"]').getAttribute('content')).not.toContain('team behind');
   // The relationship is stated once, plainly, in the Team intro; the hero no longer tries to explain it.
   expect(await page.locator('#team').getByText("Filmtwist Creative Agency's K-12 student recruitment practice").count()).toBe(1);
 });

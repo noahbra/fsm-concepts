@@ -134,6 +134,7 @@ The merged direction introduces three pieces of copy that the first four concept
 | Work, Team, Schools strip | The on-page provenance footnotes (results disclaimer and sources, team photos and roles note, school logos note) are removed at the project owner's direction. This register remains the record of every source and every pending approval; nothing in the "Unresolved approvals" list changes. | Removed from the page October 31 |
 | Reel dialog | Each creative opens at its own pixel size at most. The published files are web-sized (340 to 1,400 px wide); the agency's full-size files are wanted. | REQUIRES_CLIENT_CONFIRMATION (files) |
 | Footer, Work heading | "Campaign creative shown with reuse approval pending." and the Work lede "Featured school recruitment campaigns delivered by the FilmTwist team." removed at the project owner's direction. Approval 1 in the list below is unchanged. | Removed from the page October 31 |
+| Meta description (search and share preview) | Now "School enrollment creative, campaigns and strategy for K-12 schools, from Full School Marketing." The production build drops the trailing review label. | Edited October 31 |
 | Hero | "built by the team behind FilmTwist" dropped from the offer line; the line is now "Creative, campaigns and enrollment strategy for K-12 schools. The goal is enrolled students, not just clicks." The FilmTwist relationship is stated once, in the Team intro (unchanged wording, see approval 2). | Edited October 31 |
 
 ## Concept 06 round 2 (October 29, 2026)

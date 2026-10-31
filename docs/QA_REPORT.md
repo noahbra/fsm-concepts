@@ -52,6 +52,9 @@ tiles now load eagerly (an `eager` prop on `ResponsiveMedia`; twenty small files
 elsewhere; it now pauses on `:has(:focus-visible)` (keyboard focus only), the pointer, or the button. A dialog
 close-event race (close lands a task after the dialog hides; a tile opened in that gap was closed by it) is fixed in
 the handler. Tests: every reel image loaded without scrolling (15 s poll); the reel running again after a close.
+Deployed on the project owner's "deploy" as f51f0c2 to both repos (review run 41231875146, production run 41231876648,
+both success). MEASURED live at 1440 on both sites, 4.5 s after load and without scrolling: 20 reel images, 0 unloaded,
+both Graduation Aspire tiles decoded at 340 px; a pointer open and close left the track `running`.
 
 ## Revision October 30, 2026 (sixteenth): the evening answers, fourteen tiles
 

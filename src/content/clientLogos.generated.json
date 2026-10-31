@@ -19,10 +19,11 @@
   },
   {
     "slug": "aspire",
-    "svg": "aspire.svg",
-    "width": 756,
-    "height": 281,
-    "lightness": 0.45,
+    "png": "aspire.png",
+    "webp": "aspire.webp",
+    "width": 520,
+    "height": 146,
+    "lightness": 0.42,
     "tone": "dark"
   },
   {
@@ -74,6 +75,15 @@
     "width": 1080,
     "height": 408,
     "lightness": 0.29,
+    "tone": "dark"
+  },
+  {
+    "slug": "pathways",
+    "png": "pathways.png",
+    "webp": "pathways.webp",
+    "width": 520,
+    "height": 121,
+    "lightness": 0.48,
     "tone": "dark"
   },
   {

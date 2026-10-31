@@ -19,6 +19,21 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 30, 2026 (sixteenth): the evening answers, fourteen tiles
+
+Brand owner (5:24 PM): Anawakalmekak and Washington Yu Ying stay; the decision maker's "Pathways" is Pathways Charter
+School (pathwayscharter.org; its site says TK-12 independent study in Sonoma, Solano, Napa and Marin counties); FSM's own
+Aspire logo folder shared; no file for the current Education for Change logo; full names for the four first-name staff.
+Decision maker (5:28 PM): first names only. Built: Aspire's tile now carries FSM's own purple-on-white horizontal PNG
+(1576 by 586, transparent) in place of the recolored web SVG; Pathways joins as the fourteenth tile. Its site has no logo
+image (the header is a CSS-placed mark beside live Cinzel text), but its watermark PNG is the full-color vertical lockup
+with every pixel at alpha 26; restored to full alpha, then its mark and wordmark blocks set side by side as the site's
+header sets them (3107 by 724). Flagged in the claims register for the school's own file. The roster is unchanged.
+Column picks for fourteen: 7-7 from 1200 px, 4-4-4-2 on a tablet, two by two on a phone; the count-aware rule needs no
+widening fix at any width. Tests: fourteen logos, fourteen in the reduced-motion rows. Measured on the local build at 1440
+and 390 (static rows under reduced motion, the moving row without): 14 tiles, 0 broken images, every tile white.
+Full local suite (four browsers, served from the built `dist/`): 280 passed, 0 failed. Not deployed; hub Version 3.3.
+
 ## Revision October 30, 2026 (fifteenth): the strip below the case studies, scrolling, all white
 
 Project owner: white tiles for Aspire and Education for Change with their white text made visible; should the proof sit lower,

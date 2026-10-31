@@ -554,7 +554,7 @@ test('Concept 06: one H1, what we do right under the reel, no figure above the c
   for (let i = 1; i < rows.length; i++) expect(rows[i]).toBeLessThanOrEqual(rows[i - 1]);
   // schools we've worked with: every client on the list, each logo loaded, each with its school's name, light marks on the dark tile
   const logos = page.getByTestId('client-logo');
-  await expect(logos).toHaveCount(13);
+  await expect(logos).toHaveCount(14);
   await page.getByTestId('client-strip').scrollIntoViewIfNeeded();
   // the strip sits below the three case studies and loops as one slow row: the track moves on its own and pauses under the pointer
   expect(await page.getByTestId('client-strip').evaluate((el) => el.getBoundingClientRect().top > document.querySelector('.cr-case-row')!.getBoundingClientRect().bottom)).toBe(true);
@@ -589,10 +589,10 @@ test('Concept 06: one H1, what we do right under the reel, no figure above the c
   const dimmed = await p2.locator('[data-reveal]').evaluateAll((els) => els.filter((e) => getComputedStyle(e).opacity !== '1').length);
   expect(dimmed).toBe(0);
   for (const id of ['services', 'work', 'team', 'partner', 'contact']) await expect(p2.locator(`#${id}`)).toBeVisible();
-  // under reduced motion the schools strip is static, centered rows: all thirteen, never a lone tile, rows never widening downward
+  // under reduced motion the schools strip is static, centered rows: all fourteen, never a lone tile, rows never widening downward
   await expect(p2.getByTestId('client-strip')).toHaveAttribute('data-mode', 'static');
   const logoRows = await p2.getByTestId('client-logo').evaluateAll((els) => { const m = new Map<number, number>(); for (const el of els) { const t = Math.round(el.getBoundingClientRect().top); m.set(t, (m.get(t) ?? 0) + 1); } return [...m.entries()].sort((a, b) => a[0] - b[0]).map(([, n]) => n); });
-  expect(logoRows.reduce((a, b) => a + b, 0)).toBe(13);
+  expect(logoRows.reduce((a, b) => a + b, 0)).toBe(14);
   expect(logoRows[logoRows.length - 1], `logo rows ${logoRows.join('-')}`).toBeGreaterThan(1);
   for (let i = 1; i < logoRows.length; i++) expect(logoRows[i], `logo rows ${logoRows.join('-')}`).toBeLessThanOrEqual(logoRows[i - 1]);
   await ctx.close();

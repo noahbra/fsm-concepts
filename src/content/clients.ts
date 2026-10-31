@@ -1,11 +1,13 @@
 /**
  * Schools FSM has worked with, for the "Schools we've worked with" strip on Concept 06 (October 30, 2026).
- * The list is the brand owner's full client list (relayed by the project owner, October 30, 2026), in her order, plus
- * Morgan Autism Center and Visions In Education, added by the project owner the same afternoon; the list is alphabetical.
- * Logos were pulled from each school's own public site (or a public job-board copy) at the largest size served;
- * provenance per file in fsm-concepts-source/logos/clients/SOURCE.txt (not committed). Reuse of every mark on the
- * FSM site is a client approval (REQUIRES_CLIENT_CONFIRMATION). Anawakalmekak is on the list with the brand owner's
- * own question mark ("not sure if you want to include this one"), so it stays in until she decides.
+ * The list is the brand owner's full client list (relayed by the project owner, October 30, 2026), plus Morgan Autism
+ * Center and Visions In Education (project owner, the same afternoon) and Pathways Charter School (the decision maker's
+ * proposal, named by the brand owner that evening; TK-12 independent study, Sonoma County); the list is alphabetical.
+ * Logos were pulled from each school's own public site (or a public job-board copy) at the largest size served, except
+ * Aspire's, which is FSM's own file from its brand folder (brand owner, October 30); provenance per file in
+ * fsm-concepts-source/logos/clients/SOURCE.txt (not committed). Reuse of every mark on the FSM site is a client approval
+ * (REQUIRES_CLIENT_CONFIRMATION). Anawakalmekak and Washington Yu Ying were the brand owner's question marks; she kept
+ * both in on October 30.
  * `tone` is measured by scripts/client-logos.mjs: a mark that is mostly white or cream ('light') sits on the dark tile.
  */
 import { url } from './config';
@@ -30,14 +32,15 @@ export interface ClientLogo {
 
 const names: Record<string, { name: string; source: string; flag?: string }> = {
   alpha: { name: 'Alpha Public Schools', source: 'edjoin.org/alphaps' },
-  anawakalmekak: { name: 'Anawakalmekak', source: 'anawakalmekak.org', flag: 'Brand owner unsure whether to include; the only public logo is 308 px wide' },
-  aspire: { name: 'Aspire Public Schools', source: 'aspirepublicschools.org' },
-  'education-for-change': { name: 'Education for Change Public Schools', source: 'efcps.org', flag: 'Only the light (cream on dark) version is published; a dark-text primary is wanted' },
+  anawakalmekak: { name: 'Anawakalmekak', source: 'anawakalmekak.org', flag: 'In, per the brand owner (October 30); the only public logo is 308 px wide, a larger file is still welcome' },
+  aspire: { name: 'Aspire Public Schools', source: 'FSM brand folder (purple-on-white horizontal, supplied October 30)' },
+  'education-for-change': { name: 'Education for Change Public Schools', source: 'efcps.org', flag: 'Wordmark recolored from the published light version; the brand owner has no file for the current logo (October 30)' },
   envision: { name: 'Envision Education', source: 'envisionschools.org' },
   friendship: { name: 'Friendship Public Charter School', source: 'friendshipschools.org' },
   invictus: { name: 'Invictus Academy of Richmond', source: 'invictusofrichmond.org' },
   mpms: { name: 'Marin Primary & Middle School', source: 'mpms.org' },
   'morgan-autism-center': { name: 'Morgan Autism Center', source: 'morgancenter.org' },
+  pathways: { name: 'Pathways Charter School', source: 'pathwayscharter.org', flag: 'The site\'s own mark and wordmark set side by side, as its header sets them; the school\'s own horizontal file is wanted' },
   'sherman-thomas': { name: 'Sherman Thomas Charter School', source: 'stcsca.org' },
   'summit-leadership-academy': { name: 'Summit Leadership Academy', source: 'edjoin.org/summitleadershipacademy' },
   'visions-in-education': { name: 'Visions In Education', source: 'viedu.org' },

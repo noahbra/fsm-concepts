@@ -158,7 +158,7 @@ export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
 ];
 
 /** The current direction's version label and the checklist of reviewer notes it answers, shown on the hub. No names. */
-export const currentVersion = { label: 'Concept 06c (Version 3.2)', date: 'October 30, 2026' };
+export const currentVersion = { label: 'Concept 06c (Version 3.3)', date: 'October 30, 2026' };
 /** Earlier versions of Concept 06, each a frozen build of the commit the client reviewed, served at its own address without review chrome. */
 export const previousVersions: { label: string; detail: string; path: string }[] = [
   { label: 'Concept 06a', detail: 'Version 1, October 28', path: '6a/bold/' },
@@ -170,9 +170,12 @@ export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
     items: [
       { note: 'Does the site read as if FSM has worked with only three schools?', state: 'done', how: 'A "Schools we\'ve worked with" strip now sits above the three case studies with every school on the brand owner\'s list (eleven), one logo tile each. Logos are from each school\'s public site; reuse needs the schools\' and FSM\'s approval.' },
       { note: 'Schools strip: lower on the page, scrolling, every logo on white', state: 'done', how: 'Now below the three case studies as one slow looping row (pauses under the pointer; static rows when the device asks for reduced motion). Aspire\'s wordmark is set in its own purple and Education for Change\'s in the blue of its dark version, so no tile needs a dark backstop.' },
-      { note: 'Two more schools: Morgan Autism Center and Visions In Education', state: 'done', how: 'Added October 30 at the project owner\'s request, logos from each site\'s own vector. Thirteen tiles; the rows rebalance to 7 and 6.' },
-      { note: 'Anawakalmekak: include it?', state: 'partly', how: 'In for now, with the brand owner\'s question mark. Say the word and it comes out. Its only public logo is small; a better file is welcome.' },
-      { note: 'Education for Change logo', state: 'partly', how: 'Only the light version (cream lettering) is published, so it sits on a dark tile. A dark-text version from FSM\'s files would let it sit on white like the others.' },
+      { note: 'Two more schools: Morgan Autism Center and Visions In Education', state: 'done', how: 'Added October 30 at the project owner\'s request, logos from each site\'s own vector. With Pathways Charter School, fourteen tiles.' },
+      { note: 'Pathways Charter School', state: 'done', how: 'Added October 30 once the brand owner named it (pathwayscharter.org, TK-12 independent study). The logo is the site\'s own mark and wordmark set side by side, as its header sets them.' },
+      { note: 'Aspire logo', state: 'done', how: 'Now Aspire\'s own purple-on-white horizontal file from FSM\'s brand folder (October 30), in place of the recolored web version.' },
+      { note: 'Anawakalmekak and Washington Yu Ying: include them?', state: 'done', how: 'Both in, per the brand owner (October 30). Anawakalmekak\'s only public logo is small; a larger file is still welcome.' },
+      { note: 'Education for Change logo', state: 'partly', how: 'Only the light version (cream lettering) is published and FSM has no file for the current logo (October 30), so the wordmark stays recolored in the blue of its own dark version. It swaps the day a file turns up.' },
+      { note: 'Full names for Rhett, David, Kien and Stefan?', state: 'done', how: 'First names only, per the decision maker (October 30). The roster is unchanged.' },
       { note: 'Pat Angeles\'s title', state: 'done', how: 'Studio Administrator, confirmed by the decision maker on October 30.' },
     ],
   },

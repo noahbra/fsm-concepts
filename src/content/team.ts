@@ -19,7 +19,13 @@ export interface TeamMember {
 
 export const teamSource = { url: 'https://www.filmtwist.com/about', readOn: '2026-10-28' };
 
-const photo = (slug: string) => ({ webp: url(`assets/team/${slug}.webp`), png: url(`assets/team/${slug}.png`), width: 360, height: 360 });
+/** A photo replaced under the same file name needs a new query token, or browsers that cached the old one keep showing it
+ *  (GitHub Pages serves these with a ten-minute cache and browsers extend that). Bump the token when a file changes. */
+const PHOTO_VERSION: Record<string, string> = { stefan: '20261031', kien: '20261031', david: '20261031' };
+const photo = (slug: string) => {
+  const v = PHOTO_VERSION[slug] ? `?v=${PHOTO_VERSION[slug]}` : '';
+  return { webp: url(`assets/team/${slug}.webp${v}`), png: url(`assets/team/${slug}.png${v}`), width: 360, height: 360 };
+};
 
 export const team: TeamMember[] = [
   { slug: 'tien', name: 'Tien Louis-Goff', role: 'Operations Manager', photo: photo('tien') },

@@ -181,7 +181,6 @@
 .cr-clients-track .cr-client { flex: 0 0 var(--tile-w); height: 96px; padding: .8rem 1rem; }
 @keyframes cr-clients-scroll { to { transform: translateX(calc(-50% - var(--g) / 2)); } } /* exactly one copy of the list, so the loop is seamless */
 @media (max-width: 699px) { .cr-clients-marquee { --tile-w: 136px; } .cr-clients-track .cr-client { height: 80px; padding: .6rem .8rem; } }
-.cr-clients-note { margin: .9rem 0 0; font-size: .78rem; color: #666; text-align: center; }
 .cr-case-row { display: grid; gap: 1.5rem; }
 @media (min-width: 900px) { .cr-case-row { grid-template-columns: repeat(3, 1fr); } .cr-case:nth-child(2) { transform: translateY(2.5rem); } }
 .cr-case { background: #fff; border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid #e2e1db; transition: box-shadow .35s ease; }
@@ -200,9 +199,6 @@
 .cr-case-source { margin: 0; font-size: .8rem; color: #666; }
 .cr-case-source a { color: var(--fsm-blue-deep); }
 .cr-case .cr-link-arrow { justify-self: start; margin-top: .4rem; }
-.cr-proofnote { margin-top: 2.5rem; max-width: 80ch; font-size: .82rem; color: #555; }
-.cr-proofnote p { margin: 0 0 .5rem; }
-.cr-proofnote a { color: var(--fsm-blue-deep); }
 
 /* the reveal, Concept 05's: photos only, never text. Pre-state exists only once the script says so (html.reveal-ready). */
 [data-reveal] { transition: filter .6s cubic-bezier(.22, 1, .36, 1), opacity .6s cubic-bezier(.22, 1, .36, 1); }
@@ -218,8 +214,6 @@
 .cr-member-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: bottom; }
 .cr-member-name { font-family: var(--label); font-weight: 700; }
 .cr-member-role { font-size: .85rem; color: #555; }
-.cr-team-note { margin: 2rem 0 0; font-size: .82rem; color: #555; max-width: 80ch; }
-.cr-team-note a { color: var(--fsm-blue-deep); }
 
 /* ---- partner ---- */
 .cr-partner { background: var(--paper); color: var(--ink); padding-bottom: clamp(3rem, 7vw, 5.5rem); }

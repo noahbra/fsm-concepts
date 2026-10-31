@@ -2,12 +2,12 @@ import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from
 import { conceptPath, siteConfig, url } from '../../content/config';
 import { caseStudies, headlineMetric, type CaseStudy } from '../../content/caseStudies';
 import { services } from '../../content/services';
-import { team, teamSource } from '../../content/team';
-import { clients, clientsSource } from '../../content/clients';
+import { team } from '../../content/team';
+import { clients } from '../../content/clients';
 import { ReviewRibbon, ReviewPill } from '../../components/ReviewChrome';
 import { ResponsiveMedia } from '../../components/ResponsiveMedia';
 import { siteMedia } from '../../content/media';
-import { MetricInline, ProofNote, SourceLink } from '../../components/CaseStudyProof';
+import { MetricInline, SourceLink } from '../../components/CaseStudyProof';
 import { SkipLink } from '../../components/SkipLink';
 import { useReducedMotion } from '../../lib/motion';
 import { ServiceIcon } from '../visible/ServiceIcons';
@@ -132,6 +132,9 @@ type ReelItem = (typeof reelItems)[number];
  * Round 2 (October 29): every creative is shown whole, at its own proportion, on the reel's dark surface (the brand owner
  * noted the cropping). Hovering a tile enlarges it in place; a click, tap or Enter opens the full creative in a dialog
  * that Escape, the Close button or the backdrop dismisses. The marquee pauses while a tile is hovered or focused.
+ * Version 3.4 (October 31): the published creative is web-sized (340 to 1,400 px wide) and looked soft stretched to the
+ * dialog, so each creative opens at its own pixel size at most; the `sizes` value carries the asset width so the browser
+ * neither upscales nor picks a larger candidate than exists. Full-size files are an ask to the agency.
  */
 function ReelTile({ m, dup, onOpen, sizes }: { m: ReelItem; dup: boolean; onOpen: (m: ReelItem) => void; sizes: string }) {
   const label = `${m.caption ?? 'School photography'}, ${m.school}`;
@@ -163,7 +166,7 @@ function Reel() {
     <dialog ref={dialog} className="cr-lightbox" aria-label={open ? `${open.caption ?? 'School photography'}, ${open.school}` : 'Campaign creative'} onClose={() => setOpen(null)} onClick={onBackdrop} data-testid="lightbox">
       {open && (
         <figure className="cr-lightbox-figure">
-          <ResponsiveMedia asset={open} sizes="min(92vw, 1100px)" />
+          <ResponsiveMedia asset={open} sizes={`min(92vw, 1100px, ${open.width}px)`} />
           <figcaption>{open.caption ?? 'School photography'}, {open.school}</figcaption>
         </figure>
       )}
@@ -269,7 +272,6 @@ function ClientStrip() {
           <ul className="cr-clients-track" aria-labelledby="clients-title" style={{ '--n': n } as CSSProperties}>{tiles(false)}{tiles(true)}</ul>
         </div>
       )}
-      <p className="cr-clients-note">{clientsSource.note}</p>
     </div>
   );
 }
@@ -290,7 +292,6 @@ function Work() {
         <div className="cr-case-row">
           {caseStudies.map((c) => <CaseCard c={c} key={c.id} />)}
         </div>
-        <ProofNote className="cr-proofnote" />
         <ClientStrip />
       </div>
     </section>
@@ -349,10 +350,6 @@ function Team() {
             </li>
           ))}
         </ul>
-        <p className="cr-team-note">
-          Campaigns above: {caseStudies.map((c) => c.school).join(', ')}. Team photos and roles from{' '}
-          <a href={teamSource.url} target="_blank" rel="noopener noreferrer">filmtwist.com/about</a> and the FilmTwist team (October 29). Reuse approval pending.
-        </p>
       </div>
     </section>
   );

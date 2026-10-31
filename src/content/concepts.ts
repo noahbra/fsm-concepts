@@ -158,7 +158,7 @@ export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
 ];
 
 /** The current direction's version label and the checklist of reviewer notes it answers, shown on the hub. No names. */
-export const currentVersion = { label: 'Concept 06c (Version 3.3)', date: 'October 30, 2026' };
+export const currentVersion = { label: 'Concept 06c (Version 3.4)', date: 'October 31, 2026' };
 /** Earlier versions of Concept 06, each a frozen build of the commit the client reviewed, served at its own address without review chrome. */
 export const previousVersions: { label: string; detail: string; path: string }[] = [
   { label: 'Concept 06a', detail: 'Version 1, October 28', path: '6a/bold/' },
@@ -168,6 +168,8 @@ export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
   {
     round: 'Reviews of Version 3, October 30',
     items: [
+      { note: 'The reel creatives look blurred when enlarged', state: 'partly', how: 'The campaign files published on the case-study pages are web-sized (340 to 1,400 px wide) and the enlarged view stretched them. Each creative now opens at its own size at most, so it is sharp but smaller. Full-size files from the agency would let it open large again.' },
+      { note: 'Remove the source and approval footnotes under the work, team and schools', state: 'done', how: 'Off the page (October 31). The sources and pending approvals stay on record in the project\'s claims register.' },
       { note: 'Does the site read as if FSM has worked with only three schools?', state: 'done', how: 'A "Schools we\'ve worked with" strip now sits above the three case studies with every school on the brand owner\'s list (eleven), one logo tile each. Logos are from each school\'s public site; reuse needs the schools\' and FSM\'s approval.' },
       { note: 'Schools strip: lower on the page, scrolling, every logo on white', state: 'done', how: 'Now below the three case studies as one slow looping row (pauses under the pointer; static rows when the device asks for reduced motion). Aspire\'s wordmark is set in its own purple and Education for Change\'s in the blue of its dark version, so no tile needs a dark backstop.' },
       { note: 'Two more schools: Morgan Autism Center and Visions In Education', state: 'done', how: 'Added October 30 at the project owner\'s request, logos from each site\'s own vector. With Pathways Charter School, fourteen tiles.' },

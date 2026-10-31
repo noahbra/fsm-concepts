@@ -730,6 +730,36 @@ test('Concept 06 reel: every creative shows whole, hover enlarges, click opens t
   await expect(box).toBeVisible();
   await page.getByTestId('lightbox-close').click();
   await expect(box).toBeHidden();
+  // Version 3.4: the published creative is web-sized, so the dialog shows each file at its own pixel size at most, never
+  // upscaled. Checked on every reel item: the shown width never exceeds the asset's width, and it only falls short of it
+  // when the dialog's own limits bind (92vw across, 92vh less the caption and button down). Tiles further along the track
+  // sit outside the clipped marquee, so they are clicked from script rather than by pointer.
+  const n = await items.count();
+  for (let i = 0; i < n; i++) {
+    await items.nth(i).evaluate((el) => (el as HTMLElement).click());
+    await expect(box.locator('img')).toBeVisible();
+    await box.locator('img').evaluate((img) => (img.complete && img.naturalWidth > 0 ? undefined : new Promise((r) => { img.onload = r; img.onerror = r; })));
+    await page.waitForTimeout(80);
+    const fit = await box.locator('img').evaluate((img) => {
+      const native = Number(img.getAttribute('width')), nativeH = Number(img.getAttribute('height'));
+      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+      const byHeight = (window.innerHeight * 0.92 - 5.5 * rem) * native / nativeH;
+      return { shown: img.clientWidth, native, expected: Math.min(native, 1100, window.innerWidth * 0.92, byHeight) };
+    });
+    expect(fit.shown, `reel item ${i}`).toBeLessThanOrEqual(fit.native + 1);
+    expect(fit.shown, `reel item ${i}`).toBeGreaterThanOrEqual(fit.expected - 2);
+    await page.keyboard.press('Escape');
+    await expect(box).toBeHidden();
+    await page.waitForTimeout(150); // the dialog's close event lands a task after it hides; a click inside that gap would be undone by it
+  }
+});
+
+test('Concept 06 Version 3.4: the provenance footnotes are off the page (the register in docs/CONTENT_AND_CLAIMS.md keeps them)', async ({ page }) => {
+  await page.goto('bold/', { waitUntil: 'load' });
+  await settle(page);
+  for (const s of ['FilmTwist-reported', 'Campaigns above:', 'School logos from each school', 'Client approval for reuse']) {
+    expect(await page.getByText(s).count(), s).toBe(0);
+  }
 });
 
 

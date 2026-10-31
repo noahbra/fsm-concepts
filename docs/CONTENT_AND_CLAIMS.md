@@ -127,6 +127,13 @@ The merged direction introduces three pieces of copy that the first four concept
 | Case-study pages | `visible/work/{aspire,friendship,envision}/` | Every figure, descriptor, story line and image is the same record as the cards (`caseStudies.ts`), with the published source cited at the foot of each page. No new claims. | As the case studies |
 | Hub checklist wording | Hub, "What Version 2 addresses" | Paraphrases of the 10/27 reviewer notes and the 10/28 asks, no names, no ratings. | Internal review copy |
 
+## Concept 06 Version 3.4 (October 31, 2026)
+
+| Where | Change | Status |
+| --- | --- | --- |
+| Work, Team, Schools strip | The on-page provenance footnotes (results disclaimer and sources, team photos and roles note, school logos note) are removed at the project owner's direction. This register remains the record of every source and every pending approval; nothing in the "Unresolved approvals" list changes. | Removed from the page October 31 |
+| Reel dialog | Each creative opens at its own pixel size at most. The published files are web-sized (340 to 1,400 px wide); the agency's full-size files are wanted. | REQUIRES_CLIENT_CONFIRMATION (files) |
+
 ## Concept 06 round 2 (October 29, 2026)
 
 | Where | Text | Status |

@@ -19,6 +19,20 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 31, 2026 (seventeenth): the reel at native size, footnotes off
+
+The project owner saw the enlarged reel creatives blurred. Measured: the ten reel files are the ones FilmTwist publishes
+on its case-study pages, 340 to 1,400 px wide (the CDN originals were pulled again and match the source folder pixel for
+pixel; the build script caps at 1,400 and never upscales), and the dialog showed them at up to 1,100 CSS px, 2,200 device
+px on a 2x screen. Fix: the dialog's `sizes` value now carries the asset width, so each creative opens at its own pixel
+size at most (smaller on a phone or when the height cap binds). The test opens every reel item and asserts the shown
+width never exceeds the file's width and only falls short of it when the dialog's own limits bind. Full-size files are an
+ask to the agency. Also at the project owner's direction: the three provenance footnotes (results disclaimer and sources
+under the case cards, the team-photo note, the school-logo note) are off the page; the claims register keeps every source
+and pending approval, and a test asserts the strings are gone. The footer's "reuse approval pending" line and the Work
+lede ("Featured school recruitment campaigns delivered by the FilmTwist team.") were not in the ask and stay.
+Full local suite (four browsers, served from the built `dist/`): 284 passed, 0 failed (3.1 min). Hub Version 3.4.
+
 ## Revision October 30, 2026 (sixteenth): the evening answers, fourteen tiles
 
 Brand owner (5:24 PM): Anawakalmekak and Washington Yu Ying stay; the decision maker's "Pathways" is Pathways Charter

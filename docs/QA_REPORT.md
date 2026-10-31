@@ -57,6 +57,8 @@ both success). MEASURED live at 1440 on both sites, 4.5 s after load and without
 both Graduation Aspire tiles decoded at 340 px; a pointer open and close left the track `running`.
 The contact section then gained the hero's 48 px grid overlay (same rule, `.cr-cta::before`, content lifted above it);
 Concept 06 tests after the change: 36 passed.
+Deployed as fd49d6e to both repos (review run 41238434344, production run 41238436095, both success); the 48 px overlay
+is present on the contact section of both live sites.
 
 ## Revision October 30, 2026 (sixteenth): the evening answers, fourteen tiles
 

@@ -70,7 +70,7 @@ export function Footer({ home = '' }: { home?: string }) {
         </nav>
         <div className="cr-footer-legal">
           <p>Privacy policy and terms to be supplied.</p>
-          <p>&copy; 2026 {siteConfig.legal.copyrightHolder}. Campaign creative shown with reuse approval pending.</p>
+          <p>&copy; 2026 {siteConfig.legal.copyrightHolder}.</p>
         </div>
       </div>
     </footer>

@@ -738,7 +738,7 @@ test('Concept 06 reel: every creative shows whole, hover enlarges, click opens t
   for (let i = 0; i < n; i++) {
     await items.nth(i).evaluate((el) => (el as HTMLElement).click());
     await expect(box.locator('img')).toBeVisible();
-    await box.locator('img').evaluate((img) => (img.complete && img.naturalWidth > 0 ? undefined : new Promise((r) => { img.onload = r; img.onerror = r; })));
+    await box.locator('img').evaluate((el) => { const img = el as HTMLImageElement; return img.complete && img.naturalWidth > 0 ? undefined : new Promise((r) => { img.onload = r; img.onerror = r; }); });
     await page.waitForTimeout(80);
     const fit = await box.locator('img').evaluate((img) => {
       const native = Number(img.getAttribute('width')), nativeH = Number(img.getAttribute('height'));
@@ -757,9 +757,11 @@ test('Concept 06 reel: every creative shows whole, hover enlarges, click opens t
 test('Concept 06 Version 3.4: the provenance footnotes are off the page (the register in docs/CONTENT_AND_CLAIMS.md keeps them)', async ({ page }) => {
   await page.goto('bold/', { waitUntil: 'load' });
   await settle(page);
-  for (const s of ['FilmTwist-reported', 'Campaigns above:', 'School logos from each school', 'Client approval for reuse']) {
+  for (const s of ['FilmTwist-reported', 'Campaigns above:', 'School logos from each school', 'Client approval for reuse', 'reuse approval pending', 'delivered by the FilmTwist team', 'team behind FilmTwist']) {
     expect(await page.getByText(s).count(), s).toBe(0);
   }
+  // The relationship is stated once, plainly, in the Team intro; the hero no longer tries to explain it.
+  expect(await page.locator('#team').getByText("Filmtwist Creative Agency's K-12 student recruitment practice").count()).toBe(1);
 });
 
 

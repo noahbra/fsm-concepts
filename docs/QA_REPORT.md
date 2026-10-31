@@ -29,8 +29,12 @@ size at most (smaller on a phone or when the height cap binds). The test opens e
 width never exceeds the file's width and only falls short of it when the dialog's own limits bind. Full-size files are an
 ask to the agency. Also at the project owner's direction: the three provenance footnotes (results disclaimer and sources
 under the case cards, the team-photo note, the school-logo note) are off the page; the claims register keeps every source
-and pending approval, and a test asserts the strings are gone. The footer's "reuse approval pending" line and the Work
-lede ("Featured school recruitment campaigns delivered by the FilmTwist team.") were not in the ask and stay.
+and pending approval, and a test asserts the strings are gone. A second pass the same morning took the footer's "reuse
+approval pending" line and the Work lede ("Featured school recruitment campaigns delivered by the FilmTwist team.") off
+as well, and dropped "built by the team behind FilmTwist" from the hero line (it explained an unknown name with another
+and read as if FilmTwist were a product); the relationship is stated once, in the Team intro, which already said it. The
+Work heading no longer uses the two-column head, so it sits at full width. The case pages' own "reuse approval pending"
+caption was not in the ask and stays.
 Full local suite (four browsers, served from the built `dist/`): 284 passed, 0 failed (3.1 min). Hub Version 3.4.
 
 ## Revision October 30, 2026 (sixteenth): the evening answers, fourteen tiles

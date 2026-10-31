@@ -88,8 +88,7 @@ function Hero() {
             ))}
           </h1>
           <p className="cr-hero-offer">
-            Creative, campaigns and enrollment strategy for K-12 schools, built by the team behind FilmTwist. The goal is
-            enrolled students, not just clicks.
+            Creative, campaigns and enrollment strategy for K-12 schools. The goal is enrolled students, not just clicks.
           </p>
           <div className="cr-hero-actions">
             <a className="cr-btn cr-btn--primary" href="#contact" data-testid="cta-primary">
@@ -280,14 +279,13 @@ function Work() {
   return (
     <section id="work" className="cr-work" aria-labelledby="work-title">
       <div className="cr-wrap">
-        <div className="cr-section-head cr-section-head--row">
+        <div className="cr-section-head">
           <div>
             <span className="cr-eyebrow">Work</span>
             <h2 id="work-title" className="cr-h2">
               Schools that got seen. <span className="cr-accent">And chosen.</span>
             </h2>
           </div>
-          <p className="cr-lede">{siteConfig.filmtwist.attribution}</p>
         </div>
         <div className="cr-case-row">
           {caseStudies.map((c) => <CaseCard c={c} key={c.id} />)}

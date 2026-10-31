@@ -32,7 +32,10 @@ header sets them (3107 by 724). Flagged in the claims register for the school's 
 Column picks for fourteen: 7-7 from 1200 px, 4-4-4-2 on a tablet, two by two on a phone; the count-aware rule needs no
 widening fix at any width. Tests: fourteen logos, fourteen in the reduced-motion rows. Measured on the local build at 1440
 and 390 (static rows under reduced motion, the moving row without): 14 tiles, 0 broken images, every tile white.
-Full local suite (four browsers, served from the built `dist/`): 280 passed, 0 failed. Not deployed; hub Version 3.3.
+Full local suite (four browsers, served from the built `dist/`): 280 passed, 0 failed. Hub Version 3.3.
+Deployed: commit 5395441, Pages run 41166138545 (success, 8:52 PM). Measured live: the Concept 06 bundle (bold-CIIWj9pu.js)
+matches the local build and carries Pathways Charter School; the Aspire and Pathways logo files serve; full suite against
+the live site in all four browsers: 280 passed, 0 failed. Lighthouse was not rerun for this revision.
 
 ## Revision October 30, 2026 (fifteenth): the strip below the case studies, scrolling, all white
 

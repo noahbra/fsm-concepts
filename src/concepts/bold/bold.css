@@ -119,7 +119,9 @@
 .cr-reel-pause:hover { border-color: #fff; background: rgba(255,255,255,.1); }
 .cr-marquee { width: 100%; overflow-x: clip; overflow-y: visible; padding: .4rem 0; }
 .cr-marquee-track { display: flex; gap: 1rem; width: max-content; margin: 0; padding: 0; list-style: none; animation: cr-marquee 55s linear infinite; }
-.cr-marquee:hover .cr-marquee-track, .cr-marquee:focus-within .cr-marquee-track, .cr-marquee.is-paused .cr-marquee-track { animation-play-state: paused; }
+/* Pauses under the pointer, under keyboard focus (:focus-visible, so the focus a closed dialog hands back to the clicked tile
+   does not leave the reel parked), and on the button. */
+.cr-marquee:hover .cr-marquee-track, .cr-marquee:has(:focus-visible) .cr-marquee-track, .cr-marquee.is-paused .cr-marquee-track { animation-play-state: paused; }
 .cr-marquee-track li { flex: none; width: auto; display: grid; justify-items: start; }
 .cr-marquee-track li > span { width: 0; min-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* the caption never widens the tile */
 /* Round 2: the whole creative at its own proportion (--ar from the asset), 190px tall, never cropped; hover enlarges in place. */

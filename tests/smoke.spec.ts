@@ -750,8 +750,27 @@ test('Concept 06 reel: every creative shows whole, hover enlarges, click opens t
     expect(fit.shown, `reel item ${i}`).toBeGreaterThanOrEqual(fit.expected - 2);
     await page.keyboard.press('Escape');
     await expect(box).toBeHidden();
-    await page.waitForTimeout(150); // the dialog's close event lands a task after it hides; a click inside that gap would be undone by it
   }
+  // Closing the dialog hands focus back to the clicked tile; for a pointer user that must not leave the reel parked (seen
+  // live October 31). Pointer only: the track is moving again, so the hover pauses it and a forced click lands on the tile.
+  if (test.info().project.name.includes('mobile')) return;
+  await page.getByRole('button', { name: 'Play reel' }).click();
+  await items.nth(2).hover({ force: true });
+  await page.waitForTimeout(300);
+  await items.nth(2).click({ force: true });
+  await expect(box).toBeVisible();
+  await page.getByTestId('lightbox-close').click();
+  await expect(box).toBeHidden();
+  await page.mouse.move(5, 5);
+  await expect.poll(() => page.locator('.cr-marquee-track').evaluate((el) => getComputedStyle(el).animationPlayState)).toBe('running');
+  expect(await page.evaluate(() => document.activeElement?.classList.contains('cr-reel-item'))).toBe(false);
+});
+
+test('Concept 06 reel: every tile, including the off-screen ones, has its image loaded without scrolling', async ({ page }) => {
+  await page.goto('bold/', { waitUntil: 'load' });
+  await settle(page);
+  await expect.poll(async () => page.locator('.cr-reel img').evaluateAll((imgs) => imgs.filter((i) => !(i as HTMLImageElement).complete || (i as HTMLImageElement).naturalWidth === 0).length), { timeout: 15000 }).toBe(0);
+  expect(await page.locator('.cr-reel img').count()).toBeGreaterThanOrEqual(10);
 });
 
 test('Concept 06 Version 3.4: the provenance footnotes are off the page (the register in docs/CONTENT_AND_CLAIMS.md keeps them)', async ({ page }) => {

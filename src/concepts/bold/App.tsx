@@ -128,6 +128,8 @@ const reelItems = [
 type ReelItem = (typeof reelItems)[number];
 
 /**
+ * The tiles load eagerly: the track is wider than any viewport and lazy images only start fetching as a tile slides into
+ * view, so the first tiles past the edge (Graduation, Aspire on a desktop) were arriving blank (seen live October 31).
  * Round 2 (October 29): every creative is shown whole, at its own proportion, on the reel's dark surface (the brand owner
  * noted the cropping). Hovering a tile enlarges it in place; a click, tap or Enter opens the full creative in a dialog
  * that Escape, the Close button or the backdrop dismisses. The marquee pauses while a tile is hovered or focused.
@@ -135,12 +137,12 @@ type ReelItem = (typeof reelItems)[number];
  * dialog, so each creative opens at its own pixel size at most; the `sizes` value carries the asset width so the browser
  * neither upscales nor picks a larger candidate than exists. Full-size files are an ask to the agency.
  */
-function ReelTile({ m, dup, onOpen, sizes }: { m: ReelItem; dup: boolean; onOpen: (m: ReelItem) => void; sizes: string }) {
+function ReelTile({ m, dup, onOpen, sizes }: { m: ReelItem; dup: boolean; onOpen: (m: ReelItem, viaKeyboard: boolean) => void; sizes: string }) {
   const label = `${m.caption ?? 'School photography'}, ${m.school}`;
   return (
     <li aria-hidden={dup || undefined} style={{ '--ar': `${m.width} / ${m.height}` } as React.CSSProperties}>
-      <button type="button" className="cr-reel-item" onClick={() => onOpen(m)} tabIndex={dup ? -1 : 0} aria-label={`Enlarge: ${label}`} data-testid={dup ? undefined : 'reel-item'}>
-        <ResponsiveMedia asset={m} sizes={sizes} alt={dup ? '' : undefined} />
+      <button type="button" className="cr-reel-item" onClick={(e) => onOpen(m, e.detail === 0)} tabIndex={dup ? -1 : 0} aria-label={`Enlarge: ${label}`} data-testid={dup ? undefined : 'reel-item'}>
+        <ResponsiveMedia asset={m} sizes={sizes} alt={dup ? '' : undefined} eager />
       </button>
       <span>{label}</span>
     </li>
@@ -152,6 +154,15 @@ function Reel() {
   const [paused, setPaused] = useState(false);
   const [open, setOpen] = useState<ReelItem | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
+  const viaKeyboard = useRef(false);
+  const openTile = (m: ReelItem, keyboard: boolean) => { viaKeyboard.current = keyboard; setOpen(m); };
+  // A closed dialog hands focus back to the tile that opened it. For a pointer user that focus has no purpose and would
+  // hold the reel paused, so it is dropped; a keyboard user keeps it (and the reel stays paused on it, which is right).
+  const onClosed = () => {
+    if (dialog.current?.open) return; // another tile was opened in the gap before this close event landed; leave it
+    setOpen(null);
+    if (!viaKeyboard.current) requestAnimationFrame(() => { const a = document.activeElement; if (a instanceof HTMLElement && a.classList.contains('cr-reel-item')) a.blur(); });
+  };
 
   useEffect(() => {
     const d = dialog.current;
@@ -162,7 +173,7 @@ function Reel() {
 
   const onBackdrop = (e: MouseEvent<HTMLDialogElement>) => { if (e.target === e.currentTarget) setOpen(null); };
   const lightbox = (
-    <dialog ref={dialog} className="cr-lightbox" aria-label={open ? `${open.caption ?? 'School photography'}, ${open.school}` : 'Campaign creative'} onClose={() => setOpen(null)} onClick={onBackdrop} data-testid="lightbox">
+    <dialog ref={dialog} className="cr-lightbox" aria-label={open ? `${open.caption ?? 'School photography'}, ${open.school}` : 'Campaign creative'} onClose={onClosed} onClick={onBackdrop} data-testid="lightbox">
       {open && (
         <figure className="cr-lightbox-figure">
           <ResponsiveMedia asset={open} sizes={`min(92vw, 1100px, ${open.width}px)`} />
@@ -181,7 +192,7 @@ function Reel() {
             <span className="cr-eyebrow cr-eyebrow--light">Three campaign types, one team</span>
           </div>
           <ul className="cr-reel-grid">
-            {reelItems.map((m, i) => <ReelTile m={m} dup={false} onOpen={setOpen} sizes="(max-width: 700px) 50vw, 20vw" key={i} />)}
+            {reelItems.map((m, i) => <ReelTile m={m} dup={false} onOpen={openTile} sizes="(max-width: 700px) 50vw, 20vw" key={i} />)}
           </ul>
         </div>
         {lightbox}
@@ -199,7 +210,7 @@ function Reel() {
       </div>
       <div className={`cr-marquee${paused ? ' is-paused' : ''}`}>
         <ul className="cr-marquee-track">
-          {[0, 1].map((dup) => reelItems.map((m, i) => <ReelTile m={m} dup={dup === 1} onOpen={setOpen} sizes="340px" key={`${dup}-${i}`} />))}
+          {[0, 1].map((dup) => reelItems.map((m, i) => <ReelTile m={m} dup={dup === 1} onOpen={openTile} sizes="340px" key={`${dup}-${i}`} />))}
         </ul>
       </div>
       {lightbox}

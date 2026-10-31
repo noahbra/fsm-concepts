@@ -43,6 +43,15 @@ sites, with the review label "Concept 06: Bold, rebuilt." carried into productio
 description now reads "School enrollment creative, campaigns and strategy for K-12 schools, from Full School Marketing.";
 the production transform strips the review label (verified in the local `SITE=fsm` build); the footnote test asserts the
 description. Both sites redeployed; the live descriptions are recorded in the Deployment section's note for this revision.
+Then two live reports from the project owner: the "Graduation, Aspire" tile shows blank until clicked, and the reel stays
+paused after closing an image. Measured live at 1440: the three tiles past the right edge (items 7, 8, 9: Graduation
+Aspire, School photography Envision, Social ads Aspire) had no `currentSrc` and `complete` false; they are lazy images
+and the browser starts them only as the track slides them into view, so the first past the edge arrives blank. Reel
+tiles now load eagerly (an `eager` prop on `ResponsiveMedia`; twenty small files). The pause: the marquee paused on
+`:focus-within`, and a closed dialog returns focus to the clicked tile, so the reel parked until the next click
+elsewhere; it now pauses on `:has(:focus-visible)` (keyboard focus only), the pointer, or the button. A dialog
+close-event race (close lands a task after the dialog hides; a tile opened in that gap was closed by it) is fixed in
+the handler. Tests: every reel image loaded without scrolling (15 s poll); the reel running again after a close.
 
 ## Revision October 30, 2026 (sixteenth): the evening answers, fourteen tiles
 

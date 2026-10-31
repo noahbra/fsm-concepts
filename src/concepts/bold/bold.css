@@ -80,7 +80,8 @@
   background: radial-gradient(1200px 600px at 85% 10%, rgba(61,163,155,.22), transparent 60%), radial-gradient(800px 500px at 10% 90%, rgba(50,182,122,.22), transparent 60%), var(--surface);
   color: #fff; overflow: hidden; position: relative;
 }
-.cr-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
+/* The faint graph-paper grid on both blue fields, the opening hero and the closing contact section (the project owner asked for the match, October 31). */
+.cr-hero::before, .cr-cta::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
 .cr-hero-inner { position: relative; display: grid; gap: 3rem; padding: clamp(3rem, 8vh, 6rem) 0 clamp(3rem, 8vh, 6rem); min-height: calc(100vh - 68px - 32px); align-items: center; }
 @media (min-width: 960px) { .cr-hero-inner { grid-template-columns: 1.15fr 1fr; gap: 2rem; } }
 .cr-hero-offer { font-size: clamp(1.05rem, 1.5vw, 1.3rem); max-width: 46ch; margin: 0 0 2rem; color: rgba(255,255,255,.86); }
@@ -228,8 +229,8 @@
 .cr-steps p { margin: 0; color: #444; font-size: .95rem; }
 
 /* ---- work with us: the final call on kit blue, with the FSM form in a paper card ---- */
-.cr-cta { background: radial-gradient(900px 500px at 90% 100%, rgba(61,163,155,.25), transparent 60%), var(--surface); color: #fff; }
-.cr-cta-inner { padding: clamp(4rem, 9vw, 6.5rem) 0; display: grid; gap: 2.5rem; align-items: start; }
+.cr-cta { background: radial-gradient(900px 500px at 90% 100%, rgba(61,163,155,.25), transparent 60%), var(--surface); color: #fff; position: relative; overflow: hidden; }
+.cr-cta-inner { position: relative; padding: clamp(4rem, 9vw, 6.5rem) 0; display: grid; gap: 2.5rem; align-items: start; }
 @media (min-width: 960px) { .cr-cta-inner { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 4rem; } .cr-cta-inner--one { grid-template-columns: 1fr; } }
 .cr-cta-copy { display: grid; gap: 1.2rem; align-content: start; }
 .cr-cta-copy .cr-eyebrow { margin: 0; }

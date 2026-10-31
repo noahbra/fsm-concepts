@@ -11,6 +11,8 @@ Vite + React + TypeScript multi-page site so every page is deep-linkable on GitH
 | `/story/` | Concept 03: The Invisible School (scroll-driven story) |
 | `/original/` | Concept 04: Start With Your Number (seat worksheet; the invented direction) |
 
+Changing the site with an agent or a new developer: start at `AGENTS.md`.
+
 Status: design concepts for client review. Not a live business site. Deployment status and live URLs are recorded in `docs/QA_REPORT.md`.
 
 ## Setup

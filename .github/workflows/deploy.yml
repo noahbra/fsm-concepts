@@ -27,9 +27,14 @@ jobs:
       - name: Build (base path = /<repo-name>/)
         env:
           # Project Pages site lives at https://<owner>.github.io/<repo>/. After a custom-domain migration set BASE_PATH to "/".
-          BASE_PATH: /${{ github.event.repository.name }}/
+          BASE_PATH: ${{ vars.BASE_PATH || format('/{0}/', github.event.repository.name) }}
           VITE_REVIEW_MODE: ${{ vars.VITE_REVIEW_MODE || 'true' }}
           VITE_FEEDBACK: ${{ vars.VITE_FEEDBACK || 'on' }}
+          # Production repo variables: SITE=fsm (Concept 06 at the root, nothing else), SITE_ORIGIN=https://<domain>/,
+          # VITE_INDEXABLE=true once the domain is live. Unset on the review repo.
+          SITE: ${{ vars.SITE || 'review' }}
+          SITE_ORIGIN: ${{ vars.SITE_ORIGIN || '' }}
+          VITE_INDEXABLE: ${{ vars.VITE_INDEXABLE || 'false' }}
         run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

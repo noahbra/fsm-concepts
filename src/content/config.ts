@@ -6,6 +6,8 @@ export const BASE = import.meta.env.BASE_URL; // "/" locally, "/fsm-concepts/" o
 
 /** Base-aware URL for anything under public/ or another page in this repo. */
 export const url = (path: string) => BASE.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
+/** Where Concept 06 lives: under bold/ on the review site, at the root on the production site (SITE=fsm at build). */
+export const conceptPath = import.meta.env.VITE_SITE === 'fsm' ? '' : 'bold/';
 
 export const siteConfig = {
   brandName: 'Full School Marketing',

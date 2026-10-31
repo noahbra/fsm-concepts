@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
 import { prefersReducedMotion } from '../../lib/motion';
+import { siteConfig } from '../../content/config';
 
 gsap.registerPlugin(MorphSVGPlugin);
 
@@ -23,7 +24,7 @@ export const OPENER_KEY = 'fsm-bold-opener-seen';
  * again. At launch set this to false and it plays once per session: the flag below is then written after the first play.
  * A page that sets the flag itself (the test suite, `?opener=0`) still suppresses it in either mode.
  */
-export const REPLAY_EVERY_LOAD = true;
+export const REPLAY_EVERY_LOAD = siteConfig.reviewMode; // every load in review, once per session on the production site
 export const OPENER_DURATION = 3.5; // no statement slide: the page headline is the statement, on the first page
 
 const HAND = 'M666,816.5c1.1,0.7,1.4,1,1.8,1.1c29.4,9.5,58.7,19.1,88.2,28.3c16.1,5,32.3,10.4,49.4,8.9c8.6-0.7,17.4-2.7,25.4-6c20.7-8.3,37.9-22.6,56-35.2c18-12.6,35.7-25.5,53.8-37.9c19.6-13.5,40.5-24.6,64.5-27.9c7.9-1.1,16-1.1,24-0.7c4.3,0.2,8.8,1.9,12.8,3.8c11.5,5.3,15.4,13.3,11.2,25.2c-2.9,8-6.8,16.1-11.9,22.8c-12.4,16-26,31-38.6,46.9c-8.6,10.7-16.8,21.8-24.3,33.3c-17.1,26.4-39.5,47.8-62.9,68.4c-23.1,20.5-48.2,38.2-74.8,53.8c-18,10.5-37.2,18.8-57.2,24.9c-11.1,3.3-22.1,2.1-33-0.1c-20.3-4.1-40.5-8.4-60.6-13.4c-35.5-8.9-70.9-18.5-106.3-27.8c-15.7-4.1-31.3-8.4-47-12.4c-2.6-0.6-5.5-0.4-8.2,0.2c-27,5.3-54,10.6-80.9,16.4c-14.8,3.1-27.6-0.2-39.8-8.8c-18.1-12.8-31.8-29.3-42.2-48.6c-16.3-30.3-24.4-62.3-19.4-96.9c1.9-13.2,6.3-25.2,16.4-34.5c5.2-4.8,10.2-10.1,16.1-13.9c30.3-20.1,61.2-39.1,94.1-54.7c20.4-9.7,41.7-17.8,63.9-21.5c18.2-3,36.9-3.4,55.4-4.5c55.4-3.4,110.6-0.1,165.7,5.2c22.4,2.1,44.7,5.6,67.1,8.8c8,1.1,15.7,3.4,21.9,9.2c13.1,12.2,13.2,32.5,0.8,46.3c-19.3,21.5-43.3,32.4-72,34.7c-19.9,1.6-39.8,1.9-59.7,0.6c-15.5-1-30.9-0.8-45.8,4.8C669,815.4,667.8,815.8,666,816.5z';

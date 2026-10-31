@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from 'react';
-import { siteConfig, url } from '../../content/config';
+import { conceptPath, siteConfig, url } from '../../content/config';
 import { caseStudies, headlineMetric, type CaseStudy } from '../../content/caseStudies';
 import { services } from '../../content/services';
 import { team, teamSource } from '../../content/team';
@@ -302,7 +302,7 @@ function CaseCard({ c }: { c: CaseStudy }) {
   const m = headlineMetric(c);
   return (
     <article className="cr-case" data-testid="case-study">
-      <a className="cr-case-media" href={url(`bold/work/${c.id}/`)} aria-label={`${c.school}: read the case study`} tabIndex={-1} data-reveal>
+      <a className="cr-case-media" href={url(`${conceptPath}work/${c.id}/`)} aria-label={`${c.school}: read the case study`} tabIndex={-1} data-reveal>
         <ResponsiveMedia asset={c.hero} sizes="(max-width: 900px) 100vw, 33vw" />
       </a>
       <div className="cr-case-body">
@@ -315,7 +315,7 @@ function CaseCard({ c }: { c: CaseStudy }) {
         <p className="cr-case-source">
           <SourceLink c={c}>Source</SourceLink>
         </p>
-        <a className="cr-link-arrow" href={url(`bold/work/${c.id}/`)} data-testid="case-link">Read the case study</a>
+        <a className="cr-link-arrow" href={url(`${conceptPath}work/${c.id}/`)} data-testid="case-link">Read the case study</a>
       </div>
     </article>
   );

@@ -16,7 +16,9 @@ npm run build           # typecheck + production build to dist/   (BASE_PATH=/su
 npm test                # 280 checks in four browsers; run before handing anything back
 ```
 
-Deploy is "upload `dist/` to the host." Nothing else.
+The production site (Concept 06 at the root, nothing else) is the same build with `SITE=fsm`; the workflow in
+`.github/workflows/deploy.yml` sets it from repository variables, so a push to the production repo deploys it. Locally:
+`SITE=fsm VITE_REVIEW_MODE=false VITE_FEEDBACK=off npm run build`.
 
 ## Where things live
 

@@ -43,7 +43,12 @@ and footer links resolve, every contents entry lands on a section heading, every
 sibling document and the way home resolve, and none of the source's defects appear (no "New Mexico", "Brussels",
 "homecare", no all-capitals runs in the text). Production build (`SITE=fsm`): `dist/terms/index.html` and
 `dist/privacy/index.html` present, consent links `terms/` and `privacy/`, review label absent. Built and committed
-locally; not deployed (awaiting the project owner's word).
+locally, then DEPLOYED on the project owner's "deploy" at 2:49 PM Pacific to both repos (review run 41245339672, production
+run 41245341956, both success). Measured live at 2:52 PM: both sites serve /terms/ and /privacy/ (review under bold/) with
+the right titles and no review label; the three headshot files match the local bytes on both sites; the legal-page,
+new-page and footnote tests against the live review site 32 passed 0 failed; on the live production page the consent links
+are `terms/` and `privacy/`, the footer links resolve, the removed strings are absent, all nine team photos are loaded at
+360 px, and each legal page's contents list (22 and 13 entries) matches its sections with the sibling link resolving.
 
 ## Revision October 31, 2026 (seventeenth): the reel at native size, footnotes off
 

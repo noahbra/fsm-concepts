@@ -120,6 +120,8 @@ The decision maker's October 29 review (hub form, "mostly" resolves): the site i
 - Team: unchanged, pending the current roster from the client.
 - Tests: the opener (plays once over a rendered page, flag set, reload shows none, a key skips, reduced motion shows none) and the reel (every creative's shown proportion within 3% of its natural one, hover scale above 1.3, dialog opens and closes by Escape and by the button). Every other test starts past the opener through a `beforeEach` init script.
 
+- Round 3 follow-up, legal pages and headshots (October 31, afternoon): the project owner asked for terms and privacy pages the form can link to, in this site's formatting and more readable than FilmTwist's. Both are FilmTwist's own published pages restructured (a plain summary under each heading, numbered sections, sentence case in place of the all-capitals blocks, a contents list beside the text); the template defects in the source (a New Mexico governing-law clause, a Brussels arbitration court with the seat blank, a blank liability cap, a homecare medical disclaimer) are replaced with California values and listed for FilmTwist's sign-off in CONTENT_AND_CLAIMS.md. The form's consent links and the footer point at them. Also at the project owner's request: new headshots for Stefan, Kien and David, and the "form goes straight to the team" note removed.
+
 ## Out of scope
 
-Production hosting, analytics, the privacy and terms pages, a dedicated FSM form in the FilmTwist form service, new photography.
+Production hosting, analytics, a dedicated FSM form in the FilmTwist form service, new photography. (The privacy and terms pages were in scope from October 31: see the Round 3 follow-up above.)

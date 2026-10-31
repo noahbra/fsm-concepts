@@ -1,6 +1,6 @@
 import { test, expect, type Page, type ConsoleMessage } from '@playwright/test';
 
-const PAGES = ['', 'clean/', 'creative/', 'story/', 'original/', 'visible/', 'visible/work/aspire/', 'visible/work/friendship/', 'visible/work/envision/', 'bold/', 'bold/work/aspire/', 'bold/work/friendship/', 'bold/work/envision/'] as const;
+const PAGES = ['', 'clean/', 'creative/', 'story/', 'original/', 'visible/', 'visible/work/aspire/', 'visible/work/friendship/', 'visible/work/envision/', 'bold/', 'bold/work/aspire/', 'bold/work/friendship/', 'bold/work/envision/', 'bold/terms/', 'bold/privacy/'] as const;
 const CASES = ['aspire', 'friendship', 'envision'] as const;
 const LEADCONNECTOR_FORM = 'DveY4KWgzKqaGiHAAA2e';
 /** FilmTwist's embedded form (LeadConnector) is third-party: its own requests are not this site's defects. */
@@ -771,6 +771,49 @@ test('Concept 06 reel: every tile, including the off-screen ones, has its image 
   await settle(page);
   await expect.poll(async () => page.locator('.cr-reel img').evaluateAll((imgs) => imgs.filter((i) => !(i as HTMLImageElement).complete || (i as HTMLImageElement).naturalWidth === 0).length), { timeout: 15000 }).toBe(0);
   expect(await page.locator('.cr-reel img').count()).toBeGreaterThanOrEqual(10);
+});
+
+test('Concept 06 legal pages: the form and the footer link to this site\'s own terms and privacy pages, both of which read as one document with a working contents list and none of the source template\'s defects', async ({ page, baseURL }) => {
+  await page.goto('bold/', { waitUntil: 'load' });
+  await settle(page);
+  // The consent line under the form and the footer both point at the site's own pages, which resolve.
+  for (const [testid, path] of [['fsm-terms-link', 'terms/'], ['fsm-privacy-link', 'privacy/']] as const) {
+    expect(await page.getByTestId(testid).getAttribute('href')).toBe(path);
+    expect((await page.request.get(new URL(`bold/${path}`, baseURL).toString())).status(), path).toBe(200);
+  }
+  const footer = page.locator('.cr-footer-legal');
+  expect(await footer.getByRole('link', { name: 'Privacy policy' }).getAttribute('href')).toBe('privacy/');
+  expect(await footer.getByRole('link', { name: 'Terms and conditions' }).getAttribute('href')).toBe('terms/');
+  expect(await page.getByText('to be supplied').count()).toBe(0);
+
+  for (const [path, title, other] of [['bold/terms/', 'Terms and conditions', '../privacy/'], ['bold/privacy/', 'Privacy policy', '../terms/']] as const) {
+    const errors = watch(page);
+    await page.goto(path, { waitUntil: 'load' });
+    await settle(page);
+    await expect(page.locator('h1')).toHaveText(title);
+    await expect(page.getByTestId('legal-updated')).toContainText('Last updated October');
+    // every contents entry lands on a section heading on this page
+    const hrefs = await page.locator('[data-testid="legal-toc"] ol a').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute('href') ?? ''));
+    expect(hrefs.length).toBeGreaterThanOrEqual(13);
+    for (const h of hrefs) {
+      expect(h.startsWith('#'), h).toBe(true);
+      await expect(page.locator(`section${h} > h2`), h).toHaveCount(1);
+    }
+    // each section opens with its plain summary
+    expect(await page.locator('.cr-legal-section').count()).toBe(hrefs.length);
+    expect(await page.locator('.cr-legal-section .cr-legal-short').count()).toBe(hrefs.length);
+    // the sibling document and the way home resolve
+    expect(await page.getByTestId('legal-other').getAttribute('href')).toBe(other);
+    expect((await page.request.get(new URL(other, new URL(path, baseURL)).toString())).status()).toBe(200);
+    expect(await page.getByTestId('legal-home').getAttribute('href')).toBe('../#top');
+    // the source template's defects stay out: a New Mexico law clause, a Brussels arbitration court, a homecare medical disclaimer, shouting capitals
+    const text = (await page.locator('.cr-legal-text').evaluate((el) => el.textContent ?? '')); // textContent: the headings are uppercased by CSS, not in the text
+    for (const bad of ['New Mexico', 'Brussels', 'European Arbitration', 'homecare', 'medical advice', 'Termly', 'filmtwist.com/privacy-policy', '__', '[', ']('] ) expect(text, bad).not.toContain(bad);
+    expect(text.match(/[A-Z]{12,}/), 'no all-capitals runs').toBeNull();
+    expect(text).toContain('California');
+    expect(text).toContain('info@filmtwist.com');
+    expect(errors, errors.join('\n')).toEqual([]);
+  }
 });
 
 test('Concept 06 Version 3.4: the provenance footnotes are off the page (the register in docs/CONTENT_AND_CLAIMS.md keeps them)', async ({ page }) => {

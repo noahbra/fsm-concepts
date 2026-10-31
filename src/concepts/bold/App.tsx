@@ -411,7 +411,7 @@ function Contact() {
           <p>{siteConfig.contactLine}</p>
         </div>
         <div className="cr-cta-form" data-testid="contact-form">
-          <FsmForm />
+          <FsmForm legal={{ terms: siteConfig.legal.termsUrl, privacy: siteConfig.legal.privacyUrl }} />
         </div>
       </div>
     </section>

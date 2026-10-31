@@ -158,7 +158,7 @@ export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
 ];
 
 /** The current direction's version label and the checklist of reviewer notes it answers, shown on the hub. No names. */
-export const currentVersion = { label: 'Concept 06c (Version 3.4)', date: 'October 31, 2026' };
+export const currentVersion = { label: 'Concept 06c (Version 3.5)', date: 'October 31, 2026' };
 /** Earlier versions of Concept 06, each a frozen build of the commit the client reviewed, served at its own address without review chrome. */
 export const previousVersions: { label: string; detail: string; path: string }[] = [
   { label: 'Concept 06a', detail: 'Version 1, October 28', path: '6a/bold/' },
@@ -168,6 +168,8 @@ export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
   {
     round: 'Reviews of Version 3, October 30',
     items: [
+      { note: 'Terms and conditions and privacy policy pages for the form to link to', state: 'partly', how: 'Built October 31 from FilmTwist\'s own published terms and privacy notice, restructured for reading: a plain summary under each heading, numbered sections, no all-capitals blocks, a contents list beside the text. The form\'s consent line and the footer link to them. A few template defects in the source (a New Mexico governing-law clause, an arbitration court in Brussels with the seat left blank, a homecare disclaimer) are replaced with California values; those, and the address, phone and email shown, need FilmTwist\'s sign-off before launch.' },
+      { note: 'New headshots for Stefan, Kien and David', state: 'done', how: 'In, October 31, from the project owner\'s files, cut out the same way as the others.' },
       { note: 'The reel creatives look blurred when enlarged', state: 'partly', how: 'The campaign files published on the case-study pages are web-sized (340 to 1,400 px wide) and the enlarged view stretched them. Each creative now opens at its own size at most, so it is sharp but smaller. Full-size files from the agency would let it open large again.' },
       { note: 'The Graduation, Aspire tile is blank until clicked; the reel stays paused after closing an image', state: 'done', how: 'Tiles past the edge of the screen were loading only as they slid into view, so the first of them arrived blank; every reel tile now loads at once. Closing an image handed focus back to its tile, which the reel read as a pause; it now pauses only for keyboard focus, the pointer, or the button.' },
       { note: 'Remove the source and approval footnotes under the work, team and schools', state: 'done', how: 'Off the page (October 31), with the footer\'s approval line and the "delivered by the FilmTwist team" line under the Work heading. The sources and pending approvals stay on record in the project\'s claims register.' },

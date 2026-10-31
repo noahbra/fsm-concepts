@@ -5,7 +5,7 @@ import { SocialLinks } from '../../components/SocialLinks';
 
 /**
  * Header and footer shared by the Concept 06 page and its case-study pages.
- * `home` is the relative path back to the main page: '' on the page itself, '../../' from bold/work/<case>/.
+ * `home` is the relative path back to the main page: '' on the page itself, '../../' from bold/work/<case>/, '../' from bold/terms/ and bold/privacy/.
  */
 export const NAV = [
   { href: '#services', label: 'What we do' },
@@ -69,7 +69,9 @@ export function Footer({ home = '' }: { home?: string }) {
           ))}
         </nav>
         <div className="cr-footer-legal">
-          <p>Privacy policy and terms to be supplied.</p>
+          <p>
+            <a href={`${home}${siteConfig.legal.privacyUrl}`}>Privacy policy</a> &middot; <a href={`${home}${siteConfig.legal.termsUrl}`}>Terms and conditions</a>
+          </p>
           <p>&copy; 2026 {siteConfig.legal.copyrightHolder}.</p>
         </div>
       </div>

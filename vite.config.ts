@@ -9,7 +9,7 @@ import type { Plugin } from 'vite';
 // After a custom-domain migration, set BASE_PATH=/ in the workflow.
 const base = process.env.BASE_PATH || '/';
 
-// SITE=fsm builds the production site: Concept 06 alone, at the root (its case pages at /work/<school>/), no hub, no other
+// SITE=fsm builds the production site: Concept 06 alone, at the root (its case pages at /work/<school>/, its legal pages at /terms/ and /privacy/), no hub, no other
 // concepts, no frozen review copies. SITE_ORIGIN rewrites the absolute og:image URLs (default: the review site's).
 // VITE_INDEXABLE=true strips the robots noindex meta at launch. The review site is the default (SITE unset).
 const site = process.env.SITE === 'fsm' ? 'fsm' : 'review';
@@ -27,6 +27,8 @@ const reviewInput = {
   'bold-work-aspire': resolve(__dirname, 'bold/work/aspire/index.html'),
   'bold-work-friendship': resolve(__dirname, 'bold/work/friendship/index.html'),
   'bold-work-envision': resolve(__dirname, 'bold/work/envision/index.html'),
+  'bold-terms': resolve(__dirname, 'bold/terms/index.html'),
+  'bold-privacy': resolve(__dirname, 'bold/privacy/index.html'),
   'visible-work-aspire': resolve(__dirname, 'visible/work/aspire/index.html'),
   'visible-work-friendship': resolve(__dirname, 'visible/work/friendship/index.html'),
   'visible-work-envision': resolve(__dirname, 'visible/work/envision/index.html'),
@@ -36,6 +38,8 @@ const fsmInput = {
   'bold-work-aspire': resolve(__dirname, 'bold/work/aspire/index.html'),
   'bold-work-friendship': resolve(__dirname, 'bold/work/friendship/index.html'),
   'bold-work-envision': resolve(__dirname, 'bold/work/envision/index.html'),
+  'bold-terms': resolve(__dirname, 'bold/terms/index.html'),
+  'bold-privacy': resolve(__dirname, 'bold/privacy/index.html'),
 };
 
 /** Production site: move bold/ to the root, rewrite the og:image origin, strip noindex at launch, prune review-only files. */

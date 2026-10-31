@@ -31,6 +31,7 @@ The production site (Concept 06 at the root, nothing else) is the same build wit
 | Services (names, order, blurbs) | `src/content/services.ts` |
 | Contact form (LeadConnector ids and fields), site URL, review mode | `src/content/config.ts` |
 | Opener animation (the mark that lands on the header) | `src/concepts/bold/Opener.tsx` |
+| Terms and privacy pages (the text) | `src/content/legal.ts`; rendered by `src/concepts/bold/LegalPage.tsx` at `/terms/` and `/privacy/` |
 | Tests | `tests/smoke.spec.ts` |
 
 Generated files (`*.generated.json`) are written by the scripts; do not edit them by hand.

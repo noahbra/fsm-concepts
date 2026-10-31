@@ -10,8 +10,12 @@ import { siteConfig } from '../../content/config';
  */
 type Status = { kind: 'idle' } | { kind: 'sending' } | { kind: 'sent' } | { kind: 'error'; message: string };
 
-export function FsmForm() {
+/** Where the consent line's two links go. Default: FilmTwist's own pages (the form's configured targets); Concept 06 passes its own terms and privacy pages. */
+export type LegalLinks = { terms: string; privacy: string };
+
+export function FsmForm({ legal }: { legal?: LegalLinks } = {}) {
   const lc = siteConfig.leadConnector;
+  const links: LegalLinks = legal ?? { terms: lc.termsUrl, privacy: lc.privacyUrl };
   const [status, setStatus] = useState<Status>({ kind: 'idle' });
   const startedAt = useRef(Date.now());
   const formRef = useRef<HTMLFormElement>(null);
@@ -118,8 +122,8 @@ export function FsmForm() {
       <label className="fsm-form__consent">
         <input name="terms_and_conditions" type="checkbox" required data-testid="fsm-terms" />
         <span>
-          I agree to the <a href={lc.termsUrl} target="_blank" rel="noopener noreferrer">terms and conditions</a> provided by Filmtwist Creative Agency. By providing my phone
-          number, I agree to receive text messages from the business. For more information please visit the <a href={lc.privacyUrl} target="_blank" rel="noopener noreferrer">privacy policy</a>.
+          I agree to the <a href={links.terms} target="_blank" rel="noopener noreferrer" data-testid="fsm-terms-link">terms and conditions</a> provided by Filmtwist Creative Agency. By providing my phone
+          number, I agree to receive text messages from the business. For more information please visit the <a href={links.privacy} target="_blank" rel="noopener noreferrer" data-testid="fsm-privacy-link">privacy policy</a>.
         </span>
       </label>
       <div className="fsm-form__actions">

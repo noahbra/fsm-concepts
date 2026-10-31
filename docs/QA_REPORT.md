@@ -19,6 +19,32 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision October 31, 2026 (eighteenth): legal pages, three headshots, the contact note
+
+The project owner asked for terms and privacy pages the contact form can link to, in this site's formatting and more
+readable than FilmTwist's. Both FilmTwist pages (filmtwist.com/terms-and-conditions, dated October 13, 2024, and
+filmtwist.com/privacy-policy, dated May 9, 2024) were pulled and read in full. Finding: both are generated template text
+with defects (a New Mexico governing-law clause for a California company, binding arbitration before a Brussels court with
+the seat left blank and the fallback courts never listed, a liability cap with its second value blank, a "No Medical
+Advice" disclaimer about homecare services, two sections numbered 23, a privacy notice with the category table's
+"Collected" column empty and two different zip codes for the one address). Built: `src/content/legal.ts` (the two
+documents as structured content, substance from the source, each section with a one-line plain summary, numbered,
+all-capitals blocks set in sentence case inside a marked notice), `LegalPage.tsx` and `legal-main.tsx` (blue head, sticky
+contents list beside a 68-character measure on desktop, the list above the text on a phone), entries `bold/terms/` and
+`bold/privacy/` in both Vite inputs (production serves `/terms/` and `/privacy/`). The form's consent sentence is unchanged
+and its two links now open these pages; the footer placeholder is replaced by the two links. Every departure from the
+source is listed in CONTENT_AND_CLAIMS.md (Version 3.5) for FilmTwist's sign-off. Also at the project owner's request:
+"The form goes straight to the team." removed from under the contact heading (test asserts it stays off), and new
+headshots for Stefan, Kien and David (circular portraits from the project owner's files; cropped to the circle, subject
+lifted with macOS Vision as Pat's was, 360 px png and webp; the lift tool and the originals are in the source folder's
+team/). Hub: Version 3.5, two checklist items. Measured: review build passes; full suite 316 passed, 0 failed (3.4 min)
+across the four projects, the two new pages included in the per-page checks; the new legal-page test asserts the consent
+and footer links resolve, every contents entry lands on a section heading, every section opens with its summary, the
+sibling document and the way home resolve, and none of the source's defects appear (no "New Mexico", "Brussels",
+"homecare", no all-capitals runs in the text). Production build (`SITE=fsm`): `dist/terms/index.html` and
+`dist/privacy/index.html` present, consent links `terms/` and `privacy/`, review label absent. Built and committed
+locally; not deployed (awaiting the project owner's word).
+
 ## Revision October 31, 2026 (seventeenth): the reel at native size, footnotes off
 
 The project owner saw the enlarged reel creatives blurred. Measured: the ten reel files are the ones FilmTwist publishes

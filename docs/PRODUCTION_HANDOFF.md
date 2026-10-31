@@ -10,7 +10,7 @@ What remains to turn the chosen concept into the final Full School Marketing sit
 4. Approve the tagline lockup ("grow your own." as live text under the official logo) or supply the layered logo artwork.
 5. Approve the five service names and the order they appear in.
 6. Decide the consultation destination: FilmTwist consulting page, the Calendly link, or a form with a privacy policy and a named recipient.
-7. Supply privacy policy and terms text, a business address if one should be shown, and confirm social profile ownership.
+7. Sign off the privacy policy and terms pages (`/privacy/`, `/terms/`, adapted October 31 from filmtwist.com's own pages; the departures are listed in `CONTENT_AND_CLAIMS.md`, Version 3.5), confirm the business address, phone and email shown on them, and confirm social profile ownership.
 8. Decide whether the e-book or course gets a secondary mention anywhere.
 
 ## Engineering work

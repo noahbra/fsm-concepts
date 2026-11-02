@@ -37,6 +37,11 @@ shares the content). Location "San Jose, California" is from the school's public
 browsers: three cards, none Envision, no Envision creative on the page, the archived page answers with its figures and
 source, its neighbors resolve). Captures: the Alpha page on desktop and phone, the three cards, the gallery.
 
+Deployed November 2, 2026 on the project owner's word, with the team-photo version token from October 31 (review run
+41543978556, production run 41543984605). Live: both sites serve `work/alpha/` and `work/envision/` with their own titles,
+the Alpha hero and the versioned team photos answer 200, and the Alpha, archived-Envision and home-page tests pass against
+the live review site in all four browsers (16 of 16).
+
 ## Revision October 31, 2026 (eighteenth): legal pages, three headshots, the contact note
 
 The project owner asked for terms and privacy pages the contact form can link to, in this site's formatting and more

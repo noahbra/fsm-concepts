@@ -1,16 +1,17 @@
 import { test, expect, type Page, type ConsoleMessage } from '@playwright/test';
 
-const PAGES = ['', 'clean/', 'creative/', 'story/', 'original/', 'visible/', 'visible/work/aspire/', 'visible/work/friendship/', 'visible/work/envision/', 'bold/', 'bold/work/aspire/', 'bold/work/friendship/', 'bold/work/envision/', 'bold/terms/', 'bold/privacy/'] as const;
-const CASES = ['aspire', 'friendship', 'envision'] as const;
+const PAGES = ['', 'clean/', 'creative/', 'story/', 'original/', 'visible/', 'visible/work/aspire/', 'visible/work/friendship/', 'visible/work/envision/', 'visible/work/alpha/', 'bold/', 'bold/work/aspire/', 'bold/work/friendship/', 'bold/work/envision/', 'bold/work/alpha/', 'bold/terms/', 'bold/privacy/'] as const;
+/** The three featured cases, in card order. Envision is archived: off the cards, still served (its own test below). */
+const CASES = ['aspire', 'friendship', 'alpha'] as const;
 const LEADCONNECTOR_FORM = 'DveY4KWgzKqaGiHAAA2e';
 /** FilmTwist's embedded form (LeadConnector) is third-party: its own requests are not this site's defects. */
 const THIRD_PARTY = /leadconnectorhq\.com|msgsndr\.com|challenges\.cloudflare\.com/;
 const CONCEPTS = ['clean/', 'creative/', 'story/', 'original/'] as const;
-const SCHOOLS = ['Aspire Public Schools', 'Friendship Public Charter School', 'Envision Education'];
+const SCHOOLS = ['Aspire Public Schools', 'Friendship Public Charter School', 'Alpha Public Schools'];
 const SOURCES = [
   'https://www.filmtwist.com/work/aspire-public-schools',
   'https://www.filmtwist.com/work/friendship-pcs',
-  'https://www.filmtwist.com/work/envision-education-2',
+  'https://www.filmtwist.com/work/alpha-public-schools',
 ];
 const CTA = 'https://www.filmtwist.com/consulting';
 
@@ -771,6 +772,31 @@ test('Concept 06 reel: every tile, including the off-screen ones, has its image 
   await settle(page);
   await expect.poll(async () => page.locator('.cr-reel img').evaluateAll((imgs) => imgs.filter((i) => !(i as HTMLImageElement).complete || (i as HTMLImageElement).naturalWidth === 0).length), { timeout: 15000 }).toBe(0);
   expect(await page.locator('.cr-reel img').count()).toBeGreaterThanOrEqual(10);
+});
+
+test('Concept 06: Envision is archived, off the cards and the reel but still served at bold/work/envision/', async ({ page }) => {
+  const errors = watch(page);
+  await page.goto('bold/');
+  await settle(page);
+  const cards = page.getByTestId('case-study');
+  await expect(cards).toHaveCount(3);
+  expect(await cards.filter({ hasText: 'Envision' }).count(), 'an Envision card').toBe(0);
+  const caseLinks = await page.getByTestId('case-link').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).href));
+  expect(caseLinks.some((h) => h.includes('/work/envision/')), 'a card link to Envision').toBe(false);
+  // Envision's logo stays in the schools strip; its campaign creative is what leaves the page (cards and reel)
+  expect(await page.locator('img[src*="/campaigns/envision/"]').count(), 'Envision campaign images on the page').toBe(0);
+  // the archived page still answers, with its own figures and source, and its neighbors are featured cases
+  await page.goto('bold/work/envision/');
+  await settle(page);
+  await expect(page.locator('h1')).toHaveText('Envision Education');
+  expect(await page.getByTestId('case-metrics').locator('li').count()).toBeGreaterThanOrEqual(3);
+  expect(await page.getByTestId('case-source').locator('a').getAttribute('href')).toBe('https://www.filmtwist.com/work/envision-education-2');
+  for (const t of ['case-prev', 'case-next']) {
+    const href = await page.getByTestId(t).evaluate((a) => (a as HTMLAnchorElement).href);
+    expect(href, t).not.toContain('/work/envision/');
+    expect((await page.request.get(href)).status(), `${t} ${href}`).toBe(200);
+  }
+  expect(errors, errors.join('\n')).toEqual([]);
 });
 
 test('Concept 06 legal pages: the form and the footer link to this site\'s own terms and privacy pages, both of which read as one document with a working contents list and none of the source template\'s defects', async ({ page, baseURL }) => {

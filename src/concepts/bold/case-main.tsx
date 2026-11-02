@@ -4,12 +4,12 @@ import '@fontsource-variable/archivo/wdth.css';
 import '@fontsource-variable/josefin-sans';
 import '../../styles/global.css';
 import './bold.css';
-import { caseStudies } from '../../content/caseStudies';
+import { allCaseStudies } from '../../content/caseStudies';
 import { CasePage } from './CasePage';
 
 // Each bold/work/<case>/index.html names its case on the root element; the content comes from content/caseStudies.ts.
 const root = document.getElementById('root')!;
-const c = caseStudies.find((x) => x.id === root.dataset.case);
+const c = allCaseStudies.find((x) => x.id === root.dataset.case);
 if (!c) throw new Error(`Unknown case "${root.dataset.case}"`);
 document.title = `${c.school} | Full School Marketing`;
 

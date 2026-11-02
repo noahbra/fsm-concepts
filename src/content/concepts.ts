@@ -158,7 +158,7 @@ export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
 ];
 
 /** The current direction's version label and the checklist of reviewer notes it answers, shown on the hub. No names. */
-export const currentVersion = { label: 'Concept 06c (Version 3.5)', date: 'October 31, 2026' };
+export const currentVersion = { label: 'Concept 06c (Version 3.6)', date: 'November 2, 2026' };
 /** Earlier versions of Concept 06, each a frozen build of the commit the client reviewed, served at its own address without review chrome. */
 export const previousVersions: { label: string; detail: string; path: string }[] = [
   { label: 'Concept 06a', detail: 'Version 1, October 28', path: '6a/bold/' },
@@ -168,6 +168,7 @@ export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
   {
     round: 'Reviews of Version 3, October 30',
     items: [
+      { note: 'Alpha Public Schools in place of Envision Education as the third case study', state: 'done', how: 'Built November 2 from FilmTwist\'s published Alpha case study: 417 leads, 118 applications and a $44 average cost per lead over July 2022 to June 2023, with ten of its images. Envision\'s page stays reachable at its own address until the swap is approved, then comes out.' },
       { note: 'Terms and conditions and privacy policy pages for the form to link to', state: 'partly', how: 'Built October 31 from FilmTwist\'s own published terms and privacy notice, restructured for reading: a plain summary under each heading, numbered sections, no all-capitals blocks, a contents list beside the text. The form\'s consent line and the footer link to them. A few template defects in the source (a New Mexico governing-law clause, an arbitration court in Brussels with the seat left blank, a homecare disclaimer) are replaced with California values; those, and the address, phone and email shown, need FilmTwist\'s sign-off before launch.' },
       { note: 'New headshots for Stefan, Kien and David', state: 'done', how: 'In, October 31, from the project owner\'s files, cut out the same way as the others.' },
       { note: 'The reel creatives look blurred when enlarged', state: 'partly', how: 'The campaign files published on the case-study pages are web-sized (340 to 1,400 px wide) and the enlarged view stretched them. Each creative now opens at its own size at most, so it is sharp but smaller. Full-size files from the agency would let it open large again.' },

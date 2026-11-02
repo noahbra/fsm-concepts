@@ -81,6 +81,17 @@ const C = [
   ['envision', 'sfgrad-teasers-9.jpg', 'graduate'],
   ['envision', 'teasers-9.jpg', 'classroom-laptop'],
   ['envision', 'teasers-10.jpg', 'teacher-and-students'],
+  ['alpha', 'cindy-teasers-15.jpg', 'student-smiling'],
+  ['alpha', 'social-ads.png', 'social-ads'],
+  ['alpha', 'mailers.png', 'mailers'],
+  ['alpha', 'winter-teaser-1.jpg', 'folklorico-dancer'],
+  ['alpha', 'winter-teaser-7.jpg', 'winter-concert'],
+  ['alpha', 'cindy-teasers-26.jpg', 'volleyball'],
+  ['alpha', 'cornerstone-cindy-64.jpg', 'elementary-classroom'],
+  ['alpha', 'cornerstone-cindy-27.jpg', 'student-laughing'],
+  ['alpha', 'cornerstone-cindy-227.jpg', 'student-writing'],
+  ['alpha', 'cornerstone-cindy-163.jpg', 'student-running'],
+  ['alpha', 'cindy-awards-5.jpg', 'campus-walkway'],
 ];
 for (const [c, f, n] of C) manifest.campaigns.push(await campaign(c, f, n));
 

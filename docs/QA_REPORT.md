@@ -19,6 +19,24 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision November 2, 2026 (nineteenth): Alpha Public Schools in place of Envision Education
+
+The project owner asked what it would take to swap Envision out for an Alpha Public Schools case study, then ruled: swap,
+not add; keep Envision's page reachable for now; delete it once the swap is approved. FilmTwist publishes an Alpha case
+(filmtwist.com/work/alpha-public-schools), read in full 11/2: four schools, tuition-free K through 12, client since 2020,
+Google, Facebook and Instagram ads plus an email campaign, photo and video; 417 leads, 118 applications, $44 average cost
+per lead over July 2022 to June 2023 (the 2571% ROI omitted, as always). Its nine photographs and one creative sheet were
+pulled at the largest size served (335 to 1,600 px wide; the sheet split into a social-ads crop and a mailers crop).
+
+Built: `caseStudies` now lists Aspire, Friendship and Alpha, in that order, so the third card, the third case page and the
+reel's three Alpha slots (the dancer, the winter concert, the hero) follow; Envision moved to a new `archivedCaseStudies`
+list, served at `bold/work/envision/` (production `/work/envision/`) through `allCaseStudies`, with its Previous and
+Next pointing at the featured cases. New page shells `bold/work/alpha/` and `visible/work/alpha/` (Concept 05's page
+shares the content). Location "San Jose, California" is from the school's public job-board page, flagged. Hub: Version
+3.6. Checks: review build and production build clean; 344 tests pass (340 plus the new archived-Envision test in four
+browsers: three cards, none Envision, no Envision creative on the page, the archived page answers with its figures and
+source, its neighbors resolve). Captures: the Alpha page on desktop and phone, the three cards, the gallery.
+
 ## Revision October 31, 2026 (eighteenth): legal pages, three headshots, the contact note
 
 The project owner asked for terms and privacy pages the contact form can link to, in this site's formatting and more

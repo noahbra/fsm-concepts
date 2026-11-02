@@ -17,6 +17,9 @@ Re-verified against the live source pages on October 26, 2026 (fetched with curl
 | Envision Education | Leads | 723 | July 2022 to June 2023 | https://www.filmtwist.com/work/envision-education-2 | Verified |
 | Envision Education | Applications | 101 | July 2022 to June 2023 | same | Verified |
 | Envision Education | Average cost per lead | $64 | July 2022 to June 2023 | same | Verified |
+| Alpha Public Schools | Leads | 417 | July 2022 to June 2023 | https://www.filmtwist.com/work/alpha-public-schools | Verified 11/2/2026 |
+| Alpha Public Schools | Applications | 118 | July 2022 to June 2023 | same | Verified 11/2/2026 |
+| Alpha Public Schools | Average cost per lead | $44 | July 2022 to June 2023 | same | Verified 11/2/2026 (the page's 2571% ROI is omitted, as every published ROI is) |
 
 Rules applied in code (`src/content/caseStudies.ts`): each metric carries its unit and period; leads and applications are
 never relabeled as enrollments; the three campaigns are never summed; every card links to its source page.
@@ -33,13 +36,16 @@ never relabeled as enrollments; the three campaigns are never summed; every card
 | Aspire | Public charter network, 36 schools, tuition-free TK through grade 12 | "a public charter network that serves 36 schools, offer a tuition-free education from Kindergarten through 12th Grade" | Verified. "TK" appears in Aspire's own ad creative ("Now Enrolling TK - 8"); the page says Kindergarten. Shown as "TK-12" in grade band; REQUIRES_CLIENT_CONFIRMATION |
 | Friendship | Public charter network, 16 campuses, tuition-free PK3 through grade 12, Washington, D.C. | "a public charter school network with 16 campuses in the Washington D.C. area, offering tuition-free education from PK3 through 12th grade" | Verified |
 | Envision | Public charter schools, three campuses, grades 6 through 12 | "a public charter school that serves three schools across three areas from grades 6-12" | Verified |
+| Alpha | Public charter network, four schools, tuition-free kindergarten through grade 12 | "a public charter network that serves four schools, offering a tuition-free education from Kindergarten through 12th Grade" | Verified 11/2/2026 |
 | Aspire and Envision location "California" | Inferred from campaign creative (an "Aspire Public Schools Bay Area" ad; a 510 phone number and San Francisco graduation assets for Envision). Not stated on the source pages. | | REQUIRES_CLIENT_CONFIRMATION |
+| Alpha location "San Jose, California" | Not on the FilmTwist page. Alpha's own site refused the pull (Cloudflare); its public job-board page (edjoin.org/alphaps, read 11/2/2026) gives "San Jose, CA 95122". | | REQUIRES_CLIENT_CONFIRMATION |
 
 ## Services described per case (verbatim from the source pages)
 
 - Aspire: Student/Staff Recruitment, Photo/Video Creative, Digital Advertising, Organic Social. Platforms named: Google, Facebook, Instagram; email campaign; mailers and bus ads shown in creative.
 - Friendship: Student/Staff Recruitment, Digital Advertising, Distribution. Platforms named: Google, TikTok, Meta; direct mail; transit ads on bike-share units, metro stations, shelters. "5 campaigns".
 - Envision: Student/Staff Recruitment, Photo/Video Creative, Digital Advertising. Platforms: Google, Facebook, Instagram; billboard, bus, door-hanger and mailer creative shown.
+- Alpha: Student/Staff Recruitment, Photo/Video Creative, Digital Advertising, Organic Social. Platforms named: Google, Facebook, Instagram; email campaign; two mailers shown in the creative sheet ("Mailer Design Examples"). Mapped to strategy, creative, advertising, outreach (the email campaign).
 
 ## Brand facts
 
@@ -126,6 +132,13 @@ The merged direction introduces three pieces of copy that the first four concept
 | Contact form | Concept 05 "Work with us"; `FsmForm.tsx`, `siteConfig.leadConnector` | Version 2.1: a Full School Marketing form that posts to FilmTwist's LeadConnector "RFI Contact Form" `DveY4KWgzKqaGiHAAA2e` (location `6DjFgiECQC0Tt8gNX4vT`) with the widget's own payload. Fields, required flags, option lists, consent text and thank-you text are the form's own, read from the widget configuration 10/28/2026. Submissions go to FilmTwist's account; this site stores nothing. No test submission was made; the lead's arrival is unverified until one real submission is made. (Version 2 embedded the form as an iframe; `mode: 'embed'` restores that.) | REQUIRES_CLIENT_CONFIRMATION (one real submission to confirm delivery; FilmTwist may prefer a dedicated FSM form in the same account) |
 | Case-study pages | `visible/work/{aspire,friendship,envision}/` | Every figure, descriptor, story line and image is the same record as the cards (`caseStudies.ts`), with the published source cited at the foot of each page. No new claims. | As the case studies |
 | Hub checklist wording | Hub, "What Version 2 addresses" | Paraphrases of the 10/27 reviewer notes and the 10/28 asks, no names, no ratings. | Internal review copy |
+
+## Concept 06 Version 3.6 (November 2, 2026): Alpha Public Schools in place of Envision Education
+
+| Claim or content | Where | Source | Status |
+|---|---|---|---|
+| Alpha Public Schools case: descriptor, services, story lines, channels, three figures, ten images | Third case card, `bold/work/alpha/` (production `/work/alpha/`), the reel; `src/content/caseStudies.ts`, `public/assets/campaigns/alpha/` | FilmTwist's published case study, https://www.filmtwist.com/work/alpha-public-schools, read in full 11/2/2026. Figures: 417 leads, 118 applications, $44 average cost per lead, "July 2022 to June 2023 (a full campaign year)". The page's 2571% ROI is omitted (definition unvalidated, as for the other cases). Story lines paraphrase the page's two paragraphs (Google, Facebook and Instagram ads; an email campaign to collected leads; photo and video of events, sports days, classroom life and graduations). "Mailers" is in the channels because the page's creative sheet shows two mailers ("Mailer Design Examples"); the text does not name them. Images: the page's nine photographs and one creative sheet, pulled from the Webflow CDN at the largest size served (335 to 1,600 px wide; the sheet, 1,753 by 3,199, is split into a social-ads crop and a mailers crop, flattened on white, label dropped); provenance per file in `fsm-concepts-source/campaigns/alpha/SOURCE.txt`. Not carried over: the page's own defects (an unfilled "{{multi-elements}}" placeholder, a stray "NEW PATHWAYS WEBSITE" label, an empty "See the New Creatives in Action" block, a duplicated paragraph). | Verified 11/2/2026; REQUIRES_CLIENT_CONFIRMATION for reuse of the creative and for the location |
+| Envision Education case, archived | Off the cards and the reel; still served at `bold/work/envision/` (production `/work/envision/`) with its own figures and source, linked from nowhere on the site; its logo stays in the schools strip | The project owner's direction, 11/2/2026: swap, not add; keep Envision reachable in case it is wanted back; delete once the swap is approved | Pending the client's approval of the swap; on approval, remove the page shells, the Vite inputs, the assets and the `archivedCaseStudies` entry |
 
 ## Concept 06 Version 3.5 (October 31, 2026): legal pages, three headshots, one note
 

@@ -5,7 +5,7 @@ What remains to turn the chosen concept into the final Full School Marketing sit
 ## Decisions needed from the client (blocking)
 
 1. Confirm the current direction (Concept 06, `bold/`, built October 28, 2026 from Concept 02 per `CONCEPT_06_BRIEF.md`) or name what still needs to change. Concept 05 and the four originals stay on the hub for the record.
-2. Approve reuse of FilmTwist campaign creative on the FSM site, case by case, including student imagery and any model releases FilmTwist holds for Aspire, Friendship PCS and Envision.
+2. Approve reuse of FilmTwist campaign creative on the FSM site, case by case, including student imagery and any model releases FilmTwist holds for Aspire, Friendship PCS and Alpha (and Envision, whose page stays served at `/work/envision/` until the Alpha swap is approved; then remove it).
 3. Approve the FilmTwist relationship wording and where it appears (trust strip, proof block, footer).
 4. Approve the tagline lockup ("grow your own." as live text under the official logo) or supply the layered logo artwork.
 5. Approve the five service names and the order they appear in.

@@ -234,6 +234,94 @@
       "height": 766,
       "half": 574,
       "source": "teasers-10.jpg"
+    },
+    {
+      "caseId": "alpha",
+      "name": "student-smiling",
+      "width": 870,
+      "height": 766,
+      "half": 435,
+      "source": "cindy-teasers-15.jpg"
+    },
+    {
+      "caseId": "alpha",
+      "name": "social-ads",
+      "width": 1400,
+      "height": 1299,
+      "half": 700,
+      "source": "social-ads.png"
+    },
+    {
+      "caseId": "alpha",
+      "name": "mailers",
+      "width": 1400,
+      "height": 906,
+      "half": 700,
+      "source": "mailers.png"
+    },
+    {
+      "caseId": "alpha",
+      "name": "folklorico-dancer",
+      "width": 888,
+      "height": 766,
+      "half": 444,
+      "source": "winter-teaser-1.jpg"
+    },
+    {
+      "caseId": "alpha",
+      "name": "winter-concert",
+      "width": 575,
+      "height": 383,
+      "half": 288,
+      "source": "winter-teaser-7.jpg"
+    },
+    {
+      "caseId": "alpha",
+      "name": "volleyball",
+      "width": 870,
+      "height": 766,
+      "half": 435,
+      "source": "cindy-teasers-26.jpg"
+    },
+    {
+      "caseId": "alpha",
+      "name": "elementary-classroom",
+      "width": 432,
+      "height": 383,
+      "half": 216,
+      "source": "cornerstone-cindy-64.jpg"
+    },
+    {
+      "caseId": "alpha",
+      "name": "student-laughing",
+      "width": 560,
+      "height": 383,
+      "half": 280,
+      "source": "cornerstone-cindy-27.jpg"
+    },
+    {
+      "caseId": "alpha",
+      "name": "student-writing",
+      "width": 340,
+      "height": 383,
+      "half": 170,
+      "source": "cornerstone-cindy-227.jpg"
+    },
+    {
+      "caseId": "alpha",
+      "name": "student-running",
+      "width": 335,
+      "height": 383,
+      "half": 168,
+      "source": "cornerstone-cindy-163.jpg"
+    },
+    {
+      "caseId": "alpha",
+      "name": "campus-walkway",
+      "width": 1400,
+      "height": 934,
+      "half": 700,
+      "source": "cindy-awards-5.jpg"
     }
   ],
   "site": [

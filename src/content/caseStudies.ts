@@ -1,6 +1,6 @@
 /**
  * Verified FilmTwist K-12 case studies. Every figure below was re-read from the live source page on 10/26/2026
- * and matches the build brief. Metrics are FilmTwist-reported, historical, and attributed to the specific case
+ * (Alpha on 11/2/2026) and matches the build brief. Metrics are FilmTwist-reported, historical, and attributed to the specific case
  * and reporting window. Never combine them, never relabel leads or applications as enrollments.
  * Published ROI percentages are intentionally omitted (definitions unvalidated; see docs/CONTENT_AND_CLAIMS.md).
  */
@@ -20,7 +20,7 @@ export interface Metric {
 }
 
 export interface CaseStudy {
-  id: 'aspire' | 'friendship' | 'envision';
+  id: 'aspire' | 'friendship' | 'envision' | 'alpha';
   school: string;
   shortName: string;
   /** From the FilmTwist source page */
@@ -50,6 +50,7 @@ export interface CaseStudy {
 const A = 'https://www.filmtwist.com/work/aspire-public-schools';
 const F = 'https://www.filmtwist.com/work/friendship-pcs';
 const E = 'https://www.filmtwist.com/work/envision-education-2';
+const AL = 'https://www.filmtwist.com/work/alpha-public-schools';
 
 export const caseStudies: CaseStudy[] = [
   {
@@ -128,6 +129,53 @@ export const caseStudies: CaseStudy[] = [
     tags: ['enrollment', 'digital-ads', 'print-ooh'],
   },
   {
+    id: 'alpha',
+    school: 'Alpha Public Schools',
+    shortName: 'Alpha',
+    descriptor: 'Public charter network, four schools, tuition-free kindergarten through grade 12',
+    location: 'San Jose, California', // not stated on the source page; from the school's public job-board page (edjoin.org/alphaps: "San Jose, CA 95122"), read 11/2/2026. REQUIRES_CLIENT_CONFIRMATION
+    gradeBand: 'K-12',
+    servicesDescribed: ['Student/Staff Recruitment', 'Photo/Video Creative', 'Digital Advertising', 'Organic Social'],
+    services: ['strategy', 'creative', 'advertising', 'outreach'],
+    period: { start: '2022-07', end: '2023-06', label: 'July 2022 to June 2023' },
+    metrics: [
+      { unit: 'leads', label: 'Leads', value: 417, display: '417', headline: true },
+      { unit: 'applications', label: 'Applications', value: 118, display: '118' },
+      { unit: 'cost-per-lead', label: 'Average cost per lead', value: 44, display: '$44' },
+    ],
+    summary: 'Digital ads and an email campaign that kept interested families engaged, built on photo and video from Alpha’s own classrooms, events and graduations.',
+    story: [
+      'Google, Facebook and Instagram campaigns showcasing Alpha’s programs to prospective families.',
+      'An email campaign to the families who had shown interest, answering common questions and keeping Alpha top of mind.',
+      'Photo and video capturing special events, sports days, classroom life and graduations, used across the digital ads.',
+    ],
+    channels: ['Google', 'Facebook', 'Instagram', 'Email', 'Organic social', 'Photo/Video', 'Mailers'],
+    sourceUrl: AL,
+    caption: 'FilmTwist-reported results, July 2022 to June 2023.',
+    assetsReady: 'pending-approval',
+    hero: campaignMedia('alpha', 'student-smiling', 'Alpha student in a black and gold school jersey, smiling at a classroom desk', { sourceUrl: AL, category: 'video-photo' }),
+    gallery: [
+      campaignMedia('alpha', 'social-ads', 'Alpha Public Schools Facebook enrollment ad and Instagram feed', { sourceUrl: AL, category: 'digital-ads', caption: 'Social ads and organic feed' }),
+      campaignMedia('alpha', 'mailers', 'Two Alpha Public Schools mailers with Enroll Today headlines', { sourceUrl: AL, category: 'print-ooh', caption: 'Mailers' }),
+      campaignMedia('alpha', 'folklorico-dancer', 'Alpha student in a blue folklorico dress, dancing at an evening event', { sourceUrl: AL, category: 'video-photo', caption: 'School events' }),
+      campaignMedia('alpha', 'winter-concert', 'Alpha students playing flute and clarinet at a winter concert', { sourceUrl: AL, category: 'video-photo', caption: 'School events' }),
+      campaignMedia('alpha', 'volleyball', 'Alpha students holding volleyballs on the field', { sourceUrl: AL, category: 'video-photo', caption: 'Sports' }),
+      campaignMedia('alpha', 'elementary-classroom', 'Young Alpha students in maroon uniforms in a classroom', { sourceUrl: AL, category: 'video-photo', caption: 'Classroom' }),
+      campaignMedia('alpha', 'student-laughing', 'Alpha student laughing with classmates at a classroom table', { sourceUrl: AL, category: 'video-photo', caption: 'Classroom' }),
+      campaignMedia('alpha', 'student-writing', 'Alpha student writing at a desk in front of a poster wall', { sourceUrl: AL, category: 'video-photo', caption: 'Classroom' }),
+      campaignMedia('alpha', 'student-running', 'Alpha student running across the blacktop', { sourceUrl: AL, category: 'video-photo', caption: 'School photography' }),
+      campaignMedia('alpha', 'campus-walkway', 'Walkway between classroom buildings on an Alpha campus', { sourceUrl: AL, category: 'video-photo', caption: 'Campus' }),
+    ],
+    tags: ['enrollment', 'video-photo', 'digital-ads', 'print-ooh'],
+  },
+];
+
+/**
+ * Cases off the cards but still served at their own address. Envision was swapped out for Alpha on November 2, 2026 at the
+ * project owner's request; its page stays reachable until the swap is approved, then comes out (page shell, assets, this entry).
+ */
+export const archivedCaseStudies: CaseStudy[] = [
+  {
     id: 'envision',
     school: 'Envision Education',
     shortName: 'Envision',
@@ -168,6 +216,9 @@ export const caseStudies: CaseStudy[] = [
     tags: ['enrollment', 'video-photo', 'digital-ads', 'print-ooh'],
   },
 ];
+
+/** Every case with a page, featured or archived. Case pages look themselves up here. */
+export const allCaseStudies: CaseStudy[] = [...caseStudies, ...archivedCaseStudies];
 
 export const proofDisclaimer =
   'Results are FilmTwist-reported for the named school and reporting window. Leads, applications and enrollments are separate outcomes and are never combined across campaigns. Past results do not guarantee future outcomes.';

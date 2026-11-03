@@ -170,7 +170,7 @@ export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
     items: [
       { note: 'Contact email should be biz@fullschoolmarketing.com', state: 'done', how: 'The terms and privacy pages now give biz@fullschoolmarketing.com wherever they name an email (November 3). The site shows no other address.' },
       { note: 'The Our Work thumbnails could be better, at least Aspire', state: 'done', how: 'The Aspire card now leads with the Math Field Day photograph, three students mid-build, in place of the chalk-drawing still, which had no faces; the still moves into the case page gallery. Friendship\'s card keeps its campaign ad and Alpha\'s its portrait.' },
-      { note: '"Schools that got seen. And chosen." reads as slang', state: 'not-done', how: 'Kept as is until the wording is decided. Alternatives are with the project owner.' },
+      { note: '"Schools that got seen. And chosen." reads as slang', state: 'not-done', how: 'Kept as is until the wording is decided. Two options went to the decision maker on November 3: "Schools seen. Seats filled." and "Great schools deserve to be seen. And chosen."' },
       { note: 'Where does the contact form go?', state: 'done', how: 'Submissions post straight to FilmTwist\'s own LeadConnector account, the same RFI Contact Form as filmtwist.com/contact; this site stores nothing. Where that form notifies is set in that account.' },
     ],
   },

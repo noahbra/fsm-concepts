@@ -103,8 +103,10 @@ export function Worksheet({ onChange }: { onChange?: (w: WS) => void }) {
             />
           </div>
           <p className="ws__hint">
-            Starts at {DEFAULT_YIELD}%: {yieldSource.school} reported {fmt.format(yieldSource.enrollments!)} confirmed enrollments from{' '}
-            {fmt.format(yieldSource.applications)} applications. Set your own if you know it.
+            {yieldSource
+              ? <>Starts at {DEFAULT_YIELD}%: {yieldSource.school} reported {fmt.format(yieldSource.enrollments!)} confirmed enrollments from {fmt.format(yieldSource.applications)} applications.</>
+              : <>Starts at {DEFAULT_YIELD}%, the share of applications that became confirmed enrollments in a published FilmTwist campaign (Friendship PCS, 78 of 102, December 2021 to September 2022).</>}{' '}
+            Set your own if you know it.
           </p>
         </div>
       </div>

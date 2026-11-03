@@ -27,7 +27,7 @@ The production site (Concept 06 at the root, nothing else) is the same build wit
 | Page copy, section order, layout | `src/concepts/bold/App.tsx`, styles in `src/concepts/bold/bold.css` |
 | Team roster (names, titles, order) | `src/content/team.ts`; headshots in `public/assets/team/` |
 | Schools strip (the logo row) | `src/content/clients.ts` for the names; drop the logo file in the source folder, list it in `scripts/client-logos.mjs`, run `node scripts/client-logos.mjs` |
-| Case studies (figures, sources, creative) | `src/content/caseStudies.ts` (`caseStudies` are the three on the cards; `archivedCaseStudies` are served but unlinked); images in `public/assets/` |
+| Case studies (figures, sources, creative) | `src/content/caseStudies.ts` (`caseStudies` are the three on the cards and the case pages); images in `public/assets/` |
 | Services (names, order, blurbs) | `src/content/services.ts` |
 | Contact form (LeadConnector ids and fields), site URL, review mode | `src/content/config.ts` |
 | Opener animation (the mark that lands on the header) | `src/concepts/bold/Opener.tsx` |

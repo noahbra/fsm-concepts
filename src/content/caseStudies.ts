@@ -20,7 +20,7 @@ export interface Metric {
 }
 
 export interface CaseStudy {
-  id: 'aspire' | 'friendship' | 'envision' | 'alpha';
+  id: 'aspire' | 'friendship' | 'alpha';
   school: string;
   shortName: string;
   /** From the FilmTwist source page */
@@ -49,7 +49,6 @@ export interface CaseStudy {
 
 const A = 'https://www.filmtwist.com/work/aspire-public-schools';
 const F = 'https://www.filmtwist.com/work/friendship-pcs';
-const E = 'https://www.filmtwist.com/work/envision-education-2';
 const AL = 'https://www.filmtwist.com/work/alpha-public-schools';
 
 export const caseStudies: CaseStudy[] = [
@@ -78,7 +77,7 @@ export const caseStudies: CaseStudy[] = [
     channels: ['Google', 'Facebook', 'Instagram', 'Email', 'Photo/Video', 'Mailers', 'Bus ads'],
     sourceUrl: A,
     caption: 'FilmTwist-reported results, July 2022 to June 2023.',
-    assetsReady: 'pending-approval',
+    assetsReady: 'approved', // campaign photos approved by the brand owner, November 3, 2026
     // Math Field Day leads the card since November 3, 2026 (the chalk still, faces down, read as weak against the other two cards).
     hero: campaignMedia('aspire', 'math-field-day', 'Aspire students building a structure during Math Field Day', { sourceUrl: A, category: 'video-photo' }),
     gallery: [
@@ -102,12 +101,14 @@ export const caseStudies: CaseStudy[] = [
     gradeBand: 'PK3-12',
     servicesDescribed: ['Student/Staff Recruitment', 'Digital Advertising', 'Distribution'],
     services: ['strategy', 'advertising', 'outreach', 'creative'],
-    period: { start: '2021-12', end: '2022-09', label: 'December 2021 to September 2022' },
+    // Figures from FilmTwist's 2025 leads report (February to September 2025; October to December were brand-awareness months and
+    // are not counted), supplied by the brand owner on November 3, 2026 in place of the published December 2021 to September 2022
+    // results (1,134 leads, 102 applications, 78 confirmed enrollments, $31.21). No confirmed enrollments are reported for this window.
+    period: { start: '2025-02', end: '2025-09', label: 'February to September 2025' },
     metrics: [
-      { unit: 'enrollments', label: 'Confirmed enrollments', value: 78, display: '78', headline: true },
-      { unit: 'leads', label: 'Leads', value: 1134, display: '1,134' },
-      { unit: 'applications', label: 'Applications', value: 102, display: '102' },
-      { unit: 'cost-per-lead', label: 'Average cost per lead', value: 31.21, display: '$31.21' },
+      { unit: 'leads', label: 'Leads', value: 1022, display: '1,022', headline: true },
+      { unit: 'applications', label: 'Applications', value: 51, display: '51' },
+      { unit: 'cost-per-lead', label: 'Average cost per lead', value: 26.01, display: '$26.01' },
     ],
     summary: 'Five campaigns across a 16-campus network, pairing digital advertising with direct mail and transit creative so families saw the school online and in their neighborhood.',
     story: [
@@ -117,8 +118,8 @@ export const caseStudies: CaseStudy[] = [
     ],
     channels: ['Google', 'TikTok', 'Meta', 'Email', 'Direct mail', 'Transit ads'],
     sourceUrl: F,
-    caption: 'FilmTwist-reported results, December 2021 to September 2022.',
-    assetsReady: 'pending-approval',
+    caption: 'FilmTwist-reported results from the 2025 leads campaign, February to September 2025.',
+    assetsReady: 'approved', // campaign photos approved by the brand owner, November 3, 2026
     hero: campaignMedia('friendship', 'ad-education-starts-at-woodridge', 'Friendship PCS ad: two smiling students with the headline Education starts at Woodridge', { sourceUrl: F, category: 'digital-ads' }),
     gallery: [
       campaignMedia('friendship', 'ad-learn-and-make-memories', 'Friendship PCS ad with a young cheerleader framed in a phone screen: Learn and make memories', { sourceUrl: F, category: 'digital-ads', caption: 'Digital ad' }),
@@ -153,7 +154,7 @@ export const caseStudies: CaseStudy[] = [
     channels: ['Google', 'Facebook', 'Instagram', 'Email', 'Organic social', 'Photo/Video', 'Mailers'],
     sourceUrl: AL,
     caption: 'FilmTwist-reported results, July 2022 to June 2023.',
-    assetsReady: 'pending-approval',
+    assetsReady: 'approved', // campaign photos approved by the brand owner, November 3, 2026
     hero: campaignMedia('alpha', 'student-smiling', 'Alpha student in a black and gold school jersey, smiling at a classroom desk', { sourceUrl: AL, category: 'video-photo' }),
     gallery: [
       campaignMedia('alpha', 'social-ads', 'Alpha Public Schools Facebook enrollment ad and Instagram feed', { sourceUrl: AL, category: 'digital-ads', caption: 'Social ads and organic feed' }),
@@ -171,55 +172,6 @@ export const caseStudies: CaseStudy[] = [
   },
 ];
 
-/**
- * Cases off the cards but still served at their own address. Envision was swapped out for Alpha on November 2, 2026 at the
- * project owner's request; its page stays reachable until the swap is approved, then comes out (page shell, assets, this entry).
- */
-export const archivedCaseStudies: CaseStudy[] = [
-  {
-    id: 'envision',
-    school: 'Envision Education',
-    shortName: 'Envision',
-    descriptor: 'Public charter schools, three campuses, grades 6 through 12',
-    location: 'California', // inferred from campaign creative (510 area code, SF graduation assets); not stated on the source page. REQUIRES_CLIENT_CONFIRMATION
-    gradeBand: '6-12',
-    servicesDescribed: ['Student/Staff Recruitment', 'Photo/Video Creative', 'Digital Advertising'],
-    services: ['strategy', 'creative', 'advertising'],
-    period: { start: '2022-07', end: '2023-06', label: 'July 2022 to June 2023' },
-    metrics: [
-      { unit: 'leads', label: 'Leads', value: 723, display: '723', headline: true },
-      { unit: 'applications', label: 'Applications', value: 101, display: '101' },
-      { unit: 'cost-per-lead', label: 'Average cost per lead', value: 64, display: '$64' },
-    ],
-    summary: 'Campaign messaging built around Envision’s college outcomes, brought to life with school footage, and carried from digital ads to billboards, bus ads and door hangers.',
-    story: [
-      'Google, Facebook and Instagram campaigns highlighting Envision programs and college acceptance outcomes.',
-      'Photo and video capturing events, sports days, classroom life and graduations.',
-      'Billboard, bus, door-hanger and mailer creative integrated with the digital campaign.',
-    ],
-    channels: ['Google', 'Facebook', 'Instagram', 'Photo/Video', 'Billboards', 'Bus ads', 'Door hangers'],
-    sourceUrl: E,
-    caption: 'FilmTwist-reported results, July 2022 to June 2023.',
-    assetsReady: 'pending-approval',
-    hero: campaignMedia('envision', 'students-trio', 'Three Envision students smiling in a classroom', { sourceUrl: E, category: 'video-photo' }),
-    gallery: [
-      campaignMedia('envision', 'bus-and-billboard-ads', 'Envision Academy bus advertisement and billboard design examples', { sourceUrl: E, category: 'print-ooh', caption: 'Bus ads and billboards' }),
-      campaignMedia('envision', 'door-hanger-and-mailer', 'Envision Academy door hanger and mailer design examples', { sourceUrl: E, category: 'print-ooh', caption: 'Door hangers and mailers' }),
-      campaignMedia('envision', 'college-pennants', 'Three Envision students holding Stanford and Cornell pennants', { sourceUrl: E, category: 'enrollment', caption: 'Enrollment campaign' }),
-      campaignMedia('envision', 'graduate', 'Envision graduate in a purple gown and flower crown, smiling', { sourceUrl: E, category: 'video-photo', caption: 'Graduation' }),
-      campaignMedia('envision', 'graduation-speaker', 'Speaker at an Envision graduation ceremony', { sourceUrl: E, category: 'video-photo', caption: 'Graduation' }),
-      campaignMedia('envision', 'campus-atrium', 'Envision campus atrium with arched balconies', { sourceUrl: E, category: 'video-photo', caption: 'Campus' }),
-      campaignMedia('envision', 'teacher-and-students', 'Envision teacher working with two students at a table', { sourceUrl: E, category: 'video-photo', caption: 'Classroom' }),
-      campaignMedia('envision', 'classroom-laptop', 'Two Envision students talking over a laptop', { sourceUrl: E, category: 'enrollment', caption: 'Enrollment campaign' }),
-      campaignMedia('envision', 'students-outdoor', 'Three Envision students outdoors', { sourceUrl: E, category: 'video-photo', caption: 'School photography' }),
-      campaignMedia('envision', 'hug', 'Two Envision students hugging', { sourceUrl: E, category: 'video-photo', caption: 'School photography' }),
-    ],
-    tags: ['enrollment', 'video-photo', 'digital-ads', 'print-ooh'],
-  },
-];
-
-/** Every case with a page, featured or archived. Case pages look themselves up here. */
-export const allCaseStudies: CaseStudy[] = [...caseStudies, ...archivedCaseStudies];
 
 export const proofDisclaimer =
   'Results are FilmTwist-reported for the named school and reporting window. Leads, applications and enrollments are separate outcomes and are never combined across campaigns. Past results do not guarantee future outcomes.';

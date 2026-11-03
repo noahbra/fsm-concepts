@@ -12,6 +12,7 @@ import { SkipLink } from '../../components/SkipLink';
 import { useReducedMotion } from '../../lib/motion';
 import { ServiceIcon } from '../visible/ServiceIcons';
 import { FsmForm } from '../visible/FsmForm';
+import { LeadConnectorForm } from '../visible/Chrome';
 import { Header, Footer } from './Chrome';
 import { Opener } from './Opener';
 
@@ -398,7 +399,8 @@ function Partner() {
   );
 }
 
-/* 7. Work with us: the final call on kit blue, Concept 05's intro copy, and the FSM form posting to FilmTwist's form service. */
+/* 7. Work with us: the final call on kit blue, Concept 05's intro copy, and FilmTwist's own form (siteConfig.leadConnector.mode:
+   their LeadConnector widget since November 3, 2026, the FSM-styled form before; see config.ts). */
 function Contact() {
   return (
     <section id="contact" className="cr-cta" aria-labelledby="cta-title" data-testid="contact">
@@ -411,7 +413,7 @@ function Contact() {
           <p>{siteConfig.contactLine}</p>
         </div>
         <div className="cr-cta-form" data-testid="contact-form">
-          <FsmForm legal={{ terms: siteConfig.legal.termsUrl, privacy: siteConfig.legal.privacyUrl }} />
+          {siteConfig.leadConnector.mode === 'fsm' ? <FsmForm legal={{ terms: siteConfig.legal.termsUrl, privacy: siteConfig.legal.privacyUrl }} /> : <LeadConnectorForm />}
         </div>
       </div>
     </section>

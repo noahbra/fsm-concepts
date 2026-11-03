@@ -158,13 +158,26 @@ export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
 ];
 
 /** The current direction's version label and the checklist of reviewer notes it answers, shown on the hub. No names. */
-export const currentVersion = { label: 'Concept 06c (Version 3.7)', date: 'November 3, 2026' };
+export const currentVersion = { label: 'Concept 06c (Version 3.8)', date: 'November 3, 2026' };
 /** Earlier versions of Concept 06, each a frozen build of the commit the client reviewed, served at its own address without review chrome. */
 export const previousVersions: { label: string; detail: string; path: string }[] = [
   { label: 'Concept 06a', detail: 'Version 1, October 28', path: '6a/bold/' },
   { label: 'Concept 06b', detail: 'Version 2, October 29', path: '6b/bold/' },
 ];
 export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
+  {
+    round: 'The brand owner\'s sign-off notes, November 3',
+    items: [
+      { note: 'Alpha is good to stay', state: 'done', how: 'Envision\'s page, images and entry are removed. Its logo stays in the schools row.' },
+      { note: 'Friendship\'s current numbers, from the 2025 leads report (February to September)', state: 'done', how: '1,022 leads, 51 applications and a $26.01 average cost per lead over February to September 2025, in place of the published 2021 to 2022 results. Confirmed enrollments are no longer shown, since none are reported for this window. October to December, the brand-awareness months, are not counted.' },
+      { note: 'Terms: the intro promises notice before changes, section 10 says without notice', state: 'done', how: 'The intro now says the terms may be updated and take effect when posted here or sent by email. Section 10 keeps its wording.' },
+      { note: 'Privacy page looks good', state: 'done', how: 'No change.' },
+      { note: 'School logos and photos are good', state: 'done', how: 'Approved November 3. The "reuse approval pending" captions are off the case pages.' },
+      { note: 'Aspire\'s thumbnail still shows the chalk photo', state: 'done', how: 'The Math Field Day photo was built the morning of November 3 and goes live with this version.' },
+      { note: '"Schools seen. Seats filled." preferred', state: 'not-done', how: 'The brand owner\'s pick. The heading changes when the decision maker calls it.' },
+      { note: 'The contact form gave an error', state: 'done', how: 'The form service answered 429 to a real submission from the site\'s own form: it takes submissions only from FilmTwist\'s widget, which carries the service\'s bot check. FilmTwist\'s own form is embedded again, as on filmtwist.com/contact, so submissions go through. Its consent line links to the pages set in FilmTwist\'s form system; an FSM-styled form built there can replace it.' },
+    ],
+  },
   {
     round: 'Notes on the live site, November 3',
     items: [

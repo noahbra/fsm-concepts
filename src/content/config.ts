@@ -49,8 +49,11 @@ export const siteConfig = {
     /** The forms service the widget itself posts to (multipart: formData JSON, locationId, formId). */
     submitUrl: 'https://backend.leadconnectorhq.com/forms/submit',
     sourcePage: 'https://www.filmtwist.com/contact',
-    /** 'fsm' renders the FSM-branded form that posts to the service above; 'embed' renders FilmTwist's widget frame. */
-    mode: 'fsm' as 'fsm' | 'embed',
+    /** 'fsm' renders the FSM-branded form that posts to the service above; 'embed' renders FilmTwist's widget frame.
+     *  'embed' since November 3, 2026: a real submission through the FSM form got 429 from the forms service, which takes
+     *  only its own widget's submissions (the widget carries the service's bot check). FsmForm.tsx stays for a form
+     *  FilmTwist can enable for direct posts. */
+    mode: 'embed' as 'fsm' | 'embed',
     /** Custom-field tags from the form configuration. Standard fields use their own names (full_name, email, phone, terms_and_conditions). */
     fields: { services: 'EJestVkia960oHxT9PxO', leadSource: 'XrSIkifPP25CWRXwy0t6', budget: 'MgHxET4F4WHl8USXu65T', needs: '7FmoBx7Yyarn8ptrhdUe' },
     /** The form's own option lists, verbatim (they are picklist values on FilmTwist's contact record, so they are not reworded). */

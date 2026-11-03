@@ -42,9 +42,10 @@ export const campaigns: CampaignRatios[] = caseStudies.map((c) => {
   };
 });
 
-/** The one campaign that reported confirmed enrollments (Friendship PCS, 78 of 102). */
-export const yieldSource = campaigns.find((c) => c.enrollmentYield)!;
-export const DEFAULT_YIELD = Math.round(yieldSource.enrollmentYield! * 100); // 76
+/** A campaign that reported confirmed enrollments, if any does. Friendship PCS did (78 of 102) in its published December 2021 to
+ * September 2022 case; since November 3, 2026 the site carries its 2025 figures, which report none, so the default is kept as a constant. */
+export const yieldSource = campaigns.find((c) => c.enrollmentYield);
+export const DEFAULT_YIELD = yieldSource ? Math.round(yieldSource.enrollmentYield! * 100) : 76;
 
 export interface Scenario {
   campaign: CampaignRatios;

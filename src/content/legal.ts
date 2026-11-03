@@ -65,7 +65,7 @@ export const terms: LegalDoc = {
     },
     {
       type: 'p',
-      text: `We will give you notice before scheduled changes to the Services you use. Changed terms take effect when we post them here or notify you by email from ${L.email}. Continuing to use the Services after that date means you accept the changes. We recommend keeping a copy of these terms for your records.`,
+      text: `We may update these terms from time to time. Changed terms take effect when we post them here or notify you by email from ${L.email}. Continuing to use the Services after that date means you accept the changes. We recommend keeping a copy of these terms for your records.`,
     },
   ],
   sections: [

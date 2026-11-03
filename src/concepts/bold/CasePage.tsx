@@ -11,10 +11,9 @@ const HOME = '../../';
 
 /** One published campaign, on this site, in Concept 06's chrome. Every figure keeps its unit, its period and its source. */
 export function CasePage({ c }: { c: CaseStudy }) {
-  // An archived case (off the cards, still served) is not in the list: its neighbors are the last and first featured cases.
   const i = caseStudies.indexOf(c);
-  const prev = i < 0 ? caseStudies[caseStudies.length - 1] : caseStudies[(i + caseStudies.length - 1) % caseStudies.length];
-  const next = i < 0 ? caseStudies[0] : caseStudies[(i + 1) % caseStudies.length];
+  const prev = caseStudies[(i + caseStudies.length - 1) % caseStudies.length];
+  const next = caseStudies[(i + 1) % caseStudies.length];
   const serviceNames = c.services.map((id) => services.find((s) => s.id === id)?.short ?? id);
   return (
     <>

@@ -47,7 +47,7 @@ const names: Record<string, { name: string; source: string; flag?: string }> = {
   'washington-yu-ying': { name: 'Washington Yu Ying Public Charter School', source: 'washingtonyuying.org' },
 };
 
-export const clientsSource = { readOn: '2026-10-30', note: 'School logos from each school\'s public site (October 30). Reuse approval pending.' };
+export const clientsSource = { readOn: '2026-10-30', note: 'School logos from each school\'s public site (October 30). Reuse approved by the brand owner, November 3, 2026.' };
 
 export const clients: ClientLogo[] = (manifest as Array<{ slug: string; svg?: string; png?: string; webp?: string; width: number; height: number; tone: 'light' | 'dark' }>).map((m) => ({
   slug: m.slug,

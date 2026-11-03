@@ -19,6 +19,27 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision November 3, 2026 (twenty-first): the brand owner's sign-off notes
+
+The brand owner answered the sign-off asks November 3 (1:20 PM): Alpha stays; Friendship's figures from the 2025 leads report
+(February to September); the terms intro contradicts section 10 on notice; privacy fine; logos and photos fine; Aspire's thumbnail
+still the chalk photo (Version 3.7 was not yet deployed); prefers "Schools seen. Seats filled."; the contact form gave an error
+(screenshot: "The form service answered 429").
+
+Built: Envision removed outright (shells, inputs, assets, rows, the archived list, tests); Friendship carries 1,022 leads, 51
+applications, $26.01 over February to September 2025, no enrollments metric (the Concept 04 worksheet's default yield is now a
+constant 76 with its provenance in a comment); the terms intro says the terms may be updated; all three cases `approved`, so the
+reuse captions are off; the contact section renders FilmTwist's LeadConnector widget again (`mode: 'embed'`), because the widget
+carries the forms service's bot check and a direct post from the site's own form is refused with 429 (the widget page bundles
+Turnstile and reCAPTCHA, read November 3). Hub: Version 3.8 with a round for the eight notes. Tests: the FSM-form posting test
+and the archived-Envision test are retired with the code they tested; a new test covers the embedded frame and its script, the
+Friendship figures, no enrollments on any card, Envision 404, and no reuse captions on the case pages.
+
+The widget's page pulls about 120 third-party requests (bot check, fonts, scripts), and with it mounted at page load the opener test
+failed one run in four on the preview (the opener's timeline runs on animation frames and the load competed with it; measured
+3.8 s per run in isolation with or without the embed script). The frame now mounts only when the reader is within a screen of
+the contact section (IntersectionObserver, rootMargin 100%), so nothing third-party loads with the page itself.
+
 ## Revision November 3, 2026 (twentieth): contact email, Aspire card photograph
 
 The decision maker's notes on the live site, relayed November 3: the contact email should be biz@fullschoolmarketing.com;

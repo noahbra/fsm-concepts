@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SocialLinks } from '../../components/SocialLinks';
 import { siteConfig } from '../../content/config';
 import { brand } from '../../content/media';
@@ -66,35 +66,53 @@ export function SiteFooter({ home = '' }: { home?: string }) {
 /**
  * FilmTwist's own contact form, embedded exactly as filmtwist.com/contact embeds it (LeadConnector inline widget plus
  * its resize script). Submissions go to FilmTwist's LeadConnector account; nothing is handled on this site.
+ *
+ * The widget is heavy (its page pulls in a bot check, fonts and scripts: about 120 requests), so it mounts only once the
+ * reader is within a screen of the contact section; until then the box holds its height. Nothing third-party loads with
+ * the page itself (the opener plays on load and the page's own load event stays its own).
  */
 export function LeadConnectorForm() {
   const { formId, formName, height, embedScript, widgetBase } = siteConfig.leadConnector;
+  const box = useRef<HTMLDivElement>(null);
+  const [near, setNear] = useState(false);
   useEffect(() => {
-    if (document.querySelector(`script[src="${embedScript}"]`)) return;
+    const el = box.current;
+    if (!el) return;
+    if (!('IntersectionObserver' in window)) { setNear(true); return; }
+    const io = new IntersectionObserver((entries) => { if (entries.some((e) => e.isIntersecting)) { setNear(true); io.disconnect(); } }, { rootMargin: '100% 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  useEffect(() => {
+    if (!near || document.querySelector(`script[src="${embedScript}"]`)) return;
     const s = document.createElement('script');
     s.src = embedScript;
     s.async = true;
     document.body.appendChild(s);
-  }, [embedScript]);
+  }, [near, embedScript]);
   const iframeId = `inline-${formId}`;
   return (
-    <iframe
-      src={`${widgetBase}${formId}`}
-      style={{ width: '100%', height: `${height}px`, border: 'none', borderRadius: '10px' }}
-      id={iframeId}
-      data-layout="{'id':'INLINE'}"
-      data-trigger-type="alwaysShow"
-      data-trigger-value=""
-      data-activation-type="alwaysActivated"
-      data-activation-value=""
-      data-deactivation-type="neverDeactivate"
-      data-deactivation-value=""
-      data-form-name={formName}
-      data-height={height}
-      data-layout-iframe-id={iframeId}
-      data-form-id={formId}
-      title="Work with Full School Marketing"
-      data-testid="leadconnector-form"
-    />
+    <div ref={box} style={{ minHeight: `${height}px` }} data-testid="leadconnector-box">
+      {near && (
+        <iframe
+          src={`${widgetBase}${formId}`}
+          style={{ width: '100%', height: `${height}px`, border: 'none', borderRadius: '10px', display: 'block' }}
+          id={iframeId}
+          data-layout="{'id':'INLINE'}"
+          data-trigger-type="alwaysShow"
+          data-trigger-value=""
+          data-activation-type="alwaysActivated"
+          data-activation-value=""
+          data-deactivation-type="neverDeactivate"
+          data-deactivation-value=""
+          data-form-name={formName}
+          data-height={height}
+          data-layout-iframe-id={iframeId}
+          data-form-id={formId}
+          title="Work with Full School Marketing"
+          data-testid="leadconnector-form"
+        />
+      )}
+    </div>
   );
 }

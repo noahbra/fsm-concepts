@@ -38,7 +38,7 @@ interface ManifestEntry { caseId: string; name: string; width: number; height: n
  * Swap images by editing scripts/optimize-assets.mjs and re-running it; page components never hardcode paths.
  */
 export function campaignMedia(
-  caseId: 'aspire' | 'friendship' | 'envision' | 'alpha',
+  caseId: 'aspire' | 'friendship' | 'alpha',
   name: string,
   alt: string,
   opts: { rights?: AssetRights; sourceUrl: string; caption?: string; category?: GalleryCategory },

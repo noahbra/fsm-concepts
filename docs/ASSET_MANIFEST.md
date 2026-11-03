@@ -44,9 +44,9 @@ watermark or credit was removed; none existed on the files. Not hotlinked.
 | friendship | ad-learn-and-make-memories, ad-innovation-in-education, ad-education-starts-at-woodridge | 2023 Woodridge Ad Angles 1/(1)/(2)-min.jpg | Three square digital ads | 01/02/03/04 case cards and hero collage |
 | friendship | transit-shelter-and-rail-poster | Group 298 (1)-min.png | Transit shelter ads and 2-sheet rail poster | 02 gallery |
 | friendship | direct-mail | Frame 1000004615 (2)-min.png | Direct mail designs | 02 gallery |
-| envision | students-trio, hug, campus-atrium, graduation-speaker, college-pennants, students-outdoor, graduate, classroom-laptop, teacher-and-students | EnvisionAcademyMG-136/-24, EnvisionAcademy2025-14, EnvisionCALGrad-346, Envision-EA+IA-148, Invision_10_18_22_0086, EnvisionSFGradTeasers-9, EnvisionAcademy-Teasers-9/-10 | School photography | Case cards, galleries |
-| envision | bus-and-billboard-ads | Frame 109 (2).png | Bus ads and billboards | 02 hero/gallery |
-| envision | door-hanger-and-mailer | Frame 110 (1).png | Door hangers and mailers | 02 gallery |
+| envision | students-trio, hug, campus-atrium, graduation-speaker, college-pennants, students-outdoor, graduate, classroom-laptop, teacher-and-students | EnvisionAcademyMG-136/-24, EnvisionAcademy2025-14, EnvisionCALGrad-346, Envision-EA+IA-148, Invision_10_18_22_0086, EnvisionSFGradTeasers-9, EnvisionAcademy-Teasers-9/-10 | School photography | Case cards, galleries; removed November 3, 2026 with the case (files deleted) |
+| envision | bus-and-billboard-ads | Frame 109 (2).png | Bus ads and billboards | 02 hero/gallery; removed November 3, 2026 with the case (files deleted) |
+| envision | door-hanger-and-mailer | Frame 110 (1).png | Door hangers and mailers | 02 gallery; removed November 3, 2026 with the case (files deleted) |
 | alpha | student-smiling, folklorico-dancer, winter-concert, volleyball, elementary-classroom, student-laughing, student-writing, student-running, campus-walkway | AlphaCindy-Teasers-15/-26, AlphaWinter-Teaser-1/-7, AlphaCorner+Cindy-64/-27/-227/-163, AlphaCindyAwards-5 | School photography | Case card, case page, reel (pulled 11/2/2026 from filmtwist.com/work/alpha-public-schools) |
 | alpha | social-ads, mailers | Frame 1000002110 (1).png, split in two and flattened on white | Social ads and organic feed; mailers | Case gallery |
 

@@ -42,6 +42,17 @@ Deployed November 2, 2026 on the project owner's word, with the team-photo versi
 the Alpha hero and the versioned team photos answer 200, and the Alpha, archived-Envision and home-page tests pass against
 the live review site in all four browsers (16 of 16).
 
+## Launch November 2, 2026 (evening): fullschoolmarketing.com
+
+The brand owner confirmed the DNS records were in and said to go ahead with the HTTPS switch. Checked first: the apex
+answers GitHub Pages' four A records on 1.1.1.1 and 8.8.8.8, www is a CNAME to noahbra.github.io. Then: custom domain set
+on the production repo's Pages settings, `BASE_PATH=/`, a `workflow_dispatch` rebuild (run 41560188303), certificate
+approved (Let's Encrypt, valid to February 1, 2027), HTTPS enforced. Live checks: the home page and `/work/aspire/`,
+`/work/friendship/`, `/work/alpha/`, `/work/envision/`, `/terms/` and `/privacy/` all 200 with their own titles; the three
+cards, case links, consent links and footer links resolve at the root path; nine team photos at 360 px; no broken images,
+no console errors, no review chrome; `www.` and `noahbra.github.io/fullschoolmarketing/*` redirect (301) to the domain;
+`noindex` still on. The review hub is unchanged.
+
 ## Revision October 31, 2026 (eighteenth): legal pages, three headshots, the contact note
 
 The project owner asked for terms and privacy pages the contact form can link to, in this site's formatting and more

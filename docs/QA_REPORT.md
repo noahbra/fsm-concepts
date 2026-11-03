@@ -43,6 +43,12 @@ the contact section (IntersectionObserver, rootMargin 100%), so nothing third-pa
 Same afternoon: the Work heading is "Schools discovered. Seats filled." (the project owner's call, on the brand owner's "Schools
 seen. Seats filled."; the test asserts it).
 
+Deployed November 3, 2026 (afternoon) on the project owner's word, with Version 3.7 and the heading, to both repos (review run
+41720337176, production run 41720362178). Live on fullschoolmarketing.com: the heading, Friendship's 1,022 leads over February to
+September 2025, the Aspire Math Field Day card, no frame at the top of the page and the LeadConnector frame once at Contact,
+biz@fullschoolmarketing.com on the terms page with the new intro, `/work/envision/` 404, no console errors. Against the live review
+site the 3.7, 3.8, legal, opener and hub tests pass in all four browsers (40 of 40).
+
 ## Revision November 3, 2026 (twentieth): contact email, Aspire card photograph
 
 The decision maker's notes on the live site, relayed November 3: the contact email should be biz@fullschoolmarketing.com;

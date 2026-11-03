@@ -755,6 +755,8 @@ test('Concept 06 Version 3.8: FilmTwist\'s own form is embedded, Friendship show
   expect(await frame.getAttribute('data-form-id')).toBe(LEADCONNECTOR_FORM);
   await expect.poll(() => page.locator('script[src="https://link.msgsndr.com/js/form_embed.js"]').count()).toBe(1);
   expect(await page.getByTestId('fsm-form').count()).toBe(0);
+  // the Work heading (November 3): no slang
+  await expect(page.locator('#work-title')).toHaveText('Schools discovered. Seats filled.');
   // Friendship's card carries the 2025 leads report figures; no card shows enrollments
   const friendship = page.getByTestId('case-study').filter({ hasText: 'Friendship' });
   await expect(friendship).toHaveCount(1);

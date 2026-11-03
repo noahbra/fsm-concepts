@@ -174,7 +174,7 @@ export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
       { note: 'Privacy page looks good', state: 'done', how: 'No change.' },
       { note: 'School logos and photos are good', state: 'done', how: 'Approved November 3. The "reuse approval pending" captions are off the case pages.' },
       { note: 'Aspire\'s thumbnail still shows the chalk photo', state: 'done', how: 'The Math Field Day photo was built the morning of November 3 and goes live with this version.' },
-      { note: '"Schools seen. Seats filled." preferred', state: 'not-done', how: 'The brand owner\'s pick. The heading changes when the decision maker calls it.' },
+      { note: '"Schools seen. Seats filled." preferred', state: 'done', how: 'The Work heading is now "Schools discovered. Seats filled." (November 3, the project owner\'s call on the brand owner\'s pick, with a stronger first word).' },
       { note: 'The contact form gave an error', state: 'done', how: 'The form service answered 429 to a real submission from the site\'s own form: it takes submissions only from FilmTwist\'s widget, which carries the service\'s bot check. FilmTwist\'s own form is embedded again, as on filmtwist.com/contact, so submissions go through. Its consent line links to the pages set in FilmTwist\'s form system; an FSM-styled form built there can replace it.' },
     ],
   },
@@ -183,7 +183,7 @@ export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
     items: [
       { note: 'Contact email should be biz@fullschoolmarketing.com', state: 'done', how: 'The terms and privacy pages now give biz@fullschoolmarketing.com wherever they name an email (November 3). The site shows no other address.' },
       { note: 'The Our Work thumbnails could be better, at least Aspire', state: 'done', how: 'The Aspire card now leads with the Math Field Day photograph, three students mid-build, in place of the chalk-drawing still, which had no faces; the still moves into the case page gallery. Friendship\'s card keeps its campaign ad and Alpha\'s its portrait.' },
-      { note: '"Schools that got seen. And chosen." reads as slang', state: 'not-done', how: 'Kept as is until the wording is decided. Two options went to the decision maker on November 3: "Schools seen. Seats filled." and "Great schools deserve to be seen. And chosen."' },
+      { note: '"Schools that got seen. And chosen." reads as slang', state: 'done', how: 'Now "Schools discovered. Seats filled." (November 3).' },
       { note: 'Where does the contact form go?', state: 'done', how: 'Submissions post straight to FilmTwist\'s own LeadConnector account, the same RFI Contact Form as filmtwist.com/contact; this site stores nothing. Where that form notifies is set in that account.' },
     ],
   },

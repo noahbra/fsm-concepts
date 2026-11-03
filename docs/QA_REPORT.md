@@ -40,6 +40,9 @@ failed one run in four on the preview (the opener's timeline runs on animation f
 3.8 s per run in isolation with or without the embed script). The frame now mounts only when the reader is within a screen of
 the contact section (IntersectionObserver, rootMargin 100%), so nothing third-party loads with the page itself.
 
+Same afternoon: the Work heading is "Schools discovered. Seats filled." (the project owner's call, on the brand owner's "Schools
+seen. Seats filled."; the test asserts it).
+
 ## Revision November 3, 2026 (twentieth): contact email, Aspire card photograph
 
 The decision maker's notes on the live site, relayed November 3: the contact email should be biz@fullschoolmarketing.com;

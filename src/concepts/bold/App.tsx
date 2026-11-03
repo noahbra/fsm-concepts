@@ -295,7 +295,7 @@ function Work() {
           <div>
             <span className="cr-eyebrow">Work</span>
             <h2 id="work-title" className="cr-h2">
-              Schools that got seen. <span className="cr-accent">And chosen.</span>
+              Schools discovered. <span className="cr-accent">Seats filled.</span>
             </h2>
           </div>
         </div>

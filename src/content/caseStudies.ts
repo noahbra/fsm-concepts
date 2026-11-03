@@ -79,13 +79,14 @@ export const caseStudies: CaseStudy[] = [
     sourceUrl: A,
     caption: 'FilmTwist-reported results, July 2022 to June 2023.',
     assetsReady: 'pending-approval',
-    hero: campaignMedia('aspire', 'classroom-photo', 'Two Aspire students drawing a large chalk numeral on blacktop', { sourceUrl: A, category: 'video-photo' }),
+    // Math Field Day leads the card since November 3, 2026 (the chalk still, faces down, read as weak against the other two cards).
+    hero: campaignMedia('aspire', 'math-field-day', 'Aspire students building a structure during Math Field Day', { sourceUrl: A, category: 'video-photo' }),
     gallery: [
       campaignMedia('aspire', 'social-ads-mockup', 'Phone mockups of Aspire Public Schools Facebook ad and Instagram grid', { sourceUrl: A, category: 'digital-ads', caption: 'Social ads' }),
       campaignMedia('aspire', 'mailer-and-bus-ads', 'Aspire mailer design examples and bus advertisement designs', { sourceUrl: A, category: 'print-ooh', caption: 'Mailers and bus ads' }),
       campaignMedia('aspire', 'playground-wide', 'Aspire students lined up on playground equipment, smiling', { sourceUrl: A, category: 'video-photo', caption: 'School photography' }),
       campaignMedia('aspire', 'student-portrait', 'Aspire student in a CHA hoodie writing at a desk', { sourceUrl: A, category: 'video-photo', caption: 'School photography' }),
-      campaignMedia('aspire', 'math-field-day', 'Aspire students building a structure during Math Field Day', { sourceUrl: A, category: 'enrollment', caption: 'Event coverage' }),
+      campaignMedia('aspire', 'classroom-photo', 'Two Aspire students drawing a large chalk numeral on blacktop', { sourceUrl: A, category: 'video-photo', caption: 'School photography' }),
       campaignMedia('aspire', 'graduation', 'Aspire graduate in cap and gown with a family member', { sourceUrl: A, category: 'video-photo', caption: 'Graduation' }),
       campaignMedia('aspire', 'sports-day', 'Aspire student crouched at a starting line on sports day', { sourceUrl: A, category: 'video-photo', caption: 'Sports day' }),
       campaignMedia('aspire', 'uniform-portrait', 'Two Aspire students in green uniforms at an outdoor event', { sourceUrl: A, category: 'enrollment', caption: 'Enrollment campaign' }),

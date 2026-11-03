@@ -19,6 +19,20 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision November 3, 2026 (twentieth): contact email, Aspire card photograph
+
+The decision maker's notes on the live site, relayed November 3: the contact email should be biz@fullschoolmarketing.com;
+the Our Work thumbnails could be better, at least Aspire's; "Schools that got seen. And chosen." reads as slang (a question
+to the brand owner and the project owner, left as is); where does the contact form go (answered: FilmTwist's own
+LeadConnector account, see CONTENT_AND_CLAIMS.md).
+
+Built: `siteConfig.legal.email` is biz@fullschoolmarketing.com, so every email mention on the terms and privacy pages
+follows (the site names no other address). The Aspire card and the reel's second tile lead with the Math Field Day
+photograph (three students mid-build, faces to camera) in place of the chalk-drawing still, which moves into the case
+page gallery with the caption "School photography". Hub: Version 3.7, with a new checklist round for the four notes.
+Tests: the legal-page test expects the new address and refuses the old one; a new test checks the Aspire card's
+photograph, that the still is off the home page, and that the case gallery holds the still once and the hero not at all.
+
 ## Revision November 2, 2026 (nineteenth): Alpha Public Schools in place of Envision Education
 
 The project owner asked what it would take to swap Envision out for an Alpha Public Schools case study, then ruled: swap,

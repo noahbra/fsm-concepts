@@ -127,7 +127,7 @@ export const siteConfig = {
 
   /** The site's own legal pages (src/content/legal.ts), adapted from filmtwist.com's published terms and privacy notice on
    *  October 31, 2026. The company facts below are those pages' own (entity and DBA from the privacy notice; address, phone
-   *  and email from the terms; the terms give the zip as 94804, the privacy notice as 94603, so 94804 is used, the one that
+   *  from the terms; the email is the FSM address, below; the terms give the zip as 94804, the privacy notice as 94603, so 94804 is used, the one that
    *  matches Richmond). The paths are relative to the Concept 06 root (bold/ on the review site, / on the production site).
    *  REQUIRES_CLIENT_CONFIRMATION: FilmTwist signs off the text and these facts before launch (docs/CONTENT_AND_CLAIMS.md). */
   legal: {
@@ -138,7 +138,8 @@ export const siteConfig = {
     dba: 'Filmtwist Creative Agency',
     address: ['911 Marina Way South, Studio E1', 'Richmond, CA 94804', 'United States'],
     phone: '+1 510-214-3415',
-    email: 'info@filmtwist.com',
+    /** Changed from the terms' info@filmtwist.com to the FSM address on November 3, 2026 at the client's request. */
+    email: 'biz@fullschoolmarketing.com',
     siteHost: 'fullschoolmarketing.com',
     updated: 'October 31, 2026',
   },

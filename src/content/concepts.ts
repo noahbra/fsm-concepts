@@ -158,13 +158,22 @@ export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
 ];
 
 /** The current direction's version label and the checklist of reviewer notes it answers, shown on the hub. No names. */
-export const currentVersion = { label: 'Concept 06c (Version 3.6)', date: 'November 2, 2026' };
+export const currentVersion = { label: 'Concept 06c (Version 3.7)', date: 'November 3, 2026' };
 /** Earlier versions of Concept 06, each a frozen build of the commit the client reviewed, served at its own address without review chrome. */
 export const previousVersions: { label: string; detail: string; path: string }[] = [
   { label: 'Concept 06a', detail: 'Version 1, October 28', path: '6a/bold/' },
   { label: 'Concept 06b', detail: 'Version 2, October 29', path: '6b/bold/' },
 ];
 export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
+  {
+    round: 'Notes on the live site, November 3',
+    items: [
+      { note: 'Contact email should be biz@fullschoolmarketing.com', state: 'done', how: 'The terms and privacy pages now give biz@fullschoolmarketing.com wherever they name an email (November 3). The site shows no other address.' },
+      { note: 'The Our Work thumbnails could be better, at least Aspire', state: 'done', how: 'The Aspire card now leads with the Math Field Day photograph, three students mid-build, in place of the chalk-drawing still, which had no faces; the still moves into the case page gallery. Friendship\'s card keeps its campaign ad and Alpha\'s its portrait.' },
+      { note: '"Schools that got seen. And chosen." reads as slang', state: 'not-done', how: 'Kept as is until the wording is decided. Alternatives are with the project owner.' },
+      { note: 'Where does the contact form go?', state: 'done', how: 'Submissions post straight to FilmTwist\'s own LeadConnector account, the same RFI Contact Form as filmtwist.com/contact; this site stores nothing. Where that form notifies is set in that account.' },
+    ],
+  },
   {
     round: 'Reviews of Version 3, October 30',
     items: [

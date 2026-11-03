@@ -774,6 +774,22 @@ test('Concept 06 reel: every tile, including the off-screen ones, has its image 
   expect(await page.locator('.cr-reel img').count()).toBeGreaterThanOrEqual(10);
 });
 
+test('Concept 06 Version 3.7: the Aspire card leads with the Math Field Day photograph', async ({ page }) => {
+  const errors = watch(page);
+  await page.goto('bold/');
+  await settle(page);
+  const first = page.getByTestId('case-study').first();
+  await expect(first).toContainText('Aspire Public Schools');
+  await expect(first.locator('img').first()).toHaveAttribute('src', /\/campaigns\/aspire\/math-field-day-/);
+  expect(await page.locator('img[src*="/campaigns/aspire/classroom-photo-"]').count(), 'the chalk still on the home page').toBe(0);
+  // the still is in the case page gallery, once
+  await page.goto('bold/work/aspire/');
+  await settle(page);
+  expect(await page.locator('[data-testid="case-gallery"] img[src*="/campaigns/aspire/classroom-photo-"]').count()).toBe(1);
+  expect(await page.locator('[data-testid="case-gallery"] img[src*="/campaigns/aspire/math-field-day-"]').count(), 'the hero repeated in the gallery').toBe(0);
+  expect(errors, errors.join('\n')).toEqual([]);
+});
+
 test('Concept 06: Envision is archived, off the cards and the reel but still served at bold/work/envision/', async ({ page }) => {
   const errors = watch(page);
   await page.goto('bold/');
@@ -837,7 +853,8 @@ test('Concept 06 legal pages: the form and the footer link to this site\'s own t
     for (const bad of ['New Mexico', 'Brussels', 'European Arbitration', 'homecare', 'medical advice', 'Termly', 'filmtwist.com/privacy-policy', '__', '[', ']('] ) expect(text, bad).not.toContain(bad);
     expect(text.match(/[A-Z]{12,}/), 'no all-capitals runs').toBeNull();
     expect(text).toContain('California');
-    expect(text).toContain('info@filmtwist.com');
+    expect(text).toContain('biz@fullschoolmarketing.com');
+    expect(text, 'the agency address is off the legal pages').not.toContain('info@filmtwist.com');
     expect(errors, errors.join('\n')).toEqual([]);
   }
 });

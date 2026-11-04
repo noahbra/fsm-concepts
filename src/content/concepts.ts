@@ -158,7 +158,7 @@ export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
 ];
 
 /** The current direction's version label and the checklist of reviewer notes it answers, shown on the hub. No names. */
-export const currentVersion = { label: 'Concept 06c (Version 3.10)', date: 'November 4, 2026' };
+export const currentVersion = { label: 'Concept 06c (Version 3.11)', date: 'November 4, 2026' };
 /** Earlier versions of Concept 06, each a frozen build of the commit the client reviewed, served at its own address without review chrome. */
 export const previousVersions: { label: string; detail: string; path: string }[] = [
   { label: 'Concept 06a', detail: 'Version 1, October 28', path: '6a/bold/' },
@@ -168,6 +168,7 @@ export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
   {
     round: 'The contact form, November 4',
     items: [
+      { note: 'Take the "Figures and creative are from the published FilmTwist case study" line off the case pages', state: 'done', how: 'Removed from all three case pages. The Source link under each card\'s number stays for now.' },
       { note: 'Aspire\'s card: lead with the playground photograph', state: 'done', how: 'The Aspire card and its reel tile now lead with the eight students on the playground equipment, the widest photograph in the set (the card shows its middle at 4:3; the reel and the case page show the full frame). Math Field Day moves to the case page gallery.' },
       { note: 'FilmTwist\'s embedded form arrives in FilmTwist\'s styling and cannot be restyled for this site', state: 'done', how: 'The site\'s own form is back (white card, green button), with the same fields as FilmTwist\'s RFI Contact Form. Each submission becomes a row in a Google Sheet the project owner holds and shares with FilmTwist, and an email to the team. FilmTwist\'s widget returns the day an FSM-styled copy of the form exists in their form builder.' },
     ],

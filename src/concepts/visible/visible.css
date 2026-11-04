@@ -253,7 +253,6 @@ section.services, section.work, section.team, section.contact { padding: 5.5rem 
 .case-page__cta { background: var(--fsm-blue-tint); border-radius: var(--s-radius); padding: 2.5rem; display: grid; gap: 1rem; justify-items: start; }
 .case-page__cta p { max-width: 46rem; }
 .case-page__nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
-.case-page__source { font-size: .9rem; color: var(--s-muted); }
 @media (max-width: 759px) { .case-page__cta { padding: 1.5rem; } }
 
 /* the reveal: photos only, never text. Pre-state exists only once the script says so (html.reveal-ready). */

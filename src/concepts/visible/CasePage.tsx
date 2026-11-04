@@ -1,7 +1,6 @@
 import { SkipLink } from '../../components/SkipLink';
 import { ReviewPill, ReviewRibbon } from '../../components/ReviewChrome';
 import { ResponsiveMedia } from '../../components/ResponsiveMedia';
-import { SourceLink } from '../../components/CaseStudyProof';
 import { caseStudies, proofDisclaimer, type CaseStudy } from '../../content/caseStudies';
 import { services } from '../../content/services';
 import { siteConfig } from '../../content/config';
@@ -85,9 +84,6 @@ export function CasePage({ c }: { c: CaseStudy }) {
             <a className="textlink" href={`../${next.id}/`} data-testid="case-next">Next: {next.shortName}</a>
           </nav>
 
-          <p className="wrap case-page__source">
-            Figures and creative are from <SourceLink c={c} className="textlink">the published FilmTwist case study</SourceLink>.
-          </p>
         </article>
       </main>
       <SiteFooter home={HOME} />

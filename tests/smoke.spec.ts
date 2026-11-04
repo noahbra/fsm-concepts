@@ -380,8 +380,8 @@ for (const id of CASES) {
     await expect(page.locator('h1')).toHaveCount(1);
     await expect(page.locator('h1')).toHaveText(SCHOOLS.find((s) => s.toLowerCase().startsWith(id === 'friendship' ? 'friendship' : id))!);
     expect(await page.getByTestId('case-metrics').locator('li').count()).toBeGreaterThanOrEqual(3);
-    const src = await page.locator('.case-page__source a[href^="https://www.filmtwist.com/work/"]').getAttribute('href');
-    expect(SOURCES, `source ${src}`).toContain(src!);
+    expect(await page.locator('.case-page__source').count(), 'the source footnote (off since November 4)').toBe(0);
+    expect(await page.locator('body').innerText()).not.toContain('Figures and creative are from');
     const imgs = page.getByTestId('case-gallery').locator('img');
     expect(await imgs.count()).toBeGreaterThanOrEqual(3);
     for (let i = 0; i < await imgs.count(); i++) {
@@ -549,15 +549,15 @@ test('Concept 06: one H1, what we do right under the reel, no figure above the c
 });
 
 for (const id of CASES) {
-  test(`Concept 06 case page ${id}: the published campaign on this site, every figure with its source, creative that loads`, async ({ page }) => {
+  test(`Concept 06 case page ${id}: the published campaign on this site, no source footnote, creative that loads`, async ({ page }) => {
     const errors = watch(page);
     await page.goto(`bold/work/${id}/`);
     await settle(page);
     await expect(page.locator('h1')).toHaveCount(1);
     await expect(page.locator('h1')).toHaveText(SCHOOLS.find((s) => s.toLowerCase().startsWith(id === 'friendship' ? 'friendship' : id))!);
     expect(await page.getByTestId('case-metrics').locator('li').count()).toBeGreaterThanOrEqual(3);
-    const src = await page.getByTestId('case-source').locator('a[href^="https://www.filmtwist.com/work/"]').getAttribute('href');
-    expect(SOURCES, `source ${src}`).toContain(src!);
+    expect(await page.getByTestId('case-source').count(), 'the source footnote (off since November 4)').toBe(0);
+    expect(await page.locator('body').innerText()).not.toContain('Figures and creative are from');
     const imgs = page.getByTestId('case-gallery').locator('img');
     expect(await imgs.count()).toBeGreaterThanOrEqual(3);
     for (let i = 0; i < await imgs.count(); i++) {

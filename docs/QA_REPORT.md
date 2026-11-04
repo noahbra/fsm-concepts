@@ -19,6 +19,15 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision November 4, 2026 (twenty-fourth): the case page footnote comes off
+
+The project owner's ruling ("remove all of these foot notes"). The line "Figures and creative are from the published
+FilmTwist case study" at the bottom of every case page is removed from both case page templates (Concept 06 and Concept 05)
+with its styles and the SourceLink import; the card-level Source link under each headline number stays. Tests: the case page
+tests (both concepts, three cases, four browsers) now assert the footnote is absent instead of reading its link. Hub Version 3.11.
+MEASURED November 4, 2026, 11:35 AM: case page, hub and version tests on the preview 64 passed, 0 failed (50 s, four browsers);
+production build clean, no bundle carries the footnote text. Capture `scratchpad/r19/v311-friendship-bottom.png`.
+
 ## Revision November 4, 2026 (twenty-third): the Aspire card leads with the playground photograph
 
 The project owner's pick. The Aspire card, its reel tile and the case page hero now carry the playground group (Group 279,

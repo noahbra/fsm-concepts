@@ -133,6 +133,14 @@ The merged direction introduces three pieces of copy that the first four concept
 | Case-study pages | `visible/work/{aspire,friendship,alpha}/` | Every figure, descriptor, story line and image is the same record as the cards (`caseStudies.ts`), with the published source cited at the foot of each page. No new claims. | As the case studies |
 | Hub checklist wording | Hub, "What Version 2 addresses" | Paraphrases of the 10/27 reviewer notes and the 10/28 asks, no names, no ratings. | Internal review copy |
 
+## Concept 06 Version 3.11 (November 4, 2026): the case page footnote comes off
+
+Source: the project owner, November 4, 2026 ("remove all of these foot notes").
+
+| Claim or asset | Where | Basis | Status |
+|---|---|---|---|
+| Case page footnote "Figures and creative are from the published FilmTwist case study" | Bottom of each case page (`bold/work/*`, production `/work/*`; Concept 05's pages likewise) | Removed on the project owner's ruling, as the three on-page provenance footnotes were on October 31. The card-level Source link under each headline number stays (its Friendship fate is with the brand owner). This register keeps the source for every figure and image. | Removed |
+
 ## Concept 06 Version 3.10 (November 4, 2026): Aspire card photograph
 
 Source: the project owner, November 4, 2026 ("use the photo of the kids at the playground equipment as the thumbnail for Aspire").

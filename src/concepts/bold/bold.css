@@ -299,8 +299,6 @@
 .cr-casepage-cta .cr-h1--cta { margin: 0; max-width: 14ch; }
 .cr-casepage-cta p { margin: 0; font-size: 1.1rem; max-width: 46ch; color: rgba(255,255,255,.92); }
 .cr-casepage-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-top: 2.5rem; }
-.cr-casepage-source { font-size: .9rem; color: #555; margin: 2rem auto 0; }
-.cr-casepage-source a { color: var(--fsm-blue-deep); }
 
 /* ---- legal pages (bold/terms/, bold/privacy/): one document, read top to bottom, a contents list beside it ---- */
 .cr-legal-head { padding-bottom: clamp(2.5rem, 5vw, 4rem); }

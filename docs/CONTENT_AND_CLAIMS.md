@@ -133,6 +133,14 @@ The merged direction introduces three pieces of copy that the first four concept
 | Case-study pages | `visible/work/{aspire,friendship,alpha}/` | Every figure, descriptor, story line and image is the same record as the cards (`caseStudies.ts`), with the published source cited at the foot of each page. No new claims. | As the case studies |
 | Hub checklist wording | Hub, "What Version 2 addresses" | Paraphrases of the 10/27 reviewer notes and the 10/28 asks, no names, no ratings. | Internal review copy |
 
+## Concept 06 Version 3.10 (November 4, 2026): Aspire card photograph
+
+Source: the project owner, November 4, 2026 ("use the photo of the kids at the playground equipment as the thumbnail for Aspire").
+
+| Claim or asset | Where | Basis | Status |
+|---|---|---|---|
+| Aspire card photograph: the playground group | Aspire card, the reel's Aspire tile, the case page hero | The playground photograph from the same published case (Group 279, 1,454 by 577, served at 1,400) leads the card in place of Math Field Day, which moves to the gallery slot it leaves (caption "School photography"). The card frame is 4:3, so it shows the middle of the wide frame (about four of the eight students); the reel tile and the case page show the whole frame. No new asset; the set was approved by the brand owner on November 3. | Built |
+
 ## Concept 06 Version 3.9 (November 4, 2026): the site's own contact form, backed by a Google Sheet
 
 Source: the project owner's rulings of November 4, 2026 ("we can't use the FSM-style contact form and wire it to the FilmTwist form, the formatting class doesn't work"; then "go, I'll own the form for now and share it with them").

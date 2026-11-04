@@ -723,19 +723,24 @@ test('Concept 06 reel: every tile, including the off-screen ones, has its image 
   expect(await page.locator('.cr-reel img').count()).toBeGreaterThanOrEqual(10);
 });
 
-test('Concept 06 Version 3.7: the Aspire card leads with the Math Field Day photograph', async ({ page }) => {
+test('Concept 06 Version 3.10: the Aspire card leads with the playground photograph', async ({ page }) => {
   const errors = watch(page);
   await page.goto('bold/');
   await settle(page);
   const first = page.getByTestId('case-study').first();
   await expect(first).toContainText('Aspire Public Schools');
-  await expect(first.locator('img').first()).toHaveAttribute('src', /\/campaigns\/aspire\/math-field-day-/);
+  await expect(first.locator('img').first()).toHaveAttribute('src', /\/campaigns\/aspire\/playground-wide-/);
+  // the wide frame fills the 4:3 card (the picture element must be block-level or the image leaves a gap below it)
+  const fill = await first.locator('.cr-case-media').evaluate((a) => { const img = a.querySelector('img')!; return { box: a.getBoundingClientRect().height, img: img.getBoundingClientRect().height }; });
+  expect(Math.abs(fill.box - fill.img), `card ${fill.box}px, image ${fill.img}px`).toBeLessThan(2);
   expect(await page.locator('img[src*="/campaigns/aspire/classroom-photo-"]').count(), 'the chalk still on the home page').toBe(0);
+  expect(await page.locator('.cr-case-media img[src*="/campaigns/aspire/math-field-day-"]').count(), 'Math Field Day on a card').toBe(0);
   // the still is in the case page gallery, once
   await page.goto('bold/work/aspire/');
   await settle(page);
   expect(await page.locator('[data-testid="case-gallery"] img[src*="/campaigns/aspire/classroom-photo-"]').count()).toBe(1);
-  expect(await page.locator('[data-testid="case-gallery"] img[src*="/campaigns/aspire/math-field-day-"]').count(), 'the hero repeated in the gallery').toBe(0);
+  expect(await page.locator('[data-testid="case-gallery"] img[src*="/campaigns/aspire/math-field-day-"]').count(), 'Math Field Day in the gallery').toBe(1);
+  expect(await page.locator('[data-testid="case-gallery"] img[src*="/campaigns/aspire/playground-wide-"]').count(), 'the hero repeated in the gallery').toBe(0);
   expect(errors, errors.join('\n')).toEqual([]);
 });
 

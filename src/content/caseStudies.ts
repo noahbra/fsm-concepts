@@ -78,12 +78,13 @@ export const caseStudies: CaseStudy[] = [
     sourceUrl: A,
     caption: 'FilmTwist-reported results, July 2022 to June 2023.',
     assetsReady: 'approved', // campaign photos approved by the brand owner, November 3, 2026
-    // Math Field Day leads the card since November 3, 2026 (the chalk still, faces down, read as weak against the other two cards).
-    hero: campaignMedia('aspire', 'math-field-day', 'Aspire students building a structure during Math Field Day', { sourceUrl: A, category: 'video-photo' }),
+    // The playground group leads the card since November 4, 2026 (the project owner's pick); Math Field Day led it on November 3
+    // (the chalk still before that, faces down, read as weak against the other two cards). Note the card crops the wide frame to 4:3.
+    hero: campaignMedia('aspire', 'playground-wide', 'Aspire students lined up on playground equipment, smiling', { sourceUrl: A, category: 'video-photo' }),
     gallery: [
       campaignMedia('aspire', 'social-ads-mockup', 'Phone mockups of Aspire Public Schools Facebook ad and Instagram grid', { sourceUrl: A, category: 'digital-ads', caption: 'Social ads' }),
       campaignMedia('aspire', 'mailer-and-bus-ads', 'Aspire mailer design examples and bus advertisement designs', { sourceUrl: A, category: 'print-ooh', caption: 'Mailers and bus ads' }),
-      campaignMedia('aspire', 'playground-wide', 'Aspire students lined up on playground equipment, smiling', { sourceUrl: A, category: 'video-photo', caption: 'School photography' }),
+      campaignMedia('aspire', 'math-field-day', 'Aspire students building a structure during Math Field Day', { sourceUrl: A, category: 'video-photo', caption: 'School photography' }),
       campaignMedia('aspire', 'student-portrait', 'Aspire student in a CHA hoodie writing at a desk', { sourceUrl: A, category: 'video-photo', caption: 'School photography' }),
       campaignMedia('aspire', 'classroom-photo', 'Two Aspire students drawing a large chalk numeral on blacktop', { sourceUrl: A, category: 'video-photo', caption: 'School photography' }),
       campaignMedia('aspire', 'graduation', 'Aspire graduate in cap and gown with a family member', { sourceUrl: A, category: 'video-photo', caption: 'Graduation' }),

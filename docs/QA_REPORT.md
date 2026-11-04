@@ -19,6 +19,20 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision November 4, 2026 (twenty-third): the Aspire card leads with the playground photograph
+
+The project owner's pick. The Aspire card, its reel tile and the case page hero now carry the playground group (Group 279,
+1,454 by 577, served at 1,400 and 700) in place of Math Field Day, which takes the gallery slot the playground photo leaves.
+The wide frame exposed a card defect: the `<picture>` inside the 4:3 card link was inline, so the image kept its own height and
+left the card's blue surface showing below it (the earlier card photos were near 4:3 and hid it). Fixed in `bold.css`: the
+picture is block-level at the frame's size, and the cover crop is anchored to the top so the Friendship card keeps the crop the
+brand owner approved on November 3 (logo strip and the two students). The Aspire card shows the middle six of the eight
+students at 1440 and on a phone. The Version 3.7 card test became the Version 3.10 test (playground on the card, Math Field Day
+once in the gallery, the chalk still off the home page) and now asserts the card image fills its frame within 2 px. Hub
+Version 3.10. MEASURED November 4, 2026, 10:55 AM: Concept 05, Concept 06, version and hub tests on the preview 92 passed, 0
+failed (1.4 min, four browsers, before the fill fix); the Version 3.10 test after the fix 4 passed; production build clean.
+Captures `scratchpad/r19/v310-work-desktop.png`, `v310-aspire-card-mobile.png`, `v310-aspire-page.png`.
+
 ## Revision November 4, 2026 (twenty-second): the site's own form, backed by a Google Sheet
 
 The project owner ruled November 4 that FilmTwist's embedded form cannot be restyled for this site (it is a cross-origin frame

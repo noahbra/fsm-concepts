@@ -35,8 +35,8 @@ watermark or credit was removed; none existed on the files. Not hotlinked.
 | --- | --- | --- | --- | --- |
 | aspire | classroom-photo | AspireCHA-22-min.jpg | Students drawing on blacktop | 01 hero, 02 gallery, 03/04 case cards; 06 gallery only since November 3, 2026 |
 | aspire | student-portrait | AspireCHA-44 (3)-min.jpg | Student writing | 02 gallery |
-| aspire | math-field-day | 030423-Aspire-MathFieldDay-5 (2)-min.jpg | Students building | 02 gallery; 06 card and reel since November 3, 2026 |
-| aspire | playground-wide | Group 279 (1).jpg | Students on playground | 01 case card, 02 collage |
+| aspire | math-field-day | 030423-Aspire-MathFieldDay-5 (2)-min.jpg | Students building | 02 gallery; 06 card and reel November 3 to 4, 2026, 06 gallery since |
+| aspire | playground-wide | Group 279 (1).jpg | Students on playground | 01 case card, 02 collage; 06 card, reel and case page hero since November 4, 2026 |
 | aspire | social-ads-mockup | Frame 101... (Frame 100 (2).png) | Facebook ad + Instagram grid phone mockups | 02 hero/gallery (digital ads) |
 | aspire | mailer-and-bus-ads | Frame 101.png | Mailer and bus ad designs | 02 gallery (print and OOH) |
 | aspire | uniform-portrait, sports-day, graduation | Mask group (1), (2), (3).jpg | Event photography | 02 gallery |

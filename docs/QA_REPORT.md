@@ -35,7 +35,11 @@ markup. MEASURED November 4, 2026, 10:15 AM: the project owner deployed the scri
 URL answers "FSM inquiry receiver is up" and is set in `config.ts`. One real submission from the built site in a headless browser
 (a row marked TEST) got the 302 and `{"ok":true}`, showed the thank-you with no console errors, appeared on the Inquiries tab
 within a second with Notified "sent to" the Settings B1 address, and the notification email arrived in that inbox. Version 3.9
-tests 8 passed on the rebuilt preview; production build clean with the real URL in the bundle.
+tests 8 passed on the rebuilt preview; production build clean with the real URL in the bundle. DEPLOYED November 4, 2026, 10:25 AM on the project owner's word: review run 41885906862 and production run 41885911639
+both success (the production Pages stuck state from November 3 cleared; a manual redeploy of the live commit, run 41885607936, went
+through first). MEASURED 10:30 AM live: the production Chrome bundle carries the receiver URL and no widget markup, the page has no
+iframe, the privacy bundle carries the spreadsheet sentence, the hub bundle reads Concept 06c (Version 3.9); Version 3.9 and legal
+tests against the live review site 12 passed, 0 failed, four browsers.
 
 ## Revision November 3, 2026 (twenty-first): the brand owner's sign-off notes
 

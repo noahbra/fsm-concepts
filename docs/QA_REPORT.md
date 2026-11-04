@@ -32,6 +32,11 @@ once in the gallery, the chalk still off the home page) and now asserts the card
 Version 3.10. MEASURED November 4, 2026, 10:55 AM: Concept 05, Concept 06, version and hub tests on the preview 92 passed, 0
 failed (1.4 min, four browsers, before the fill fix); the Version 3.10 test after the fix 4 passed; production build clean.
 Captures `scratchpad/r19/v310-work-desktop.png`, `v310-aspire-card-mobile.png`, `v310-aspire-page.png`.
+DEPLOYED November 4, 2026, 10:43 AM on the project owner's word: review run 41889845020 success; production run 41889865231
+failed once at deploy-pages with the November 3 stale-state error ("in progress deployment" naming the previous, finished
+deployment) and succeeded on a rerun of the failed job at 10:46 AM. MEASURED 10:50 AM live at fullschoolmarketing.com: new
+bundle hashes, the Aspire card renders playground-wide-700.webp loaded and filling its frame (316.5 px box, 316.5 px image at
+1440); Version 3.10 and 3.8 tests against the live review site 4 passed.
 
 ## Revision November 4, 2026 (twenty-second): the site's own form, backed by a Google Sheet
 

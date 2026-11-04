@@ -64,7 +64,7 @@ export const siteConfig = {
    *  appends a row and emails the addresses on the sheet's Settings tab; this site stores nothing. The web app URL is what any
    *  form endpoint is, public by design; the script holds no secrets. REQUIRES_CLIENT_CONFIRMATION (one real submission). */
   inquiryForm: {
-    endpoint: 'https://script.google.com/macros/s/REPLACE-WITH-THE-WEB-APP-ID/exec',
+    endpoint: 'https://script.google.com/macros/s/AKfycbww-t7912ykCN0rXghXhOMWwzS9HDw9xT4SezGfIQuB4U_iAJk18HwyHVN9wO_tiAgq/exec',
     /** The script drops submissions faster than this (seconds since the form was shown; the page sends `seconds`). */
     minSeconds: 3,
     /** The same option lists as FilmTwist's RFI Contact Form, verbatim (read from the widget configuration 10/28/2026). */

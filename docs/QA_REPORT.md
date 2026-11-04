@@ -31,8 +31,11 @@ post (no preflight), the twelve payload keys and values, the thank-you on ok, th
 the script's own error text on an ok:false reply. The legal pages' `updated` date (shared by both documents) is November 4, 2026; the
 legal test asserts it. MEASURED November 4, 2026, 8:05 AM: typecheck clean; review build clean; full suite on the preview 320 passed, 0
 failed (3.3 min, four browsers); production build clean (`SITE=fsm`), its bundle carries the form and the receiver URL and no widget
-markup. The endpoint in `config.ts` is a placeholder until the project owner deploys the script; the real end-to-end submission
-follows that, before deploy.
+markup. MEASURED November 4, 2026, 10:15 AM: the project owner deployed the script as a web app (Version 1, access Anyone); its
+URL answers "FSM inquiry receiver is up" and is set in `config.ts`. One real submission from the built site in a headless browser
+(a row marked TEST) got the 302 and `{"ok":true}`, showed the thank-you with no console errors, appeared on the Inquiries tab
+within a second with Notified "sent to" the Settings B1 address, and the notification email arrived in that inbox. Version 3.9
+tests 8 passed on the rebuilt preview; production build clean with the real URL in the bundle.
 
 ## Revision November 3, 2026 (twenty-first): the brand owner's sign-off notes
 

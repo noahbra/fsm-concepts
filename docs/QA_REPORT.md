@@ -29,6 +29,10 @@ The Version 3.10 card test became the Version 3.12 test and also asserts the Fri
 no Friendship ad sits on a card, and the Woodridge ad appears once in the case page gallery. Hub Version 3.12. MEASURED
 November 4, 2026, 11:55 AM: version, case page, reel, hub and Concept 05 tests on the preview 84 passed, 0 failed (1.1 min, four
 browsers); production build clean. Captures `scratchpad/r19/v312-work-desktop.png`, `v312-work-mobile.png`.
+DEPLOYED November 4, 2026, 12:05 PM on the project owner's word, together with Version 3.11: review run 41898811016 and production
+run 41898815777 both success on the first try. MEASURED 12:10 PM live at fullschoolmarketing.com: the three cards render
+playground-wide-700.webp, classroom-group-700.webp and student-smiling-870.webp, each loaded and filling its frame; the three
+case pages carry no source footnote; Version 3.12 and case page tests against the live review site 28 passed, 0 failed.
 
 ## Revision November 4, 2026 (twenty-fourth): the case page footnote comes off
 

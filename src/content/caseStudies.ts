@@ -121,13 +121,15 @@ export const caseStudies: CaseStudy[] = [
     sourceUrl: F,
     caption: 'FilmTwist-reported results from the 2025 leads campaign, February to September 2025.',
     assetsReady: 'approved', // campaign photos approved by the brand owner, November 3, 2026
-    hero: campaignMedia('friendship', 'ad-education-starts-at-woodridge', 'Friendship PCS ad: two smiling students with the headline Education starts at Woodridge', { sourceUrl: F, category: 'digital-ads' }),
+    // The classroom photograph leads the card since November 4, 2026 (the project owner's pick): the Woodridge ad exists only at
+    // 686 px and its type and logo went soft on large screens. It moves to the gallery.
+    hero: campaignMedia('friendship', 'classroom-group', 'Friendship PCS students and teacher gathered in a classroom, waving', { sourceUrl: F, category: 'video-photo' }),
     gallery: [
+      campaignMedia('friendship', 'ad-education-starts-at-woodridge', 'Friendship PCS ad: two smiling students with the headline Education starts at Woodridge', { sourceUrl: F, category: 'digital-ads', caption: 'Digital ad' }),
       campaignMedia('friendship', 'ad-learn-and-make-memories', 'Friendship PCS ad with a young cheerleader framed in a phone screen: Learn and make memories', { sourceUrl: F, category: 'digital-ads', caption: 'Digital ad' }),
       campaignMedia('friendship', 'ad-innovation-in-education', 'Friendship PCS ad: three young students painting, headline Innovation in Education', { sourceUrl: F, category: 'digital-ads', caption: 'Digital ad' }),
       campaignMedia('friendship', 'transit-shelter-and-rail-poster', 'Friendship PCS transit shelter ad designs and 2-sheet rail poster', { sourceUrl: F, category: 'print-ooh', caption: 'Transit shelter ads and rail poster' }),
       campaignMedia('friendship', 'direct-mail', 'Friendship PCS direct mail designs with Apply Today headline', { sourceUrl: F, category: 'print-ooh', caption: 'Direct mail' }),
-      campaignMedia('friendship', 'classroom-group', 'Friendship PCS students and teacher gathered in a classroom, waving', { sourceUrl: F, category: 'enrollment', caption: 'Enrollment campaign' }),
     ],
     tags: ['enrollment', 'digital-ads', 'print-ooh'],
   },

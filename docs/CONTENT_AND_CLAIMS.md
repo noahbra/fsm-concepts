@@ -133,6 +133,14 @@ The merged direction introduces three pieces of copy that the first four concept
 | Case-study pages | `visible/work/{aspire,friendship,alpha}/` | Every figure, descriptor, story line and image is the same record as the cards (`caseStudies.ts`), with the published source cited at the foot of each page. No new claims. | As the case studies |
 | Hub checklist wording | Hub, "What Version 2 addresses" | Paraphrases of the 10/27 reviewer notes and the 10/28 asks, no names, no ratings. | Internal review copy |
 
+## Concept 06 Version 3.12 (November 4, 2026): Friendship card photograph
+
+Source: the project owner, November 4, 2026 (the ad's "typeface and logo look pixelated when on large screen"; "use cr photo").
+
+| Claim or asset | Where | Basis | Status |
+|---|---|---|---|
+| Friendship card photograph: the classroom group | Friendship card, the reel's Friendship tile, the case page hero | The classroom photograph from the published case (Frame 117, served at 1,400 and 700) leads in place of the "Education starts at Woodridge" ad, which FilmTwist publishes only at 686 px and which the card scaled past its size. The ad takes the first gallery slot (caption "Digital ad"). It is the only plain photograph among the six images on FilmTwist's Friendship page (three ads, two print composites); full-size campaign photography is FilmTwist's to supply if they want a different one. No new asset; the set was approved by the brand owner on November 3. | Built |
+
 ## Concept 06 Version 3.11 (November 4, 2026): the case page footnote comes off
 
 Source: the project owner, November 4, 2026 ("remove all of these foot notes").

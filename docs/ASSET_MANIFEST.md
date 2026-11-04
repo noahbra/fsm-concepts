@@ -40,8 +40,8 @@ watermark or credit was removed; none existed on the files. Not hotlinked.
 | aspire | social-ads-mockup | Frame 101... (Frame 100 (2).png) | Facebook ad + Instagram grid phone mockups | 02 hero/gallery (digital ads) |
 | aspire | mailer-and-bus-ads | Frame 101.png | Mailer and bus ad designs | 02 gallery (print and OOH) |
 | aspire | uniform-portrait, sports-day, graduation | Mask group (1), (2), (3).jpg | Event photography | 02 gallery |
-| friendship | classroom-group | Frame 117.jpg | Students and teacher | 02 gallery, 03/04 |
-| friendship | ad-learn-and-make-memories, ad-innovation-in-education, ad-education-starts-at-woodridge | 2023 Woodridge Ad Angles 1/(1)/(2)-min.jpg | Three square digital ads | 01/02/03/04 case cards and hero collage |
+| friendship | classroom-group | Frame 117.jpg | Students and teacher | 02 gallery, 03/04; 06 card, reel and case page hero since November 4, 2026 |
+| friendship | ad-learn-and-make-memories, ad-innovation-in-education, ad-education-starts-at-woodridge | 2023 Woodridge Ad Angles 1/(1)/(2)-min.jpg | Three square digital ads | 01/02/03/04 case cards and hero collage; 06 card and reel until November 4, 2026, 06 gallery since |
 | friendship | transit-shelter-and-rail-poster | Group 298 (1)-min.png | Transit shelter ads and 2-sheet rail poster | 02 gallery |
 | friendship | direct-mail | Frame 1000004615 (2)-min.png | Direct mail designs | 02 gallery |
 | envision | students-trio, hug, campus-atrium, graduation-speaker, college-pennants, students-outdoor, graduate, classroom-laptop, teacher-and-students | EnvisionAcademyMG-136/-24, EnvisionAcademy2025-14, EnvisionCALGrad-346, Envision-EA+IA-148, Invision_10_18_22_0086, EnvisionSFGradTeasers-9, EnvisionAcademy-Teasers-9/-10 | School photography | Case cards, galleries; removed November 3, 2026 with the case (files deleted) |

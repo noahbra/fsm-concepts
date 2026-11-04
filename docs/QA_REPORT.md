@@ -19,6 +19,17 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision November 4, 2026 (twenty-fifth): the Friendship card leads with the classroom photograph
+
+The project owner's pick after seeing the "Education starts at Woodridge" ad soft on a large screen: FilmTwist publishes
+that ad only at 686 px and the 4:3 card scales it past its size. The Friendship card, its reel tile and the case page hero now
+carry the classroom photograph (Frame 117, served at 1,400 and 700), the one plain photograph among the six images on the
+published Friendship page; the ad takes the first gallery slot at its own size. The three cards are now three photographs.
+The Version 3.10 card test became the Version 3.12 test and also asserts the Friendship card leads with the classroom photo,
+no Friendship ad sits on a card, and the Woodridge ad appears once in the case page gallery. Hub Version 3.12. MEASURED
+November 4, 2026, 11:55 AM: version, case page, reel, hub and Concept 05 tests on the preview 84 passed, 0 failed (1.1 min, four
+browsers); production build clean. Captures `scratchpad/r19/v312-work-desktop.png`, `v312-work-mobile.png`.
+
 ## Revision November 4, 2026 (twenty-fourth): the case page footnote comes off
 
 The project owner's ruling ("remove all of these foot notes"). The line "Figures and creative are from the published

@@ -723,7 +723,7 @@ test('Concept 06 reel: every tile, including the off-screen ones, has its image 
   expect(await page.locator('.cr-reel img').count()).toBeGreaterThanOrEqual(10);
 });
 
-test('Concept 06 Version 3.10: the Aspire card leads with the playground photograph', async ({ page }) => {
+test('Concept 06 Version 3.12: the Aspire and Friendship cards lead with photographs', async ({ page }) => {
   const errors = watch(page);
   await page.goto('bold/');
   await settle(page);
@@ -735,12 +735,20 @@ test('Concept 06 Version 3.10: the Aspire card leads with the playground photogr
   expect(Math.abs(fill.box - fill.img), `card ${fill.box}px, image ${fill.img}px`).toBeLessThan(2);
   expect(await page.locator('img[src*="/campaigns/aspire/classroom-photo-"]').count(), 'the chalk still on the home page').toBe(0);
   expect(await page.locator('.cr-case-media img[src*="/campaigns/aspire/math-field-day-"]').count(), 'Math Field Day on a card').toBe(0);
+  const friendship = page.getByTestId('case-study').nth(1);
+  await expect(friendship).toContainText('Friendship');
+  await expect(friendship.locator('img').first()).toHaveAttribute('src', /\/campaigns\/friendship\/classroom-group-/);
+  expect(await page.locator('.cr-case-media img[src*="/campaigns/friendship/ad-"]').count(), 'a Friendship ad on a card').toBe(0);
   // the still is in the case page gallery, once
   await page.goto('bold/work/aspire/');
   await settle(page);
   expect(await page.locator('[data-testid="case-gallery"] img[src*="/campaigns/aspire/classroom-photo-"]').count()).toBe(1);
   expect(await page.locator('[data-testid="case-gallery"] img[src*="/campaigns/aspire/math-field-day-"]').count(), 'Math Field Day in the gallery').toBe(1);
   expect(await page.locator('[data-testid="case-gallery"] img[src*="/campaigns/aspire/playground-wide-"]').count(), 'the hero repeated in the gallery').toBe(0);
+  await page.goto('bold/work/friendship/');
+  await settle(page);
+  expect(await page.locator('[data-testid="case-gallery"] img[src*="/campaigns/friendship/ad-education-starts-at-woodridge-"]').count(), 'the Woodridge ad in the gallery').toBe(1);
+  expect(await page.locator('[data-testid="case-gallery"] img[src*="/campaigns/friendship/classroom-group-"]').count(), 'the Friendship hero repeated in the gallery').toBe(0);
   expect(errors, errors.join('\n')).toEqual([]);
 });
 

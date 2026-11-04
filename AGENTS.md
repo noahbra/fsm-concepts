@@ -29,7 +29,7 @@ The production site (Concept 06 at the root, nothing else) is the same build wit
 | Schools strip (the logo row) | `src/content/clients.ts` for the names; drop the logo file in the source folder, list it in `scripts/client-logos.mjs`, run `node scripts/client-logos.mjs` |
 | Case studies (figures, sources, creative) | `src/content/caseStudies.ts` (`caseStudies` are the three on the cards and the case pages); images in `public/assets/` |
 | Services (names, order, blurbs) | `src/content/services.ts` |
-| Contact form (LeadConnector ids and fields), site URL, review mode | `src/content/config.ts` |
+| Contact form (the sheet receiver's URL in `inquiryForm`, FilmTwist's LeadConnector ids, the `mode` switch), site URL, review mode | `src/content/config.ts`; the receiver itself is `scripts/inquiry-form.gs` |
 | Opener animation (the mark that lands on the header) | `src/concepts/bold/Opener.tsx` |
 | Terms and privacy pages (the text) | `src/content/legal.ts`; rendered by `src/concepts/bold/LegalPage.tsx` at `/terms/` and `/privacy/` |
 | Tests | `tests/smoke.spec.ts` |

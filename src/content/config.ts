@@ -46,26 +46,35 @@ export const siteConfig = {
     height: 993,
     widgetBase: 'https://api.leadconnectorhq.com/widget/form/',
     embedScript: 'https://link.msgsndr.com/js/form_embed.js',
-    /** The forms service the widget itself posts to (multipart: formData JSON, locationId, formId). */
-    submitUrl: 'https://backend.leadconnectorhq.com/forms/submit',
     sourcePage: 'https://www.filmtwist.com/contact',
-    /** 'fsm' renders the FSM-branded form that posts to the service above; 'embed' renders FilmTwist's widget frame.
-     *  'embed' since November 3, 2026: a real submission through the FSM form got 429 from the forms service, which takes
-     *  only its own widget's submissions (the widget carries the service's bot check). FsmForm.tsx stays for a form
-     *  FilmTwist can enable for direct posts. */
-    mode: 'embed' as 'fsm' | 'embed',
-    /** Custom-field tags from the form configuration. Standard fields use their own names (full_name, email, phone, terms_and_conditions). */
-    fields: { services: 'EJestVkia960oHxT9PxO', leadSource: 'XrSIkifPP25CWRXwy0t6', budget: 'MgHxET4F4WHl8USXu65T', needs: '7FmoBx7Yyarn8ptrhdUe' },
-    /** The form's own option lists, verbatim (they are picklist values on FilmTwist's contact record, so they are not reworded). */
+    /** 'embed' renders FilmTwist's widget frame; 'fsm' renders the site's own form (FsmForm.tsx, see inquiryForm below).
+     *  History: 'fsm' posting to FilmTwist's forms service (Versions 2.1 to 3.7) got 429 on a real submission, November 3,
+     *  2026 (the service takes only its own widget's submissions, which carry its bot check); 'embed' for Version 3.8; and
+     *  since the widget is a cross-origin frame whose look is set only in FilmTwist's form builder, 'fsm' again from
+     *  Version 3.9 (November 4, 2026) with the site's own receiver. Switch back to 'embed' with the new formId and formName
+     *  once FilmTwist has an FSM-styled copy of the form. */
+    mode: 'fsm' as 'fsm' | 'embed',
+    /** Where the widget's consent line links today (set in FilmTwist's form builder, not here). */
+    termsUrl: 'https://www.filmtwist.com/terms-and-conditions',
+    privacyUrl: 'http://filmtwist.com/privacy-policy',
+  },
+  /** The site's own contact form (Version 3.9, November 4, 2026; the interim arrangement while FilmTwist's form has no FSM
+   *  styling). FsmForm.tsx posts one JSON document per submission to a Google Apps Script web app (scripts/inquiry-form.gs)
+   *  attached to the "FSM Website Inquiries" Google Sheet, held by the project owner and shared with FilmTwist. The script
+   *  appends a row and emails the addresses on the sheet's Settings tab; this site stores nothing. The web app URL is what any
+   *  form endpoint is, public by design; the script holds no secrets. REQUIRES_CLIENT_CONFIRMATION (one real submission). */
+  inquiryForm: {
+    endpoint: 'https://script.google.com/macros/s/REPLACE-WITH-THE-WEB-APP-ID/exec',
+    /** The script drops submissions faster than this (seconds since the form was shown; the page sends `seconds`). */
+    minSeconds: 3,
+    /** The same option lists as FilmTwist's RFI Contact Form, verbatim (read from the widget configuration 10/28/2026). */
     options: {
       services: ['Marketing Services', 'Photo/Video Creative Content Services', 'Website Design', 'Website Mgmt. Services', 'Social Media Mgmt. Services', 'Consulting', 'Commercial Campaign', 'Live Event Services', 'Other'],
       leadSource: ['Google', 'LinkedIn', 'Facebook', 'Instagram', 'Yelp', 'Referral', 'Other'],
       budget: ['< $1,000', '$1,000 - $2,000', '$2,000 - $3,000', '$3,000 - $5,000', '$5,000 - $7,000', '$7,000 - $10,000', '> $10,000', 'Not sure yet'],
     },
-    termsUrl: 'https://www.filmtwist.com/terms-and-conditions',
-    privacyUrl: 'http://filmtwist.com/privacy-policy',
-    /** The form's configured thank-you text, verbatim. */
-    thankYouText: 'Thank you for taking the time to complete this form. Please check your email for next steps.',
+    /** Shown in place of the form after a successful send. New copy, REQUIRES_CLIENT_CONFIRMATION. */
+    thankYouText: 'Your message is with the team. We will reply by email.',
   },
   primaryCta: "Let's Fill Your School",
   primaryCtaAlt: 'Talk Enrollment Strategy',
@@ -144,7 +153,7 @@ export const siteConfig = {
     /** Changed from the terms' info@filmtwist.com to the FSM address on November 3, 2026 at the client's request. */
     email: 'biz@fullschoolmarketing.com',
     siteHost: 'fullschoolmarketing.com',
-    updated: 'October 31, 2026',
+    updated: 'November 4, 2026',
   },
 } as const;
 

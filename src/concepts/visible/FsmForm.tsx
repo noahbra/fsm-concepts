@@ -2,11 +2,11 @@ import { useRef, useState, type FormEvent } from 'react';
 import { siteConfig } from '../../content/config';
 
 /**
- * The FSM-branded "Work with us" form. It posts to FilmTwist's LeadConnector forms service with the same multipart
- * payload their embedded widget sends (field values keyed by the form's field tags inside a `formData` JSON part,
- * plus `locationId` and `formId`), so the lead lands in FilmTwist's account exactly as a widget submission would.
- * Nothing is stored on this site. The field set, option lists, required flags and consent text are the form's own
- * (read from the widget configuration on October 28, 2026); only the presentation is FSM's.
+ * The site's own "Work with us" form. It posts one JSON document per submission to the Apps Script web app named in
+ * siteConfig.inquiryForm (scripts/inquiry-form.gs), which appends a row to the "FSM Website Inquiries" Google Sheet and
+ * emails the team. Nothing is stored on this site. The field set, option lists, required flags and consent text match
+ * FilmTwist's RFI Contact Form (read from the widget configuration on October 28, 2026); only the presentation is FSM's.
+ * A hidden honeypot field and the seconds-since-shown count let the script drop bot submissions without a captcha.
  */
 type Status = { kind: 'idle' } | { kind: 'sending' } | { kind: 'sent' } | { kind: 'error'; message: string };
 
@@ -15,6 +15,7 @@ export type LegalLinks = { terms: string; privacy: string };
 
 export function FsmForm({ legal }: { legal?: LegalLinks } = {}) {
   const lc = siteConfig.leadConnector;
+  const f = siteConfig.inquiryForm;
   const links: LegalLinks = legal ?? { terms: lc.termsUrl, privacy: lc.privacyUrl };
   const [status, setStatus] = useState<Status>({ kind: 'idle' });
   const startedAt = useRef(Date.now());
@@ -26,38 +27,29 @@ export function FsmForm({ legal }: { legal?: LegalLinks } = {}) {
     if (!form.reportValidity()) return;
     const fd = new FormData(form);
     const value = (k: string) => String(fd.get(k) ?? '').trim();
-    const fields: Record<string, unknown> = {
+    const payload = {
       full_name: value('full_name'),
       email: value('email'),
       phone: value('phone'),
-      [lc.fields.services]: value('services'),
-      [lc.fields.leadSource]: value('lead_source'),
-      [lc.fields.budget]: value('budget'),
-      [lc.fields.needs]: value('needs'),
-      terms_and_conditions: fd.get('terms_and_conditions') === 'on',
-      formId: lc.formId,
-      location_id: lc.locationId,
-      eventData: {
-        source: 'Full School Marketing website',
-        url: window.location.href,
-        page: { url: window.location.href, title: document.title },
-        referrer: document.referrer,
-        medium: 'form',
-        mediumId: lc.formId,
-        timestamp: Date.now(),
-      },
-      Timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      timeSpent: (Date.now() - startedAt.current) / 1000,
-      disqualified: false,
+      services: value('services'),
+      lead_source: value('lead_source'),
+      budget: value('budget'),
+      needs: value('needs'),
+      consent: fd.get('terms_and_conditions') === 'on',
+      /** the hidden honeypot field; people never fill it, so the script drops any submission that does */
+      website: value('website'),
+      seconds: Math.round((Date.now() - startedAt.current) / 1000),
+      page: window.location.href,
+      referrer: document.referrer,
     };
-    const body = new FormData();
-    body.set('formData', JSON.stringify(fields));
-    body.append('locationId', lc.locationId);
-    body.append('formId', lc.formId);
     setStatus({ kind: 'sending' });
     try {
-      const res = await fetch(`${lc.submitUrl}?formId=${lc.formId}&locationId=${lc.locationId}`, { method: 'POST', body });
+      // text/plain keeps the request "simple" (no CORS preflight, which the script host does not answer); the web app
+      // redirects once and answers JSON with an open CORS header, so the result is readable here.
+      const res = await fetch(f.endpoint, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload), redirect: 'follow' });
       if (!res.ok) throw new Error(`The form service answered ${res.status}.`);
+      const answer = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
+      if (!answer?.ok) throw new Error(answer?.error || 'The form service did not confirm the message.');
       setStatus({ kind: 'sent' });
       form.reset();
     } catch (err) {
@@ -69,7 +61,7 @@ export function FsmForm({ legal }: { legal?: LegalLinks } = {}) {
     return (
       <div className="fsm-form fsm-form--sent" role="status" aria-live="polite" data-testid="fsm-form-sent">
         <h3>Thank you.</h3>
-        <p>{lc.thankYouText}</p>
+        <p>{f.thankYouText}</p>
       </div>
     );
   }
@@ -95,7 +87,7 @@ export function FsmForm({ legal }: { legal?: LegalLinks } = {}) {
           <span>What do you need help with? <abbr title="required">*</abbr></span>
           <select name="services" required defaultValue="" data-testid="fsm-services">
             <option value="" disabled>Select one</option>
-            {lc.options.services.map((o) => <option key={o} value={o}>{o}</option>)}
+            {f.options.services.map((o) => <option key={o} value={o}>{o}</option>)}
           </select>
         </label>
       </div>
@@ -104,14 +96,14 @@ export function FsmForm({ legal }: { legal?: LegalLinks } = {}) {
           <span>How did you hear about us? <abbr title="required">*</abbr></span>
           <select name="lead_source" required defaultValue="" data-testid="fsm-source">
             <option value="" disabled>Select one</option>
-            {lc.options.leadSource.map((o) => <option key={o} value={o}>{o}</option>)}
+            {f.options.leadSource.map((o) => <option key={o} value={o}>{o}</option>)}
           </select>
         </label>
         <label className="fsm-form__field">
           <span>Budget <abbr title="required">*</abbr></span>
           <select name="budget" required defaultValue="" data-testid="fsm-budget">
             <option value="" disabled>Select one</option>
-            {lc.options.budget.map((o) => <option key={o} value={o}>{o}</option>)}
+            {f.options.budget.map((o) => <option key={o} value={o}>{o}</option>)}
           </select>
         </label>
       </div>
@@ -126,12 +118,16 @@ export function FsmForm({ legal }: { legal?: LegalLinks } = {}) {
           number, I agree to receive text messages from the business. For more information please visit the <a href={links.privacy} target="_blank" rel="noopener noreferrer" data-testid="fsm-privacy-link">privacy policy</a>.
         </span>
       </label>
+      <label className="fsm-form__hp" aria-hidden="true">
+        Leave this field empty
+        <input name="website" type="text" tabIndex={-1} autoComplete="off" data-testid="fsm-hp" />
+      </label>
       <div className="fsm-form__actions">
         <button type="submit" className="btn btn--primary btn--big" disabled={status.kind === 'sending'} data-testid="fsm-submit">
           {status.kind === 'sending' ? 'Sending' : siteConfig.primaryCta}
         </button>
         <p className="fsm-form__status" role="status" aria-live="polite" data-testid="fsm-status">
-          {status.kind === 'error' ? `${status.message} Please try again, or write to the team through filmtwist.com/contact.` : ''}
+          {status.kind === 'error' ? `${status.message} Please try again, or write to ${siteConfig.legal.email}.` : ''}
         </p>
       </div>
     </form>

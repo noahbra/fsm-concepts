@@ -158,13 +158,19 @@ export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
 ];
 
 /** The current direction's version label and the checklist of reviewer notes it answers, shown on the hub. No names. */
-export const currentVersion = { label: 'Concept 06c (Version 3.8)', date: 'November 3, 2026' };
+export const currentVersion = { label: 'Concept 06c (Version 3.9)', date: 'November 4, 2026' };
 /** Earlier versions of Concept 06, each a frozen build of the commit the client reviewed, served at its own address without review chrome. */
 export const previousVersions: { label: string; detail: string; path: string }[] = [
   { label: 'Concept 06a', detail: 'Version 1, October 28', path: '6a/bold/' },
   { label: 'Concept 06b', detail: 'Version 2, October 29', path: '6b/bold/' },
 ];
 export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
+  {
+    round: 'The contact form, November 4',
+    items: [
+      { note: 'FilmTwist\'s embedded form arrives in FilmTwist\'s styling and cannot be restyled for this site', state: 'done', how: 'The site\'s own form is back (white card, green button), with the same fields as FilmTwist\'s RFI Contact Form. Each submission becomes a row in a Google Sheet the project owner holds and shares with FilmTwist, and an email to the team. FilmTwist\'s widget returns the day an FSM-styled copy of the form exists in their form builder.' },
+    ],
+  },
   {
     round: 'The brand owner\'s sign-off notes, November 3',
     items: [
@@ -184,7 +190,7 @@ export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
       { note: 'Contact email should be biz@fullschoolmarketing.com', state: 'done', how: 'The terms and privacy pages now give biz@fullschoolmarketing.com wherever they name an email (November 3). The site shows no other address.' },
       { note: 'The Our Work thumbnails could be better, at least Aspire', state: 'done', how: 'The Aspire card now leads with the Math Field Day photograph, three students mid-build, in place of the chalk-drawing still, which had no faces; the still moves into the case page gallery. Friendship\'s card keeps its campaign ad and Alpha\'s its portrait.' },
       { note: '"Schools that got seen. And chosen." reads as slang', state: 'done', how: 'Now "Schools discovered. Seats filled." (November 3).' },
-      { note: 'Where does the contact form go?', state: 'done', how: 'Submissions post straight to FilmTwist\'s own LeadConnector account, the same RFI Contact Form as filmtwist.com/contact; this site stores nothing. Where that form notifies is set in that account.' },
+      { note: 'Where does the contact form go?', state: 'done', how: 'Since November 4: each submission is a row in a Google Sheet the project owner holds and shares with FilmTwist, plus an email to the team; this site stores nothing. (November 3: straight to FilmTwist\'s LeadConnector account, the RFI Contact Form behind filmtwist.com/contact.)' },
     ],
   },
   {

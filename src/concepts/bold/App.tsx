@@ -399,8 +399,8 @@ function Partner() {
   );
 }
 
-/* 7. Work with us: the final call on kit blue, Concept 05's intro copy, and FilmTwist's own form (siteConfig.leadConnector.mode:
-   their LeadConnector widget since November 3, 2026, the FSM-styled form before; see config.ts). */
+/* 7. Work with us: the final call on kit blue, Concept 05's intro copy, and the contact form: the site's own (FsmForm, posting
+   to the sheet receiver in siteConfig.inquiryForm) or FilmTwist's LeadConnector widget, by siteConfig.leadConnector.mode. */
 function Contact() {
   return (
     <section id="contact" className="cr-cta" aria-labelledby="cta-title" data-testid="contact">

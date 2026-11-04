@@ -356,6 +356,7 @@ export const privacy: LegalDoc = {
             'what you tell us about your school or organization and what you need.',
           ],
         },
+        { type: 'p', text: 'Form submissions are kept in a spreadsheet held for us by our website administrator and emailed to our team. This site itself stores nothing you enter.' },
         { type: 'p', text: 'All personal information you provide must be true, complete and accurate, and you must tell us of any changes.' },
         { type: 'h3', text: 'Sensitive information' },
         { type: 'p', text: 'We do not process sensitive information.' },

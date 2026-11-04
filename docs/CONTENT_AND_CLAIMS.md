@@ -133,6 +133,17 @@ The merged direction introduces three pieces of copy that the first four concept
 | Case-study pages | `visible/work/{aspire,friendship,alpha}/` | Every figure, descriptor, story line and image is the same record as the cards (`caseStudies.ts`), with the published source cited at the foot of each page. No new claims. | As the case studies |
 | Hub checklist wording | Hub, "What Version 2 addresses" | Paraphrases of the 10/27 reviewer notes and the 10/28 asks, no names, no ratings. | Internal review copy |
 
+## Concept 06 Version 3.9 (November 4, 2026): the site's own contact form, backed by a Google Sheet
+
+Source: the project owner's rulings of November 4, 2026 ("we can't use the FSM-style contact form and wire it to the FilmTwist form, the formatting class doesn't work"; then "go, I'll own the form for now and share it with them").
+
+| Claim or content | Source and treatment | Status |
+|---|---|---|
+| Contact form | FilmTwist's embedded widget is a cross-origin frame whose look is set only in their form builder, so it cannot carry FSM's styling from this page. The site's own form (`FsmForm.tsx`, white card, green button, the RFI form's fields and option lists) is back, `siteConfig.leadConnector.mode: 'fsm'`. It posts one JSON document per submission to a Google Apps Script web app (`scripts/inquiry-form.gs`) attached to the Google Sheet "FilmTwist - FSM Website Inquiries - v1 - 2026-11-04" (Drive `1a7Cd-eW-wnZIMr9TgJHAnh41iHuW3fy_Ejr0QrP8Bf4`, Client Work/FilmTwist, held by the project owner, to be shared with FilmTwist). The script appends a row and emails the addresses on the sheet's Settings tab; a hidden honeypot field and a minimum fill time (3 s) replace a captcha. The widget (`'embed'`) stays available for the day an FSM-styled copy exists in FilmTwist's form builder. | Interim, ruled by the project owner November 4, 2026; REQUIRES_CLIENT_CONFIRMATION (one real submission by FilmTwist after the sheet is shared) |
+| Thank-you text | "Your message is with the team. We will reply by email." replaces the widget's configured text, which promised "next steps" by email that the widget's automation sent and this path does not. New copy. | REQUIRES_CLIENT_CONFIRMATION |
+| Privacy notice | New sentence under "Information you give us": submissions are kept in a spreadsheet held for us by our website administrator and emailed to our team; the site stores nothing. `updated` November 4, 2026. | Accurate to the build; FilmTwist's legal read still open |
+| Consent line | Unchanged text (terms and privacy links to this site's pages; the text-message sentence stays because the form asks for a phone number). | As before |
+
 ## Concept 06 Version 3.8 (November 3, 2026): the brand owner's sign-off notes
 
 Source: the brand owner's reply of November 3, 2026, 1:20 PM, relayed by the project owner.

@@ -3,7 +3,6 @@ import { test, expect, type Page, type ConsoleMessage } from '@playwright/test';
 const PAGES = ['', 'clean/', 'creative/', 'story/', 'original/', 'visible/', 'visible/work/aspire/', 'visible/work/friendship/', 'visible/work/alpha/', 'bold/', 'bold/work/aspire/', 'bold/work/friendship/', 'bold/work/alpha/', 'bold/terms/', 'bold/privacy/'] as const;
 /** The three cases, in card order. */
 const CASES = ['aspire', 'friendship', 'alpha'] as const;
-const LEADCONNECTOR_FORM = 'DveY4KWgzKqaGiHAAA2e';
 /** FilmTwist's embedded form (LeadConnector) is third-party: its own requests are not this site's defects. */
 const THIRD_PARTY = /leadconnectorhq\.com|msgsndr\.com|challenges\.cloudflare\.com/;
 const CONCEPTS = ['clean/', 'creative/', 'story/', 'original/'] as const;
@@ -351,11 +350,10 @@ test('Concept 05: one H1 names the offer, skip lands on services, cards expand i
   await members.first().scrollIntoViewIfNeeded();
   await expect.poll(() => members.first().locator('img').evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
   await expect(members.first()).toContainText('Operations Manager');
-  // contact: FilmTwist's own form, embedded; no figures in our copy
+  // contact: the site's own form; no figures in our copy
   await expect(page.locator('#contact')).toContainText('free 30-minute call');
   await expect(page.locator('#contact .contact__copy')).not.toContainText(/\d{2,}%|\$\d/);
-  await page.locator('#contact').scrollIntoViewIfNeeded(); // the widget frame mounts when the contact section nears the viewport
-  await expect(page.getByTestId('leadconnector-form')).toBeAttached(); // FilmTwist's own widget frame (Version 3.8); the FSM-branded form is the 'fsm' mode
+  await expect(page.getByTestId('fsm-form')).toBeAttached(); // the site's own form (Version 3.9); FilmTwist's widget frame is the 'embed' mode
   await expect(page.locator('.site-header__cta')).toHaveAttribute('href', '#contact');
   // review chrome points at the merged question, not the four-concept form
   await expect(page.getByRole('link', { name: 'Does this resolve your notes?' }).first()).toHaveAttribute('href', /#merged$/);
@@ -742,19 +740,17 @@ test('Concept 06 Version 3.7: the Aspire card leads with the Math Field Day phot
 });
 
 
-test('Concept 06 Version 3.8: FilmTwist\'s own form is embedded, Friendship shows its 2025 figures, Envision is gone, the approval captions are off', async ({ page, baseURL }) => {
+test('Concept 06 Version 3.9: the site\'s own form is back and posts to the sheet receiver, Friendship shows its 2025 figures, Envision is gone, the approval captions are off', async ({ page, baseURL }) => {
   const errors = watch(page);
   await page.goto('bold/');
   await settle(page);
-  // the contact section holds FilmTwist's LeadConnector widget frame and its resize script, mounted as the section nears the
-  // viewport (nothing third-party loads with the page itself); the FSM form is not rendered
-  expect(await page.locator('#contact iframe').count(), 'a frame before the section is near').toBe(0);
+  // the contact section holds the site's own form (Version 3.9); FilmTwist's widget frame and its script are not on the page
   await page.locator('#contact').scrollIntoViewIfNeeded();
-  const frame = page.locator(`#contact iframe[src="https://api.leadconnectorhq.com/widget/form/${LEADCONNECTOR_FORM}"]`);
-  await expect(frame).toHaveCount(1);
-  expect(await frame.getAttribute('data-form-id')).toBe(LEADCONNECTOR_FORM);
-  await expect.poll(() => page.locator('script[src="https://link.msgsndr.com/js/form_embed.js"]').count()).toBe(1);
-  expect(await page.getByTestId('fsm-form').count()).toBe(0);
+  await expect(page.getByTestId('fsm-form')).toBeVisible();
+  expect(await page.locator('#contact iframe').count(), 'no widget frame').toBe(0);
+  expect(await page.locator('script[src="https://link.msgsndr.com/js/form_embed.js"]').count(), 'no widget script').toBe(0);
+  expect(await page.getByTestId('fsm-hp').evaluate((el) => getComputedStyle(el.parentElement!).opacity), 'the honeypot is hidden').toBe('0');
+  await expect(page.getByTestId('fsm-submit')).toHaveText(/Let's Fill Your School/i);
   // the Work heading (November 3): no slang
   await expect(page.locator('#work-title')).toHaveText('Schools discovered. Seats filled.');
   // Friendship's card carries the 2025 leads report figures; no card shows enrollments
@@ -777,11 +773,65 @@ test('Concept 06 Version 3.8: FilmTwist\'s own form is embedded, Friendship show
   expect(errors, errors.join('\n')).toEqual([]);
 });
 
+test('Concept 06 Version 3.9: the form posts one JSON document to the sheet receiver without a preflight, shows the thank-you on ok and keeps the form on an error', async ({ page }) => {
+  const errors = watch(page);
+  const endpoint = /script\.google\.com\/macros\//;
+  let posted: Record<string, unknown> | null = null;
+  let contentType = '';
+  let answer: { status: number; body: string } = { status: 200, body: JSON.stringify({ ok: true }) };
+  await page.route(endpoint, async (route) => {
+    const req = route.request();
+    contentType = req.headers()['content-type'] ?? '';
+    posted = JSON.parse(req.postData() ?? 'null');
+    await route.fulfill({ status: answer.status, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: answer.body });
+  });
+  await page.goto('bold/');
+  await settle(page);
+  await page.locator('#contact').scrollIntoViewIfNeeded();
+  const fill = async () => {
+    await page.getByTestId('fsm-name').fill('Test Person');
+    await page.getByTestId('fsm-email').fill('test@example.com');
+    await page.getByTestId('fsm-phone').fill('510 555 0100');
+    await page.getByTestId('fsm-services').selectOption('Marketing Services');
+    await page.getByTestId('fsm-source').selectOption('Referral');
+    await page.getByTestId('fsm-budget').selectOption('Not sure yet');
+    await page.getByTestId('fsm-needs').fill('Forty seats in TK and kindergarten.');
+    await page.getByTestId('fsm-terms').check();
+  };
+  await fill();
+  await page.getByTestId('fsm-submit').click();
+  await expect(page.getByTestId('fsm-form-sent')).toBeVisible();
+  await expect(page.getByTestId('fsm-form-sent')).toContainText('Your message is with the team');
+  expect(contentType.startsWith('text/plain'), `content-type ${contentType} (a simple request, no preflight)`).toBe(true);
+  const p = posted as unknown as Record<string, unknown>;
+  expect(Object.keys(p).sort()).toEqual(['budget', 'consent', 'email', 'full_name', 'lead_source', 'needs', 'page', 'phone', 'referrer', 'seconds', 'services', 'website']);
+  expect(p.full_name).toBe('Test Person');
+  expect(p.email).toBe('test@example.com');
+  expect(p.services).toBe('Marketing Services');
+  expect(p.consent).toBe(true);
+  expect(p.website).toBe('');
+  expect(typeof p.seconds).toBe('number');
+  expect(String(p.page)).toContain('bold/');
+  // a failure keeps the form and names the status
+  answer = { status: 500, body: 'oops' };
+  await page.reload();
+  await settle(page);
+  await page.locator('#contact').scrollIntoViewIfNeeded();
+  await fill();
+  await page.getByTestId('fsm-submit').click();
+  await expect(page.getByTestId('fsm-status')).toContainText('answered 500');
+  await expect(page.getByTestId('fsm-form')).toBeVisible();
+  // a reply without ok is also an error (the script's own validation message is shown)
+  answer = { status: 200, body: JSON.stringify({ ok: false, error: 'The consent box must be checked.' }) };
+  await page.getByTestId('fsm-submit').click();
+  await expect(page.getByTestId('fsm-status')).toContainText('The consent box must be checked.');
+  expect(errors.filter((e) => !/500/.test(e)), errors.join('\n')).toEqual([]); // the routed 500 is the test's own
+});
+
 test('Concept 06 legal pages: the form and the footer link to this site\'s own terms and privacy pages, both of which read as one document with a working contents list and none of the source template\'s defects', async ({ page, baseURL }) => {
   await page.goto('bold/', { waitUntil: 'load' });
   await settle(page);
-  // The footer points at the site's own pages, which resolve. (The form's consent line sits inside FilmTwist's embedded widget
-  // and links to the pages set in their form system.)
+  // The footer and the form's consent line point at the site's own pages, which resolve.
   for (const path of ['terms/', 'privacy/'] as const) expect((await page.request.get(new URL(`bold/${path}`, baseURL).toString())).status(), path).toBe(200);
   const footer = page.locator('.cr-footer-legal');
   expect(await footer.getByRole('link', { name: 'Privacy policy' }).getAttribute('href')).toBe('privacy/');
@@ -793,7 +843,7 @@ test('Concept 06 legal pages: the form and the footer link to this site\'s own t
     await page.goto(path, { waitUntil: 'load' });
     await settle(page);
     await expect(page.locator('h1')).toHaveText(title);
-    await expect(page.getByTestId('legal-updated')).toContainText('Last updated October');
+    await expect(page.getByTestId('legal-updated')).toContainText('Last updated November 4, 2026');
     // every contents entry lands on a section heading on this page
     const hrefs = await page.locator('[data-testid="legal-toc"] ol a').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute('href') ?? ''));
     expect(hrefs.length).toBeGreaterThanOrEqual(13);

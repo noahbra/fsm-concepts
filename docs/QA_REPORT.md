@@ -19,6 +19,21 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision November 4, 2026 (twenty-second): the site's own form, backed by a Google Sheet
+
+The project owner ruled November 4 that FilmTwist's embedded form cannot be restyled for this site (it is a cross-origin frame
+styled only in their form builder) and chose an interim form of the site's own, wired to a Google Sheet he holds, with email
+notifications. Built: `FsmForm.tsx` posts JSON to an Apps Script web app (`scripts/inquiry-form.gs`, deployed by the project
+owner from the sheet) that appends a row to the "Inquiries" tab and emails the addresses on the "Settings" tab; honeypot field
+and a 3-second minimum replace a captcha; `mode: 'fsm'`; new thank-you text; privacy notice sentence; hub Version 3.9. Tests: the
+Version 3.8 embed test became the 3.9 form test; a new posting test (routed endpoint) asserts the request is a simple text/plain
+post (no preflight), the twelve payload keys and values, the thank-you on ok, the form kept with the status named on a 500, and
+the script's own error text on an ok:false reply. The legal pages' `updated` date (shared by both documents) is November 4, 2026; the
+legal test asserts it. MEASURED November 4, 2026, 8:05 AM: typecheck clean; review build clean; full suite on the preview 320 passed, 0
+failed (3.3 min, four browsers); production build clean (`SITE=fsm`), its bundle carries the form and the receiver URL and no widget
+markup. The endpoint in `config.ts` is a placeholder until the project owner deploys the script; the real end-to-end submission
+follows that, before deploy.
+
 ## Revision November 3, 2026 (twenty-first): the brand owner's sign-off notes
 
 The brand owner answered the sign-off asks November 3 (1:20 PM): Alpha stays; Friendship's figures from the 2025 leads report

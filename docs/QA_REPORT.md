@@ -31,6 +31,10 @@ Friendship page with 43 beside "Enrollments" and no "estimat" wording, three til
 headline still 1,022. Hub Version 3.13. MEASURED November 5, 2026, 9:05 AM: Version 3.13, 3.12, 3.9, Concept 04, Concept 05
 and case page tests on the preview 52 passed, 0 failed (51 s, four browsers); production and review builds clean. Captures
 `scratchpad/r20/v313-metrics-desktop.png`, `v313-metrics-mobile.png`.
+DEPLOYED November 5, 2026, 9:20 AM on the project owner's word: review run 42052698535 and production run 42052705314 both
+success on the first try. MEASURED 9:25 AM live: the Friendship page at fullschoolmarketing.com shows four tiles (1,022 Leads,
+51 Applications, 43 Enrollments, $26.01 Average cost per lead), the home card headline is 1,022 with no enrollments on the card;
+the Version 3.13 test against the live review site 4 passed, 0 failed. This note rides with the next content deploy.
 
 ## Revision November 4, 2026 (twenty-fifth): the Friendship card leads with the classroom photograph
 

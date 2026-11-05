@@ -12,7 +12,7 @@ Re-verified against the live source pages on October 26, 2026 (fetched with curl
 | Aspire Public Schools | Average cost per lead | $38 | July 2022 to June 2023 | same | Verified |
 | Friendship Public Charter School | Leads | 1,022 | February to September 2025 | FilmTwist's 2025 leads report (Google Sheet 1sniSYVHYRRyDbrKxNxh5K9FwWkwaYYBzP15WRe6PxyI, tab "2025 Leads Report", Total row, read November 3, 2026; sent by the brand owner, msg of November 3, 1:20 PM) | Verified November 3, 2026 (replaces the published 1,134 for December 2021 to September 2022) |
 | Friendship Public Charter School | Applications | 51 | February to September 2025 | same report | Verified November 3, 2026 (replaces the published 102) |
-| Friendship Public Charter School | Confirmed enrollments | not shown | February to September 2025 | same report: none reported ("we also don't have confirmed enrollments"); the published 78 for December 2021 to September 2022 came off November 3, 2026 | Removed |
+| Friendship Public Charter School | Enrollments | 43 | February to September 2025 | the client's figure, supplied November 4, 2026 (the leads report carries no enrollment count; the published 78 for December 2021 to September 2022 came off November 3, 2026) | Client-supplied November 4, 2026; shown since Version 3.13 (November 5, 2026) |
 | Friendship Public Charter School | Average cost per lead | $26.01 | February to September 2025 | same report (total spend $26,578.98 over 1,022 leads) | Verified November 3, 2026 (replaces the published $31.21) |
 | Envision Education | Leads | 723 | July 2022 to June 2023 | https://www.filmtwist.com/work/envision-education-2 | Verified |
 | Envision Education | Applications | 101 | July 2022 to June 2023 | same | Verified |
@@ -132,6 +132,16 @@ The merged direction introduces three pieces of copy that the first four concept
 | Contact form | Concept 05 "Work with us"; `FsmForm.tsx`, `siteConfig.leadConnector` | Version 2.1: a Full School Marketing form that posts to FilmTwist's LeadConnector "RFI Contact Form" `DveY4KWgzKqaGiHAAA2e` (location `6DjFgiECQC0Tt8gNX4vT`) with the widget's own payload. Fields, required flags, option lists, consent text and thank-you text are the form's own, read from the widget configuration 10/28/2026. Submissions go to FilmTwist's account; this site stores nothing. No test submission was made; the lead's arrival is unverified until one real submission is made. (Version 2 embedded the form as an iframe; `mode: 'embed'` restores that.) | REQUIRES_CLIENT_CONFIRMATION (one real submission to confirm delivery; FilmTwist may prefer a dedicated FSM form in the same account) |
 | Case-study pages | `visible/work/{aspire,friendship,alpha}/` | Every figure, descriptor, story line and image is the same record as the cards (`caseStudies.ts`), with the published source cited at the foot of each page. No new claims. | As the case studies |
 | Hub checklist wording | Hub, "What Version 2 addresses" | Paraphrases of the 10/27 reviewer notes and the 10/28 asks, no names, no ratings. | Internal review copy |
+
+## Concept 06 Version 3.13 (November 5, 2026): Friendship enrollments
+
+Source: the client, November 4, 2026 (the brand owner: the confirmed count for this window is not held; the decision maker asked for the
+team's conservative figure; the brand owner supplied 43; the project owner ruled "write 43 enrollments", November 5, 2026).
+
+- Friendship's metrics gain `Enrollments: 43` for February to September 2025, shown on the Friendship case page (Concept 06 and Concept 05)
+  as a fourth tile. The home page card keeps leads as its headline metric, so no card shows enrollments.
+- The figure is client-supplied, not read from the 2025 leads report, and the register row above says so.
+- Concept 04's worksheet keeps its published default yield (76%, Friendship's December 2021 to September 2022 case); the 43 does not feed it.
 
 ## Concept 06 Version 3.12 (November 4, 2026): Friendship card photograph
 

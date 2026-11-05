@@ -752,6 +752,33 @@ test('Concept 06 Version 3.12: the Aspire and Friendship cards lead with photogr
   expect(errors, errors.join('\n')).toEqual([]);
 });
 
+test('Concept 06 Version 3.13: the Friendship case page shows 43 enrollments as a fourth tile; the home card still leads with leads', async ({ page }) => {
+  const errors = watch(page);
+  await page.goto('bold/work/friendship/');
+  await settle(page);
+  const tiles = page.getByTestId('case-metrics').locator('li');
+  await expect(tiles).toHaveCount(4);
+  const text = (await tiles.allTextContents()).join(' | ');
+  expect(text).toMatch(/1,022/);
+  expect(text).toMatch(/\b51\b/);
+  expect(text).toMatch(/\b43\b[^|]*Enrollments/);
+  expect(text).toMatch(/\$26\.01/);
+  expect(text).not.toMatch(/estimat/i);
+  // the other two case pages keep three tiles
+  for (const id of ['aspire', 'alpha'] as const) {
+    await page.goto(`bold/work/${id}/`);
+    await settle(page);
+    await expect(page.getByTestId('case-metrics').locator('li')).toHaveCount(3);
+  }
+  // the home page card headline stays leads
+  await page.goto('bold/');
+  await settle(page);
+  const friendship = page.getByTestId('case-study').filter({ hasText: 'Friendship' });
+  await expect(friendship.locator('.cr-case-big')).toHaveText('1,022');
+  expect(await friendship.textContent()).not.toMatch(/enrollments/i);
+  expect(errors, errors.join('\n')).toEqual([]);
+});
+
 
 test('Concept 06 Version 3.9: the site\'s own form is back and posts to the sheet receiver, Friendship shows its 2025 figures, Envision is gone, the approval captions are off', async ({ page, baseURL }) => {
   const errors = watch(page);

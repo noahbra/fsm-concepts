@@ -104,11 +104,13 @@ export const caseStudies: CaseStudy[] = [
     services: ['strategy', 'advertising', 'outreach', 'creative'],
     // Figures from FilmTwist's 2025 leads report (February to September 2025; October to December were brand-awareness months and
     // are not counted), supplied by the brand owner on November 3, 2026 in place of the published December 2021 to September 2022
-    // results (1,134 leads, 102 applications, 78 confirmed enrollments, $31.21). No confirmed enrollments are reported for this window.
+    // results (1,134 leads, 102 applications, 78 confirmed enrollments, $31.21). The leads report carries no enrollment count; the 43
+    // enrollments are the client's conservative figure for this window, supplied November 4, 2026 (Version 3.13).
     period: { start: '2025-02', end: '2025-09', label: 'February to September 2025' },
     metrics: [
       { unit: 'leads', label: 'Leads', value: 1022, display: '1,022', headline: true },
       { unit: 'applications', label: 'Applications', value: 51, display: '51' },
+      { unit: 'enrollments', label: 'Enrollments', value: 43, display: '43' },
       { unit: 'cost-per-lead', label: 'Average cost per lead', value: 26.01, display: '$26.01' },
     ],
     summary: 'Five campaigns across a 16-campus network, pairing digital advertising with direct mail and transit creative so families saw the school online and in their neighborhood.',

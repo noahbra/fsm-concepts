@@ -19,6 +19,19 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision November 5, 2026 (twenty-sixth): Friendship enrollments
+
+The client's figure for the 2025 window: the brand owner does not hold a confirmed enrollment count, the decision maker asked
+for the team's conservative number, the brand owner supplied 43 (the prior Friendship campaign enrolled 85% of applicants), and
+the project owner ruled "write 43 enrollments" on November 5. Friendship's metrics gain `Enrollments: 43`, shown as a fourth
+tile on the Friendship case page in Concept 06 and Concept 05; the home page card keeps leads as its headline, so no card shows
+enrollments. Concept 04's worksheet default yield stays the published 76% (the 43 is not a reported count, so it is excluded by
+name in `funnel.ts`). The claims register row records the figure as client-supplied. New Version 3.13 test: four tiles on the
+Friendship page with 43 beside "Enrollments" and no "estimat" wording, three tiles on Aspire and Alpha, the Friendship card
+headline still 1,022. Hub Version 3.13. MEASURED November 5, 2026, 9:05 AM: Version 3.13, 3.12, 3.9, Concept 04, Concept 05
+and case page tests on the preview 52 passed, 0 failed (51 s, four browsers); production and review builds clean. Captures
+`scratchpad/r20/v313-metrics-desktop.png`, `v313-metrics-mobile.png`.
+
 ## Revision November 4, 2026 (twenty-fifth): the Friendship card leads with the classroom photograph
 
 The project owner's pick after seeing the "Education starts at Woodridge" ad soft on a large screen: FilmTwist publishes

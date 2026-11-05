@@ -158,13 +158,19 @@ export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
 ];
 
 /** The current direction's version label and the checklist of reviewer notes it answers, shown on the hub. No names. */
-export const currentVersion = { label: 'Concept 06c (Version 3.12)', date: 'November 4, 2026' };
+export const currentVersion = { label: 'Concept 06c (Version 3.13)', date: 'November 5, 2026' };
 /** Earlier versions of Concept 06, each a frozen build of the commit the client reviewed, served at its own address without review chrome. */
 export const previousVersions: { label: string; detail: string; path: string }[] = [
   { label: 'Concept 06a', detail: 'Version 1, October 28', path: '6a/bold/' },
   { label: 'Concept 06b', detail: 'Version 2, October 29', path: '6b/bold/' },
 ];
 export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
+  {
+    round: 'Friendship enrollments, November 5',
+    items: [
+      { note: 'Friendship: enrollments for the 2025 window', state: 'done', how: 'The Friendship case page now shows 43 enrollments beside its 1,022 leads, 51 applications and $26.01 average cost per lead (February to September 2025). The figure is the team\'s conservative number, supplied November 4; the card on the home page keeps leads as its headline.' },
+    ],
+  },
   {
     round: 'The contact form, November 4',
     items: [
@@ -178,7 +184,7 @@ export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
     round: 'The brand owner\'s sign-off notes, November 3',
     items: [
       { note: 'Alpha is good to stay', state: 'done', how: 'Envision\'s page, images and entry are removed. Its logo stays in the schools row.' },
-      { note: 'Friendship\'s current numbers, from the 2025 leads report (February to September)', state: 'done', how: '1,022 leads, 51 applications and a $26.01 average cost per lead over February to September 2025, in place of the published 2021 to 2022 results. Confirmed enrollments are no longer shown, since none are reported for this window. October to December, the brand-awareness months, are not counted.' },
+      { note: 'Friendship\'s current numbers, from the 2025 leads report (February to September)', state: 'done', how: '1,022 leads, 51 applications and a $26.01 average cost per lead over February to September 2025, in place of the published 2021 to 2022 results. Confirmed enrollments came off, since the report carries none (43 enrollments returned November 5, above). October to December, the brand-awareness months, are not counted.' },
       { note: 'Terms: the intro promises notice before changes, section 10 says without notice', state: 'done', how: 'The intro now says the terms may be updated and take effect when posted here or sent by email. Section 10 keeps its wording.' },
       { note: 'Privacy page looks good', state: 'done', how: 'No change.' },
       { note: 'School logos and photos are good', state: 'done', how: 'Approved November 3. The "reuse approval pending" captions are off the case pages.' },

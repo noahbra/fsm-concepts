@@ -39,11 +39,13 @@ export const siteConfig = {
    *  agency's general "RFI Contact Form"; an FSM-specific form in the same account would let FilmTwist tag school
    *  leads separately. REQUIRES_CLIENT_CONFIRMATION. */
   leadConnector: {
-    formId: 'DveY4KWgzKqaGiHAAA2e',
-    formName: 'RFI Contact Form',
+    /** FilmTwist's FSM form, built in their form builder and sent by the brand owner on November 5, 2026 (Version 3.14).
+     *  Their earlier RFI Contact Form (filmtwist.com/contact) was DveY4KWgzKqaGiHAAA2e, 'RFI Contact Form', height 993. */
+    formId: 's7caTM5n0YKe6Rdj6v4h',
+    formName: 'Contact Us Form',
     /** FilmTwist's LeadConnector location (sub-account), from the widget configuration. */
     locationId: '6DjFgiECQC0Tt8gNX4vT',
-    height: 993,
+    height: 1074,
     widgetBase: 'https://api.leadconnectorhq.com/widget/form/',
     embedScript: 'https://link.msgsndr.com/js/form_embed.js',
     sourcePage: 'https://www.filmtwist.com/contact',
@@ -51,9 +53,9 @@ export const siteConfig = {
      *  History: 'fsm' posting to FilmTwist's forms service (Versions 2.1 to 3.7) got 429 on a real submission, November 3,
      *  2026 (the service takes only its own widget's submissions, which carry its bot check); 'embed' for Version 3.8; and
      *  since the widget is a cross-origin frame whose look is set only in FilmTwist's form builder, 'fsm' again from
-     *  Version 3.9 (November 4, 2026) with the site's own receiver. Switch back to 'embed' with the new formId and formName
-     *  once FilmTwist has an FSM-styled copy of the form. */
-    mode: 'fsm' as 'fsm' | 'embed',
+     *  Version 3.9 (November 4, 2026) with the site's own receiver; 'embed' again from Version 3.14 (November 5, 2026) with
+     *  the FSM form FilmTwist built in their form builder. The sheet receiver stays wired for 'fsm' as the fallback. */
+    mode: 'embed' as 'fsm' | 'embed',
     /** Where the widget's consent line links today (set in FilmTwist's form builder, not here). */
     termsUrl: 'https://www.filmtwist.com/terms-and-conditions',
     privacyUrl: 'http://filmtwist.com/privacy-policy',

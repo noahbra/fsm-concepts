@@ -19,6 +19,21 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Revision November 5, 2026 (twenty-seventh): FilmTwist's FSM form embedded
+
+The brand owner sent the embed code for the Full School Marketing form she built in FilmTwist's form builder; the project
+owner: "swap out the form". `siteConfig.leadConnector` now carries form `s7caTM5n0YKe6Rdj6v4h` ("Contact Us Form", height 1074)
+with `mode: 'embed'`; the site's own form and its sheet receiver stay as the `'fsm'` fallback. The form arrives on its own blue
+surface with white fields, a green button and the FSM mark at narrow widths, so the contact column drops its white card in
+embed mode. Her embed snippet is the sticky-sidebar layout; the site keeps the inline layout attribute it has used since
+Version 2.1, and the widget script sizes the frame (966 px on desktop, 1,373 px on a phone). Seen in the delivered form and
+owned by the form builder: blank business-name spaces in both consent lines, and the form's own policy links. The Version 3.9
+contact test became the Version 3.14 test (frame src and form id, inline layout, widget script present, no site form); the
+Version 3.9 posting test is skipped while the mode is `'embed'`. Hub Version 3.14. MEASURED November 5, 2026, 7:40 PM: Concept 05
+and 06 tests on the preview 72 passed, 0 failed, 4 skipped (58 s, four browsers) with the white card still on; after it came off,
+the Concept 05 and Concept 06 version tests 36 passed, 0 failed, 4 skipped (30 s); production build clean and carries the new
+form id. Captures `scratchpad/r20/v314b-contact-desktop.png`, `v314b-contact-mobile.png`.
+
 ## Revision November 5, 2026 (twenty-sixth): Friendship enrollments
 
 The client's figure for the 2025 window: the brand owner does not hold a confirmed enrollment count, the decision maker asked

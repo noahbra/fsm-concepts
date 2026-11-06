@@ -353,7 +353,7 @@ test('Concept 05: one H1 names the offer, skip lands on services, cards expand i
   // contact: the site's own form; no figures in our copy
   await expect(page.locator('#contact')).toContainText('free 30-minute call');
   await expect(page.locator('#contact .contact__copy')).not.toContainText(/\d{2,}%|\$\d/);
-  await expect(page.getByTestId('fsm-form')).toBeAttached(); // the site's own form (Version 3.9); FilmTwist's widget frame is the 'embed' mode
+  await expect(page.getByTestId('leadconnector-box')).toBeAttached(); // FilmTwist's FSM form frame (Version 3.14); the site's own form is the 'fsm' mode
   await expect(page.locator('.site-header__cta')).toHaveAttribute('href', '#contact');
   // review chrome points at the merged question, not the four-concept form
   await expect(page.getByRole('link', { name: 'Does this resolve your notes?' }).first()).toHaveAttribute('href', /#merged$/);
@@ -780,17 +780,20 @@ test('Concept 06 Version 3.13: the Friendship case page shows 43 enrollments as 
 });
 
 
-test('Concept 06 Version 3.9: the site\'s own form is back and posts to the sheet receiver, Friendship shows its 2025 figures, Envision is gone, the approval captions are off', async ({ page, baseURL }) => {
+test('Concept 06 Version 3.14: the contact section embeds FilmTwist\'s FSM form (no site form), Friendship shows its 2025 figures, Envision is gone, the approval captions are off', async ({ page, baseURL }) => {
   const errors = watch(page);
   await page.goto('bold/');
   await settle(page);
-  // the contact section holds the site's own form (Version 3.9); FilmTwist's widget frame and its script are not on the page
+  // the contact section holds FilmTwist's FSM form frame (Version 3.14, the form the brand owner built on November 5); the site's own form is off
   await page.locator('#contact').scrollIntoViewIfNeeded();
-  await expect(page.getByTestId('fsm-form')).toBeVisible();
-  expect(await page.locator('#contact iframe').count(), 'no widget frame').toBe(0);
-  expect(await page.locator('script[src="https://link.msgsndr.com/js/form_embed.js"]').count(), 'no widget script').toBe(0);
-  expect(await page.getByTestId('fsm-hp').evaluate((el) => getComputedStyle(el.parentElement!).opacity), 'the honeypot is hidden').toBe('0');
-  await expect(page.getByTestId('fsm-submit')).toHaveText(/Let's Fill Your School/i);
+  const frame = page.getByTestId('leadconnector-form');
+  await expect(frame).toBeAttached();
+  await expect(frame).toHaveAttribute('src', 'https://api.leadconnectorhq.com/widget/form/s7caTM5n0YKe6Rdj6v4h');
+  await expect(frame).toHaveAttribute('data-form-id', 's7caTM5n0YKe6Rdj6v4h');
+  await expect(frame).toHaveAttribute('data-layout', "{'id':'INLINE'}");
+  await expect.poll(() => page.locator('script[src="https://link.msgsndr.com/js/form_embed.js"]').count(), { message: 'the widget script loads' }).toBe(1);
+  expect(await page.getByTestId('fsm-form').count(), 'the site\'s own form is off').toBe(0);
+  expect(await page.locator('#contact iframe').count(), 'one frame').toBe(1);
   // the Work heading (November 3): no slang
   await expect(page.locator('#work-title')).toHaveText('Schools discovered. Seats filled.');
   // Friendship's card carries the 2025 leads report figures; no card shows enrollments
@@ -814,6 +817,7 @@ test('Concept 06 Version 3.9: the site\'s own form is back and posts to the shee
 });
 
 test('Concept 06 Version 3.9: the form posts one JSON document to the sheet receiver without a preflight, shows the thank-you on ok and keeps the form on an error', async ({ page }) => {
+  test.skip(true, 'siteConfig.leadConnector.mode is \'embed\' since Version 3.14 (November 5, 2026): no page renders FsmForm. Re-enable when the mode returns to \'fsm\'.');
   const errors = watch(page);
   const endpoint = /script\.google\.com\/macros\//;
   let posted: Record<string, unknown> | null = null;

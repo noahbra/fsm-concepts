@@ -133,6 +133,19 @@ The merged direction introduces three pieces of copy that the first four concept
 | Case-study pages | `visible/work/{aspire,friendship,alpha}/` | Every figure, descriptor, story line and image is the same record as the cards (`caseStudies.ts`), with the published source cited at the foot of each page. No new claims. | As the case studies |
 | Hub checklist wording | Hub, "What Version 2 addresses" | Paraphrases of the 10/27 reviewer notes and the 10/28 asks, no names, no ratings. | Internal review copy |
 
+## Concept 06 Version 3.14 (November 5, 2026): FilmTwist's FSM form embedded
+
+Source: the brand owner, November 5, 2026 (the embed code for the "Contact Us Form" she built for Full School Marketing in
+FilmTwist's form builder, form id `s7caTM5n0YKe6Rdj6v4h`, height 1074; her embed is the sticky-sidebar layout, the site renders
+it inline as before); the project owner: "swap out the form".
+
+- `siteConfig.leadConnector` carries the new form id and name; `mode` is `'embed'` again. The site's own form (`FsmForm.tsx`)
+  and the sheet receiver stay in the code as the `'fsm'` fallback; the sheet's Settings tab still lists the alert addresses.
+- The contact column drops its white card in embed mode (`.cr-cta-form--embed`): the form brings its own blue surface.
+- Seen in the form as delivered, set in FilmTwist's form builder and not here: the two consent lines have empty spaces where the
+  business name belongs; the form's Privacy Policy and Terms of Service links are the form's own, not this site's /privacy and
+  /terms. REQUIRES_CLIENT_CONFIRMATION (a real submission through the embedded form; this site cannot see where it lands).
+
 ## Concept 06 Version 3.13 (November 5, 2026): Friendship enrollments
 
 Source: the client, November 4, 2026 (the brand owner: the confirmed count for this window is not held; the decision maker asked for the

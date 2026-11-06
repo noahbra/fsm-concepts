@@ -158,7 +158,7 @@ export const mergedChecklist: { round: string; items: ChecklistItem[] }[] = [
 ];
 
 /** The current direction's version label and the checklist of reviewer notes it answers, shown on the hub. No names. */
-export const currentVersion = { label: 'Concept 06c (Version 3.13)', date: 'November 5, 2026' };
+export const currentVersion = { label: 'Concept 06c (Version 3.14)', date: 'November 5, 2026' };
 /** Earlier versions of Concept 06, each a frozen build of the commit the client reviewed, served at its own address without review chrome. */
 export const previousVersions: { label: string; detail: string; path: string }[] = [
   { label: 'Concept 06a', detail: 'Version 1, October 28', path: '6a/bold/' },
@@ -166,8 +166,9 @@ export const previousVersions: { label: string; detail: string; path: string }[]
 ];
 export const currentChecklist: { round: string; items: ChecklistItem[] }[] = [
   {
-    round: 'Friendship enrollments, November 5',
+    round: 'Friendship enrollments and the form, November 5',
     items: [
+      { note: 'FilmTwist\'s own FSM form, from their form builder', state: 'done', how: 'The contact section now embeds the Full School Marketing form FilmTwist built in their form service (blue surface, white fields, green button, the FSM mark on small screens), so submissions land in FilmTwist\'s account like filmtwist.com\'s do. The site\'s own form and its sheet are off. The white card around the form is gone, since the form brings its own surface. Two things live in the form builder, not here: the consent lines show blank spaces where the business name should appear, and the form\'s own Privacy Policy and Terms of Service links.' },
       { note: 'Friendship: enrollments for the 2025 window', state: 'done', how: 'The Friendship case page now shows 43 enrollments beside its 1,022 leads, 51 applications and $26.01 average cost per lead (February to September 2025). The figure is the team\'s conservative number, supplied November 4; the card on the home page keeps leads as its headline.' },
     ],
   },

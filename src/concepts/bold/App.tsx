@@ -412,7 +412,7 @@ function Contact() {
           </h2>
           <p>{siteConfig.contactLine}</p>
         </div>
-        <div className="cr-cta-form" data-testid="contact-form">
+        <div className={siteConfig.leadConnector.mode === 'fsm' ? 'cr-cta-form' : 'cr-cta-form cr-cta-form--embed'} data-testid="contact-form">
           {siteConfig.leadConnector.mode === 'fsm' ? <FsmForm legal={{ terms: siteConfig.legal.termsUrl, privacy: siteConfig.legal.privacyUrl }} /> : <LeadConnectorForm />}
         </div>
       </div>

@@ -239,6 +239,8 @@
 .cr-cta .cr-accent, .cr-casepage-cta .cr-accent { color: var(--accent); }
 .cr-cta-copy p { margin: 0; font-size: 1.1rem; max-width: 46ch; color: rgba(255,255,255,.92); }
 .cr-cta-form { background: #fff; color: var(--ink); border-radius: 18px; padding: clamp(1.25rem, 3vw, 2rem); box-shadow: 0 30px 60px rgba(0,0,0,.25); }
+/* FilmTwist's FSM form (Version 3.14) brings its own blue surface, white fields and green button: no white card around it. */
+.cr-cta-form--embed { background: transparent; padding: 0; box-shadow: none; }
 
 /* the FSM form (src/concepts/visible/FsmForm.tsx) on this chrome */
 .fsm-form { display: grid; gap: 1.1rem; }

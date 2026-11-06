@@ -33,6 +33,9 @@ Version 3.9 posting test is skipped while the mode is `'embed'`. Hub Version 3.1
 and 06 tests on the preview 72 passed, 0 failed, 4 skipped (58 s, four browsers) with the white card still on; after it came off,
 the Concept 05 and Concept 06 version tests 36 passed, 0 failed, 4 skipped (30 s); production build clean and carries the new
 form id. Captures `scratchpad/r20/v314b-contact-desktop.png`, `v314b-contact-mobile.png`.
+DEPLOYED November 6, 2026 on the project owner's word: review run 42242516407 and production run 42242520066 both success on
+the first try. MEASURED live: fullschoolmarketing.com/#contact renders the frame for form s7caTM5n0YKe6Rdj6v4h with the widget
+script loaded, no site form, and the contact column in its embed style. This note rides with the next content deploy.
 
 ## Revision November 5, 2026 (twenty-sixth): Friendship enrollments
 

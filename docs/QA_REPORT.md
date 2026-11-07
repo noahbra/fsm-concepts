@@ -28,7 +28,10 @@ no robots.txt or sitemap; the project owner asked for both. The `fsmSite` plugin
 not a content date); `robots.txt` allows everything and names the sitemap when the build is indexable, and disallows
 everything otherwise. The review build emits neither and keeps its noindex meta. No page content changed, so the hub version
 stays 3.14. MEASURED November 7, 2026: local production build clean (`tsc` clean), `dist/sitemap.xml` well formed with six
-entries, `dist/robots.txt` as described, review build has neither file. Live check after deploy: fetch both files at the domain.
+entries, `dist/robots.txt` as described, review build has neither file.
+DEPLOYED November 7, 2026 on the project owner's word: production run 42388389336 and review run 42388387517 both success on
+the first try. MEASURED November 7, 7:52 AM live: https://fullschoolmarketing.com/robots.txt and /sitemap.xml both 200 with the
+content above (six URLs); the review site returns 404 for both; the home page still carries no robots meta.
 
 ## Revision November 5, 2026 (twenty-seventh): FilmTwist's FSM form embedded
 

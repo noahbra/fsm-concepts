@@ -42,7 +42,7 @@ const fsmInput = {
   'bold-privacy': resolve(__dirname, 'bold/privacy/index.html'),
 };
 
-/** Production site: move bold/ to the root, rewrite the og:image origin, strip noindex at launch, prune review-only files. */
+/** Production site: move bold/ to the root, rewrite the og:image origin, strip noindex at launch, emit robots.txt and sitemap.xml, prune review-only files. */
 function fsmSite(): Plugin {
   return {
     name: 'fsm-site',
@@ -57,9 +57,19 @@ function fsmSite(): Plugin {
       return out;
     },
     generateBundle(_, bundle) {
+      const pages: string[] = [];
       for (const item of Object.values(bundle)) {
         if (item.fileName.startsWith('bold/') && item.fileName.endsWith('.html')) item.fileName = item.fileName.slice('bold/'.length);
+        if (item.fileName.endsWith('index.html')) pages.push(item.fileName.slice(0, -'index.html'.length));
       }
+      // robots.txt and sitemap.xml exist only on the production site; the review hub stays noindex and gets neither.
+      // Six URLs, one per built page (home, three case pages, terms, privacy). No lastmod: a build date is not a content date.
+      const rank = (p: string) => (p === '' ? 0 : p.startsWith('work/') ? 1 : 2); // home, case pages, legal
+      pages.sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
+      const urls = pages.map((p) => `  <url><loc>${siteOrigin}${p}</loc></url>`).join('\n');
+      this.emitFile({ type: 'asset', fileName: 'sitemap.xml', source: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n` });
+      const robots = indexable ? `User-agent: *\nAllow: /\n\nSitemap: ${siteOrigin}sitemap.xml\n` : 'User-agent: *\nDisallow: /\n';
+      this.emitFile({ type: 'asset', fileName: 'robots.txt', source: robots });
     },
     closeBundle() {
       const out = resolve(__dirname, 'dist');

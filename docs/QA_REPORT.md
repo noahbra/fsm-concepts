@@ -19,6 +19,17 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Production November 7, 2026 (twenty-eighth): robots.txt and sitemap.xml
+
+Indexing went on November 6 on the project owner's word (`VITE_INDEXABLE=true` on the production repo, commit c956a2b,
+production run 42293275241 success; MEASURED November 6, 1:02 PM: no robots meta on any of the six live pages). The site had
+no robots.txt or sitemap; the project owner asked for both. The `fsmSite` plugin now emits them from the built pages:
+`sitemap.xml` lists the six URLs (home, the three case pages, terms, privacy) under `SITE_ORIGIN`, no lastmod (a build date is
+not a content date); `robots.txt` allows everything and names the sitemap when the build is indexable, and disallows
+everything otherwise. The review build emits neither and keeps its noindex meta. No page content changed, so the hub version
+stays 3.14. MEASURED November 7, 2026: local production build clean (`tsc` clean), `dist/sitemap.xml` well formed with six
+entries, `dist/robots.txt` as described, review build has neither file. Live check after deploy: fetch both files at the domain.
+
 ## Revision November 5, 2026 (twenty-seventh): FilmTwist's FSM form embedded
 
 The brand owner sent the embed code for the Full School Marketing form she built in FilmTwist's form builder; the project

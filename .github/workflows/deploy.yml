@@ -36,6 +36,11 @@ jobs:
           SITE_ORIGIN: ${{ vars.SITE_ORIGIN || '' }}
           VITE_INDEXABLE: ${{ vars.VITE_INDEXABLE || 'false' }}
         run: npm run build
+      # Production only: snapshot each page's rendered HTML into dist so crawlers that do not run JavaScript
+      # (most AI search crawlers) read the content, and write llms.txt from the rendered pages (scripts/prerender.mjs).
+      - name: Prerender (production site only)
+        if: ${{ vars.SITE == 'fsm' }}
+        run: npx playwright install --with-deps chromium && node scripts/prerender.mjs
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

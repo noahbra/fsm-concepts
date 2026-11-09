@@ -133,6 +133,15 @@ The merged direction introduces three pieces of copy that the first four concept
 | Case-study pages | `visible/work/{aspire,friendship,alpha}/` | Every figure, descriptor, story line and image is the same record as the cards (`caseStudies.ts`), with the published source cited at the foot of each page. No new claims. | As the case studies |
 | Hub checklist wording | Hub, "What Version 2 addresses" | Paraphrases of the 10/27 reviewer notes and the 10/28 asks, no names, no ratings. | Internal review copy |
 
+## Production November 9, 2026: structured data
+
+The production pages carry schema.org JSON-LD (`src/concepts/bold/Seo.tsx`). Every fact in it is already on the site: the
+brand name and short name, the hero line as the description, the parent agency (FilmTwist Creative Agency, legal entity
+Filmtwist Productions LLC, filmtwist.com), the contact email biz@fullschoolmarketing.com, the three verified social
+profiles, and on case pages the school's name. The postal address and phone are left out until the terms are signed off.
+`llms.txt` is generated from the rendered pages (titles, descriptions, home headings) plus the FilmTwist relationship line
+and the contact anchor; it holds no copy of its own.
+
 ## Concept 06 Version 3.14 (November 5, 2026): FilmTwist's FSM form embedded
 
 Source: the brand owner, November 5, 2026 (the embed code for the "Contact Us Form" she built for Full School Marketing in

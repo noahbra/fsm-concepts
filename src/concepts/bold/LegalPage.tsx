@@ -1,4 +1,5 @@
 import { Fragment, type ReactNode } from 'react';
+import { JsonLd } from './Seo';
 import { SkipLink } from '../../components/SkipLink';
 import { ReviewPill, ReviewRibbon } from '../../components/ReviewChrome';
 import { siteConfig } from '../../content/config';
@@ -119,6 +120,7 @@ export function LegalPage({ doc }: { doc: LegalDoc }) {
             </div>
           </div>
         </article>
+        <JsonLd kind="legal" />
       </main>
       <Footer home={HOME} />
       <ReviewPill conceptId="bold" />

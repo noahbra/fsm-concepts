@@ -19,6 +19,34 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Production November 9, 2026 (twenty-ninth): prerendered pages, canonical URLs, structured data, llms.txt
+
+The decision maker and brand owner asked whether anything more is needed; the project owner asked to confirm the site is
+up, searchable, and in shape for search engines and AI search. MEASURED November 9, 2026, 10:10 AM on the live site: all six
+pages 200 over HTTPS, http and www redirect (301), unknown paths 404, robots.txt and sitemap.xml live, no noindex meta,
+title, description, Open Graph and Twitter tags on every page. Gaps found: no canonical URL, no structured data, no llms.txt,
+and each page's HTML carried only its title and description (about 2 KB; a React application rendered in the browser), so a
+crawler that does not run JavaScript, which is most AI search crawlers, saw no page text. A `site:` search returned nothing
+yet (indexing went on November 6; nobody has submitted the sitemap to Search Console).
+
+Fixes, production build only: (1) `scripts/prerender.mjs`, run after the build in the workflow when `SITE=fsm`, renders each
+page listed in `dist/sitemap.xml` in Chromium (reduced motion, iframes and review chrome removed) and writes the markup
+into `dist/<page>/index.html`; React replaces it on load. The home page carries a static white cover, the opener's first
+frame, so the opener does not pop in over visible content. (2) `<link rel="canonical">` per page from the `fsmSite` plugin.
+(3) `src/concepts/bold/Seo.tsx` renders schema.org JSON-LD (Organization with parent FilmTwist Creative Agency, contact email
+and the verified social profiles; WebSite; WebPage, with the school as `about` on case pages); the address and phone stay out
+until the terms are signed off. `SITE_ORIGIN` reaches the app as `VITE_SITE_ORIGIN`. (4) `dist/llms.txt` written by the
+prerender step from the rendered pages' titles, descriptions and home headings.
+
+MEASURED November 9, 2026: production build clean; prerender wrote 4,511 text characters into the home page (31.5 KB), 3,190
+to 3,253 into the case pages, 23,251 and 27,946 into privacy and terms; canonical on all six; one JSON-LD block per page,
+parsed and typed Organization, WebSite, WebPage. Browser check of the prerendered output: with JavaScript off the home page
+shows its h1 and 28 links; with JavaScript on the cover is present at 60 ms, the opener plays and clears, one JSON-LD block
+remains (React replaced the static copy), the second load shows content with no cover, case and legal pages render, the
+contact form iframe still loads on scroll, no page errors (three pre-existing console warnings from the performance API and
+the form widget). Review build unchanged in output (no robots, sitemap or llms.txt); Concept 06 tests on the preview
+52 passed, 0 failed, 4 skipped (48 s, four browsers). Captures `scratchpad/r22/seo-nojs-home.png`, `seo-home-after.png`.
+
 ## Production November 7, 2026 (twenty-eighth): robots.txt and sitemap.xml
 
 Indexing went on November 6 on the project owner's word (`VITE_INDEXABLE=true` on the production repo, commit c956a2b,

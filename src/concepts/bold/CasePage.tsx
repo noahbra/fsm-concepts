@@ -1,4 +1,5 @@
 import { SkipLink } from '../../components/SkipLink';
+import { JsonLd } from './Seo';
 import { ReviewPill, ReviewRibbon } from '../../components/ReviewChrome';
 import { ResponsiveMedia } from '../../components/ResponsiveMedia';
 import { caseStudies, proofDisclaimer, type CaseStudy } from '../../content/caseStudies';
@@ -92,6 +93,7 @@ export function CasePage({ c }: { c: CaseStudy }) {
           </nav>
 
         </article>
+        <JsonLd kind="case" c={c} />
       </main>
       <Footer home={HOME} />
       <ReviewPill conceptId="bold" />

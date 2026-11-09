@@ -48,8 +48,11 @@ function fsmSite(): Plugin {
     name: 'fsm-site',
     enforce: 'post',
     apply: 'build',
-    transformIndexHtml(html) {
+    transformIndexHtml(html, ctx) {
       let out = html.split('https://noahbra.github.io/fsm-concepts/').join(siteOrigin);
+      // One canonical URL per page, at the production origin (the page path without bold/ and without index.html).
+      const pagePath = ctx.path.replace(/^\//, '').replace(/^bold\//, '').replace(/index\.html$/, '');
+      out = out.replace('<meta name="viewport"', `<link rel="canonical" href="${siteOrigin}${pagePath}" />\n    <meta name="viewport"`);
       out = out.split('"../assets/').join('"' + base.replace(/\/?$/, '/') + 'assets/'); // the page sits at the root now, not under bold/
       out = out.split('="../assets/').join('="' + base.replace(/\/?$/, '/') + 'assets/').split(' ../assets/').join(' ' + base.replace(/\/?$/, '/') + 'assets/');
       if (indexable) out = out.replace(/\s*<meta name="robots" content="noindex" \/>/, '');
@@ -81,7 +84,7 @@ function fsmSite(): Plugin {
 export default defineConfig({
   base,
   plugins: site === 'fsm' ? [react(), fsmSite()] : [react()],
-  define: { 'import.meta.env.VITE_SITE': JSON.stringify(site) },
+  define: { 'import.meta.env.VITE_SITE': JSON.stringify(site), 'import.meta.env.VITE_SITE_ORIGIN': JSON.stringify(siteOrigin) },
   build: {
     target: 'es2020',
     assetsDir: 'static', // built chunks go to /static so they never collide with public/assets

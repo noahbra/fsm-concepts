@@ -15,6 +15,7 @@ import { FsmForm } from '../visible/FsmForm';
 import { LeadConnectorForm } from '../visible/Chrome';
 import { Header, Footer } from './Chrome';
 import { Opener } from './Opener';
+import { JsonLd } from './Seo';
 
 /**
  * Concept 06: Bold, rebuilt. Concept 02's page forked on October 28, 2026 (docs/CONCEPT_06_BRIEF.md): the hero, reel
@@ -54,6 +55,7 @@ export function App() {
         <Team />
         <Partner />
         <Contact />
+        <JsonLd kind="home" />
       </main>
       <Footer />
       <ReviewPill conceptId="bold" />

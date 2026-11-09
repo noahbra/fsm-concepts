@@ -46,6 +46,13 @@ remains (React replaced the static copy), the second load shows content with no 
 contact form iframe still loads on scroll, no page errors (three pre-existing console warnings from the performance API and
 the form widget). Review build unchanged in output (no robots, sitemap or llms.txt); Concept 06 tests on the preview
 52 passed, 0 failed, 4 skipped (48 s, four browsers). Captures `scratchpad/r22/seo-nojs-home.png`, `seo-home-after.png`.
+Same day, the terms were signed off (per the project owner), so the Organization JSON-LD gained the postal address and
+phone from the legal pages, and the build gained a slot for the Search Console HTML-tag token (`GOOGLE_SITE_VERIFICATION`).
+DEPLOYED November 9, 2026 on the project owner's word: production run 42666306080 (build, prerender and deploy all success)
+and review run 42666305497 success. MEASURED November 9, 9:40 AM live: all six pages 200 with prerendered text (home 3,411
+static characters, case pages about 1,860, terms 26,858, privacy 22,156), a canonical link on each, one JSON-LD block each
+with the Richmond address, llms.txt 200; the review site unchanged (no llms.txt, noindex kept); a live browser load shows the
+cover, then the opener, then the page, the form iframe loads on scroll, no page errors.
 
 ## Production November 7, 2026 (twenty-eighth): robots.txt and sitemap.xml
 

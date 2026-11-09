@@ -138,7 +138,8 @@ The merged direction introduces three pieces of copy that the first four concept
 The production pages carry schema.org JSON-LD (`src/concepts/bold/Seo.tsx`). Every fact in it is already on the site: the
 brand name and short name, the hero line as the description, the parent agency (FilmTwist Creative Agency, legal entity
 Filmtwist Productions LLC, filmtwist.com), the contact email biz@fullschoolmarketing.com, the three verified social
-profiles, and on case pages the school's name. The postal address and phone are left out until the terms are signed off.
+profiles, the postal address and phone from the legal pages (the terms were signed off November 9, 2026, per the project
+owner; privacy November 3), and on case pages the school's name.
 `llms.txt` is generated from the rendered pages (titles, descriptions, home headings) plus the FilmTwist relationship line
 and the contact anchor; it holds no copy of its own.
 

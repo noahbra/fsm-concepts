@@ -15,6 +15,8 @@ const base = process.env.BASE_PATH || '/';
 const site = process.env.SITE === 'fsm' ? 'fsm' : 'review';
 const siteOrigin = (process.env.SITE_ORIGIN || 'https://noahbra.github.io/fsm-concepts/').replace(/\/?$/, '/');
 const indexable = process.env.VITE_INDEXABLE === 'true';
+// Google Search Console ownership token (the content of its HTML-tag method); a repo variable, production only. Not a secret.
+const googleSiteVerification = (process.env.GOOGLE_SITE_VERIFICATION || '').trim();
 
 const reviewInput = {
   hub: resolve(__dirname, 'index.html'),
@@ -56,6 +58,7 @@ function fsmSite(): Plugin {
       out = out.split('"../assets/').join('"' + base.replace(/\/?$/, '/') + 'assets/'); // the page sits at the root now, not under bold/
       out = out.split('="../assets/').join('="' + base.replace(/\/?$/, '/') + 'assets/').split(' ../assets/').join(' ' + base.replace(/\/?$/, '/') + 'assets/');
       if (indexable) out = out.replace(/\s*<meta name="robots" content="noindex" \/>/, '');
+      if (googleSiteVerification) out = out.replace('<meta name="viewport"', `<meta name="google-site-verification" content="${googleSiteVerification}" />\n    <meta name="viewport"`);
       out = out.split(' Concept 06: Bold, rebuilt.').join(''); // the review label has no place in the production description
       return out;
     },

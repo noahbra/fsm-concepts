@@ -143,7 +143,7 @@ export const siteConfig = {
    *  October 31, 2026. The company facts below are those pages' own (entity and DBA from the privacy notice; address, phone
    *  from the terms; the email is the FSM address, below; the terms give the zip as 94804, the privacy notice as 94603, so 94804 is used, the one that
    *  matches Richmond). The paths are relative to the Concept 06 root (bold/ on the review site, / on the production site).
-   *  REQUIRES_CLIENT_CONFIRMATION: FilmTwist signs off the text and these facts before launch (docs/CONTENT_AND_CLAIMS.md). */
+   *  Signed off: privacy by the brand owner November 3, 2026; terms November 9, 2026 (per the project owner). */
   legal: {
     privacyUrl: 'privacy/',
     termsUrl: 'terms/',

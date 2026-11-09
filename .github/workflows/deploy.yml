@@ -35,6 +35,8 @@ jobs:
           SITE: ${{ vars.SITE || 'review' }}
           SITE_ORIGIN: ${{ vars.SITE_ORIGIN || '' }}
           VITE_INDEXABLE: ${{ vars.VITE_INDEXABLE || 'false' }}
+          # Search Console HTML-tag token (production repo variable; empty = no tag).
+          GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION || '' }}
         run: npm run build
       # Production only: snapshot each page's rendered HTML into dist so crawlers that do not run JavaScript
       # (most AI search crawlers) read the content, and write llms.txt from the rendered pages (scripts/prerender.mjs).

@@ -155,7 +155,7 @@ export const siteConfig = {
     /** Changed from the terms' info@filmtwist.com to the FSM address on November 3, 2026 at the client's request. */
     email: 'biz@fullschoolmarketing.com',
     siteHost: 'fullschoolmarketing.com',
-    updated: 'November 4, 2026',
+    updated: 'November 10, 2026',
   },
 } as const;
 

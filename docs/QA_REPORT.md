@@ -19,6 +19,21 @@ checklist). The Concept 04 smoke test was rewritten for the worksheet. Full suit
 (1.1 min). Desktop and mobile folds and full pages were reviewed; one defect (range labels colliding with notes) was fixed
 before the rerun. Lighthouse was not rerun for this revision.
 
+## Production November 10, 2026 (thirtieth): Google Tag Manager, privacy notice updated
+
+The brand owner set up Google Search Console (Domain property, the project owner added as an owner) and Google Analytics,
+and asked for the Google Tag on the site (container GTM-P2HFWB7T). MEASURED November 10, 2026: the container is published
+and carries one Google Analytics 4 tag. The production build now injects the official Tag Manager snippet (script in the
+head, noscript iframe at the top of the body) on every page; the container id comes from the `GTM_CONTAINER_ID` repository
+variable, with the id as the default in `vite.config.ts` and an empty value disabling it. The review site gets no tag.
+Because the privacy notice said the site sets no analytics cookies and uses no analytics service, two paragraphs were
+rewritten: the cookie paragraph now names Google Analytics via Tag Manager, and the sharing section gains an "Analytics"
+paragraph (what is collected, Google's policy, the opt-out add-on). The legal "Last updated" date moved to November 10,
+2026, and the test that checks it followed. REQUIRES_CLIENT_CONFIRMATION: the new privacy wording. MEASURED November 10,
+2026: production build and prerender clean, snippet and noscript on all six pages, none with an empty id, none on the
+review build; Concept 06 tests 48 passed, 4 failed (all the old "Last updated" date), then the legal tests after the date
+change: 28 passed, 0 failed (26 s, four browsers).
+
 ## Production November 9, 2026 (twenty-ninth): prerendered pages, canonical URLs, structured data, llms.txt
 
 The decision maker and brand owner asked whether anything more is needed; the project owner asked to confirm the site is

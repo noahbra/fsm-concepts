@@ -37,6 +37,8 @@ jobs:
           VITE_INDEXABLE: ${{ vars.VITE_INDEXABLE || 'false' }}
           # Search Console HTML-tag token (production repo variable; empty = no tag).
           GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION || '' }}
+          # Google Tag Manager container (production). Unset = the default in vite.config.ts; set to an empty string to disable.
+          GTM_CONTAINER_ID: ${{ vars.GTM_CONTAINER_ID }}
         run: npm run build
       # Production only: snapshot each page's rendered HTML into dist so crawlers that do not run JavaScript
       # (most AI search crawlers) read the content, and write llms.txt from the rendered pages (scripts/prerender.mjs).

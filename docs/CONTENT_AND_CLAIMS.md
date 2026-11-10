@@ -133,6 +133,13 @@ The merged direction introduces three pieces of copy that the first four concept
 | Case-study pages | `visible/work/{aspire,friendship,alpha}/` | Every figure, descriptor, story line and image is the same record as the cards (`caseStudies.ts`), with the published source cited at the foot of each page. No new claims. | As the case studies |
 | Hub checklist wording | Hub, "What Version 2 addresses" | Paraphrases of the 10/27 reviewer notes and the 10/28 asks, no names, no ratings. | Internal review copy |
 
+## Production November 10, 2026: Google Tag Manager and the privacy notice
+
+The brand owner supplied Google Tag Manager container GTM-P2HFWB7T (her Google Analytics) on November 10, 2026 and asked
+for it on the site; the production build injects it on every page. The privacy notice's cookie paragraph and a new
+"Analytics" paragraph under sharing describe it, with the opt-out add-on; the legal "Last updated" date is November 10,
+2026. REQUIRES_CLIENT_CONFIRMATION: that wording (the notice was signed off November 3 without analytics).
+
 ## Production November 9, 2026: structured data
 
 The production pages carry schema.org JSON-LD (`src/concepts/bold/Seo.tsx`). Every fact in it is already on the site: the

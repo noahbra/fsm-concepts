@@ -17,6 +17,17 @@ const siteOrigin = (process.env.SITE_ORIGIN || 'https://noahbra.github.io/fsm-co
 const indexable = process.env.VITE_INDEXABLE === 'true';
 // Google Search Console ownership token (the content of its HTML-tag method); a repo variable, production only. Not a secret.
 const googleSiteVerification = (process.env.GOOGLE_SITE_VERIFICATION || '').trim();
+// Google Tag Manager container for the production site, supplied by the brand owner on November 10, 2026 (she set up Google
+// Analytics and asked for the tag). The id is public in every page's HTML by design. Empty GTM_CONTAINER_ID disables it.
+const gtmContainerId = (process.env.GTM_CONTAINER_ID ?? 'GTM-P2HFWB7T').trim();
+const gtmHead = gtmContainerId ? `<!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmContainerId}');</script>
+    <!-- End Google Tag Manager -->
+    ` : '';
+const gtmBody = gtmContainerId ? `<!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${gtmContainerId}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    ` : '';
 
 const reviewInput = {
   hub: resolve(__dirname, 'index.html'),
@@ -44,7 +55,7 @@ const fsmInput = {
   'bold-privacy': resolve(__dirname, 'bold/privacy/index.html'),
 };
 
-/** Production site: move bold/ to the root, rewrite the og:image origin, strip noindex at launch, emit robots.txt and sitemap.xml, prune review-only files. */
+/** Production site: move bold/ to the root, rewrite the og:image origin, strip noindex at launch, add the Search Console tag and Google Tag Manager, emit robots.txt and sitemap.xml, prune review-only files. */
 function fsmSite(): Plugin {
   return {
     name: 'fsm-site',
@@ -59,6 +70,7 @@ function fsmSite(): Plugin {
       out = out.split('="../assets/').join('="' + base.replace(/\/?$/, '/') + 'assets/').split(' ../assets/').join(' ' + base.replace(/\/?$/, '/') + 'assets/');
       if (indexable) out = out.replace(/\s*<meta name="robots" content="noindex" \/>/, '');
       if (googleSiteVerification) out = out.replace('<meta name="viewport"', `<meta name="google-site-verification" content="${googleSiteVerification}" />\n    <meta name="viewport"`);
+      if (gtmHead) out = out.replace('</head>', gtmHead + '</head>').replace('<body>', '<body>\n    ' + gtmBody);
       out = out.split(' Concept 06: Bold, rebuilt.').join(''); // the review label has no place in the production description
       return out;
     },

@@ -369,7 +369,7 @@ export const privacy: LegalDoc = {
             '**Device data.** Information about the computer, phone, tablet or other device you use, such as its IP address, browser type, operating system and system configuration. An approximate location may be inferred from your IP address.',
           ],
         },
-        { type: 'p', text: 'This site stores a small flag in your browser so that its opening animation plays once per visit. It sets no analytics or advertising cookies.' },
+        { type: 'p', text: 'This site stores a small flag in your browser so that its opening animation plays once per visit. It also uses Google Analytics, loaded through Google Tag Manager, which sets analytics cookies; see "Analytics" under the sharing section below. It sets no advertising cookies.' },
       ],
     },
     {
@@ -443,7 +443,7 @@ export const privacy: LegalDoc = {
             '**Legal requirements.** Where we believe it is necessary to comply with the law, a court order or a lawful request, or to protect our rights, your safety or the safety of others.',
           ],
         },
-        { type: 'p', text: 'This site does not currently use Google Analytics or any other analytics service. If we add one, we will update this notice and say how to opt out.' },
+        { type: 'p', text: '**Analytics.** This site uses Google Analytics, loaded through Google Tag Manager, to understand how visitors use it: the pages viewed, how you reached the site, your device and browser, and an approximate location derived from your IP address. Google processes this information on our behalf under its own privacy policy (https://policies.google.com/privacy). To opt out, install Google\'s browser add-on (https://tools.google.com/dlpage/gaoptout) or block cookies for this site in your browser settings.' },
       ],
     },
     {

@@ -887,7 +887,7 @@ test('Concept 06 legal pages: the form and the footer link to this site\'s own t
     await page.goto(path, { waitUntil: 'load' });
     await settle(page);
     await expect(page.locator('h1')).toHaveText(title);
-    await expect(page.getByTestId('legal-updated')).toContainText('Last updated November 4, 2026');
+    await expect(page.getByTestId('legal-updated')).toContainText('Last updated November 10, 2026');
     // every contents entry lands on a section heading on this page
     const hrefs = await page.locator('[data-testid="legal-toc"] ol a').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute('href') ?? ''));
     expect(hrefs.length).toBeGreaterThanOrEqual(13);
